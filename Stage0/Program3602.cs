@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Targil0
 {
     partial class Program
