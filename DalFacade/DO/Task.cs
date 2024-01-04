@@ -35,6 +35,9 @@ int? WorkerId=null
     /// </summary>
     public DateTime? StartDate { get; set; } = null;
 
+
+    public bool Eraseable { get; set; } = true;
+
     /// <summary>
     /// Project completion date
     /// </summary>
