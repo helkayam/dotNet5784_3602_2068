@@ -19,6 +19,7 @@ double? Cost=null
 )
 {
     public Worker(): this(0,0," ") { }//empty constructor of Worker
-   
+    public bool eraseAbale { get; set; } = false;
+    public bool active { get; set; } = true;
 
 }
