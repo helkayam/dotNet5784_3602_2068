@@ -7,7 +7,7 @@ public class WorkerImplementation : IWorker
 {
     public int Create(Worker item)
     {
-        throw new NotImplementedException();
+       
     }
 
     public void Delete(int id)

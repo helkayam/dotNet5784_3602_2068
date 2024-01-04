@@ -3,11 +3,16 @@ using DalApi;
 using DO;
 using System.Collections.Generic;
 
+
 public class DependencyImplementation : IDependency
 {
     public int Create(Dependency item)
     {
-        throw new NotImplementedException();
+        int ID;
+        ID = DataSource.Config.NextDependencyId;
+        Dependency d = item with { Id=ID };
+        DataSource.Dependencies.Add(d);
+        return ID;
     }
 
     public void Delete(int id)

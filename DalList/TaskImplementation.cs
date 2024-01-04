@@ -7,7 +7,11 @@ public class TaskImplementation : ITask
 {
     public int Create(Task item)
     {
-        throw new NotImplementedException();
+        int ID;
+        ID = DataSource.Config.NextTaskId;
+        Task t = item with { Id = ID };
+        DataSource.Tasks.Add(t);
+        return ID;
     }
 
     public void Delete(int id)
