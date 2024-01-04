@@ -1,8 +1,4 @@
-﻿
-
-
-
-namespace DalApi;
+﻿namespace DalApi;
 using DO;
 
 public interface IWorker
