@@ -10,7 +10,4 @@
 		<UseCommonOutputDirectory>true</UseCommonOutputDirectory>
 		<RootNamespace />
 	</PropertyGroup>
-	<ItemGroup>
-	  <Folder Include="DalApi\" />
-	</ItemGroup>
 </Project>
