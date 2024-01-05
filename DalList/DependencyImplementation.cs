@@ -28,7 +28,7 @@ public class DependencyImplementation : IDependency
             }
         }
         if(flag==false)
-        throw new NotImplementedException("Object from type Dependency with such an ID does not exist");
+        throw new Exception($"Dependency with ID={id} does not exist");
     }
 
     public Dependency? Read(int id)
@@ -56,9 +56,11 @@ public class DependencyImplementation : IDependency
                 d = X;
         }
         if (d == null)
-            throw new NotImplementedException("Object of type Dependency with such an ID does not exist");
+            throw new Exception($"Dependency with ID={item.Id} does not exist");
         else
+        {
             DataSource.Dependencies.Remove(d);
-        DataSource.Dependencies.Add(item);
+            DataSource.Dependencies.Add(item);
+        }
     }
 }

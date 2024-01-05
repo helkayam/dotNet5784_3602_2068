@@ -16,7 +16,7 @@ public class TaskImplementation : ITask
 
     public void Delete(int id)
     {
-        Worker d;
+        
         bool flag = false;
         foreach (var X in DataSource.Tasks)
         {
@@ -26,16 +26,16 @@ public class TaskImplementation : ITask
                 flag = true;
             }
             if (X.Id == id && (X.Eraseable == false))
-                throw new NotImplementedException("can't delete the object");
+                throw new Exception($"Can't delete the Task");
 
         }
         if (flag == false)
-            throw new NotImplementedException("Object from type Dependency with such an ID does not exist");
+            throw new Exception($"Task with ID={id} does not exist");
     }
 
     public Task? Read(int id)
     {
-        Task d;
+       
     
         foreach (var X in DataSource.Tasks)
         {
@@ -59,10 +59,12 @@ public class TaskImplementation : ITask
                 t = X;
         }
         if (t == null)
-            throw new NotImplementedException("Object of type Task with such an ID does not exist");
+            throw new Exception($"Task with ID={item.Id} does not exist");
         else
+        {
             DataSource.Tasks.Remove(t);
-        DataSource.Tasks.Add(item);
+            DataSource.Tasks.Add(item);
+        }
 
     }
 }

@@ -10,7 +10,7 @@ public class WorkerImplementation : IWorker
         foreach(var x in DataSource.Workers)
         {
             if (x.Id == item.Id)
-                throw new NotImplementedException( "object of tipe worker with this id already exist");
+                throw new Exception( $"Worker with ID={item.Id} already exist");
         }
         DataSource.Workers.Add(item);  
         return item.Id;
@@ -22,15 +22,20 @@ public class WorkerImplementation : IWorker
         {
             if (x.Id == id)
             {
-                if (!x.eraseAbale)
-                    throw new NotImplementedException("cant delete the object ");
-                Worker newW = x with { active = false };
-                DataSource.Workers.Remove(x);
-                DataSource.Workers.Add(newW);
-                return;
+                if (!x.Eraseable)
+                    throw new Exception("Can't delete the Worker");
+                if (x.active == false)
+                {
+                    Worker newW = x with { active = false };
+                    DataSource.Workers.Remove(x);
+                    DataSource.Workers.Add(newW);
+                    return;
+                }
+                else
+                    DataSource.Workers.Remove(x);
             }
         }
-        throw new NotImplementedException("object of tipe worker with this id not exist");
+        throw new Exception($"Worker with ID={id} does not exist");
 
     }
 
@@ -61,7 +66,7 @@ public class WorkerImplementation : IWorker
                 return;
             }
         }
-        throw new NotImplementedException("object of tipe worker with this id already exist");
+        throw new Exception($"Worker with ID={item.Id} does not exist");
 
     }
 }
