@@ -7,11 +7,12 @@
 /// <param name="DependsOnTask"> Previous assignment ID number</param>
 public record Dependency
 (
-int Id,
+    int Id,
 int DependentTask,
 int DependsOnTask
+   
 )
 {
-    public Dependency() : this(0, 0, 0) { }//empty constructor of Dependency
+    public Dependency() : this(0, 0) { }//empty constructor of Dependency
 
 }
