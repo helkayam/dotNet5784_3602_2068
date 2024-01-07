@@ -15,12 +15,12 @@ namespace DO;
 /// <param name="WorkerId">ID number of the employee on the assignment </param>
 public record Task
 (
-     int Id,
  string Alias,
-DateTime ScheduledDate,
-DateTime DeadLineDate,
 WorkerExperience Complexity,
 string Description,
+DateTime? ScheduledDate=null,
+DateTime? DeadLineDate = null,
+int? Id=null,
 int? WorkerId=null
 )
 {
@@ -56,7 +56,7 @@ int? WorkerId=null
     /// <summary>
     /// Date the task was created
     /// </summary>
-    public DateTime CreatedAtDate => DateTime.Now;
+    public DateTime CreatedAtDate { get; set; } =DateTime.Now;
 
-    public Task():this(0," ", DateTime.Now, DateTime.Now, 0, "") { }//empty constructor
+    public Task():this(" ", DateTime.Now, DateTime.Now, 0, " ") { }//empty constructor
 }
