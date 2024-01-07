@@ -187,7 +187,7 @@ namespace DalTest
             DateTime Deadline = DateTime.Now + TimeSpan.FromDays(s_rand.Next(5, 20));
             WorkerExperience we = (WorkerExperience)int.Parse(Console.ReadLine());
             string description = Console.ReadLine();
-            DO.Task t = new DO.Task(alias, ScheduledDate, Deadline, we, description);
+            DO.Task t = new DO.Task(alias, we,description, ScheduledDate, Deadline);
             try
             {
                 s_dalTask.Create(t);
@@ -360,7 +360,7 @@ namespace DalTest
                 DateTime Deadline = DateTime.Now + TimeSpan.FromDays(s_rand.Next(5, 20));
                 WorkerExperience we = (WorkerExperience)int.Parse(Console.ReadLine());
                 string description = Console.ReadLine();
-                DO.Task task = new DO.Task(alias, ScheduledDate, Deadline, we, description);
+                DO.Task task = new DO.Task(alias, we, description, ScheduledDate, Deadline);
                 s_dalTask.Update(task);
             }
             catch(Exception ex)
