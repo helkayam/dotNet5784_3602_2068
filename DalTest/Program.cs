@@ -7,20 +7,19 @@ using DO;
 
 
 namespace DalTest
+
 {
 
     internal class Program
     {
-        private static IWorker? s_dalWorker = new WorkerImplementation();
-        private static IDependency? s_dalDependency = new DependencyImplementation();
-        private static ITask? s_dalTask = new TaskImplementation();
+        static readonly IDal s_dal = new Dal.DalList(); //stage 2
 
         private static readonly Random s_rand = new();
         static void Main(string[] args)
         {
             try
             {
-                Initialization.Do(s_dalWorker, s_dalTask, s_dalDependency);
+                Initialization.Do(s_dal);
                 MainPage();
                 int choice = int.Parse(Console.ReadLine());
                 while (choice != 0)

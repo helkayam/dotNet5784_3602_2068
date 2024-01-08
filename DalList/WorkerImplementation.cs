@@ -3,7 +3,7 @@ using DalApi;
 using DO;
 using System.Collections.Generic;
 
-public class WorkerImplementation : IWorker
+internal class WorkerImplementation : IWorker
 {
     public int Create(Worker item)
     {

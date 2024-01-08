@@ -3,9 +3,14 @@ using DalApi;
 using DO;
 using System.Collections.Generic;
 
-public class TaskImplementation : ITask
+internal class TaskImplementation : ITask
 {
-    public int Create(Task item)
+    public bool checkTask(int id)
+    {
+        return DataSource.Tasks.Any(wker => wker.Id == id);
+
+    }
+    public int Create(DO.Task item)
     {
         int ID;
         ID = DataSource.Config.NextTaskId;
@@ -16,55 +21,41 @@ public class TaskImplementation : ITask
 
     public void Delete(int id)
     {
+        if(Read(id)==null) 
+        {
+          throw new Exception($"Task with ID={id} does not exist");
+        }
+        DO.Task taskToRemove=Read(id);
+        if(!taskToRemove.Eraseable)
+        {
+            throw new Exception($"Can't delete the Task");
+        }
+        DataSource.Tasks.RemoveAll(t=>t.Id==id);
+    }
+
+    public DO.Task? Read(int id)
+    {
+        if (!checkTask(id))
+            return null;
+        DO.Task saveItem = DataSource.Tasks.Find(saveItem => saveItem.Id == id);
+       return saveItem; 
+    }
+
+    public IEnumerable<DO.Task> ReadAll()
+    {
+        return from task in DataSource.Tasks  
+               select task; 
+    }
+
+    public void Update(DO.Task item)
+    {
         
-        bool flag = false;
-        foreach (var X in DataSource.Tasks)
+        if (DataSource.Tasks.Find(saveItem => saveItem.Id == item.Id)!=null)
         {
-            if (X.Id == id&& (X.Eraseable==true))
-            {
-                DataSource.Tasks.Remove(X);
-                flag = true;
-            }
-            if (X.Id == id && (X.Eraseable == false))
-                throw new Exception($"Can't delete the Task");
-
-        }
-        if (flag == false)
-            throw new Exception($"Task with ID={id} does not exist");
-    }
-
-    public Task? Read(int id)
-    {
-       
-    
-        foreach (var X in DataSource.Tasks)
-        {
-            if (X.Id == id)
-                return X;
-        }
-        return null;
-    }
-
-    public List<Task> ReadAll()
-    {
-        return new List<Task>(DataSource.Tasks);
-    }
-
-    public void Update(Task item)
-    {
-        Task? t = null;
-        foreach (var X in DataSource.Tasks)
-        {
-            if (X.Id == item.Id)
-                t = X;
-        }
-        if (t == null)
-            throw new Exception($"Task with ID={item.Id} does not exist");
-        else
-        {
-            DataSource.Tasks.Remove(t);
+            DataSource.Tasks.RemoveAll(t => t.Id == item.Id);
             DataSource.Tasks.Add(item);
         }
+       throw new Exception($"Task with ID={item.Id} does not exist");
 
     }
 }
