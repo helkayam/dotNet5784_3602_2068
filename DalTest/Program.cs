@@ -49,11 +49,11 @@ namespace DalTest
         static void MainPage()
         {
 
-            Console.WriteLine("בחר ישות שברצונך לבדוק");
-            Console.WriteLine("0.יציאה מתפריט ראשי");
-            Console.WriteLine("1.ישות עובד");
-            Console.WriteLine("2.ישות משימה");
-            Console.WriteLine("3.ישות תלות");
+            Console.WriteLine("Select an entity you want to check");
+            Console.WriteLine("0.Exit from main menu");
+            Console.WriteLine("1. Worker entity");
+            Console.WriteLine("2.Task entity");
+            Console.WriteLine("3.dependency entity");
         }
 
         /// <summary>
@@ -63,13 +63,13 @@ namespace DalTest
         {
             try
             {
-                Console.WriteLine("בחר את המתודה שברצונך לבצע");
-                Console.WriteLine("1.יציאה מתפריט ראשי");
-                Console.WriteLine("2.הוספת עובד חדש לרשימה");
-                Console.WriteLine("3.תצוגת עובד על פי מזהה");
-                Console.WriteLine("4.תצוגת רשימת כל העובדים");
-                Console.WriteLine("5.עדכון נתוני עובד קיים");
-                Console.WriteLine("6.מחיקת עובד קיים מרשימה");
+                Console.WriteLine("Select the method you want to perform");
+                Console.WriteLine("1.Exit main menu");
+                Console.WriteLine("2.Adding a new worker to the list");
+                Console.WriteLine("3.worker display by ID");
+                Console.WriteLine("4.View a list of all workers");
+                Console.WriteLine("5.Update existing worker data");
+                Console.WriteLine("6.Deletion of an existing worker from a list");
                 int choice = int.Parse(Console.ReadLine());
                 if (choice != 1)
                 {
