@@ -8,9 +8,7 @@ using System.Xml.Linq;
 
 public static class Initialization
 {
-    private static IDependency? s_dalDependency;
-    private static IWorker? s_dalWorker;
-    private static ITask? s_dalTask;
+    private static IDal? s_dal; 
 
     private static readonly Random s_rand = new();
 
@@ -26,7 +24,7 @@ public static class Initialization
             int _id;
             do
                 _id = s_rand.Next(200000000, 400000000);
-            while (s_dalWorker!.Read(_id) != null);
+            while (s_dal!.Worker.Read(_id) != null);
 
             int _lvl = s_rand.Next(0, 2);
 
@@ -39,7 +37,7 @@ public static class Initialization
             double _cost = s_rand.NextDouble() + s_rand.Next(31, 200);
 
             Worker newWrk = new(_id, (WorkerExperience)_lvl, _name, _phoneNumber, _cost);
-            s_dalWorker.Create(newWrk);
+            s_dal!.Worker.Create(newWrk);
 
 
         }
@@ -106,7 +104,7 @@ public static class Initialization
             _createdAtDate = start.AddDays(s_rand.Next(range)).AddHours(s_rand.Next(0, 24)).AddMinutes(s_rand.Next(0, 60)).AddSeconds(s_rand.Next(0, 60));
             Task newTask = new Task(_alias, (WorkerExperience)(_complexity), _description, null, null);
             newTask.CreatedAtDate = _createdAtDate;
-            s_dalTask.Create(newTask);
+            s_dal!.task.Create(newTask);
         }
     }
 
@@ -119,16 +117,14 @@ public static class Initialization
         for (int i = 0; i < 45; i++)
         {
             Dependency dNew = new Dependency(halpMatrix[i, 0], halpMatrix[i, 1]);
-            s_dalDependency.Create(dNew);
+            s_dal!.Dependency.Create(dNew);
         }
     }
 
 
-   public static void Do(IWorker? dalWorker,ITask? dalTask, IDependency? dalDependency)
+    public static void Do(IDal dal) 
     {
-        s_dalWorker = dalWorker ?? throw new NullReferenceException("DAL can not be null!");
-        s_dalTask = dalTask ?? throw new NullReferenceException("DAL can not be null!");
-        s_dalDependency = dalDependency ?? throw new NullReferenceException("DAL can not be null!");
+        s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!");
         createDependencies();
         createTasks();
         createWorker();
