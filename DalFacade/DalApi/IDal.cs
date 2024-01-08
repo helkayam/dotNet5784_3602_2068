@@ -11,7 +11,7 @@ namespace DalApi
 
         IDependency Dependency { get; }
         IWorker Worker { get; }
-        ITask task { get; }
+        ITask Task { get; }
 
 
     }

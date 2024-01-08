@@ -104,7 +104,7 @@ public static class Initialization
             _createdAtDate = start.AddDays(s_rand.Next(range)).AddHours(s_rand.Next(0, 24)).AddMinutes(s_rand.Next(0, 60)).AddSeconds(s_rand.Next(0, 60));
             Task newTask = new Task(_alias, (WorkerExperience)(_complexity), _description, null, null);
             newTask.CreatedAtDate = _createdAtDate;
-            s_dal!.task.Create(newTask);
+            s_dal!.Task.Create(newTask);
         }
     }
 

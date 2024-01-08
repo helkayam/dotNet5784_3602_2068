@@ -165,7 +165,7 @@ namespace DalTest
             Worker w = new Worker(id, we, name, phonenumber, cost);
             try
             {
-                s_dalWorker.Create(w);
+                s_dal.Worker.Create(w);
             }
             catch (Exception ex)
             {
@@ -189,7 +189,7 @@ namespace DalTest
             DO.Task t = new DO.Task(alias, we,description, ScheduledDate, Deadline);
             try
             {
-                s_dalTask.Create(t);
+                s_dal.Task.Create(t);
             }
             catch(Exception ex)
             {
@@ -209,7 +209,7 @@ namespace DalTest
             Dependency d = new Dependency(dependenTask, dependOnTask);
             try
             {
-                s_dalDependency.Create(d);
+                s_dal.Dependency.Create(d);
             }
             catch(Exception ex)
             {
@@ -226,7 +226,7 @@ namespace DalTest
         {
             Console.WriteLine("Enter ID of the worker");
             int id = int.Parse(Console.ReadLine());
-            Worker? w = s_dalWorker.Read(id);
+            Worker? w = s_dal.Worker.Read(id);
             if (w != null)
             {
                 Console.WriteLine(w);
@@ -241,7 +241,7 @@ namespace DalTest
         {
             Console.WriteLine("Enter ID of the task");
             int id = int.Parse(Console.ReadLine());
-            DO.Task? t= s_dalTask.Read(id);
+            DO.Task? t= s_dal.Task.Read(id);
             if (t != null)
             {
                 Console.WriteLine(t);
@@ -256,7 +256,7 @@ namespace DalTest
         {
             Console.WriteLine("Enter ID of the dependency");
             int id = int.Parse(Console.ReadLine());
-            Dependency d = s_dalDependency.Read(id);
+            Dependency d = s_dal.Dependency.Read(id);
             if (d != null)
             {
                 Console.WriteLine(d);
@@ -269,7 +269,7 @@ namespace DalTest
         /// </summary>
         private static void readAllW()
         {
-            List<Worker> w = s_dalWorker.ReadAll();
+            IEnumerable<DO.Worker> w = s_dal.Worker.ReadAll();
 
             foreach(Worker x in w)
             {
@@ -283,7 +283,7 @@ namespace DalTest
         /// </summary>
         private static void readAllT()
         {
-            List<DO.Task> t = s_dalTask.ReadAll();
+            IEnumerable<DO.Task> t = s_dal.Task.ReadAll();
             foreach(DO.Task x in t)
             {
                 Console.WriteLine(x);
@@ -297,7 +297,7 @@ namespace DalTest
         /// </summary>
         private static void readAllD()
         {
-            List<Dependency> d = s_dalDependency.ReadAll();
+            IEnumerable<Dependency> d = s_dal.Dependency.ReadAll();
             foreach(Dependency x in d)
             {
                 Console.WriteLine(x);
@@ -316,7 +316,7 @@ namespace DalTest
             {
                 Console.WriteLine("Enter the ID number of the worker you want to update");
                 int id = int.Parse(Console.ReadLine());
-                Worker w = s_dalWorker.Read(id);
+                Worker w = s_dal.Worker.Read(id);
                 if (w != null)
                     Console.WriteLine(w);
                 else
@@ -328,7 +328,7 @@ namespace DalTest
                 string phonenumber = Console.ReadLine();
                 double cost = double.Parse(Console.ReadLine());
                 Worker worker = new Worker(id, we, name, phonenumber, cost);
-                s_dalWorker.Update(worker);
+                s_dal.Worker.Update(worker);
             }
             catch (Exception ex)
             {
@@ -347,7 +347,7 @@ namespace DalTest
             {
                 Console.WriteLine("Enter the ID number of the task you want to update");
                 int id = int.Parse(Console.ReadLine());
-                DO.Task t = s_dalTask.Read(id);
+                DO.Task t = s_dal.Task.Read(id);
                 if (t != null)
                     Console.WriteLine(t);
                 else
@@ -360,7 +360,7 @@ namespace DalTest
                 WorkerExperience we = (WorkerExperience)int.Parse(Console.ReadLine());
                 string description = Console.ReadLine();
                 DO.Task task = new DO.Task(alias, we, description, ScheduledDate, Deadline);
-                s_dalTask.Update(task);
+                s_dal.Task.Update(task);
             }
             catch(Exception ex)
             {
@@ -378,7 +378,7 @@ namespace DalTest
             {
                 Console.WriteLine("Enter the ID number of the dependency you want to update");
                 int id = int.Parse(Console.ReadLine());
-                Dependency d = s_dalDependency.Read(id);
+                Dependency d = s_dal.Dependency.Read(id);
                 if (d != null)
                     Console.WriteLine(d);
                 else
@@ -388,7 +388,7 @@ namespace DalTest
                 int dependentTask = int.Parse(Console.ReadLine());
                 int dependOnTask = int.Parse(Console.ReadLine());
                 Dependency dependency = new Dependency(dependentTask, dependOnTask);
-                s_dalDependency.Update(dependency);
+                s_dal.Dependency.Update(dependency);
             }
             catch(Exception ex)
             {
@@ -406,7 +406,7 @@ namespace DalTest
             {
                 Console.WriteLine("Enter the ID of the worker you want to delete");
                 int id = int.Parse(Console.ReadLine());
-                s_dalWorker.Delete(id);
+                s_dal.Worker.Delete(id);
             }
             catch(Exception ex) 
             {
@@ -423,7 +423,7 @@ namespace DalTest
             {
                 Console.WriteLine("Enter the ID of the task you want to delete");
                 int id = int.Parse(Console.ReadLine());
-                s_dalTask.Delete(id);
+                s_dal.Task.Delete(id);
             }
             catch(Exception ex)
             {
@@ -440,7 +440,7 @@ namespace DalTest
             {
                 Console.WriteLine("Enter the ID of the dependency you want to delete");
                 int id = int.Parse(Console.ReadLine());
-                s_dalDependency.Delete(id);
+                s_dal.Dependency.Delete(id);
             }
             catch(Exception ex)
             {

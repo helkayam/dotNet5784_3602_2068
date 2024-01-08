@@ -37,9 +37,8 @@ internal class WorkerImplementation : IWorker
 
     public DO.Worker? Read(int id)
     {
-        if (!CheckWorker(id))
-            throw new Exception($"Worker with Id={id} doesnt exist");
-
+        if (CheckWorker(id)==false)
+            return null;    
         
             DO.Worker newWorker = DataSource.Workers.Find(newWorker => newWorker.Id == id);
 
