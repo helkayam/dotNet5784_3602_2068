@@ -64,4 +64,14 @@ internal class TaskImplementation : ITask
        throw new Exception($"Task with ID={item.Id} does not exist");
 
     }
+
+    Task? Read(Func<Task, bool> filter)
+    {
+        var respondToFilter = from item in DataSource.Tasks
+                              where filter(item)
+                              select item;
+
+        return respondToFilter.FirstOrDefault();
+
+    }
 }

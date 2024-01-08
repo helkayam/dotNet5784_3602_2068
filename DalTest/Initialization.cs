@@ -100,7 +100,7 @@ public static class Initialization
         for (int i = 0; i < 31; i++)
         {
             _alias = tasks[i];
-            _description = tasks[i];
+            _description = Descriptions[i];
             _complexity = s_rand.Next(0, 2);
             DateTime start = new DateTime(2023, 12, 1);
             DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day - 1);

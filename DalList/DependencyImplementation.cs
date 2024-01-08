@@ -15,7 +15,7 @@ internal class DependencyImplementation : IDependency
     {
         int ID;
         ID = DataSource.Config.NextDependencyId;
-        Dependency d = item with { Id=ID };
+        Dependency d = item with { Id = ID };
         DataSource.Dependencies.Add(d);
         return ID;
     }
@@ -24,12 +24,12 @@ internal class DependencyImplementation : IDependency
     {
 
         Dependency? dependency = DataSource.Dependencies.Find(dependency => dependency.Id == id);
-        if(dependency==null)
+        if (dependency == null)
             throw new Exception($"Dependency with ID={id} does not exist");
 
-        DataSource.Dependencies.RemoveAll(dep=>dep.Id==id); 
-         
-           
+        DataSource.Dependencies.RemoveAll(dep => dep.Id == id);
+
+
     }
 
     public DO.Dependency? Read(int id)
@@ -37,10 +37,10 @@ internal class DependencyImplementation : IDependency
 
         if (!CheckDependency(id))
             return null;
-        
-            DO.Dependency newDependency = DataSource.Dependencies.Find(newDependency => newDependency.Id == id);
+
+        DO.Dependency newDependency = DataSource.Dependencies.Find(newDependency => newDependency.Id == id);
         return newDependency;
-    
+
     }
 
     public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
@@ -66,6 +66,16 @@ internal class DependencyImplementation : IDependency
             DataSource.Dependencies.RemoveAll(dp => dp.Id == item.Id);
             DataSource.Dependencies.Add(item);
         }
-          
+
+    }
+
+    Dependency? Read(Func<Dependency, bool> filter)
+    {
+        var respondToFilter = from item in DataSource.Dependencies
+                              where filter(item)
+                              select item;
+
+        return respondToFilter.FirstOrDefault();
+
     }
 }

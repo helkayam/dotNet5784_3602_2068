@@ -22,6 +22,12 @@ namespace DalApi
         /// <param name="id">id of entity</param>
         /// <returns></returns>
         T? Read(int id);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="filter"></param>
+        /// <returns></returns>
+        T? Read(Func<T, bool> filter);
 
         /// <summary>
         /// Reads all entity objects
@@ -40,5 +46,7 @@ namespace DalApi
         /// </summary>
         /// <param name="id">ID of the object</param>
         void Delete(int id);
+
+
     }
 }

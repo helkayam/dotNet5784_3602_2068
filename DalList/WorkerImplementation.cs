@@ -77,4 +77,14 @@ internal class WorkerImplementation : IWorker
         else
             throw new Exception($"Worker with ID={item.Id} does not exist");
     }
+
+    Worker? Read(Func<Worker, bool> filter)
+    {
+        var respondToFilter= from item in DataSource.Workers
+               where filter(item)
+               select item;
+
+        return respondToFilter.FirstOrDefault();
+
+    }
 }
