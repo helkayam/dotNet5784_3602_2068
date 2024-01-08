@@ -47,8 +47,14 @@ internal class WorkerImplementation : IWorker
 
     }
 
-    public IEnumerable<DO.Worker> ReadAll()
+    public IEnumerable<Worker?> ReadAll(Func<Worker, bool>? filter = null)
     {
+        if(filter!=null)
+        {
+            return from item in DataSource.Workers
+                   where filter(item)
+                   select item; 
+        }
         return from worker in DataSource.Workers
                where worker.active==true
                select worker; 

@@ -27,7 +27,7 @@ namespace DalApi
         /// Reads all entity objects
         /// </summary>
         /// <returns></returns>
-        IEnumerable<T> ReadAll();
+        IEnumerable<T?> ReadAll(Func<T,bool>? filter=null);
 
         /// <summary>
         /// Updates entity object

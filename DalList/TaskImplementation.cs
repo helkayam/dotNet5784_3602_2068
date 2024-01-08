@@ -41,8 +41,14 @@ internal class TaskImplementation : ITask
        return saveItem; 
     }
 
-    public IEnumerable<DO.Task> ReadAll()
+    public IEnumerable<Task?> ReadAll(Func<Task, bool>? filter = null)
     {
+        if (filter != null)
+        {
+            return from item in DataSource.Tasks
+                   where filter(item)
+                   select item;
+        }
         return from task in DataSource.Tasks  
                select task; 
     }
