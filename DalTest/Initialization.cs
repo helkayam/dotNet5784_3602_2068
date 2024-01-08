@@ -35,9 +35,13 @@ public static class Initialization
 
 
             double _cost = s_rand.NextDouble() + s_rand.Next(31, 200);
+           
 
             Worker newWrk = new(_id, (WorkerExperience)_lvl, _name, _phoneNumber, _cost);
-            s_dal!.Worker.Create(newWrk);
+            if (_lvl!=2)
+                newWrk.Eraseable= true; 
+
+             s_dal!.Worker.Create(newWrk);
 
 
         }

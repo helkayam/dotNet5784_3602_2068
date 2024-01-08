@@ -328,6 +328,8 @@ namespace DalTest
                 string phonenumber = Console.ReadLine();
                 double cost = double.Parse(Console.ReadLine());
                 Worker worker = new Worker(id, we, name, phonenumber, cost);
+                if((int)worker.Level!=2)
+                    worker.Eraseable = true;
                 s_dal.Worker.Update(worker);
             }
             catch (Exception ex)
