@@ -23,12 +23,12 @@ internal class TaskImplementation : ITask
     {
         if(Read(id)==null) 
         {
-          throw new Exception($"Task with ID={id} does not exist");
+          throw new DalDoesNotExistException(id,"Task");
         }
         DO.Task taskToRemove=Read(id);
         if(!taskToRemove.Eraseable)
         {
-            throw new Exception($"Can't delete the Task");
+            throw new DalNotErasableException(id,"Task");
         }
         DataSource.Tasks.RemoveAll(t=>t.Id==id);
     }
@@ -61,7 +61,7 @@ internal class TaskImplementation : ITask
             DataSource.Tasks.RemoveAll(t => t.Id == item.Id);
             DataSource.Tasks.Add(item);
         }
-       throw new Exception($"Task with ID={item.Id} does not exist");
+       throw new DalDoesNotExistException(item.Id,"Task");
 
     }
 

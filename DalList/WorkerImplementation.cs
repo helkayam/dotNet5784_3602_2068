@@ -12,7 +12,7 @@ internal class WorkerImplementation : IWorker
     public int Create(DO.Worker item)
     {
         if (CheckWorker(item.Id))
-            throw new Exception($"Worker with Id={item.Id} already exist");
+            throw new DalAlreadyExistException(item.Id, "Worker");
         else
             DataSource.Workers.Add(item);
        return item.Id;
@@ -23,9 +23,9 @@ internal class WorkerImplementation : IWorker
 
         DO.Worker? worker = DataSource.Workers.Find(worker => worker.Id == id);
         if(worker==null)
-            throw new Exception("Worker doesnt exist");
+            throw new DalDoesNotExistException(id,"Worker");
         if (worker.Eraseable==false)
-            throw new Exception("Can't delete the Worker");
+            throw new DalNotErasableException(id,"Worker");
         if (worker.active == false)
             return;
 
@@ -66,7 +66,7 @@ internal class WorkerImplementation : IWorker
         DO.Worker w = DataSource.Workers.Find(w => w.Id == item.Id);
 
         if (w.active == false)
-            throw new Exception("Worker is not active");
+            throw new DalNotActiveException(item.Id,"Worker");
 
 
         if (w != null)
@@ -75,7 +75,7 @@ internal class WorkerImplementation : IWorker
             DataSource.Workers.Add(item);
         }
         else
-            throw new Exception($"Worker with ID={item.Id} does not exist");
+            throw new DalDoesNotExistException(item.Id,"Worker");
     }
 
     Worker? Read(Func<Worker, bool> filter)
