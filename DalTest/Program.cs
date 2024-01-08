@@ -51,7 +51,7 @@ namespace DalTest
 
             Console.WriteLine("Select an entity you want to check");
             Console.WriteLine("0.Exit from main menu");
-            Console.WriteLine("1. Worker entity");
+            Console.WriteLine("1.Worker entity");
             Console.WriteLine("2.Task entity");
             Console.WriteLine("3.dependency entity");
         }
@@ -69,7 +69,7 @@ namespace DalTest
                 Console.WriteLine("3.worker display by ID");
                 Console.WriteLine("4.View a list of all workers");
                 Console.WriteLine("5.Update existing worker data");
-                Console.WriteLine("6.Deletion of an existing worker from a list");
+                Console.WriteLine("6.Deletion of an existing worker from the list");
                 int choice = int.Parse(Console.ReadLine());
                 if (choice != 1)
                 {
@@ -96,13 +96,13 @@ namespace DalTest
         private static void TaskPage()
         {
            
-                Console.WriteLine("בחר את המתודה שברצונך לבצע");
-                Console.WriteLine("1.יציאה מתפריט ראשי");
-                Console.WriteLine("2.הוספת משימה חדשה לרשימה");
-                Console.WriteLine("3.תצוגת משימה על פי מזהה");
-                Console.WriteLine("4.תצוגת רשימת כל המשימות");
-                Console.WriteLine("5.עדכון נתוני משימה קיימת");
-                Console.WriteLine("6.מחיקת משימה קיימת מרשימה");
+                Console.WriteLine("Select the method you want to perform");
+                Console.WriteLine("1.Exiting the main menu");
+                Console.WriteLine("2.Adding a new task to the list");
+                Console.WriteLine("3.Task display by ID");
+                Console.WriteLine("4.Display list of all tasks");
+                Console.WriteLine("5.Updating existing task data");
+                Console.WriteLine("6.Deleting an existing task from the list");
                 int choice = int.Parse(Console.ReadLine());
                 if (choice != 1)
                 {
@@ -128,13 +128,13 @@ namespace DalTest
         /// </summary>
         private static void DependencyPage()
         {
-            Console.WriteLine("בחר את המתודה שברצונך לבצע");
-            Console.WriteLine("1.יציאה מתפריט ראשי");
-            Console.WriteLine("2.הוספת תלות חדשה לרשימה");
-            Console.WriteLine("3.תצוגת תלות על פי מזהה");
-            Console.WriteLine("4.תצוגת רשימת כל התלויות");
-            Console.WriteLine("5.עדכון נתוני תלות קיימת");
-            Console.WriteLine("6.מחיקת תלות קיימת מרשימה");
+            Console.WriteLine("Select the method you want to perform");
+            Console.WriteLine("1.Exiting the main menu");
+            Console.WriteLine("2.Adding a new dependency to the list");
+            Console.WriteLine("3.Dependency display by ID");
+            Console.WriteLine("4.Display the list of all dependencies");
+            Console.WriteLine("5.Updating existing dependency data");
+            Console.WriteLine("6.Deleting an existing dependency from the list");
             int choice = int.Parse(Console.ReadLine());
             if (choice != 1)
             {
@@ -157,7 +157,7 @@ namespace DalTest
         /// </summary>
         private static void createW()
         {
-            Console.WriteLine("הכנס תעודת זהות,ניסיון,שם,מספר טלפון ותשלום לשעה");
+            Console.WriteLine("Enter ID, experience, name, phone number and hourly payment");
             int id = int.Parse(Console.ReadLine());
             WorkerExperience we = (WorkerExperience)int.Parse(Console.ReadLine());
             string name = Console.ReadLine();
@@ -180,7 +180,7 @@ namespace DalTest
         /// </summary>
         private static void createT()
         {
-            Console.WriteLine("הכנס כינוי של המשימה,תאריך מתוכנן לתחילת המשימה,תאריך אחרון למשימה ,מורכבות של המשימה ותאור של המשימה");
+            Console.WriteLine("Enter alias of the task, scheduled start date of the task, deadline date of the task, the complexity of the task and description of the task");
             string alias = Console.ReadLine();
             DateTime ScheduledDate = DateTime.Now;
 
@@ -204,7 +204,7 @@ namespace DalTest
         /// </summary>
         private static void createD()
         {
-            Console.WriteLine("הכנס מספר מזהה של משימה תלויה ומספר מזהה של משימה קודמת");
+            Console.WriteLine("Enter pending task ID number and previous task ID number");
             int dependenTask = int.Parse(Console.ReadLine());
             int dependOnTask = int.Parse(Console.ReadLine());
             Dependency d = new Dependency(dependenTask, dependOnTask);
@@ -225,7 +225,7 @@ namespace DalTest
         /// </summary>
         private static void readW()
         {
-            Console.WriteLine("הכנס תעודת זהות של עובד");
+            Console.WriteLine("Enter ID of the worker");
             int id = int.Parse(Console.ReadLine());
             Worker? w = s_dalWorker.Read(id);
             if (w != null)
@@ -240,7 +240,7 @@ namespace DalTest
         /// </summary>
         private static void readT()
         {
-            Console.WriteLine("הכנס מספר מזהה של משימה");
+            Console.WriteLine("Enter ID of the task");
             int id = int.Parse(Console.ReadLine());
             DO.Task? t= s_dalTask.Read(id);
             if (t != null)
@@ -255,7 +255,7 @@ namespace DalTest
         /// </summary>
         private static void readD()
         {
-            Console.WriteLine("הכנס מספר מזהה של תלות");
+            Console.WriteLine("Enter ID of the dependency");
             int id = int.Parse(Console.ReadLine());
             Dependency d = s_dalDependency.Read(id);
             if (d != null)
@@ -315,7 +315,7 @@ namespace DalTest
         {
             try
             {
-                Console.WriteLine("הכנס תעודת זהות של העובד שברצונך לעדכן");
+                Console.WriteLine("Enter the ID number of the worker you want to update");
                 int id = int.Parse(Console.ReadLine());
                 Worker w = s_dalWorker.Read(id);
                 if (w != null)
@@ -323,7 +323,7 @@ namespace DalTest
                 else
                     throw new Exception($"Worker with ID={id} does not exist");
 
-                Console.WriteLine("הכנס ניסיון,שם,מספר טלפון ותשלום לשעה של העובד");
+                Console.WriteLine("Enter experience, name, phone number and hourly payment of the worker");
                 WorkerExperience we = (WorkerExperience)int.Parse(Console.ReadLine());
                 string name = Console.ReadLine();
                 string phonenumber = Console.ReadLine();
@@ -346,7 +346,7 @@ namespace DalTest
         {
             try
             {
-                Console.WriteLine("הכנס מספר מזהה של המשימה שברצונך לעדכן");
+                Console.WriteLine("Enter the ID number of the task you want to update");
                 int id = int.Parse(Console.ReadLine());
                 DO.Task t = s_dalTask.Read(id);
                 if (t != null)
@@ -354,7 +354,7 @@ namespace DalTest
                 else
                     throw new Exception($"Task with ID={id} does not exist");
 
-                Console.WriteLine("הכנס כינוי של המשימה,תאריך מתוכנן לתחילת המשימה,תאריך אחרון למשימה מורכבות של המשימה ותאור של המשימה,");
+                Console.WriteLine("Enter alias of the task, scheduled start date of the task, deadline of the task, the complexity of the task and description of the task,");
                 string alias = Console.ReadLine();
                 DateTime ScheduledDate = DateTime.Now;
                 DateTime Deadline = DateTime.Now + TimeSpan.FromDays(s_rand.Next(5, 20));
@@ -377,7 +377,7 @@ namespace DalTest
         {
             try
             {
-                Console.WriteLine("הכנס מספר מזהה של תלות שברצונך לעדכן");
+                Console.WriteLine("Enter the ID number of the dependency you want to update");
                 int id = int.Parse(Console.ReadLine());
                 Dependency d = s_dalDependency.Read(id);
                 if (d != null)
@@ -385,7 +385,7 @@ namespace DalTest
                 else
                     throw new Exception($"Dependency with ID={id} does not exist");
 
-                Console.WriteLine("הכנס מספר מזהה של משימה תלויה ומספר מזהה של משימה קודמת");
+                Console.WriteLine("Enter pending task ID number and previous task ID number");
                 int dependentTask = int.Parse(Console.ReadLine());
                 int dependOnTask = int.Parse(Console.ReadLine());
                 Dependency dependency = new Dependency(dependentTask, dependOnTask);
@@ -405,7 +405,7 @@ namespace DalTest
         {
             try
             {
-                Console.WriteLine("הכנס תעודת זהות של העובד שברצונך למחוק");
+                Console.WriteLine("Enter the ID of the worker you want to delete");
                 int id = int.Parse(Console.ReadLine());
                 s_dalWorker.Delete(id);
             }
@@ -422,7 +422,7 @@ namespace DalTest
         {
             try
             {
-                Console.WriteLine("הכנס מספר מזהה של המשימה שברצונך למחוק");
+                Console.WriteLine("Enter the ID of the task you want to delete");
                 int id = int.Parse(Console.ReadLine());
                 s_dalTask.Delete(id);
             }
@@ -439,7 +439,7 @@ namespace DalTest
         {
             try
             {
-                Console.WriteLine("הכנס מספר מזהה של התלות שברצונך למחוק");
+                Console.WriteLine("Enter the ID of the dependency you want to delete");
                 int id = int.Parse(Console.ReadLine());
                 s_dalDependency.Delete(id);
             }

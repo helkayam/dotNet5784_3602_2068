@@ -5,68 +5,71 @@ using System.Collections.Generic;
 
 public class WorkerImplementation : IWorker
 {
-    public int Create(Worker item)
+    public bool CheckWorker(int id)
     {
-        foreach(var x in DataSource.Workers)
-        {
-            if (x.Id == item.Id)
-                throw new Exception( $"Worker with ID={item.Id} already exist");
-        }
-        DataSource.Workers.Add(item);  
-        return item.Id;
+        return DataSource.Workers.Any(worker => worker.Id == id);
+    }
+    public int Create(DO.Worker item)
+    {
+        if (CheckWorker(item.Id))
+            throw new Exception($"Worker with Id={item.Id} already exist");
+        else
+            DataSource.Workers.Add(item);
+       return item.Id;
     }
 
     public void Delete(int id)
     {
-        foreach (var x in DataSource.Workers)
-        {
-            if (x.Id == id)
-            {
-                if (!x.Eraseable)
-                    throw new Exception("Can't delete the Worker");
-                if (x.active == false)
-                {
-                    Worker newW = x with { active = false };
-                    DataSource.Workers.Remove(x);
-                    DataSource.Workers.Add(newW);
-                    return;
-                }
-                else
-                    DataSource.Workers.Remove(x);
-            }
-        }
-        throw new Exception($"Worker with ID={id} does not exist");
+
+        DO.Worker? worker = DataSource.Workers.Find(worker => worker.Id == id);
+        if(worker==null)
+            throw new Exception("Worker doesnt exist");
+        if (worker.Eraseable==false)
+            throw new Exception("Can't delete the Worker");
+        if (worker.active == false)
+            return;
+
+        DO.Worker w = worker with { active = false };
+        DataSource.Workers.RemoveAll(wrkr => wrkr.Id == id);
+        DataSource.Workers.Add(w);
 
     }
 
-    public Worker? Read(int id)
+    public DO.Worker? Read(int id)
     {
-        foreach (var x in DataSource.Workers)
-        {
-            if (x.Id == id)
-                return x;
-        }
-        return null;
+        if (!CheckWorker(id))
+            throw new Exception($"Worker with Id={id} doesnt exist");
+
+        
+            DO.Worker newWorker = DataSource.Workers.Find(newWorker => newWorker.Id == id);
+
+
+        return newWorker;
 
     }
 
-    public List<Worker> ReadAll()
+    public IEnumerable<DO.Worker> ReadAll()
     {
-        return new List<Worker>(DataSource.Workers);
+        return from worker in DataSource.Workers
+               where worker.active==true
+               select worker; 
     }
 
-    public void Update(Worker item)
+  
+    public void Update(DO.Worker item)
     {
-        foreach (var x in DataSource.Workers)
-        {
-            if (x.Id == item.Id)
-            {
-                DataSource.Workers.Remove(item);
-                DataSource.Workers.Add(item);
-                return;
-            }
-        }
-        throw new Exception($"Worker with ID={item.Id} does not exist");
+        DO.Worker w = DataSource.Workers.Find(w => w.Id == item.Id);
 
+        if (w.active == false)
+            throw new Exception("Worker is not active");
+
+
+        if (w != null)
+        {
+            DataSource.Workers.RemoveAll(wrkr=>wrkr.Id==item.Id);
+            DataSource.Workers.Add(item);
+        }
+        else
+            throw new Exception($"Worker with ID={item.Id} does not exist");
     }
 }

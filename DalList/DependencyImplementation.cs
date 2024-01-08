@@ -6,6 +6,11 @@ using System.Collections.Generic;
 
 public class DependencyImplementation : IDependency
 {
+
+    public bool CheckDependency(int id)
+    {
+        return DataSource.Dependencies.Any(dependency => dependency.Id == id);
+    }
     public int Create(Dependency item)
     {
         int ID;
@@ -17,50 +22,44 @@ public class DependencyImplementation : IDependency
 
     public void Delete(int id)
     {
-        Dependency d;
-        bool flag = false;
-        foreach(var X in DataSource.Dependencies)
-        {
-            if (X.Id == id)
-            {
-                DataSource.Dependencies.Remove(X);
-                flag = true;
-            }
-        }
-        if(flag==false)
-        throw new Exception($"Dependency with ID={id} does not exist");
+
+        Dependency? dependency = DataSource.Dependencies.Find(dependency => dependency.Id == id);
+        if(dependency==null)
+            throw new Exception($"Dependency with ID={id} does not exist");
+
+        DataSource.Dependencies.RemoveAll(dep=>dep.Id==id); 
+         
+           
     }
 
-    public Dependency? Read(int id)
+    public DO.Dependency? Read(int id)
     {
-        Dependency d;
-        foreach(var X in DataSource.Dependencies)
-        {
-            if (X.Id == id)
-                return X;
-        }
-        return null;
+
+        if (!CheckDependency(id))
+            return null;
+        
+            DO.Dependency newDependency = DataSource.Dependencies.Find(newDependency => newDependency.Id == id);
+        return newDependency;
+    
     }
 
-    public List<Dependency> ReadAll()
+    public IEnumerable<Dependency> ReadAll()
     {
-        return new List<Dependency>(DataSource.Dependencies);
+        return from dependency in DataSource.Dependencies
+               select dependency;
     }
 
     public void Update(Dependency item)
     {
-        Dependency? d=null;
-         foreach(var X in DataSource.Dependencies)
-        {
-            if (X.Id == item.Id)
-                d = X;
-        }
-        if (d == null)
+
+        DO.Dependency? dependency = DataSource.Dependencies.Find(dp => dp.Id == item.Id);
+        if (dependency == null)
             throw new Exception($"Dependency with ID={item.Id} does not exist");
         else
         {
-            DataSource.Dependencies.Remove(d);
+            DataSource.Dependencies.RemoveAll(dp => dp.Id == item.Id);
             DataSource.Dependencies.Add(item);
         }
+          
     }
 }

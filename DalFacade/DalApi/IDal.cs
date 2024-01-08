@@ -8,6 +8,7 @@ namespace DalApi
 {
     public interface IDal
     {
+
         IDependency Dependency { get; }
         IWorker Worker { get; }
         ITask task { get; }
