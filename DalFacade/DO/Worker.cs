@@ -19,7 +19,13 @@ double? Cost=null
 )
 {
     public Worker(): this(0,0," ") { }//empty constructor of Worker
+    /// <summary>
+    /// This is a property that tells the programmer whether the entity can be deleted or not
+    /// </summary>
     public bool Eraseable { get; set; } = false;
+    /// <summary>
+    /// This is a property that indicates to the programmer whether this employee is considered active or not
+    /// </summary>
     public bool active { get; set; } = true;
 
 }

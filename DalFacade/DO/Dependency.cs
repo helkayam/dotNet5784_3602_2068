@@ -13,6 +13,9 @@ int DependsOnTask,
 int? Id=null
 )
 {
-    public Dependency() : this(0, 0) { }//empty constructor of Dependency
+    /// <summary>
+    /// //empty constructor of Dependency
+    /// </summary>
+    public Dependency() : this(0, 0) { }
 
 }

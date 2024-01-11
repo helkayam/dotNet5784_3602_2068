@@ -35,7 +35,9 @@ int? WorkerId=null
     /// </summary>
     public DateTime? StartDate { get; set; } = null;
 
-
+    /// <summary>
+    /// This is a property that tells the programmer whether the entity can be deleted or not
+    /// </summary>
     public bool Eraseable { get; set; } = true;
 
     /// <summary>
