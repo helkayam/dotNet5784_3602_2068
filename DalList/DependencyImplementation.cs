@@ -42,7 +42,7 @@ internal class DependencyImplementation : IDependency
 
         Dependency? dependency = DataSource.Dependencies.Find(dependency => dependency.Id == id);
         if (dependency == null)
-            throw new DalDoesNotExistException(id, "Dependency");//If we did not find the object to delete, we will throw an exception of the type of object that does not exist
+            throw new DalDoesNotExistException($"Dependency with id={id} does not exist");//If we did not find the object to delete, we will throw an exception of the type of object that does not exist
 
         DataSource.Dependencies.RemoveAll(dep => dep.Id == id);
 
@@ -96,7 +96,7 @@ internal class DependencyImplementation : IDependency
 
         DO.Dependency? dependency = DataSource.Dependencies.Find(dp => dp.Id == item.Id);
         if (dependency == null)
-            throw new DalDoesNotExistException(item.Id, "Dependency");
+            throw new DalDoesNotExistException($"Dependency with id={item.Id} does not exist");
         else
         {
             DataSource.Dependencies.RemoveAll(dp => dp.Id == item.Id);
@@ -110,7 +110,7 @@ internal class DependencyImplementation : IDependency
     /// </summary>
     /// <param name="filter">This is a pointer to a boolean function (delegate) of type FUNC that will work on objects of type dependency </param>
     /// <returns></returns>
-    Dependency? Read(Func<Dependency, bool> filter)
+   public  Dependency? Read(Func<Dependency, bool> filter)
     {
         var respondToFilter = from item in DataSource.Dependencies
                               where filter(item)
