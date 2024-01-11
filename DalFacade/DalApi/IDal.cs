@@ -9,8 +9,17 @@ namespace DalApi
     public interface IDal
     {
 
+        /// <summary>
+        /// attribute for the type of the dependency interface read only
+        /// </summary>
         IDependency Dependency { get; }
+        /// <summary>
+        /// attribute for a type of the working interface read only
+        /// </summary>
         IWorker Worker { get; }
+        /// <summary>
+        /// attribute for the type of the task interface read only
+        /// </summary>
         ITask Task { get; }
 
 
