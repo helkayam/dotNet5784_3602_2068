@@ -93,13 +93,17 @@ internal class TaskImplementation : ITask
     /// <exception cref="DalDoesNotExistException">if there is no task in the list with the same id as item, we throw exception</exception>
     public void Update(DO.Task item)
     {
-        
-        if (DataSource.Tasks.Find(saveItem => saveItem.Id == item.Id)!=null)
+
+        DO.Task? task = DataSource.Tasks.Find(t => t.Id == item.Id);
+        if (task == null)
+            throw new DalDoesNotExistException($"Dependency with id={item.Id} does not exist");
+        else
         {
             DataSource.Tasks.RemoveAll(t => t.Id == item.Id);
             DataSource.Tasks.Add(item);
         }
-        throw new DalDoesNotExistException($"Task with id={item.Id} does not exist");
+
+
 
     }
 

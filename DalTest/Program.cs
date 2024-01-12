@@ -179,14 +179,23 @@ namespace DalTest
         /// </summary>
         private static void createT()
         {
-            Console.WriteLine("Enter alias of the task, scheduled start date of the task, deadline date of the task, the complexity of the task and description of the task");
+            Console.WriteLine("Enter alias of the task, the complexity of the task,the description of the task, scheduled start date of the task and deadline date of the task ");
             string alias = Console.ReadLine();
-            DateTime ScheduledDate = DateTime.Now;
 
-            DateTime Deadline = DateTime.Now + TimeSpan.FromDays(s_rand.Next(5, 20));
             WorkerExperience we = (WorkerExperience)int.Parse(Console.ReadLine());
+
             string description = Console.ReadLine();
-            DO.Task t = new DO.Task(alias, we,description, ScheduledDate, Deadline);
+
+            DateTime ScheduledDate = DateTime.Now;
+            
+            DateTime startDate = DateTime.Parse(Console.ReadLine());
+            DateTime deadLine = DateTime.Parse(Console.ReadLine());
+            deadLine.AddHours(s_rand.Next(1, 24)).AddMinutes(s_rand.Next(1, 60)).AddSeconds(s_rand.Next(1, 60));
+            startDate.AddHours(s_rand.Next(1, 24)).AddMinutes(s_rand.Next(1, 60)).AddSeconds(s_rand.Next(1, 60));
+   
+            
+            DO.Task t = new DO.Task(alias, we,description, ScheduledDate, deadLine);
+            t.StartDate = startDate;
             try
             {
                 s_dal.Task.Create(t);
@@ -355,13 +364,24 @@ namespace DalTest
                 else
                     throw new Exception($"Task with ID={id} does not exist");
 
-                Console.WriteLine("Enter alias of the task, scheduled start date of the task, deadline of the task, the complexity of the task and description of the task,");
+                Console.WriteLine("Enter alias of the task,the complexity of the task, the description of the task, scheduled start date of the task, deadline of the task");
                 string alias = Console.ReadLine();
-                DateTime ScheduledDate = DateTime.Now;
-                DateTime Deadline = DateTime.Now + TimeSpan.FromDays(s_rand.Next(5, 20));
                 WorkerExperience we = (WorkerExperience)int.Parse(Console.ReadLine());
                 string description = Console.ReadLine();
-                DO.Task task = new DO.Task(alias, we, description, ScheduledDate, Deadline);
+
+                DateTime startDate = DateTime.Parse(Console.ReadLine());
+                DateTime deadLine = DateTime.Parse(Console.ReadLine());
+                deadLine.AddHours(s_rand.Next(1, 24)).AddMinutes(s_rand.Next(1, 60)).AddSeconds(s_rand.Next(1, 60));
+                startDate.AddHours(s_rand.Next(1, 24)).AddMinutes(s_rand.Next(1, 60)).AddSeconds(s_rand.Next(1, 60));
+
+                DateTime ScheduledDate = DateTime.Now;
+               
+               
+            
+                DO.Task task = new DO.Task(alias, we, description, ScheduledDate, deadLine,id);
+                task.StartDate = startDate;
+
+
                 s_dal.Task.Update(task);
             }
             catch(Exception ex)
@@ -384,12 +404,13 @@ namespace DalTest
                 if (d != null)
                     Console.WriteLine(d);
                 else
-                    throw new Exception($"Dependency with ID={id} does not exist");
+                    throw new DalDoesNotExistException($"Dependency with ID={id} does not exist");
 
                 Console.WriteLine("Enter pending task ID number and previous task ID number");
                 int dependentTask = int.Parse(Console.ReadLine());
                 int dependOnTask = int.Parse(Console.ReadLine());
-                Dependency dependency = new Dependency(dependentTask, dependOnTask);
+                Dependency dependency = new Dependency(dependentTask, dependOnTask,id);
+                
                 s_dal.Dependency.Update(dependency);
             }
             catch(Exception ex)
