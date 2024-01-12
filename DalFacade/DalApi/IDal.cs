@@ -14,7 +14,7 @@ namespace DalApi
         /// </summary>
         IDependency Dependency { get; }
         /// <summary>
-        /// attribute for a type of the working interface read only
+        /// attribute for a type of the worker interface read only
         /// </summary>
         IWorker Worker { get; }
         /// <summary>

@@ -9,46 +9,66 @@ using System.Xml.Linq;
 public static class Initialization
 {
     private static IDal? s_dal; 
+    
 
     private static readonly Random s_rand = new();
 
+    /// <summary>
+    /// this method create random workers,and initalize them 
+    /// </summary>
     private static void createWorker()
     {
-
+        //string array that have prefix of the phone inside 
         string[] phonePrefix = { "050", "051", "052", "053", "054", "056", "058" };
 
+        //string array of names
         string[] workerNames = { "Hanna Cohen", "Ziv Peretz", "Tali Levi", "Yair Israel", "Dalya Amar", "Ben Klein" };
 
+        //for every name in the string array of names
         foreach (var _name in workerNames)
         {
             int _id;
+            //we get a random id, and if its found in the list, we again get another random, until the id we get is not in the list
             do
                 _id = s_rand.Next(200000000, 400000000);
             while (s_dal!.Worker.Read(_id) != null);
 
+            //level (experience) of the worker. we get a random number between 0 and 2
             int _lvl = s_rand.Next(0, 2);
 
 
+            //get a random prefix for the phone number
             string _phonePrefix = phonePrefix[s_rand.Next(0, 6)];
+
+            //get a random number for the phone number
             string _number = (s_rand.Next(0, 9999999).ToString());
+
+            //the phone number will be the prefix+the number
             string _phoneNumber = _phonePrefix + _number;
 
-
+            //cost for hour of the worker (salary for one hour). we get a random double number between 31 and 200
             double _cost = s_rand.NextDouble() + s_rand.Next(31, 200);
            
-
+            //create a object of type worker with the data we get before 
             Worker newWrk = new(_id, (WorkerExperience)_lvl, _name, _phoneNumber, _cost);
+
+            //if the worker is not an expert, he is erasable
             if (_lvl!=2)
                 newWrk.Eraseable= true; 
 
+            //create the worker and add to the list
              s_dal!.Worker.Create(newWrk);
 
 
         }
     }
 
+    /// <summary>
+    /// this method create Tasks,and initalize them
+    /// </summary>
     private static void createTasks()
     {
+        //alias of 31 tasks.
         string[] tasks = { "fireworks","souvenirs" , "Children's corner", "Activities for adults", "Alcohol stand",
             "Snack stand","food stands","gifts for children" ,"performances","flags","Sports and fitness station",
         "Corner of knowledge and history","photo station","Knowledge and training station","Digital advertising",
@@ -57,6 +77,8 @@ public static class Initialization
         "Jewelry manufacturing station","ground activities","Determining the place of the event","Events Manager",
         "music","Open areas and sports","Event documentation","First aid"
         };
+
+        //description of the 31 tasks
         string[] Descriptions = { "Take care of 4 types of fireworks, for 9 o'clock in the evening",
         "Take care of 5 types of souvenirs from the event",
         "Take care of 10 positions of experiential activities for children aged 5-12",
@@ -99,25 +121,48 @@ public static class Initialization
 
         for (int i = 0; i < 31; i++)
         {
+
             _alias = tasks[i];
             _description = Descriptions[i];
+
+            //complexity we get a random number between 0 and 2
             _complexity = s_rand.Next(0, 2);
+
+            //start date of the time we can create a task.
             DateTime start = new DateTime(2023, 12, 1);
+
+            //the end of the time we can create a task
             DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day - 1);
+            
+            //range=numbers of the days beween start and end
             int range = (end - start).Days;
+
+            //then we get a random date between start and end 
             _createdAtDate = start.AddDays(s_rand.Next(range)).AddHours(s_rand.Next(0, 24)).AddMinutes(s_rand.Next(0, 60)).AddSeconds(s_rand.Next(0, 60));
+           
+            //create a new object of type task
             Task newTask = new Task(_alias, (WorkerExperience)(_complexity), _description, null, null);
+            
             newTask.CreatedAtDate = _createdAtDate;
+
+            //Create the task and add to the list
             s_dal!.Task.Create(newTask);
         }
     }
 
+
+    /// <summary>
+    /// this method create depdnencies and initalize them
+    /// </summary>
     private static void createDependencies()
     {
+        //matrix where we write the id of dependent id and dependon task
         int[,] halpMatrix = { { 6, 3 }, { 13, 3 }, { 31, 15 }, { 4, 28 }, { 5, 28 }, { 6, 28 }, { 7, 28 }, { 9, 28 }, { 21, 24 }, { 28, 10 }, { 9, 1 }, { 2, 13 },
             { 8, 3 }, { 11, 4 }, { 31, 2 }, { 22, 9 }, { 20, 9 }, { 12, 4 }, { 22, 3 }, { 28, 27 }, { 28, 29 }, { 28, 19 }, { 19, 10 }, { 28, 6 }, { 20, 28 }
             , { 19, 9 }, { 28, 7 }, { 14, 12 }, { 21, 3 }, { 30, 4 }, { 27, 18 }, { 28, 24 }, { 28, 5 }, { 28, 20 }, { 7, 6 }, { 28, 26 }, { 27, 26 }, { 13, 15 }
             , { 28, 3 }, { 27, 17 }, { 28, 32 }, { 27, 30 }, { 25, 3 }, { 29, 9 }, { 14, 16 }, { 3, 29 } };
+       
+        //now we go over the matrix and add the dependencies to the list of dependencies
         for (int i = 0; i < 45; i++)
         {
             Dependency dNew = new Dependency(halpMatrix[i, 0], halpMatrix[i, 1]);
@@ -128,9 +173,16 @@ public static class Initialization
 
     public static void Do(IDal dal) 
     {
+
         s_dal = dal ?? throw new NullReferenceException("DAL object can not be null!");
+        
+        //initialize dependencies
         createDependencies();
+
+        //initialize the tasks
         createTasks();
+
+        //initialize the workers
         createWorker();
     }
 
