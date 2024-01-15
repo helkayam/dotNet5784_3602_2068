@@ -26,32 +26,30 @@ namespace DalTest
                 {
                     switch (choice)
                     {
-                        case 1: WorkerPage(); break; 
-                        case 2: TaskPage(); break; 
-                        case 3: DependencyPage();break;
-                        case 4: {
+                        case 1: WorkerPage(); break;
+                        case 2: TaskPage(); break;
+                        case 3: DependencyPage(); break;
+                        case 4:
+                            {
                                 Console.Write("Would you like to create Initial data? (Y/N)"); //stage 3
                                 string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input"); //stage 3
                                 if (ans == "Y") //stage 3
                                 {
-                                   s_dal
-                                   
-
-                                    XElement xmlTask = new XElement("tasks");
-                                    XElement xmlDependency=new XElement ("dependencies")
-
+                                    s_dal.Dependency.DeleteAll();
+                                    s_dal.Worker.DeleteAll();
+                                    s_dal.Task.DeleteAll();
                                     Initialization.Do(s_dal);
-
                                 }
-                            }break;
-                                default:break;
+                            }
+                            break;
+                        default: break;
                     }
                     MainPage();
                     choice = int.Parse(Console.ReadLine());
                 }
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
             }
@@ -100,7 +98,7 @@ namespace DalTest
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             { Console.WriteLine(ex.ToString); }
 
         }
@@ -110,30 +108,30 @@ namespace DalTest
         /// </summary>
         private static void TaskPage()
         {
-           
-                Console.WriteLine("Select the method you want to perform");
-                Console.WriteLine("1.Exiting the main menu");
-                Console.WriteLine("2.Adding a new task to the list");
-                Console.WriteLine("3.Task display by ID");
-                Console.WriteLine("4.Display list of all tasks");
-                Console.WriteLine("5.Updating existing task data");
-                Console.WriteLine("6.Deleting an existing task from the list");
-                int choice = int.Parse(Console.ReadLine());
-                if (choice != 1)
-                {
-                    switch (choice)
-                    {
-                        case 2: createT(); break;
-                        case 3: readT(); break;
-                        case 4: readAllT(); break;
-                        case 5: updateT(); break;
-                        case 6: deleteT(); break;
-                        default: break;
 
-                    }
+            Console.WriteLine("Select the method you want to perform");
+            Console.WriteLine("1.Exiting the main menu");
+            Console.WriteLine("2.Adding a new task to the list");
+            Console.WriteLine("3.Task display by ID");
+            Console.WriteLine("4.Display list of all tasks");
+            Console.WriteLine("5.Updating existing task data");
+            Console.WriteLine("6.Deleting an existing task from the list");
+            int choice = int.Parse(Console.ReadLine());
+            if (choice != 1)
+            {
+                switch (choice)
+                {
+                    case 2: createT(); break;
+                    case 3: readT(); break;
+                    case 4: readAllT(); break;
+                    case 5: updateT(); break;
+                    case 6: deleteT(); break;
+                    default: break;
+
                 }
-            
-            
+            }
+
+
 
         }
 
@@ -156,10 +154,10 @@ namespace DalTest
                 switch (choice)
                 {
                     case 2: createD(); break;
-                    case 3:readD();break;
-                    case 4:readAllD();break;
-                    case 5:updateD(); break;    
-                    case 6:deleteD();break;
+                    case 3: readD(); break;
+                    case 4: readAllD(); break;
+                    case 5: updateD(); break;
+                    case 6: deleteD(); break;
                     default: break;
 
                 }
@@ -181,7 +179,7 @@ namespace DalTest
             Worker w = new Worker(id, we, name, phonenumber, cost);
             try
             {
-                
+
                 s_dal.Worker.Create(w);
             }
             catch (Exception ex)
@@ -204,20 +202,20 @@ namespace DalTest
             string description = Console.ReadLine();
 
             DateTime ScheduledDate = DateTime.Now;
-            
+
             DateTime startDate = DateTime.Parse(Console.ReadLine());
             DateTime deadLine = DateTime.Parse(Console.ReadLine());
             deadLine.AddHours(s_rand.Next(1, 24)).AddMinutes(s_rand.Next(1, 60)).AddSeconds(s_rand.Next(1, 60));
             startDate.AddHours(s_rand.Next(1, 24)).AddMinutes(s_rand.Next(1, 60)).AddSeconds(s_rand.Next(1, 60));
-   
-            
-            DO.Task t = new DO.Task(alias, we,description, ScheduledDate, deadLine);
+
+
+            DO.Task t = new DO.Task(alias, we, description, ScheduledDate, deadLine);
             t.StartDate = startDate;
             try
             {
                 s_dal.Task.Create(t);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -237,7 +235,7 @@ namespace DalTest
             {
                 s_dal.Dependency.Create(d);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -258,7 +256,7 @@ namespace DalTest
             {
                 Console.WriteLine(w);
             }
-           
+
 
         }
 
@@ -269,7 +267,7 @@ namespace DalTest
         {
             Console.WriteLine("Enter ID of the task");
             int id = int.Parse(Console.ReadLine());
-            DO.Task? t= s_dal.Task.Read(id);
+            DO.Task? t = s_dal.Task.Read(id);
             if (t != null)
             {
                 Console.WriteLine(t);
@@ -299,7 +297,7 @@ namespace DalTest
         {
             IEnumerable<DO.Worker> w = s_dal.Worker.ReadAll();
 
-            foreach(Worker x in w)
+            foreach (Worker x in w)
             {
                 Console.WriteLine(x);
                 Console.WriteLine("\n");
@@ -312,10 +310,10 @@ namespace DalTest
         private static void readAllT()
         {
             IEnumerable<DO.Task> t = s_dal.Task.ReadAll();
-            foreach(DO.Task x in t)
+            foreach (DO.Task x in t)
             {
                 Console.WriteLine(x);
-                Console.WriteLine("\n");    
+                Console.WriteLine("\n");
             }
 
         }
@@ -326,10 +324,10 @@ namespace DalTest
         private static void readAllD()
         {
             IEnumerable<Dependency> d = s_dal.Dependency.ReadAll();
-            foreach(Dependency x in d)
+            foreach (Dependency x in d)
             {
                 Console.WriteLine(x);
-                Console.WriteLine("\n");    
+                Console.WriteLine("\n");
             }
         }
 
@@ -356,7 +354,7 @@ namespace DalTest
                 string phonenumber = Console.ReadLine();
                 double cost = double.Parse(Console.ReadLine());
                 Worker worker = new Worker(id, we, name, phonenumber, cost);
-                if((int)worker.Level!=2)
+                if ((int)worker.Level != 2)
                     worker.Eraseable = true;
                 s_dal.Worker.Update(worker);
             }
@@ -394,16 +392,16 @@ namespace DalTest
                 startDate.AddHours(s_rand.Next(1, 24)).AddMinutes(s_rand.Next(1, 60)).AddSeconds(s_rand.Next(1, 60));
 
                 DateTime ScheduledDate = DateTime.Now;
-               
-               
-            
-                DO.Task task = new DO.Task(alias, we, description, ScheduledDate, deadLine,id);
+
+
+
+                DO.Task task = new DO.Task(alias, we, description, ScheduledDate, deadLine, id);
                 task.StartDate = startDate;
 
 
                 s_dal.Task.Update(task);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -428,11 +426,11 @@ namespace DalTest
                 Console.WriteLine("Enter pending task ID number and previous task ID number");
                 int dependentTask = int.Parse(Console.ReadLine());
                 int dependOnTask = int.Parse(Console.ReadLine());
-                Dependency dependency = new Dependency(dependentTask, dependOnTask,id);
-                
+                Dependency dependency = new Dependency(dependentTask, dependOnTask, id);
+
                 s_dal.Dependency.Update(dependency);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -450,7 +448,7 @@ namespace DalTest
                 int id = int.Parse(Console.ReadLine());
                 s_dal.Worker.Delete(id);
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -467,7 +465,7 @@ namespace DalTest
                 int id = int.Parse(Console.ReadLine());
                 s_dal.Task.Delete(id);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -484,7 +482,7 @@ namespace DalTest
                 int id = int.Parse(Console.ReadLine());
                 s_dal.Dependency.Delete(id);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }

@@ -121,4 +121,10 @@ internal class TaskImplementation : ITask
         return respondToFilter.FirstOrDefault();
 
     }
+
+    public void DeleteAll()
+    {
+        return;
+
+    }
 }

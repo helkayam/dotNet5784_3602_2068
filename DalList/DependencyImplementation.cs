@@ -120,4 +120,10 @@ internal class DependencyImplementation : IDependency
         return respondToFilter.FirstOrDefault();
 
     }
+
+    public void DeleteAll()
+    {
+        return;
+
+    }
 }

@@ -139,4 +139,10 @@ internal class WorkerImplementation : IWorker
         return respondToFilter.FirstOrDefault();
 
     }
+
+    public void DeleteAll()
+    {
+
+        return;
+    }
 }

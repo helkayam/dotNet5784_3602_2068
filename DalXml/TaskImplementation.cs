@@ -92,7 +92,7 @@ internal class TaskImplementation:ITask
 
     }
 
-    public void deleteAllTasks()
+    public void DeleteAll()
     {
         List<DO.Task> tasks = XMLTools.LoadListFromXMLSerializer<DO.Task>(s_tasks_xml);
       

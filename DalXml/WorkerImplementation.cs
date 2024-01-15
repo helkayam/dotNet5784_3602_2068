@@ -113,25 +113,25 @@ internal class WorkerImplementation:IWorker
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
 
         var sameId = (from objectWorker in workers.Elements()
-                      where objectWorker.ToIntNullable(objectWorker.Element("Id")!.Value) == item.id
-                      select getWorker(objectWorker));
+                      where objectWorker.ToIntNullable(objectWorker.Element("Id")!.Value) == item.Id
+                      select objectWorker).FirstOrDefault();
 
-        if (sameId.FirstOrDefault() == null)
+        if (sameId == null)
             throw new DalDoesNotExistException($"Worker with id={item.Id} does not exist");
 
-        if (sameId.FirstOrDefault().active == false)
+        if (getWorker(sameId).active == false)
             throw new DalNotActiveException($"Worker with id={item.Id} is not active");
 
         else
         {
-            workers.Remove(sameId.FirstOrDefault());    
+            sameId.Remove();  
             workers.Add(item);
         }
         XMLTools.SaveListToXMLElement(workers, s_workers_xml);
 
     }
 
-    public void deleteAllWorkers()
+    public void DeleteAll()
     {
         List<Worker> workers = XMLTools.LoadListFromXMLSerializer<Worker >(s_workers_xml);
         workers.Clear();
