@@ -111,18 +111,16 @@ internal class WorkerImplementation : IWorker
     public void Update(DO.Worker item)
     {
         DO.Worker w = DataSource.Workers.Find(w => w.Id == item.Id);
-
+        if(w==null)
+            throw new DalDoesNotExistException($"Worker with id={item.Id} does not exist");
         if (w.active == false)
             throw new DalNotActiveException($"Worker with id={item.Id} is not active");
-
-        else
         if (w != null)
         {
             DataSource.Workers.RemoveAll(wrkr=>wrkr.Id==item.Id);
             DataSource.Workers.Add(item);
         }
-        else
-            throw new DalDoesNotExistException($"Worker with id={item.Id} does not exist");
+        
     }
 
     /// <summary>

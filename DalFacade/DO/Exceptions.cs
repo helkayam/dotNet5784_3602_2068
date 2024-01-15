@@ -52,3 +52,14 @@ public class DalNotActiveException : Exception
     }
 }
 
+/// <summary>
+/// throws an exception when failing load or create a file
+/// </summary>
+[Serializable]
+public class DalXMLFileLoadCreateException : Exception
+{
+    public DalXMLFileLoadCreateException(string? message) : base(message)
+    {
+    }
+}
+
