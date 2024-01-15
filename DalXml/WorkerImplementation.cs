@@ -130,4 +130,13 @@ internal class WorkerImplementation:IWorker
         XMLTools.SaveListToXMLElement(workers, s_workers_xml);
 
     }
+
+    public void deleteAllWorkers()
+    {
+        List<Worker> workers = XMLTools.LoadListFromXMLSerializer<Worker >(s_workers_xml);
+        workers.Clear();
+        XMLTools.SaveListToXMLSerializer<Worker>(workers, s_workers_xml);
+
+
+    }
 }

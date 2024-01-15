@@ -86,4 +86,14 @@ internal class DependencyImplementation:IDependency
         XMLTools.SaveListToXMLSerializer<Dependency>(dependencies, s_dependencies_xml);
 
     }
+
+    public void deleteAllDependencies()
+    {
+        List<Dependency> dependencies = XMLTools.LoadListFromXMLSerializer<DO.Dependency>(s_dependencies_xml);
+
+        dependencies.Clear();
+        XMLTools.SaveListToXMLSerializer<Dependency>(dependencies, s_dependencies_xml);
+
+
+    }
 }

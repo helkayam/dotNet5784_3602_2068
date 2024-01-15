@@ -1,6 +1,7 @@
 ﻿using System.Collections.Specialized;
 using System.Data.Common;
 using System.Runtime.CompilerServices;
+using System.Xml.Linq;
 using Dal;
 using DalApi;
 using DO;
@@ -12,14 +13,13 @@ namespace DalTest
 
     internal class Program
     {
-        static readonly IDal s_dal = new Dal.DalList(); //stage 2
+        static readonly IDal s_dal = new DalXml(); //stage 3
 
         private static readonly Random s_rand = new();
         static void Main(string[] args)
         {
             try
             {
-                Initialization.Do(s_dal);
                 MainPage();
                 int choice = int.Parse(Console.ReadLine());
                 while (choice != 0)
@@ -28,8 +28,23 @@ namespace DalTest
                     {
                         case 1: WorkerPage(); break; 
                         case 2: TaskPage(); break; 
-                        case 3: DependencyPage();break; 
-                        default:break;
+                        case 3: DependencyPage();break;
+                        case 4: {
+                                Console.Write("Would you like to create Initial data? (Y/N)"); //stage 3
+                                string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input"); //stage 3
+                                if (ans == "Y") //stage 3
+                                {
+                                   s_dal
+                                   
+
+                                    XElement xmlTask = new XElement("tasks");
+                                    XElement xmlDependency=new XElement ("dependencies")
+
+                                    Initialization.Do(s_dal);
+
+                                }
+                            }break;
+                                default:break;
                     }
                     MainPage();
                     choice = int.Parse(Console.ReadLine());
@@ -53,6 +68,7 @@ namespace DalTest
             Console.WriteLine("1.Worker entity");
             Console.WriteLine("2.Task entity");
             Console.WriteLine("3.dependency entity");
+            Console.WriteLine("4.Initialize Data");
         }
 
         /// <summary>
@@ -165,6 +181,7 @@ namespace DalTest
             Worker w = new Worker(id, we, name, phonenumber, cost);
             try
             {
+                
                 s_dal.Worker.Create(w);
             }
             catch (Exception ex)

@@ -96,5 +96,10 @@ static class XMLTools
             throw new DalXMLFileLoadCreateException($"fail to load xml file: {filePath}, {ex.Message}");
         }
     }
+
+    public List<T> LoadListFromXMLSerializer<T>(object s_tasks_xml)
+    {
+        throw new NotImplementedException();
+    }
     #endregion
 }
