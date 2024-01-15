@@ -34,7 +34,7 @@ internal class WorkerImplementation:IWorker
        var sameId=(from objectWorker in workers.Elements()
                   where objectWorker.ToIntNullable(objectWorker.Element("Id")!.Value)==item.Id  
                   select objectWorker).FirstOrDefault(); 
-        if(sameId==null)
+        if(sameId!=null)
         {
               throw new DalAlreadyExistException($"Worker with id={item.Id} already exist");
         }
