@@ -236,10 +236,12 @@ namespace DalTest
             Console.WriteLine("Enter ID of the worker");
             int id = int.Parse(Console.ReadLine());
             Worker? w = s_dal.Worker.Read(id);
+
             if (w != null)
             {
                 Console.WriteLine(w);
             }
+           
 
         }
 
