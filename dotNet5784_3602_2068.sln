@@ -14,7 +14,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalFacade", "DalFacade\DalF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalList", "DalList\DalList.csproj", "{85BA052F-DA51-451A-9E4F-6DADB789903B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalTest", "DalTest\DalTest.csproj", "{EE7AF56A-09F3-4B21-AC9C-5A8B3897C606}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalTest", "DalTest\DalTest.csproj", "{EE7AF56A-09F3-4B21-AC9C-5A8B3897C606}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalXml", "DalXml\DalXml.csproj", "{968E0D18-BBF5-49A6-85C3-CB600B99A2F5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{813DFA8B-4E49-4B4D-9DAF-B1A2493A97B6}"
+	ProjectSection(SolutionItems) = preProject
+		xml\data-config.xml = xml\data-config.xml
+		xml\dependencies.xml = xml\dependencies.xml
+		xml\tasks.xml = xml\tasks.xml
+		xml\workers.xml = xml\workers.xml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +48,10 @@ Global
 		{EE7AF56A-09F3-4B21-AC9C-5A8B3897C606}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE7AF56A-09F3-4B21-AC9C-5A8B3897C606}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EE7AF56A-09F3-4B21-AC9C-5A8B3897C606}.Release|Any CPU.Build.0 = Release|Any CPU
+		{968E0D18-BBF5-49A6-85C3-CB600B99A2F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{968E0D18-BBF5-49A6-85C3-CB600B99A2F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{968E0D18-BBF5-49A6-85C3-CB600B99A2F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{968E0D18-BBF5-49A6-85C3-CB600B99A2F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
