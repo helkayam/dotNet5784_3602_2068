@@ -97,9 +97,9 @@ static class XMLTools
         }
     }
 
-    public List<T> LoadListFromXMLSerializer<T>(object s_tasks_xml)
-    {
-        throw new NotImplementedException();
-    }
+    //public List<T> LoadListFromXMLSerializer<T>(object s_tasks_xml)
+    //{
+    //    throw new NotImplementedException();
+    //}
     #endregion
 }
