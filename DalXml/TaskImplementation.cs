@@ -40,12 +40,15 @@ internal class TaskImplementation:ITask
 
     }
 
-    public DO.Task? Read(int id)
+    public DO.Task? Read(int id, bool throwAnException )
     {
         List<DO.Task> tasks = XMLTools.LoadListFromXMLSerializer<DO.Task>(s_tasks_xml);
         XMLTools.SaveListToXMLSerializer<DO.Task>(tasks, s_tasks_xml);
         if (tasks.Any(wker => wker.Id == id)==false)
-            return null;
+            if (throwAnException)
+                throw new DalDoesNotExistException($"Task with id={id} does not exist");
+             else   
+                return null;
 
 
         DO.Task saveItem =tasks.Find(saveItem => saveItem.Id == id)!;

@@ -78,19 +78,20 @@ internal class WorkerImplementation:IWorker
         XMLTools.SaveListToXMLElement(workers, s_workers_xml);
     }
 
-    public Worker? Read(int id)
+    public Worker? Read(int id,bool throwAnException)
     {
 
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
         XElement? worker;
         worker=workers!.Elements().FirstOrDefault(w=> (int)(w.Element("Id")!) == id);
-        //var sameId = (from objectWorker in workers.Elements()
-        //              where objectWorker.ToIntNullable(objectWorker.Element("Id")!.Value) == id
-        //              select getWorker(objectWorker)).FirstOrDefault();
+     
 
         XMLTools.SaveListToXMLElement(workers, s_workers_xml);
         if (worker == null)
-            return null;
+            if (throwAnException)
+                throw new DalDoesNotExistException($"Worker with id={id} does not exist");
+            else
+                return null;
         return getWorker(worker);    
 
     }

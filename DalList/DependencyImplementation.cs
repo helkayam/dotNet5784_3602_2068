@@ -57,11 +57,14 @@ internal class DependencyImplementation : IDependency
     /// </summary>
     /// <param name="id">ID number of the requested dependency </param>
     /// <returns></returns>
-    public DO.Dependency? Read(int id)
+    public DO.Dependency? Read(int id, bool throwAnException=false)
     {
         //The method uses CheckDependency to verify that the requested dependency exists.
         if (!CheckDependency(id))
-            return null;
+            if (throwAnException)
+                throw new DalDoesNotExistException($"Dependency with id={id} does not exist");
+            else
+                return null;
         //. In addition, Find is used to find the requested dependency
         DO.Dependency newDependency = DataSource.Dependencies.Find(newDependency => newDependency.Id == id);
         return newDependency;

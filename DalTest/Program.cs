@@ -248,13 +248,20 @@ namespace DalTest
         /// </summary>
         private static void readW()
         {
-            Console.WriteLine("Enter ID of the worker");
-            int id = int.Parse(Console.ReadLine());
-            Worker? w = s_dal.Worker.Read(id);
-
-            if (w != null)
+            try
             {
-                Console.WriteLine(w);
+                Console.WriteLine("Enter ID of the worker");
+                int id = int.Parse(Console.ReadLine());
+                Worker? w = s_dal.Worker.Read(id, true);
+
+                if (w != null)
+                {
+                    Console.WriteLine(w);
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
 
@@ -265,12 +272,19 @@ namespace DalTest
         /// </summary>
         private static void readT()
         {
-            Console.WriteLine("Enter ID of the task");
-            int id = int.Parse(Console.ReadLine());
-            DO.Task? t = s_dal.Task.Read(id);
-            if (t != null)
+            try
             {
-                Console.WriteLine(t);
+                Console.WriteLine("Enter ID of the task");
+                int id = int.Parse(Console.ReadLine());
+                DO.Task? t = s_dal.Task.Read(id, true);
+                if (t != null)
+                {
+                    Console.WriteLine(t);
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
 
         }
@@ -280,12 +294,19 @@ namespace DalTest
         /// </summary>
         private static void readD()
         {
-            Console.WriteLine("Enter ID of the dependency");
-            int id = int.Parse(Console.ReadLine());
-            Dependency d = s_dal.Dependency.Read(id);
-            if (d != null)
+            try
             {
-                Console.WriteLine(d);
+                Console.WriteLine("Enter ID of the dependency");
+                int id = int.Parse(Console.ReadLine());
+                Dependency d = s_dal.Dependency.Read(id, true);
+                if (d != null)
+                {
+                    Console.WriteLine(d);
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
 

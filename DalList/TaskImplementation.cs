@@ -1,4 +1,4 @@
-﻿namespace Dal;
+﻿   namespace Dal;
 using DalApi;
 using DO;
 using System.Collections.Generic;
@@ -55,13 +55,15 @@ internal class TaskImplementation : ITask
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public DO.Task? Read(int id)
+    public DO.Task? Read(int id, bool throwAnException=false)
     {
         if (!checkTask(id))
-          return null; 
-      
-      
-        DO.Task saveItem = DataSource.Tasks.Find(saveItem => saveItem.Id == id);
+            if (throwAnException)
+                throw new DalDoesNotExistException($"Task with id={id} does not exist");
+            else
+                return null;
+
+                DO.Task saveItem = DataSource.Tasks.Find(saveItem => saveItem.Id == id);
        return saveItem; 
 
         

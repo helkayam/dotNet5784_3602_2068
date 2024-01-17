@@ -68,10 +68,13 @@ internal class WorkerImplementation : IWorker
     /// </summary>
     /// <param name="id">id</param>
     /// <returns></returns>
-    public DO.Worker? Read(int id)
+    public DO.Worker? Read(int id, bool throwAnException=false)
     {
         if (CheckWorker(id)==false)
-            return null;    
+            if (throwAnException)
+                throw new DalDoesNotExistException($"Worker with id={id} does not exist");
+            else
+                return null;    
         
             DO.Worker newWorker = DataSource.Workers.Find(newWorker => newWorker.Id == id);
 

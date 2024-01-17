@@ -31,13 +31,16 @@ internal class DependencyImplementation:IDependency
          XMLTools.SaveListToXMLSerializer<Dependency>(dependencies, s_dependencies_xml);
     }
 
-    public Dependency? Read(int id)
+    public Dependency? Read(int id, bool throwAnException)
     {
         List<Dependency> dependencies = XMLTools.LoadListFromXMLSerializer<Dependency>(s_dependencies_xml);
         XMLTools.SaveListToXMLSerializer<Dependency>(dependencies, s_dependencies_xml);
 
         // verify that the requested dependency exists.
-        if (dependencies.Any(dependency => dependency.Id == id)==false)
+        if (dependencies.Any(dependency => dependency.Id == id) == false)
+            if (throwAnException)
+                throw new DalDoesNotExistException($"Dependency with id={id} does not exist");
+           else
             return null;
        
         //. we find the requested dependency

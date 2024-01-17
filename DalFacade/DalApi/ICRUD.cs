@@ -17,7 +17,7 @@ namespace DalApi
         
         int Create(T item);
 
-        T? Read(int id);
+        T? Read(int id,bool throwAnException=false);
        
         T? Read(Func<T, bool> filter);
 
