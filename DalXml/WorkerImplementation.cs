@@ -16,15 +16,15 @@ internal class WorkerImplementation:IWorker
 
     static Worker getWorker(XElement items)
     {
-        return new Worker()
+        return new Worker
         {
-            Id =Convert.ToInt32(items.Element("Id")!.Value)!,
-            Level =(WorkerExperience)(items.ToEnumNullable<WorkerExperience>(items.Element("Level")!.Value))!,
+            Id =(int)(items.Element("Id"))!,
+            Level =(WorkerExperience)Enum.Parse(typeof(WorkerExperience),items.Element("Level")!.Value),
             Name = items.Element("Name")!.Value,
             PhoneNumber = items.Element("PhoneNumber")!.Value,
-            Cost = items.ToDoubleNullable(items.Element("Cost")!.Value),
-            Eraseable = Convert.ToBoolean(items.Element("Eraseable")!.Value),
-            active = Convert.ToBoolean(items.Element("active")!.Value)
+            Cost = items.ToDoubleNullable("Cost"),
+            Eraseable = (bool)(items.Element("Eraseable")!),
+            active = (bool)(items.Element("active")!)
         };
     }
     
@@ -63,7 +63,7 @@ internal class WorkerImplementation:IWorker
     {
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
         XElement? elementToRemove =(from item in workers.Elements()
-                 where item.ToIntNullable(item.Element("Id")!.Value) == id
+                 where (int)(item.Element("Id"))! == id
                  select item).FirstOrDefault();
         if (elementToRemove == null)
             throw new DalDoesNotExistException($"Worker with id={id} does not exist");
@@ -83,7 +83,7 @@ internal class WorkerImplementation:IWorker
 
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
         XElement? worker;
-        worker=workers!.Elements().FirstOrDefault(w=>Convert.ToInt32 (w.Element("Id")!.Value)==id);
+        worker=workers!.Elements().FirstOrDefault(w=> (int)(w.Element("Id")!) == id);
         //var sameId = (from objectWorker in workers.Elements()
         //              where objectWorker.ToIntNullable(objectWorker.Element("Id")!.Value) == id
         //              select getWorker(objectWorker)).FirstOrDefault();
@@ -118,7 +118,7 @@ internal class WorkerImplementation:IWorker
            
         }
         return from worker in workers.Elements()
-               where (Convert.ToBoolean(worker.Element("active")!.Value)==true)
+               where ((bool)(worker.Element("active")!)==true)
                select getWorker(worker);
         
     }
@@ -128,7 +128,7 @@ internal class WorkerImplementation:IWorker
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
 
         var sameId = (from objectWorker in workers.Elements()
-                      where objectWorker.ToIntNullable(objectWorker.Element("Id")!.Value) == item.Id
+                      where (int)(objectWorker.Element("Id"))! == item.Id
                       select objectWorker).FirstOrDefault();
 
         if (sameId == null)
@@ -139,8 +139,12 @@ internal class WorkerImplementation:IWorker
 
         else
         {
-            sameId.Remove();  
-            workers.Add(item);
+            sameId.Element("Level").Value = item.Level.ToString();
+            sameId.Element("Name").Value = item.Name;
+            sameId.Element("PhoneNumber").Value = item.PhoneNumber;
+            sameId.Element("Cost").Value = item.Cost.ToString();
+            sameId.Element("Eraseable").Value = item.Eraseable.ToString();
+            sameId.Element("active").Value = item.active.ToString();
         }
         XMLTools.SaveListToXMLElement(workers, s_workers_xml);
 

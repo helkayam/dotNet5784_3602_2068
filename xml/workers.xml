@@ -9,4 +9,48 @@
     <Eraseable>true</Eraseable>
     <active>true</active>
   </Worker>
-</ArrayOfWorker>
+  <Worker>
+    <Id>359518304</Id>
+    <Level>Intermediate</Level>
+    <Name>Ziv Peretz</Name>
+    <PhoneNumber>0522763196</PhoneNumber>
+    <Cost>81.72703661867337</Cost>
+    <Eraseable>true</Eraseable>
+    <active>true</active>
+  </Worker>
+  <Worker>
+    <Id>371310771</Id>
+    <Level>Intermediate</Level>
+    <Name>Tali Levi</Name>
+    <PhoneNumber>0525384688</PhoneNumber>
+    <Cost>39.807201995685986</Cost>
+    <Eraseable>true</Eraseable>
+    <active>true</active>
+  </Worker>
+  <Worker>
+    <Id>363745809</Id>
+    <Level>Beginner</Level>
+    <Name>Yair Israel</Name>
+    <PhoneNumber>0511268858</PhoneNumber>
+    <Cost>124.67464503280964</Cost>
+    <Eraseable>true</Eraseable>
+    <active>true</active>
+  </Worker>
+  <Worker>
+    <Id>290958738</Id>
+    <Level>Beginner</Level>
+    <Name>Dalya Amar</Name>
+    <PhoneNumber>0569591895</PhoneNumber>
+    <Cost>90.59102041104501</Cost>
+    <Eraseable>true</Eraseable>
+    <active>true</active>
+  </Worker>
+  <Worker>
+    <Id>377012801</Id>
+    <Level>Intermediate</Level>
+    <Name>Ben Klein</Name>
+    <PhoneNumber>0538777394</PhoneNumber>
+    <Cost>38.51955775096085</Cost>
+    <Eraseable>true</Eraseable>
+    <active>true</active>
+  </Worker>Worker { Id = 333333, Level = Expert, Name = eeeeeeeeee, PhoneNumber = 55555555, Cost = 544, Eraseable = False, active = True }<Worker><Id>346280852</Id><Level>Beginner</Level><Name>Hanna Cohen</Name><PhoneNumber>0521010634</PhoneNumber><Cost>199.50700132604342</Cost><Eraseable>true</Eraseable><active>False</active></Worker>Worker { Id = 323232, Level = Intermediate, Name = rrrrrr, PhoneNumber = 44444444, Cost = 55, Eraseable = True, active = True }<Worker><Id>33333</Id><Level>Beginner</Level><Name>Hen Elkayam</Name><PhoneNumber>055454544</PhoneNumber><Cost>43</Cost><Eraseable>True</Eraseable><active>False</active></Worker><Worker><Id>3344444</Id><Level>Beginner</Level><Name>Lea Berdugo</Name><PhoneNumber>0509837751</PhoneNumber><Cost>45</Cost><Eraseable>True</Eraseable><active>False</active></Worker></ArrayOfWorker>
