@@ -44,7 +44,7 @@ internal class TaskImplementation:ITask
     {
         List<DO.Task> tasks = XMLTools.LoadListFromXMLSerializer<DO.Task>(s_tasks_xml);
         XMLTools.SaveListToXMLSerializer<DO.Task>(tasks, s_tasks_xml);
-        if (tasks.Any(wker => wker.Id == id))
+        if (tasks.Any(wker => wker.Id == id)==false)
             return null;
 
 

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data.Common;
 using System.Reflection.Metadata.Ecma335;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 internal class WorkerImplementation:IWorker
@@ -17,8 +18,8 @@ internal class WorkerImplementation:IWorker
     {
         return new Worker()
         {
-            Id = Convert.ToInt32(items.Element("Id")!.Value),
-            Level = (WorkerExperience)Convert.ToInt32(items.Element("Level")!.Value),
+            Id =Convert.ToInt32(items.Element("Id")!.Value)!,
+            Level =(WorkerExperience)(items.ToEnumNullable<WorkerExperience>(items.Element("Level")!.Value))!,
             Name = items.Element("Name")!.Value,
             PhoneNumber = items.Element("PhoneNumber")!.Value,
             Cost = items.ToDoubleNullable(items.Element("Cost")!.Value),
@@ -30,15 +31,30 @@ internal class WorkerImplementation:IWorker
 
     public int Create(Worker item)
     {
+        bool flag = false;
         XElement workers=XMLTools.LoadListFromXMLElement(s_workers_xml);
-       var sameId=(from objectWorker in workers.Elements()
-                  where objectWorker.ToIntNullable(objectWorker.Element("Id")!.Value)==item.Id  
-                  select objectWorker).FirstOrDefault(); 
-        if(sameId!=null)
+        
+        foreach (var worker in workers.Elements())
         {
-              throw new DalAlreadyExistException($"Worker with id={item.Id} already exist");
+            if (getWorker(worker).Id == item.Id)
+                flag = true;
         }
-        workers.Add(item);
+
+        if(flag==true)
+            throw new DalAlreadyExistException($"Worker with id={item.Id} already exist");
+  
+        else
+        {
+            XElement ID = new XElement("Id", item.Id);
+            XElement Name = new XElement("Name", item.Name);
+            XElement Level = new XElement("Level",item.Level);
+            XElement PhoneNumber = new XElement("PhoneNumber", item.PhoneNumber);
+            XElement Cost = new XElement("Cost", item.Cost);
+            XElement Eraseable = new XElement("Eraseable", item.Eraseable);
+            XElement Active = new XElement("active", item.active);
+
+            workers.Add(new XElement("Worker", ID,Level,Name,PhoneNumber,Cost,Eraseable,Active));
+        }
         XMLTools.SaveListToXMLElement(workers,s_workers_xml);
         return item.Id;
     }
@@ -66,17 +82,16 @@ internal class WorkerImplementation:IWorker
     {
 
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
-        var sameId = (from objectWorker in workers.Elements()
-                      where objectWorker.ToIntNullable(objectWorker.Element("Id")!.Value) == id
-                      select getWorker(objectWorker)).FirstOrDefault();
+        XElement? worker;
+        worker=workers!.Elements().FirstOrDefault(w=>Convert.ToInt32 (w.Element("Id")!.Value)==id);
+        //var sameId = (from objectWorker in workers.Elements()
+        //              where objectWorker.ToIntNullable(objectWorker.Element("Id")!.Value) == id
+        //              select getWorker(objectWorker)).FirstOrDefault();
 
         XMLTools.SaveListToXMLElement(workers, s_workers_xml);
-
-        if (sameId == null)
+        if (worker == null)
             return null;
-        else
-            return sameId;
-        
+        return getWorker(worker);    
 
     }
 
