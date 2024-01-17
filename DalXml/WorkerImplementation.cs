@@ -18,8 +18,8 @@ internal class WorkerImplementation:IWorker
     {
         return new Worker()
         {
-            Id =(int)items.ToIntNullable(items.Element("Id")!.Value)!,
-            Level =(WorkerExperience)(items.ToIntNullable(items.Element("Level")!.Value))!,
+            Id =Convert.ToInt32(items.Element("Id")!.Value)!,
+            Level =(WorkerExperience)(items.ToEnumNullable<WorkerExperience>(items.Element("Level")!.Value))!,
             Name = items.Element("Name")!.Value,
             PhoneNumber = items.Element("PhoneNumber")!.Value,
             Cost = items.ToDoubleNullable(items.Element("Cost")!.Value),
@@ -82,17 +82,16 @@ internal class WorkerImplementation:IWorker
     {
 
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
-        var sameId = (from objectWorker in workers.Elements()
-                      where objectWorker.ToIntNullable(objectWorker.Element("Id")!.Value) == id
-                      select getWorker(objectWorker)).FirstOrDefault();
+        XElement? worker;
+        worker=workers!.Elements().FirstOrDefault(w=>Convert.ToInt32 (w.Element("Id")!.Value)==id);
+        //var sameId = (from objectWorker in workers.Elements()
+        //              where objectWorker.ToIntNullable(objectWorker.Element("Id")!.Value) == id
+        //              select getWorker(objectWorker)).FirstOrDefault();
 
         XMLTools.SaveListToXMLElement(workers, s_workers_xml);
-
-        if (sameId == null)
+        if (worker == null)
             return null;
-        else
-            return sameId;
-        
+        return getWorker(worker);    
 
     }
 

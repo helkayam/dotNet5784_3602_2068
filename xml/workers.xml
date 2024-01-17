@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfWorker xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Worker>
-    <Id>266088265</Id>
-    <Level>Beginner</Level>
+    <Id>307632817</Id>
+    <Level>Intermediate</Level>
     <Name>Hanna Cohen</Name>
-    <PhoneNumber>0538800237</PhoneNumber>
-    <Cost>127.89860931644843</Cost>
+    <PhoneNumber>0518066286</PhoneNumber>
+    <Cost>35.65874628316778</Cost>
     <Eraseable>true</Eraseable>
     <active>true</active>
   </Worker>
