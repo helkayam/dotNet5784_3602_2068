@@ -133,10 +133,8 @@ internal class WorkerImplementation:IWorker
 
     public void DeleteAll()
     {
-        List<Worker> workers = XMLTools.LoadListFromXMLSerializer<Worker >(s_workers_xml);
-        workers.Clear();
-        XMLTools.SaveListToXMLSerializer<Worker>(workers, s_workers_xml);
-
-
+        XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
+        foreach(var worker in workers.Elements()) { Delete(getWorker(worker).Id); };
+        XMLTools.SaveListToXMLElement(workers, s_workers_xml);
     }
 }
