@@ -78,7 +78,7 @@ internal class WorkerImplementation:IWorker
         XMLTools.SaveListToXMLElement(workers, s_workers_xml);
     }
 
-    public Worker? Read(int id,bool throwAnException)
+    public Worker? Read(int id,bool throwAnException=false)
     {
 
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);

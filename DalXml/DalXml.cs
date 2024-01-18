@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DalApi;
 
+///This is a class that inherits and implements the IDal interface by initializing the sub-interfaces in the access classes that we implemented with XML.
 namespace Dal
 {
    sealed  public class DalXml : IDal

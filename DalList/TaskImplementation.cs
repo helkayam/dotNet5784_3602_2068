@@ -20,7 +20,7 @@ internal class TaskImplementation : ITask
     /// this method get a Task type parameter and add it to the list.
     /// </summary>
     /// <param name="item">Task object to add to the list</param>
-    /// <returns></returns>
+    /// <returns>The method returns the ID of the object it added</returns>
     public int Create(DO.Task item)
     {
         int ID;
@@ -51,9 +51,9 @@ internal class TaskImplementation : ITask
     }
 
     /// <summary>
-    /// this method receive a id of a task, and return the task with that id. if we didnt find a task with this id, we will return null.
+    /// this method receive a id of a task, and return the task with that id. if we did not find a task with this id, we will return null.
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">id of the Task we want to search</param>
     /// <returns></returns>
     public DO.Task? Read(int id, bool throwAnException=false)
     {
@@ -74,7 +74,7 @@ internal class TaskImplementation : ITask
     /// If no pointer is sent, the entire list will be returned
     /// </summary>
     /// <param name="filter">delegate of type FUNC that get a Task type</param>
-    /// <returns></returns>
+    /// <returns>Returns a list of objects of type tasks that meet the condition of delegate</returns>
     public IEnumerable<Task?> ReadAll(Func<Task, bool>? filter = null)
     {
         if (filter != null)
@@ -91,7 +91,7 @@ internal class TaskImplementation : ITask
     /// this method receive a Task object, and check if there is in the task list a Task with the same id as item id. 
     /// if we find, we remove the old task and add the updated task, else we throw an exception
     /// </summary>
-    /// <param name="item"></param>
+    /// <param name="item">Task object to add to the list</param>
     /// <exception cref="DalDoesNotExistException">if there is no task in the list with the same id as item, we throw exception</exception>
     public void Update(DO.Task item)
     {
@@ -110,10 +110,10 @@ internal class TaskImplementation : ITask
     }
 
     /// <summary>
-    /// thie function gets a delegate of FUNC type wich is a bool function, and return the first item in Task that is true in that function
+    /// this function gets a delegate of FUNC type which is a bool function, and return the first item in Task that is true in that function
     /// </summary>
     /// <param name="filter">filter function that return bool.</param>
-    /// <returns></returns>
+    /// <returns>The function receives a delegate and looks for the first object that meets the condition, if it finds it it returns it and if not it returns NULL</returns>
     public Task? Read(Func<Task, bool> filter)
     {
         var respondToFilter = from item in DataSource.Tasks
@@ -123,7 +123,9 @@ internal class TaskImplementation : ITask
         return respondToFilter.FirstOrDefault();
 
     }
-
+    /// <summary>
+    /// We added this function for the benefit of the implementation of ICrud methods of the entity under XML and here it is not consumed
+    /// </summary>
     public void DeleteAll()
     {
         return;

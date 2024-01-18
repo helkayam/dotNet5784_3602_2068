@@ -1,9 +1,9 @@
-﻿
-namespace Dal;
+﻿namespace Dal;
 using DalApi;
 using DO;
 using System;
 using System.Collections.Generic;
+
 
 internal class DependencyImplementation:IDependency
 {
