@@ -22,7 +22,7 @@ internal class WorkerImplementation:IWorker
     /// this method gets an XElement type object, and return a Worker with the same data as the XElement
     /// </summary>
     /// <param name="items">item from XElement type</param>
-    /// <returns></returns>
+    /// <returns>return the Element but in Worker type</returns>
     static Worker getWorker(XElement items)
     {
         return new Worker
@@ -43,9 +43,9 @@ internal class WorkerImplementation:IWorker
     /// else, we add this worker to the XElement and then return the id.
     /// 3.we save the XElement collection type to the XML file
     /// </summary>
-    /// <param name="item"></param>
-    /// <returns></returns>
-    /// <exception cref="DalAlreadyExistException"></exception>
+    /// <param name="item">the Worker we want to add to the XML file</param>
+    /// <returns>return the id of the worker we added to the XML</returns>
+    /// <exception cref="DalAlreadyExistException">if the worker already exist(if his Id exist) we throw an exception</exception>
 
     public int Create(Worker item)
     {
@@ -112,10 +112,10 @@ internal class WorkerImplementation:IWorker
     /// that id. If its found we return the object.
     /// 3.we save the XElement collection type to the XML file
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="throwAnException"></param>
-    /// <returns></returns>
-    /// <exception cref="DalDoesNotExistException"></exception>
+    /// <param name="id">the id of the worker we are searching for</param>
+    /// <param name="throwAnException">if we wna to throw an exception when we didnt found it (and dont want to return null ) this boolean paramaeter will be true</param>
+    /// <returns>return the worker with the Id(if we find it)</returns>
+    /// <exception cref="DalDoesNotExistException">throw exception if we didnt find the Worker</exception>
     public Worker? Read(int id,bool throwAnException=false)
     {
 
@@ -140,8 +140,8 @@ internal class WorkerImplementation:IWorker
     /// this method check whats the first worker object wich get true in the func filter.
     /// 3.we save the XElement collection type to the XML file
     /// </summary>
-    /// <param name="filter"></param>
-    /// <returns></returns>
+    /// <param name="filter">filter function</param>
+    /// <returns>return the first worker in the XML hat respond to the filter true</returns>
     public Worker? Read(Func<Worker, bool> filter)
     {
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
@@ -159,7 +159,7 @@ internal class WorkerImplementation:IWorker
     /// 3.we save the XElement collection type to the XML file
     /// </summary>
     /// <param name="filter">filter function</param>
-    /// <returns></returns>
+    /// <returns>return a collection of all the workers that respond true to the filter</returns>
     public IEnumerable<Worker?> ReadAll(Func<Worker, bool>? filter = null)
     {
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
@@ -185,7 +185,7 @@ internal class WorkerImplementation:IWorker
     /// update it to be what the function received.
     /// 3.we save the XElement collection type to the XML file
     /// </summary>
-    /// <param name="item"></param>
+    /// <param name="item">the updated worker</param>
     /// <exception cref="DalDoesNotExistException">Worker doesnt exist</exception>
     /// <exception cref="DalNotActiveException">Workers is not active</exception>
     public void Update(Worker item)

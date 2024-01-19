@@ -54,9 +54,9 @@ internal class DependencyImplementation:IDependency
     /// 3.Save the list back to the XML file through the XmlSerializer
     /// </summary>
     /// <param name="id">id of the Dependency we are looking for</param>
-    /// <param name="throwAnException"></param>
-    /// <returns></returns>
-    /// <exception cref="DalDoesNotExistException"></exception>
+    /// <param name="throwAnException">if we wna to throw an exception when we didnt found it (and dont want to return null ) this boolean paramaeter will be true</param>
+    /// <returns>return the Worker with this id (if we found it) </returns>
+    /// <exception cref="DalDoesNotExistException">if the Dependency with this id doesnt exist, we throw error</exception>
     public Dependency? Read(int id, bool throwAnException)
     {
         List<Dependency> dependencies = XMLTools.LoadListFromXMLSerializer<Dependency>(s_dependencies_xml);
@@ -81,7 +81,7 @@ internal class DependencyImplementation:IDependency
     /// 3.Save the list back to the XML file through the XmlSerializer
     /// </summary>
     /// <param name="filter">filter function</param>
-    /// <returns></returns>
+    /// <returns>return the first Dependency in the XML file that respond true to the filter</returns>
     public Dependency? Read(Func<Dependency, bool> filter)
     {
         List<Dependency> dependencies = XMLTools.LoadListFromXMLSerializer<Dependency>(s_dependencies_xml);
@@ -101,7 +101,7 @@ internal class DependencyImplementation:IDependency
     /// 3.Save the list back to the XML file through the XmlSerializer
     /// </summary>
     /// <param name="filter">filter function</param>
-    /// <returns></returns>
+    /// <return>return a collection of all the dependency that respond true to the filter</returns>
     public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
     {
         List<Dependency> dependencies = XMLTools.LoadListFromXMLSerializer<Dependency>(s_dependencies_xml);
@@ -123,7 +123,7 @@ internal class DependencyImplementation:IDependency
     /// 3.Save the list back to the XML file through the XmlSerializer
     /// </summary>
     /// <param name="item"></param>
-    /// <exception cref="DalDoesNotExistException"></exception>
+    /// <exception cref="DalDoesNotExistException">if the Dependency doesnt exist we throw error</exception>
     public void Update(Dependency item)
     {
         List<Dependency> dependencies = XMLTools.LoadListFromXMLSerializer<Dependency>(s_dependencies_xml);
