@@ -53,7 +53,7 @@ public static class Initialization
             Worker newWrk = new(_id, (WorkerExperience)_lvl, _name, _phoneNumber, _cost);
 
             //if the worker is not an expert, he is erasable
-            if (_lvl!=2)
+            if(_lvl !=2)
                 newWrk.Eraseable= true; 
 
             //create the worker and add to the list

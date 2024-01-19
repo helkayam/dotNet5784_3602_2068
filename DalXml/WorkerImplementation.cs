@@ -223,7 +223,10 @@ internal class WorkerImplementation:IWorker
     public void DeleteAll()
     {
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
-        foreach(var worker in workers.Elements()) { Delete(getWorker(worker).Id); };
+        foreach(XElement worker in workers.Elements().ToList())
+            worker.Remove();
+
+      //  foreach(var worker in workers.Elements()) { Delete(getWorker(worker).Id); };
         XMLTools.SaveListToXMLElement(workers, s_workers_xml);
     }
 }
