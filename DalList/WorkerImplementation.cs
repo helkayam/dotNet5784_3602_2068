@@ -84,10 +84,10 @@ internal class WorkerImplementation : IWorker
     }
 
     /// <summary>
-    /// The method will receive a pointer to a boolean function, delegate of type Func, which will act on one of the members of the list of Task type and return the list of all objects in the list for which the function returns True. 
+    /// The method will receive a pointer to a boolean function, delegate of type Func, which will act on one of the members of the list of Workers type and return the list of all objects in the list for which the function returns True. 
     /// If no pointer is sent, the entire list will be returned
     /// </summary>
-    /// <param name="filter"></param>
+    /// <param name="filter">filter function</param>
     /// <returns></returns>
     public IEnumerable<Worker?> ReadAll(Func<Worker, bool>? filter = null)
     {

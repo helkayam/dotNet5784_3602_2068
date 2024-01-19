@@ -12,8 +12,17 @@ using System.Xml.Linq;
 
 internal class WorkerImplementation:IWorker
 {
+
+    /// <summary>
+    /// This is a private read-only field of string type that will be initialized with the name of the xml file that constitutes the database of the Worker entity.
+    /// </summary>
     readonly string s_workers_xml = "workers";
 
+    /// <summary>
+    /// this method gets an XElement type object, and return a Worker with the same data as the XElement
+    /// </summary>
+    /// <param name="items">item from XElement type</param>
+    /// <returns></returns>
     static Worker getWorker(XElement items)
     {
         return new Worker
@@ -27,7 +36,16 @@ internal class WorkerImplementation:IWorker
             active = (bool)(items.Element("active")!)
         };
     }
-    
+
+    /// <summary>
+    /// 1.we load the list of objects from an XML file into a collection of the XElement class type
+    /// 2.this method receive a Worker object and check. if the id of the worker already exist, we throw an error. 
+    /// else, we add this worker to the XElement and then return the id.
+    /// 3.we save the XElement collection type to the XML file
+    /// </summary>
+    /// <param name="item"></param>
+    /// <returns></returns>
+    /// <exception cref="DalAlreadyExistException"></exception>
 
     public int Create(Worker item)
     {
@@ -59,6 +77,16 @@ internal class WorkerImplementation:IWorker
         return item.Id;
     }
 
+    /// 1.we load the list of objects from an XML file into a collection of the XElement class type
+    /// 2.this method receive an id and check if there is a worker with that id in the XLM File.
+    /// if its found, we will check if its erasable. if its not erasable, we will throw error
+    /// and we check also if the worker is active or not (if the worker is not active we throw error)
+    /// if we found the worker with that id and he is erasable and active, we delete it from the File.
+    /// 3.we save the XElement collection type to the XML file
+    /// <param name="id">id of the Worker we are searching for</param>
+    /// <exception cref="DalDoesNotExistException">Worker doesnt exist</exception>
+    /// <exception cref="DalNotErasableException">Worker is not erasable</exception>
+    /// <exception cref="DalNotActiveException">Worker is not active</exception>
     public void Delete(int id)
     {
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
@@ -78,6 +106,16 @@ internal class WorkerImplementation:IWorker
         XMLTools.SaveListToXMLElement(workers, s_workers_xml);
     }
 
+    /// <summary>
+    /// 1.we load the list of objects from an XML file into a collection of the XElement class type
+    /// 2.this method receive an id and check wether there is a worker in the XElement with
+    /// that id. If its found we return the object.
+    /// 3.we save the XElement collection type to the XML file
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="throwAnException"></param>
+    /// <returns></returns>
+    /// <exception cref="DalDoesNotExistException"></exception>
     public Worker? Read(int id,bool throwAnException=false)
     {
 
@@ -95,7 +133,15 @@ internal class WorkerImplementation:IWorker
         return getWorker(worker);    
 
     }
-
+    /// <summary>
+    /// 1.we load the list of objects from an XML file into a collection of the XElement class type
+    /// 2.this method gets a delegate from type FUNC.
+    /// this delegate funtion is a boolean function.
+    /// this method check whats the first worker object wich get true in the func filter.
+    /// 3.we save the XElement collection type to the XML file
+    /// </summary>
+    /// <param name="filter"></param>
+    /// <returns></returns>
     public Worker? Read(Func<Worker, bool> filter)
     {
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
@@ -106,6 +152,14 @@ internal class WorkerImplementation:IWorker
         return respondToFilter.FirstOrDefault();
     }
 
+    /// <summary>
+    /// 1.we load the list of objects from an XML file into a collection of the XElement class type
+    /// 2.The method will receive a pointer to a boolean function, delegate of type Func, which will act on one of the members of the list of Worker type and return the list of all objects in the list for which the function returns True. 
+    /// If no pointer is sent, the entire list will be returned
+    /// 3.we save the XElement collection type to the XML file
+    /// </summary>
+    /// <param name="filter">filter function</param>
+    /// <returns></returns>
     public IEnumerable<Worker?> ReadAll(Func<Worker, bool>? filter = null)
     {
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
@@ -124,6 +178,16 @@ internal class WorkerImplementation:IWorker
         
     }
 
+    /// <summary>
+    /// 1.we load the list of objects from an XML file into a collection of the XElement class type
+    /// 2.this method receive a Worker type object and check if there is a worker in the list with the same id. 
+    /// If we found a worker with that id and if the worker is active, we will 
+    /// update it to be what the function received.
+    /// 3.we save the XElement collection type to the XML file
+    /// </summary>
+    /// <param name="item"></param>
+    /// <exception cref="DalDoesNotExistException">Worker doesnt exist</exception>
+    /// <exception cref="DalNotActiveException">Workers is not active</exception>
     public void Update(Worker item)
     {
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
@@ -151,6 +215,11 @@ internal class WorkerImplementation:IWorker
 
     }
 
+    /// <summary>
+    /// 1.we load the list of objects from an XML file into a collection of the XElement class type
+    /// 2.this method delete all the workers in the XML file.
+    /// 3.we save the XElement collection type to the XML file
+    /// </summary>
     public void DeleteAll()
     {
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
