@@ -19,6 +19,7 @@ public record Task
 WorkerExperience Complexity,
 string Description,
 int Id = 0,
+
 DateTime? ScheduledDate=null,
 DateTime? DeadLineDate = null,
 
@@ -41,6 +42,7 @@ int? WorkerId=null
     /// </summary>
     public bool Eraseable { get; set; } = true;
 
+    public TimeSpan RequiredEffortTime {  get; set; } = TimeSpan.Zero;
     /// <summary>
     /// Project completion date
     /// </summary>
