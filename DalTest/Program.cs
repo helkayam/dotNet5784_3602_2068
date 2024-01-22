@@ -13,7 +13,7 @@ namespace DalTest
 
     internal class Program
     {
-        static readonly IDal s_dal = new DalXml(); //stage 3
+        static readonly IDal s_dal = Factory.Get; //stage 4
 
         private static readonly Random s_rand = new();
         static void Main(string[] args)
@@ -38,7 +38,8 @@ namespace DalTest
                                     s_dal.Dependency.DeleteAll();
                                     s_dal.Worker.DeleteAll();
                                     s_dal.Task.DeleteAll();
-                                    Initialization.Do(s_dal);
+                                    //Initialization.Do(s_dal);stage 2
+                                    Initialization.Do();
                                 }
                             }
                             break;

@@ -113,7 +113,7 @@ internal class WorkerImplementation:IWorker
     /// 3.we save the XElement collection type to the XML file
     /// </summary>
     /// <param name="id">the id of the worker we are searching for</param>
-    /// <param name="throwAnException">if we wna to throw an exception when we didnt found it (and dont want to return null ) this boolean paramaeter will be true</param>
+    /// <param name="throwAnException">if we wna to throw an exception when we did not found it (and dont want to return null ) this boolean paramaeter will be true</param>
     /// <returns>return the worker with the Id(if we find it)</returns>
     /// <exception cref="DalDoesNotExistException">throw exception if we didnt find the Worker</exception>
     public Worker? Read(int id,bool throwAnException=false)

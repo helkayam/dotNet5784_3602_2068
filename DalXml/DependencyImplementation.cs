@@ -54,7 +54,7 @@ internal class DependencyImplementation:IDependency
     /// 3.Save the list back to the XML file through the XmlSerializer
     /// </summary>
     /// <param name="id">id of the Dependency we are looking for</param>
-    /// <param name="throwAnException">if we wna to throw an exception when we didnt found it (and dont want to return null ) this boolean paramaeter will be true</param>
+    /// <param name="throwAnException">if we wna to throw an exception when we did not found it (and dont want to return null ) this boolean paramaeter will be true</param>
     /// <returns>return the Worker with this id (if we found it) </returns>
     /// <exception cref="DalDoesNotExistException">if the Dependency with this id doesnt exist, we throw error</exception>
     public Dependency? Read(int id, bool throwAnException)
