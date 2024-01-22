@@ -13,12 +13,12 @@ public record Worker
     int Id,
     WorkerExperience Level,
     string Name,
-string? PhoneNumber=null,
-double? Cost=null
+    string PhoneNumber=" ",
+    double? Cost = null
 
 )
 {
-    public Worker(): this(0,0," ") { }//empty constructor of Worker
+    public Worker() : this(0, 0, " ") { }//empty constructor of Worker
     /// <summary>
     /// This is a property that tells the programmer whether the entity can be deleted or not
     /// </summary>

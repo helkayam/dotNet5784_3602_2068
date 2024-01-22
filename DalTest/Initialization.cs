@@ -141,7 +141,7 @@ public static class Initialization
             _createdAtDate = start.AddDays(s_rand.Next(range)).AddHours(s_rand.Next(0, 24)).AddMinutes(s_rand.Next(0, 60)).AddSeconds(s_rand.Next(0, 60));
            
             //create a new object of type task
-            Task newTask = new Task(_alias, (WorkerExperience)(_complexity), _description, null, null);
+            Task newTask = new Task(_alias, (WorkerExperience)(_complexity), _description, 0,null, null);
             
             newTask.CreatedAtDate = _createdAtDate;
 

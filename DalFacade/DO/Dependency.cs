@@ -10,7 +10,7 @@ public record Dependency
 
 int DependentTask,
 int DependsOnTask,
-int? Id=null
+int Id=0
 )
 {
     /// <summary>

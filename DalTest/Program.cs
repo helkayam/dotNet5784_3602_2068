@@ -209,8 +209,8 @@ namespace DalTest
             deadLine.AddHours(s_rand.Next(1, 24)).AddMinutes(s_rand.Next(1, 60)).AddSeconds(s_rand.Next(1, 60));
             startDate.AddHours(s_rand.Next(1, 24)).AddMinutes(s_rand.Next(1, 60)).AddSeconds(s_rand.Next(1, 60));
 
-
-            DO.Task t = new DO.Task(alias, we, description, ScheduledDate, deadLine);
+            int id = 0;
+            DO.Task t = new DO.Task(alias, we, description, id,ScheduledDate, deadLine);
             t.StartDate = startDate;
             try
             {
@@ -417,7 +417,7 @@ namespace DalTest
 
 
 
-                DO.Task task = new DO.Task(alias, we, description, ScheduledDate, deadLine, id);
+                DO.Task task = new DO.Task(alias, we, description, id, ScheduledDate, deadLine);
                 task.StartDate = startDate;
 
 

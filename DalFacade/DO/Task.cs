@@ -18,9 +18,10 @@ public record Task
  string Alias,
 WorkerExperience Complexity,
 string Description,
+int Id = 0,
 DateTime? ScheduledDate=null,
 DateTime? DeadLineDate = null,
-int? Id=null,
+
 int? WorkerId=null
 )
 {
@@ -60,5 +61,5 @@ int? WorkerId=null
     /// </summary>
     public DateTime CreatedAtDate { get; set; } =DateTime.Now;
 
-    public Task():this(" ", 0," ") { }//empty constructor
+    public Task():this(" ", 0," ",0) { }//empty constructor
 }
