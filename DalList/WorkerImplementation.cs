@@ -94,7 +94,7 @@ internal class WorkerImplementation : IWorker
         if(filter!=null)
         {
             return from item in DataSource.Workers
-                   where filter(item)
+                   where filter(item)&& item.active == true
                    select item; 
         }
         return from worker in DataSource.Workers

@@ -14,7 +14,7 @@ namespace BO
 
         public string? PhoneNumber { get; set; }
         public double? Cost { get; set; }
-        public TaskInWorker Task { get; init; }
+        public TaskInWorker Task { get; set; }
         public bool active { get; set; }    
     }
 }

@@ -18,8 +18,8 @@ public interface IWorker
 
     public BO.Worker? ReadWorker(int Id);
 
-    public IEnumerable<BO.WorkerInList?> ReadAllWorkers(Func<BO.Worker, bool>? filter = null);
+    public IEnumerable<BO.WorkerInList?> ReadAllWorkers(BO.FilterWorker enumFilter = BO.FilterWorker.None, Object? filtervalue = null);
 
-    
+
 
 }
