@@ -10,8 +10,7 @@ namespace BO
     {
         public int Id { get; init; }
         public required string Name { get; set; }
-        public WorkerExperience Level { get; set; }
-       
-        public bool active { get; set; }
+        public TaskInWorker Task { get; init; }
+
     }
 }
