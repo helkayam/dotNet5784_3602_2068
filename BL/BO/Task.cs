@@ -13,6 +13,7 @@ namespace BO
         public  string Alias { get; set; }
         public DateTime CreatedAtDate { get; init; }
         public Status Status { get; set; }
+        public bool Eraseable { get; set; }
         public List<TaskInList> Dependencies { get; set; }
 
         public MilestoneInTask Milestone { get; set; } 

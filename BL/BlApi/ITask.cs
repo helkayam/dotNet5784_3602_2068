@@ -8,14 +8,14 @@ namespace BlApi;
 
 public interface ITask
 {
-    public void AddTask(Task newTask);
+    public void AddTask(BO.Task newTask);
     public void RemoveTask(int Id);
 
     public void UpdateTask(Task TaskToUpdate);
 
     public Task? ReadTask(int Id);
 
-    public IEnumerable<BO.TaskInList?> ReadAllWorkers(Func<Task, bool>? filter = null);
+    public IEnumerable<BO.TaskInList?> ReadAllWorkers();
 
 
 }
