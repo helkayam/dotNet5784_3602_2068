@@ -1,6 +1,4 @@
-﻿
-
-namespace BlImplementation;
+﻿namespace BlImplementation;
 using BlApi;
 using BO;
 using DO;
@@ -29,11 +27,15 @@ internal class WorkerImplementation :IWorker
                 _dal.Worker.Create(doWorker);
 
             }
+            else
+                throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect");
+
         }
-        catch(DO.DalAlreadyExistException ex)
+        catch (DO.DalAlreadyExistException ex)
         {
-            //throw new BO.BlAlreadyExistsException($"Student with ID={boStudent.Id} already exists", ex);
+            throw new BO.BlAlreadyExistException($"Worker with ID={doWorker.Id} already exists", ex);
         }
+        
 
     }
 
@@ -63,7 +65,7 @@ internal class WorkerImplementation :IWorker
                             {
                                 Id = TaskOfWorker.Id,
                                 Alias = TaskOfWorker.Alias
-                            }).First()
+                            }).FirstOrDefault()!
                 });
 
         return workersInList;   
@@ -93,7 +95,7 @@ internal class WorkerImplementation :IWorker
 
                     }).FirstOrDefault();
        if(myWorker == null)
-            throw new BO.BlDoesNotExistException($"Student with ID={id} does Not exist");
+            throw new BO.BlDoesNotExistException($"Worker with ID={Id} does Not exist");
         return myWorker;
 
     }
@@ -109,10 +111,10 @@ internal class WorkerImplementation :IWorker
         }
         catch(DO.DalDoesNotExistException ex)
         {
-            throw new BO.BlDoesNotExistException($"Student with ID={id} does Not exist");
+            throw new BO.BlDoesNotExistException($"Worker with ID={Id} does Not exist");
         }
         if (DoWorkerToRemove.active == false )
-            throw new BO.BLNotActiveException($"Student with ID={id} does Not exist");
+            throw new BO.BlNotActiveException($"Worker with ID={Id} does Not exist");
 
         DO.Task taskOfWorker = (from task in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorkerToRemove!.Id)
                                 select task).FirstOrDefault()!;
@@ -125,7 +127,7 @@ internal class WorkerImplementation :IWorker
             catch (DO.DalNotErasableException ex)
 
             {
-                throw new BO.BLNotErasableException($"Student with ID={id} does Not exist");
+                throw new BO.BlNotErasableException($"Student with ID={Id} does Not exist");
             };
         }
     }
@@ -139,7 +141,7 @@ internal class WorkerImplementation :IWorker
             doWorker.Eraseable = true;
 
         if(doWorker.active == false)
-            throw new BLNotActiveException($"Worker with id={item.Id} is not active");
+            throw new BlNotActiveException($"Worker with id={workerToUpdate.Id} is not active");
 
         string[] phonePrefix = { "050", "051", "052", "053", "054", "055 ", "056", "058" };
 
@@ -152,10 +154,14 @@ internal class WorkerImplementation :IWorker
                 _dal.Worker.Update(doWorker);
 
             }
+            else
+                throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect");
+
         }
         catch (DO.DalDoesNotExistException ex)
         {
-            //throw new BLDoesNotExistException($"Worker with id={item.Id} does not exist");
+            throw new BO.BlDoesNotExistException($"Worker with ID={workerToUpdate.Id} does Not exist");
+
         }
 
     }
