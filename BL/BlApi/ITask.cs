@@ -15,7 +15,7 @@ public interface ITask
 
     public Task? ReadTask(int Id);
 
-    public IEnumerable<BO.TaskInList?> ReadAllWorkers();
+    public IEnumerable<BO.TaskInList?> ReadAllTasks(BO.Filter enumFilter = BO.Filter.None, Object? filtervalue = null);
 
 
 }

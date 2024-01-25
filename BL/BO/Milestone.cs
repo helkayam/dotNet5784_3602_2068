@@ -14,7 +14,7 @@ namespace BO
 
         public string Alias { get; init; }
 
-        public DateTime CreatedAtDate { get; init; };
+        public DateTime CreatedAtDate { get; init; }
 
         public Status Status { get; set; }
 
