@@ -4,8 +4,11 @@
 namespace BlImplementation;
 using BlApi;
 using BO;
+using DO;
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 internal class TaskImplementation : ITask
 {
@@ -31,7 +34,16 @@ internal class TaskImplementation : ITask
         DO.Task DoTask = new DO.Task(newTask.Alias, (DO.WorkerExperience)(newTask.Complexity), newTask.Description, newTask.Id, newTask.ScheduledDate, newTask.Deadline, newTask.Worker.Id);
         DoTask.RequiredEffortTime = newTask.RequiredEffortTime; 
         DoTask.Eraseable=newTask.Eraseable;
-        //add dependencies?
+
+        //add dependencies
+        var item = from BoDep in newTask.Dependencies
+                   let id = newTask.Id
+                   select new DO.Dependency { DependentTask = BoDep.Id, DependsOnTask = id };
+        foreach (var dep in item)
+        {
+            _dal.Dependency.Create(dep);
+        }
+
         try
         {
             if (DoTask.Id >= 0 && DoTask.Alias.Length > 0)
@@ -50,7 +62,7 @@ internal class TaskImplementation : ITask
 
     }
 
-    public IEnumerable<BO.TaskInList?> ReadAllWorkers(BO.Filter enumFilter=BO.Filter.None,Object? filtervalue=null)
+    public IEnumerable<BO.TaskInList?> ReadAllTasks(BO.Filter enumFilter=BO.Filter.None,Object? filtervalue=null)
     {
 
         IEnumerable<DO.Task?> result =
@@ -73,19 +85,132 @@ internal class TaskImplementation : ITask
       
     }
 
-    public System.Threading.Tasks.Task? ReadTask(int Id)
+    public BO.Task? ReadTask(int Id)
     {
-        throw new NotImplementedException();
+        
+        BO.Task BoTask = new BO.Task();
+        try
+        {
+            DO.Task DoTask = _dal.Task.Read(Id);
+            BoTask.Id = DoTask.Id;
+            BoTask.Description = DoTask.Description;
+            BoTask.Alias = DoTask.Alias;
+            BoTask.CreatedAtDate = DoTask.CreatedAtDate;
+            BoTask.Status = getStatus(DoTask);
+            BoTask.Eraseable = DoTask.Eraseable;
+
+            //BoTask.Milestone=?
+
+
+
+            BoTask.RequiredEffortTime = DoTask.RequiredEffortTime;
+            BoTask.ScheduledDate = DoTask.ScheduledDate;
+            BoTask.StartDate = DoTask.StartDate;
+            if (DoTask.StartDate < DoTask.ScheduledDate)
+                BoTask.ForecastDate = DoTask.ScheduledDate + DoTask.RequiredEffortTime;
+            else
+                BoTask.ForecastDate = DoTask.StartDate + DoTask.RequiredEffortTime;
+
+            BoTask.Deadline = DoTask.DeadLineDate;
+            BoTask.CompleteDate = DoTask.CompleteDate;
+            BoTask.Deliverables = DoTask.Deliverables;
+            BoTask.Remarks = DoTask.Remarks;
+            BoTask.Complexity = (BO.WorkerExperience)(DoTask.Complexity);
+
+            //get the list of dependencied and check where this task is dependent on anothe task
+            var dep = (from item in _dal.Dependency.ReadAll()
+                       where item.DependentTask == Id
+                       select new TaskInList()
+                       {
+                           Id = item.DependsOnTask,
+                           Description = (_dal.Task.Read(item.DependsOnTask)).Description,
+                           Alias = (_dal.Task.Read(item.DependsOnTask)).Alias,
+                           Status = getStatus(_dal.Task.Read(item.DependsOnTask))
+                       });
+
+            foreach (var item in dep)
+                BoTask.Dependencies.Add(item);
+
+            //worker...
+            int? idWorker = DoTask.WorkerId;
+            if (idWorker != null)
+            {
+
+                BoTask.Worker.Id = (int)idWorker;
+                BoTask.Worker.Name = (_dal.Worker.Read(BoTask.Worker.Id)!).Name;
+
+            }
+            
+            var prevTasks =  _dal.Dependency.ReadAll()
+                            .Where(DependencyOfOurTask=> DependencyOfOurTask.DependsOnTask == Id).
+                            Select(DependencyOfOurTask=> DependencyOfOurTask.DependentTask);
+
+
+            //foreach(var item in prevTasks)
+            //{
+            //   DO.Task d=_dal.Task.Read(item);
+            //    if(d.IsMileStone==true)
+            //        BoTask.Milestone=
+            //}
+
+          
+        }
+        catch(Exception ex)
+        {
+
+        }
+        //if(DoTask.IsMileStone==true)
+        //{
+        //   IEnumerable <DO.Dependency?> d= _dal.Dependency.ReadAll();
+        //    var dependentTask = (from item in d
+        //                         where item.DependentTask == Id
+        //                         select item.DependsOnTask).FirstOrDefault();
+        //}
+        return BoTask;
+
+
     }
 
     public void RemoveTask(int Id)
     {
-        throw new NotImplementedException();
+        try
+        {
+
+            var dep = from item in _dal.Dependency.ReadAll()
+                      where item.DependsOnTask == Id
+                      select item;
+
+            if (dep == null)
+                _dal.Task.Delete(Id);
+        }
+        catch(Exception ex)
+        {
+
+        }
+
+        
     }
 
-    public void UpdateTask(System.Threading.Tasks.Task TaskToUpdate)
+    public void UpdateTask(BO.Task TaskToUpdate)
     {
-        throw new NotImplementedException();
+        try
+        {
+            if (TaskToUpdate.Id >= 0 && TaskToUpdate.Alias.Length > 0)
+            {
+                var TaskToUpd = (from item in _dal.Task.ReadAll()
+                                 where item.Id == TaskToUpdate.Id
+                                 select item).FirstOrDefault();
+
+
+                _dal.Task.Update(TaskToUpd);
+
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+
     }
 }
 

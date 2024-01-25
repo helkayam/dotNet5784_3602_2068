@@ -4,7 +4,7 @@ namespace BlImplementation;
 using BlApi;
 using BO;
 
-internal class MilestoneImplementationcs : IMilestone
+internal class MilestoneImplementation : IMilestone
 {
     public void CreateSchedule()
     {
