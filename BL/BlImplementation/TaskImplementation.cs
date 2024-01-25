@@ -34,7 +34,16 @@ internal class TaskImplementation : ITask
         DO.Task DoTask = new DO.Task(newTask.Alias, (DO.WorkerExperience)(newTask.Complexity), newTask.Description, newTask.Id, newTask.ScheduledDate, newTask.Deadline, newTask.Worker.Id);
         DoTask.RequiredEffortTime = newTask.RequiredEffortTime; 
         DoTask.Eraseable=newTask.Eraseable;
-        //add dependencies?
+
+        //add dependencies
+        var item = from BoDep in newTask.Dependencies
+                   let id = newTask.Id
+                   select new DO.Dependency { DependentTask = BoDep.Id, DependsOnTask = id };
+        foreach (var dep in item)
+        {
+            _dal.Dependency.Create(dep);
+        }
+
         try
         {
             if (DoTask.Id >= 0 && DoTask.Alias.Length > 0)
@@ -78,10 +87,11 @@ internal class TaskImplementation : ITask
 
     public BO.Task? ReadTask(int Id)
     {
+        
+        BO.Task BoTask = new BO.Task();
         try
         {
             DO.Task DoTask = _dal.Task.Read(Id);
-            BO.Task BoTask = new BO.Task();
             BoTask.Id = DoTask.Id;
             BoTask.Description = DoTask.Description;
             BoTask.Alias = DoTask.Alias;
@@ -90,6 +100,9 @@ internal class TaskImplementation : ITask
             BoTask.Eraseable = DoTask.Eraseable;
 
             //BoTask.Milestone=?
+
+
+
             BoTask.RequiredEffortTime = DoTask.RequiredEffortTime;
             BoTask.ScheduledDate = DoTask.ScheduledDate;
             BoTask.StartDate = DoTask.StartDate;
@@ -127,19 +140,33 @@ internal class TaskImplementation : ITask
                 BoTask.Worker.Name = (_dal.Worker.Read(BoTask.Worker.Id)!).Name;
 
             }
-            return BoTask;
+            
+            var prevTasks =  _dal.Dependency.ReadAll()
+                            .Where(DependencyOfOurTask=> DependencyOfOurTask.DependsOnTask == Id).
+                            Select(DependencyOfOurTask=> DependencyOfOurTask.DependentTask);
+
+
+            //foreach(var item in prevTasks)
+            //{
+            //   DO.Task d=_dal.Task.Read(item);
+            //    if(d.IsMileStone==true)
+            //        BoTask.Milestone=
+            //}
+
+          
         }
         catch(Exception ex)
         {
 
         }
-            //if(DoTask.IsMileStone==true)
+        //if(DoTask.IsMileStone==true)
         //{
         //   IEnumerable <DO.Dependency?> d= _dal.Dependency.ReadAll();
         //    var dependentTask = (from item in d
         //                         where item.DependentTask == Id
         //                         select item.DependsOnTask).FirstOrDefault();
         //}
+        return BoTask;
 
 
     }
