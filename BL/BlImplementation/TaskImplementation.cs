@@ -1,14 +1,11 @@
-﻿
-
-
-namespace BlImplementation;
+﻿namespace BlImplementation;
 using BlApi;
 using BO;
+using DalApi;
 using DO;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
 internal class TaskImplementation : ITask
 {
@@ -46,19 +43,17 @@ internal class TaskImplementation : ITask
 
         try
         {
-            if (DoTask.Id >= 0 && DoTask.Alias.Length > 0)
+            if ( DoTask.Alias.Length > 0&& DoTask.Id>=0)
                 _dal.Task.Create(DoTask);
             else
-                throw new Exception();
+                throw new BO.BlInvalidGivenValueException($"One of the data of Task with ID={DoTask.Id} is incorrect");
+
         }
-        catch(DO.DalAlreadyExistException ex)
+        catch (DO.DalAlreadyExistException ex)
         {
-            //throw new BO.BlAlreadyExistsException($"Task with ID={newTask.Id} already exists", ex);
+            throw new BO.BlAlreadyExistsException($"Task with ID={newTask.Id} already exists", ex);
         }
-        catch(Exception ex)
-        {
-         
-        }
+        
 
     }
 
@@ -177,18 +172,24 @@ internal class TaskImplementation : ITask
         {
 
             var dep = from item in _dal.Dependency.ReadAll()
-                      where item.DependsOnTask == Id
+                      where item.DependsOnTask == Id||item.DependentTask==Id
                       select item;
 
             if (dep == null)
                 _dal.Task.Delete(Id);
         }
-        catch(Exception ex)
+        catch(DO.DalNotErasableException ex)
         {
+            throw new BO.BlNotErasableException($"Task with ID={Id} does Not Erasable");
 
         }
 
-        
+        catch (DO.DalDoesNotExistException ex)
+        {
+            throw new BO.BlDoesNotExistException($"Task with ID={Id} does Not exist");
+        }
+
+
     }
 
     public void UpdateTask(BO.Task TaskToUpdate)
@@ -205,9 +206,14 @@ internal class TaskImplementation : ITask
                 _dal.Task.Update(TaskToUpd);
 
             }
+            else
+                throw new BO.BlInvalidGivenValueException($"One of the data of the Updated Task is incorrect");
+
         }
-        catch (Exception ex)
+        catch (BlDoesNotExistException ex)
         {
+            throw new BlDoesNotExistException($"Task with id={TaskToUpdate.Id} does not exist");
+
 
         }
 
