@@ -1,33 +1,26 @@
-﻿
-
-
-namespace BlImplementation;
+﻿namespace BlImplementation;
 using BlApi;
-using BO;
-using DO;
+using DalApi;
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
-internal class TaskImplementation : ITask
+internal class TaskImplementation : BlApi.ITask
 {
     private DalApi.IDal _dal = DalApi.Factory.Get;
-    public Status getStatus(DO.Task task)
+    public BO.Status getStatus(DO.Task task)
     {
         TimeSpan t = TimeSpan.FromDays(2);
         if (task.ScheduledDate == null)
-            return Status.Unscheduled;
+            return BO.Status.Unscheduled;
         else
             if (task.StartDate == null)
-            return Status.Scheduled;
+            return BO.Status.Scheduled;
         else
             if (task.CompleteDate != null)
-            return Status.Done;
+            return BO.Status.Done;
         else
-            if (task.DeadLineDate - task.StartDate + task.RequiredEffortTime < t)
-            return Status.InJeopardy;
-        return Status.OnTrack;
+             return BO.Status.OnTrack;
     }
     public void AddTask(BO.Task newTask)
     {
@@ -46,19 +39,17 @@ internal class TaskImplementation : ITask
 
         try
         {
-            if (DoTask.Id >= 0 && DoTask.Alias.Length > 0)
+            if ( DoTask.Alias.Length > 0&& DoTask.Id>=0)
                 _dal.Task.Create(DoTask);
             else
-                throw new Exception();
+                throw new BO.BlInvalidGivenValueException($"One of the data of Task with ID={DoTask.Id} is incorrect");
+
         }
-        catch(DO.DalAlreadyExistException ex)
+        catch (DO.DalAlreadyExistException ex)
         {
-            //throw new BO.BlAlreadyExistsException($"Task with ID={newTask.Id} already exists", ex);
+            throw new BO.BlAlreadyExistsException($"Task with ID={newTask.Id} already exists", ex);
         }
-        catch(Exception ex)
-        {
-         
-        }
+        
 
     }
 
@@ -70,19 +61,18 @@ internal class TaskImplementation : ITask
        {
            BO.Filter.ByComplexity => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => bc.Complexity == (DO.WorkerExperience)filtervalue) : _dal.Task.ReadAll(),
            BO.Filter.None => _dal.Task.ReadAll(),
-            BO.Filter.Done=> _dal.Task.ReadAll(d=>d.CompleteDate !=null)
-       } ;
+            BO.Filter.Status=> ((BO.Status)filtervalue != null) ? _dal.Task.ReadAll(s => getStatus(s) == (BO.Status)filtervalue) : _dal.Task.ReadAll()
+       };
 
-        return (from DO.Task dotask in result
-                select new TaskInList
-                {
-                    Alias = dotask.Alias,
-                    Id = dotask.Id,
-                    Description = dotask.Description,
-                    Status = getStatus(dotask)
-                }).OrderBy(t => t.Alias); 
- 
-      
+        return result.Select(dotask => new BO.TaskInList()
+        {
+            Alias = dotask.Alias,
+            Id = dotask.Id,
+            Description = dotask.Description,
+            Status = getStatus(dotask)
+        }
+        ).OrderBy(t => t.Alias);
+       
     }
 
     public BO.Task? ReadTask(int Id)
@@ -99,10 +89,7 @@ internal class TaskImplementation : ITask
             BoTask.Status = getStatus(DoTask);
             BoTask.Eraseable = DoTask.Eraseable;
 
-            //BoTask.Milestone=?
-
-
-
+      
             BoTask.RequiredEffortTime = DoTask.RequiredEffortTime;
             BoTask.ScheduledDate = DoTask.ScheduledDate;
             BoTask.StartDate = DoTask.StartDate;
@@ -118,16 +105,16 @@ internal class TaskImplementation : ITask
             BoTask.Complexity = (BO.WorkerExperience)(DoTask.Complexity);
 
             //get the list of dependencied and check where this task is dependent on anothe task
-            var dep = (from item in _dal.Dependency.ReadAll()
-                       where item.DependentTask == Id
-                       select new TaskInList()
-                       {
-                           Id = item.DependsOnTask,
-                           Description = (_dal.Task.Read(item.DependsOnTask)).Description,
-                           Alias = (_dal.Task.Read(item.DependsOnTask)).Alias,
-                           Status = getStatus(_dal.Task.Read(item.DependsOnTask))
-                       });
-
+            var dep=_dal.Dependency.ReadAll().Where(item=>item.DependentTask==Id).
+                Select(item=>new BO.TaskInList()
+                {
+                    Id = item.DependsOnTask,
+                    Description = (_dal.Task.Read(item.DependsOnTask)).Description,
+                    Alias = (_dal.Task.Read(item.DependsOnTask)).Alias,
+                    Status = getStatus(_dal.Task.Read(item.DependsOnTask))
+                });
+                
+            
             foreach (var item in dep)
                 BoTask.Dependencies.Add(item);
 
@@ -141,31 +128,18 @@ internal class TaskImplementation : ITask
 
             }
             
-            var prevTasks =  _dal.Dependency.ReadAll()
-                            .Where(DependencyOfOurTask=> DependencyOfOurTask.DependsOnTask == Id).
-                            Select(DependencyOfOurTask=> DependencyOfOurTask.DependentTask);
+          
 
 
-            //foreach(var item in prevTasks)
-            //{
-            //   DO.Task d=_dal.Task.Read(item);
-            //    if(d.IsMileStone==true)
-            //        BoTask.Milestone=
-            //}
 
           
         }
-        catch(Exception ex)
+        catch (DO.DalDoesNotExistException ex)
         {
-
+            throw new BO.BlDoesNotExistException($"Task with ID={Id} does Not exist");
         }
-        //if(DoTask.IsMileStone==true)
-        //{
-        //   IEnumerable <DO.Dependency?> d= _dal.Dependency.ReadAll();
-        //    var dependentTask = (from item in d
-        //                         where item.DependentTask == Id
-        //                         select item.DependsOnTask).FirstOrDefault();
-        //}
+
+
         return BoTask;
 
 
@@ -175,20 +149,25 @@ internal class TaskImplementation : ITask
     {
         try
         {
-
-            var dep = from item in _dal.Dependency.ReadAll()
-                      where item.DependsOnTask == Id
-                      select item;
+            var dep = _dal.Dependency.ReadAll().
+                Where(item => item.DependsOnTask == Id || item.DependentTask == Id).Select(item => item);
+           
 
             if (dep == null)
                 _dal.Task.Delete(Id);
         }
-        catch(Exception ex)
+        catch(DO.DalNotErasableException ex)
         {
+            throw new BO.BlNotErasableException($"Task with ID={Id} does Not Erasable");
 
         }
 
-        
+        catch (DO.DalDoesNotExistException ex)
+        {
+            throw new BO.BlDoesNotExistException($"Task with ID={Id} does Not exist");
+        }
+
+
     }
 
     public void UpdateTask(BO.Task TaskToUpdate)
@@ -197,17 +176,23 @@ internal class TaskImplementation : ITask
         {
             if (TaskToUpdate.Id >= 0 && TaskToUpdate.Alias.Length > 0)
             {
-                var TaskToUpd = (from item in _dal.Task.ReadAll()
-                                 where item.Id == TaskToUpdate.Id
-                                 select item).FirstOrDefault();
+
+                var TaskToUpd = _dal.Task.ReadAll().Where(item => item.Id == TaskToUpdate.Id)
+                    .Select(item => item).FirstOrDefault();
+                
 
 
                 _dal.Task.Update(TaskToUpd);
 
             }
+            else
+                throw new BO.BlInvalidGivenValueException($"One of the data of the Updated Task is incorrect");
+
         }
-        catch (Exception ex)
+        catch (BO.BlDoesNotExistException ex)
         {
+            throw new BO.BlDoesNotExistException($"Task with id={TaskToUpdate.Id} does not exist");
+
 
         }
 

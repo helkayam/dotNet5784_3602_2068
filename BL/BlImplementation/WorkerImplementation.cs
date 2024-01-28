@@ -1,7 +1,6 @@
 ﻿namespace BlImplementation;
 using BlApi;
 using BO;
-using DO;
 using System;
 using System.Collections.Generic;
 
@@ -33,7 +32,7 @@ internal class WorkerImplementation :IWorker
         }
         catch (DO.DalAlreadyExistException ex)
         {
-            throw new BO.BlAlreadyExistException($"Worker with ID={doWorker.Id} already exists", ex);
+            throw new BO.BlAlreadyExistsException($"Worker with ID={doWorker.Id} already exists", ex);
         }
         
 
@@ -66,7 +65,7 @@ internal class WorkerImplementation :IWorker
                                 Id = TaskOfWorker.Id,
                                 Alias = TaskOfWorker.Alias
                             }).FirstOrDefault()!
-                });
+                }).ToList();
 
         return workersInList;   
     }
@@ -114,7 +113,7 @@ internal class WorkerImplementation :IWorker
             throw new BO.BlDoesNotExistException($"Worker with ID={Id} does Not exist");
         }
         if (DoWorkerToRemove.active == false )
-            throw new BO.BlNotActiveException($"Worker with ID={Id} does Not exist");
+            throw new BO.BlNotActiveException($"Worker with ID={Id} does Not Active");
 
         DO.Task taskOfWorker = (from task in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorkerToRemove!.Id)
                                 select task).FirstOrDefault()!;
@@ -127,7 +126,7 @@ internal class WorkerImplementation :IWorker
             catch (DO.DalNotErasableException ex)
 
             {
-                throw new BO.BlNotErasableException($"Student with ID={Id} does Not exist");
+                throw new BO.BlNotErasableException($"Worker with ID={Id} does Not Erasable");
             };
         }
     }

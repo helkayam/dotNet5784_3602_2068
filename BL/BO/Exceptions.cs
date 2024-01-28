@@ -11,10 +11,10 @@ public class BlDoesNotExistException : Exception
 }
 
 [Serializable]
-public class BlAlreadyExistException : Exception
+public class BlAlreadyExistsException : Exception
 {
-    public BlAlreadyExistException(string? message) : base(message) { }
-    public BlAlreadyExistException(string message, Exception innerException)
+    public BlAlreadyExistsException(string? message) : base(message) { }
+    public BlAlreadyExistsException(string message, Exception innerException)
                 : base(message, innerException) { }
 }
 

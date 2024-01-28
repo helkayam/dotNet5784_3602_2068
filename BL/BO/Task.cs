@@ -16,7 +16,6 @@ namespace BO
         public bool Eraseable { get; set; }
         public List<TaskInList> Dependencies { get; set; }
 
-        public MilestoneInTask Milestone { get; set; } 
         public TimeSpan RequiredEffortTime { get; set; }
         public DateTime? ScheduledDate { get; set; }
 

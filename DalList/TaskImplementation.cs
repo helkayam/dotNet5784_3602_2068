@@ -98,7 +98,7 @@ internal class TaskImplementation : ITask
 
         DO.Task? task = DataSource.Tasks.Find(t => t.Id == item.Id);
         if (task == null)
-            throw new DalDoesNotExistException($"Dependency with id={item.Id} does not exist");
+            throw new DalDoesNotExistException($"Task with id={item.Id} does not exist");
         else
         {
             DataSource.Tasks.RemoveAll(t => t.Id == item.Id);
