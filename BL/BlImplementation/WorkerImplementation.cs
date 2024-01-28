@@ -1,7 +1,6 @@
 ﻿namespace BlImplementation;
 using BlApi;
 using BO;
-using DO;
 using System;
 using System.Collections.Generic;
 
@@ -66,7 +65,7 @@ internal class WorkerImplementation :IWorker
                                 Id = TaskOfWorker.Id,
                                 Alias = TaskOfWorker.Alias
                             }).FirstOrDefault()!
-                });
+                }).ToList();
 
         return workersInList;   
     }
