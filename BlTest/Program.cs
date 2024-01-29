@@ -93,13 +93,13 @@ namespace BlTest
 
             Console.WriteLine("Select the method you want to perform");
             Console.WriteLine("1.Exiting the main menu");
-            Console.WriteLine("2.Adding a new task to the list");
-            Console.WriteLine("3.Task display by ID");
-            Console.WriteLine("4.Display list of all tasks");
-            Console.WriteLine("5.Display list of all tasks in group by status");
-            Console.WriteLine("6.Updating existing task data");
-            Console.WriteLine("7.Updating start date of existing task");
-            Console.WriteLine("8.Deleting an existing task from the list");
+            Console.WriteLine("2.Adding a new task to the list");//Hen
+            Console.WriteLine("3.Task display by ID");//Lea Done
+            Console.WriteLine("4.Display list of all tasks");//Hen
+            Console.WriteLine("5.Display list of all tasks in group by status");//Lea Done
+            Console.WriteLine("6.Updating existing task data");//Lea Done
+            Console.WriteLine("7.Updating start date of existing task");//Lea Done
+            Console.WriteLine("8.Deleting an existing task from the list");//Hen
 
             int choice = int.Parse(Console.ReadLine());
             if (choice != 1)
@@ -111,7 +111,8 @@ namespace BlTest
                     case 4: readAllT(); break;
                     case 5: printGroups(); break;
                     case 6: updateT(); break;
-                    case 7: deleteT(); break;
+                    case 7: AddUpdDateDate();break;
+                    case 8: deleteT(); break;
                     default: break;
 
                 }
@@ -180,6 +181,7 @@ namespace BlTest
         }
 
 
+
         private static void createT()
         {
             //Console.WriteLine("Enter alias of the task, the complexity of the task,the description of the task, scheduled start date of the task and deadline date of the task ");
@@ -232,8 +234,7 @@ namespace BlTest
             }
             catch (BO.BlDoesNotExistException ex)
             {
-                Console.WriteLine($"BlDoesNotExistException: {ex.Message} ");
-
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException}");
             }
 
             catch (Exception ex)
@@ -249,20 +250,30 @@ namespace BlTest
         /// </summary>
         private static void readT()
         {
-            //try
-            //{
-            ////    Console.WriteLine("Enter ID of the task");
-            ////    int id = int.Parse(Console.ReadLine());
-            ////    DO.Task? t = s_dal.Task.Read(id, true);
-            ////    if (t != null)
-            ////    {
-            ////        Console.WriteLine(t);
-            ////    }
-            ////}
-            ////catch (Exception ex)
-            ////{
-            ////    Console.WriteLine(ex.Message);
-            ////}
+            try
+            {
+                Console.WriteLine("Enter ID of the task");
+                int id;
+                string Sid = (Console.ReadLine());
+                bool res = int.TryParse(Sid, out id);
+                if (res == false)
+                    throw new Exception("Cant convert Id of worker from string to int");
+
+                BO.Task? t = s_bl.Task.ReadTask(id);
+                
+                if (t != null)
+                {
+                    Console.WriteLine(t);
+                }
+            }
+            catch(BO.BlDoesNotExistException ex )
+            {
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
         }
 
@@ -313,17 +324,29 @@ namespace BlTest
             }
         }
 
+        private static void printGroups()
+        {
+           var group= s_bl.Task.GroupByStatus();
+
+            foreach(var x in group)
+            {
+                Console.WriteLine(x);
+            }
+            Console.WriteLine();
+        }
+
+
         /// <summary>
         /// this method prints all the tasks data
         /// </summary>
         private static void readAllT()
         {
-            IEnumerable<DO.Task> t = s_dal.Task.ReadAll();
-            foreach (DO.Task x in t)
-            {
-                Console.WriteLine(x);
-                Console.WriteLine("\n");
-            }
+            //IEnumerable<BO.TaskInList> t = s_bl.Task.ReadAllTasks();
+            //foreach (BO.TaskInList x in t)
+            //{
+            //    Console.WriteLine(x);
+            //    Console.WriteLine("\n");
+            //}
 
         }
 
@@ -349,7 +372,14 @@ namespace BlTest
                 Console.WriteLine("Enter name,experience, phone number, hourly payment and ID and alias of task of the worker");
 
                 string name = Console.ReadLine();
-                BO.WorkerExperience we = (BO.WorkerExperience)int.Parse(Console.ReadLine());
+
+
+                BO.WorkerExperience lvl;
+                int levelT;
+                string level = Console.ReadLine();
+                res = int.TryParse(level, out levelT);
+                lvl = (BO.WorkerExperience)levelT;
+
                 string phonenumber = Console.ReadLine();
 
 
@@ -404,41 +434,125 @@ namespace BlTest
         /// <exception cref="Exception">throw exception if there is no task with that id
         private static void updateT()
         {
-            //try
-            //{
-            //    Console.WriteLine("Enter the ID number of the task you want to update");
-            //    int id = int.Parse(Console.ReadLine());
-            //    DO.Task t = s_dal.Task.Read(id);
-            //    if (t != null)
-            //        Console.WriteLine(t);
-            //    else
-            //        throw new Exception($"Task with ID={id} does not exist");
+            try
+            {
 
-            //    Console.WriteLine("Enter alias of the task,the complexity of the task, the description of the task, scheduled start date of the task, deadline of the task");
-            //    string alias = Console.ReadLine();
-            //    WorkerExperience we = (WorkerExperience)int.Parse(Console.ReadLine());
-            //    string description = Console.ReadLine();
+                BO.Task TaskToUpdate = new BO.Task();
+                Console.WriteLine("Enter the ID number of the task you want to update");
+                int id;
+                string Sid = (Console.ReadLine());
+                bool res = int.TryParse(Sid, out id);
+                if (res == false)
+                    throw new Exception("Cant convert Id of worker from string to int");
 
-            //    DateTime startDate = DateTime.Parse(Console.ReadLine());
-            //    DateTime deadLine = DateTime.Parse(Console.ReadLine());
-            //    deadLine.AddHours(s_rand.Next(1, 24)).AddMinutes(s_rand.Next(1, 60)).AddSeconds(s_rand.Next(1, 60));
-            //    startDate.AddHours(s_rand.Next(1, 24)).AddMinutes(s_rand.Next(1, 60)).AddSeconds(s_rand.Next(1, 60));
+                BO.Task t = s_bl.Task.ReadTask(id);//catch
+              
 
-            //    DateTime ScheduledDate = DateTime.Now;
+                TaskToUpdate.Id = id;
+
+              
+                Console.WriteLine("Enter  the description of the task,the alias of the task,the complexity of the task, scheduled start date of the task, deadline of the task, Id of Worker assigned to that Task" +
+                    ",erasability of Task, Complete Date of task, remarks on the task and deliverables");
+                string  Description=Console.ReadLine();
+                string Alias=Console.ReadLine();
+
+                BO.WorkerExperience lvl;
+                int levelT;
+                string level = Console.ReadLine();
+                res= int.TryParse(level,out levelT);
+                if (res==false)
+                    throw new Exception("Cant convert Level of task from string to enum");
+                lvl =(BO.WorkerExperience)levelT;
+
+                DateTime ScheduledDate;
+                string schedDate=Console.ReadLine();
+                res=DateTime.TryParse(schedDate,out ScheduledDate);
+              if(res==false)
+                    throw new Exception("Cant convert scheduled date of task from string to DateTime");
+
+                DateTime DeadLineDate;
+                string dlDate = Console.ReadLine();
+                res = DateTime.TryParse(dlDate, out DeadLineDate);
+                if (res == false)
+                    throw new Exception("Cant convert dead line date of task from string to DateTime");
+
+                int IdOfWorker;
+                string sIdWorker = (Console.ReadLine());
+                res = int.TryParse(sIdWorker, out IdOfWorker);
+                if (res == false)
+                    throw new Exception("Cant convert ID Task of worker from string to int");
+
+                bool eraseable =bool.Parse(Console.ReadLine());
+
+                DateTime CompleteDate;
+                string CompDate = Console.ReadLine();
+                res = DateTime.TryParse(CompDate, out CompleteDate );
+                if (res == false)
+                    throw new Exception("Cant convert complete date of task from string to DateTime");
+
+
+                string remark=Console.ReadLine();   
+                string deliverables=Console.ReadLine();
+
+
+                Console.WriteLine("How many dependencies do you want to add?");
+
+                int NumDep;
+                string sNumDep = (Console.ReadLine());
+                res = int.TryParse(sNumDep, out NumDep);
+                if (res == false)
+                    throw new Exception("Cant convert number of dependencies from string to int");
+
+
+                List<BO.TaskInList?> lst = new List<TaskInList?>();
+                for (int i=0;i< NumDep;i++)
+                {
+                    Console.WriteLine($"enter dependency that task with Id={id} depends on them");
+                    int Dep;
+                    string sDep = (Console.ReadLine());
+                    res = int.TryParse(sDep, out Dep);
+                    if (res == false)
+                        throw new Exception("Cant convert number of dependencies from string to int");
+
+
+                    BO.TaskInList? taskDep = new TaskInList { Alias = TaskToUpdate .Alias, Description = TaskToUpdate .Description, Id = TaskToUpdate .Id, Status = TaskToUpdate .Status }; 
+                    lst.Add(taskDep);
+                    
+
+
+                }
 
 
 
-            //    DO.Task task = new DO.Task(alias, we, description, id, ScheduledDate, deadLine);
-            //    task.StartDate = startDate;
+                TaskToUpdate.Description = Description;
+                TaskToUpdate.Alias = Alias;
+                TaskToUpdate.Complexity = lvl;
+                TaskToUpdate.ScheduledDate = ScheduledDate;
+                TaskToUpdate.Deadline = DeadLineDate;
+                TaskToUpdate.Worker = new WorkerInTask { Id = IdOfWorker, Name = s_bl.Worker.ReadWorker(IdOfWorker).Name };
+                TaskToUpdate.CompleteDate = CompleteDate;
+                TaskToUpdate.Remarks = remark;
+                TaskToUpdate.Deliverables = deliverables;
+                TaskToUpdate.Dependencies = lst;
 
 
-            //    s_dal.Task.Update(task);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.Message);
-            //}
-        }
+
+                s_bl.Task.UpdateTask(TaskToUpdate);
+            }
+            catch (BO.BlDoesNotExistException ex)
+            {
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
+
+            }
+            catch(BO.BlInvalidGivenValueException ex)
+            {
+                Console.WriteLine(ex.Message );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                }
+            }
 
      
       
@@ -482,6 +596,43 @@ namespace BlTest
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+            }
+        }
+        
+
+        private static void AddUpdDateDate()
+        {
+            try
+            {
+                Console.WriteLine("Enter Id of the Task you want to add the Start Date and also write the start date");
+                int IdOfTask;
+                string sIdTask = (Console.ReadLine());
+               bool  res = int.TryParse(sIdTask, out IdOfTask);
+                if (res == false)
+                    throw new Exception("Cant convert ID Task of worker from string to int");
+
+
+                DateTime StartDate;
+                string StrStartDate = Console.ReadLine();
+                res = DateTime.TryParse(StrStartDate, out StartDate);
+                if (res == false)
+                    throw new Exception("Cant convert complete date of task from string to DateTime");
+
+
+                s_bl.Task.AddOrUpdateStartDate(IdOfTask, StartDate);
+
+            }
+            catch(BO.BlDoesNotExistException ex)
+            {
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
+            }
+            catch(BO.BlFalseUpdateDate ex)
+            {
+                Console.WriteLine($"BO.BlFalseUpdateDate: {ex.Message}");
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
 
