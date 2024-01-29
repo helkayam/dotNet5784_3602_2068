@@ -7,4 +7,4 @@ public enum Status { Unscheduled, Scheduled, OnTrack, Done }
 
 public enum Filter { ByComplexity, Status,None,PossibleTaskForWorker}
 
-public enum FilterWorker { ActiveW,Erasable,ByLevel,None}
+public enum FilterWorker {  ByLevel,ActiveW, Erasable,WithoutTask, None }

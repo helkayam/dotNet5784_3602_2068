@@ -2,7 +2,7 @@
 using BlApi;
 using BO;
 using DalApi;
-using DO;
+//using DO;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -234,7 +234,7 @@ internal class TaskImplementation : BlApi.ITask
                     updatedTask = new DO.Task(TaskToUpdate.Alias,(DO.WorkerExperience) TaskToUpdate.Complexity, TaskToUpdate.Description, TaskToUpdate.Id, TaskToUpdate.ScheduledDate, TaskToUpdate.Deadline,
                        TaskToUpdate.Worker.Id);
                     updatedTask.IsMileStone = TaskToUpd.IsMileStone;
-                    updatedTask.StartDate = TaskToUpdate.StartDate;
+                    updatedTask.StartDate = TaskToUpd.StartDate;
                     updatedTask.Eraseable = TaskToUpdate.Eraseable;
                     updatedTask.CompleteDate = TaskToUpdate.CompleteDate;
                     updatedTask.Remarks = TaskToUpdate.Remarks;
@@ -246,7 +246,7 @@ internal class TaskImplementation : BlApi.ITask
                     {
                         int myId = item.Id;
                         bool DepDoesntExist = true;
-                        DO.Dependency newDep = new Dependency(TaskToUpdate.Id, item.Id);
+                        DO.Dependency newDep = new DO.Dependency(TaskToUpdate.Id, item.Id);
                         foreach(var CurrentDependency in _dal.Dependency.ReadAll ())
                         {
                             if (CurrentDependency.DependentTask == newDep.DependentTask && CurrentDependency.DependsOnTask == newDep.DependsOnTask)
