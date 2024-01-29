@@ -53,3 +53,13 @@ public class BlInvalidGivenValueException : Exception
     }
 }
 
+
+[Serializable]
+public class BlFalseUpdateDate : Exception
+{
+    public BlFalseUpdateDate(string? message) : base(message)
+    {
+    }
+}
+
+

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BO;
 
 namespace BlApi;
 
@@ -15,8 +16,11 @@ public interface ITask
 
     public BO.Task? ReadTask(int Id);
 
+    public void  AddOrUpdateStartDate (int Id, DateTime? startDate);
 
+ 
     public IEnumerable<BO.TaskInList?> ReadAllTasks(BO.Filter enumFilter = BO.Filter.None, Object? filtervalue = null);
 
+    public IGrouping<BO.Status , BO.TaskInList> GroupByStatus();
 
 }

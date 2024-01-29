@@ -1,6 +1,8 @@
 ﻿namespace BlImplementation;
 using BlApi;
+using BO;
 using DalApi;
+using DO;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,6 +10,8 @@ using System.Threading.Tasks;
 internal class TaskImplementation : BlApi.ITask
 {
     private DalApi.IDal _dal = DalApi.Factory.Get;
+
+
     public BO.Status getStatus(DO.Task task)
     {
         TimeSpan t = TimeSpan.FromDays(2);
@@ -53,6 +57,32 @@ internal class TaskImplementation : BlApi.ITask
 
     }
 
+    public bool checkDependentTaskDone(DO.Task newTask)
+    {
+        var previousTask=from myDep in _dal.Dependency.ReadAll()
+                         where myDep.DependentTask==newTask.Id 
+                         select myDep.DependsOnTask;
+
+        bool isDone = true;
+        foreach(var prevTask in previousTask)
+        {
+            if (getStatus(_dal.Task.Read(prevTask)) != BO.Status.Done)
+                isDone = false;
+
+        }
+
+        return isDone;
+      
+
+    }
+
+    public DateTime? GetForecastDate(DO.Task DoTask)
+    {
+        if (DoTask.StartDate < DoTask.ScheduledDate)
+          return DoTask.ScheduledDate + DoTask.RequiredEffortTime;
+  
+            return DoTask.StartDate + DoTask.RequiredEffortTime;
+    }
     public IEnumerable<BO.TaskInList?> ReadAllTasks(BO.Filter enumFilter=BO.Filter.None,Object? filtervalue=null)
     {
 
@@ -61,7 +91,8 @@ internal class TaskImplementation : BlApi.ITask
        {
            BO.Filter.ByComplexity => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => bc.Complexity == (DO.WorkerExperience)filtervalue) : _dal.Task.ReadAll(),
            BO.Filter.None => _dal.Task.ReadAll(),
-            BO.Filter.Status=> ((BO.Status)filtervalue != null) ? _dal.Task.ReadAll(s => getStatus(s) == (BO.Status)filtervalue) : _dal.Task.ReadAll()
+            BO.Filter.Status=> ((BO.Status)filtervalue != null) ? _dal.Task.ReadAll(s => getStatus(s) == (BO.Status)filtervalue) : _dal.Task.ReadAll(),
+               BO.Filter.PossibleTaskForWorker => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => (int)bc.Complexity <= (int)(DO.WorkerExperience)filtervalue&&bc.StartDate!=null&&checkDependentTaskDone(bc)==true) : _dal.Task.ReadAll(),
        };
 
         return result.Select(dotask => new BO.TaskInList()
@@ -93,18 +124,16 @@ internal class TaskImplementation : BlApi.ITask
             BoTask.RequiredEffortTime = DoTask.RequiredEffortTime;
             BoTask.ScheduledDate = DoTask.ScheduledDate;
             BoTask.StartDate = DoTask.StartDate;
-            if (DoTask.StartDate < DoTask.ScheduledDate)
-                BoTask.ForecastDate = DoTask.ScheduledDate + DoTask.RequiredEffortTime;
-            else
-                BoTask.ForecastDate = DoTask.StartDate + DoTask.RequiredEffortTime;
-
+        
+            BoTask.ForecastDate = GetForecastDate(DoTask);
+           
             BoTask.Deadline = DoTask.DeadLineDate;
             BoTask.CompleteDate = DoTask.CompleteDate;
             BoTask.Deliverables = DoTask.Deliverables;
             BoTask.Remarks = DoTask.Remarks;
             BoTask.Complexity = (BO.WorkerExperience)(DoTask.Complexity);
 
-            //get the list of dependencied and check where this task is dependent on anothe task
+            //get the list of dependencies and check where this task is dependent on another task
             var dep=_dal.Dependency.ReadAll().Where(item=>item.DependentTask==Id).
                 Select(item=>new BO.TaskInList()
                 {
@@ -122,10 +151,8 @@ internal class TaskImplementation : BlApi.ITask
             int? idWorker = DoTask.WorkerId;
             if (idWorker != null)
             {
-
                 BoTask.Worker.Id = (int)idWorker;
                 BoTask.Worker.Name = (_dal.Worker.Read(BoTask.Worker.Id)!).Name;
-
             }
             
           
@@ -149,12 +176,20 @@ internal class TaskImplementation : BlApi.ITask
     {
         try
         {
+            _dal.Task.Read(Id);
             var dep = _dal.Dependency.ReadAll().
-                Where(item => item.DependsOnTask == Id || item.DependentTask == Id).Select(item => item);
-           
+                Where(item =>  item.DependsOnTask == Id).Select(item => item);
+
 
             if (dep == null)
+            {
                 _dal.Task.Delete(Id);
+
+                var depDel = _dal.Dependency.ReadAll().
+                   Where(item => item.DependentTask == Id).Select(item => item);
+                foreach (var item in depDel)
+                    _dal.Dependency.Delete(item.Id);
+            }
         }
         catch(DO.DalNotErasableException ex)
         {
@@ -172,17 +207,71 @@ internal class TaskImplementation : BlApi.ITask
 
     public void UpdateTask(BO.Task TaskToUpdate)
     {
+
         try
         {
+            DO.Task updatedTask;
             if (TaskToUpdate.Id >= 0 && TaskToUpdate.Alias.Length > 0)
             {
 
                 var TaskToUpd = _dal.Task.ReadAll().Where(item => item.Id == TaskToUpdate.Id)
                     .Select(item => item).FirstOrDefault();
                 
+                if(TaskToUpd.ScheduledDate!=null)
+                {
+                    updatedTask = new DO.Task(TaskToUpdate.Alias, TaskToUpd.Complexity, TaskToUpdate.Description, TaskToUpd.Id, TaskToUpd.ScheduledDate, TaskToUpd.DeadLineDate,
+                        TaskToUpdate.Worker.Id);
+                    updatedTask.IsMileStone = TaskToUpd.IsMileStone;
+                    updatedTask.StartDate = TaskToUpd.StartDate;
+                    updatedTask.Eraseable = TaskToUpd.Eraseable;
+                    updatedTask.CompleteDate = TaskToUpd.CompleteDate;
+                    updatedTask.Remarks = TaskToUpdate.Remarks;
+                    updatedTask.CreatedAtDate = TaskToUpd.CreatedAtDate;
+                    updatedTask.Deliverables = TaskToUpdate.Deliverables;
+                }
+                else
+                {
+                    updatedTask = new DO.Task(TaskToUpdate.Alias,(DO.WorkerExperience) TaskToUpdate.Complexity, TaskToUpdate.Description, TaskToUpdate.Id, TaskToUpdate.ScheduledDate, TaskToUpdate.Deadline,
+                       TaskToUpdate.Worker.Id);
+                    updatedTask.IsMileStone = TaskToUpd.IsMileStone;
+                    updatedTask.StartDate = TaskToUpdate.StartDate;
+                    updatedTask.Eraseable = TaskToUpdate.Eraseable;
+                    updatedTask.CompleteDate = TaskToUpdate.CompleteDate;
+                    updatedTask.Remarks = TaskToUpdate.Remarks;
+                    updatedTask.CreatedAtDate = TaskToUpdate.CreatedAtDate;
+                    updatedTask.Deliverables = TaskToUpdate.Deliverables;
+
+                    bool contradictionBetweenDependencies = false;
+                    foreach(var item in TaskToUpdate.Dependencies)
+                    {
+                        int myId = item.Id;
+                        bool DepDoesntExist = true;
+                        DO.Dependency newDep = new Dependency(TaskToUpdate.Id, item.Id);
+                        foreach(var CurrentDependency in _dal.Dependency.ReadAll ())
+                        {
+                            if (CurrentDependency.DependentTask == newDep.DependentTask && CurrentDependency.DependsOnTask == newDep.DependsOnTask)
+                                DepDoesntExist = false;
+                            if (CurrentDependency.DependentTask == newDep.DependsOnTask && CurrentDependency.DependsOnTask == newDep.DependentTask)
+                                contradictionBetweenDependencies = true;
 
 
-                _dal.Task.Update(TaskToUpd);
+                        }
+                        if (DepDoesntExist == true&& contradictionBetweenDependencies==false)
+                            _dal.Dependency.Create(newDep);
+
+                    }
+
+                  
+
+
+                }
+
+
+        
+
+
+
+                _dal.Task.Update(updatedTask);
 
             }
             else
@@ -192,10 +281,43 @@ internal class TaskImplementation : BlApi.ITask
         catch (BO.BlDoesNotExistException ex)
         {
             throw new BO.BlDoesNotExistException($"Task with id={TaskToUpdate.Id} does not exist");
-
-
         }
 
     }
+
+
+    public IGrouping<BO.Status, BO.TaskInList> GroupByStatus()
+    {
+        var groupByStatus = (from item in _dal.Task.ReadAll()
+                            group new TaskInList { Alias = item.Alias, Description = item.Description, Id = item.Id, Status = getStatus(item) } by getStatus(item) into groupStatus
+                            select new { Status = groupStatus.Key,Group = groupStatus });
+
+
+        return (IGrouping<Status, TaskInList>)groupByStatus;
+    }
+
+    public void AddOrUpdateStartDate(int Id, DateTime? startDate)
+    {
+        
+            foreach (var item in _dal.Dependency.ReadAll())
+            {
+                if (item.DependentTask == Id && _dal.Task.Read(item.DependsOnTask).ScheduledDate == null)
+                    throw new BO.BlFalseUpdateDate($"update of task with id={Id} failed because trial to update before updating previous task");
+                if (startDate < this.ReadTask(item.DependsOnTask).ForecastDate)
+                    throw new BO.BlFalseUpdateDate($"update of task with id={Id} failed because trial to update before updating previous task");
+            }
+        try
+        {
+            DO.Task TaskWithStartDate = _dal.Task.Read(Id) with { StartDate = startDate };
+            _dal.Task.Update(TaskWithStartDate);
+        }
+        catch(DO.DalDoesNotExistException ex)
+        {
+            throw new BO.BlDoesNotExistException($"Task with id={Id} does not exists",ex);
+        }
+
+        
+    }
+
 }
 
