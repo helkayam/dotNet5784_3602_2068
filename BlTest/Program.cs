@@ -182,31 +182,104 @@ namespace BlTest
 
         private static void createT()
         {
-            //Console.WriteLine("Enter alias of the task, the complexity of the task,the description of the task, scheduled start date of the task and deadline date of the task ");
-            //string alias = Console.ReadLine();
+            try
+            {
+                Console.WriteLine("Enter description, alias, date of creating, erasable of the task, ScheduledDate,Deadline, Remarks, name of worker ,Id of Worker, Complexity of the task ");
+                string description = Console.ReadLine();
+                string alias = Console.ReadLine();
 
-            //WorkerExperience we = (WorkerExperience)int.Parse(Console.ReadLine());
+                DateTime creatingDate;
+                string sCreating = (Console.ReadLine());
+                bool res = DateTime.TryParse(sCreating, out creatingDate);
+                if (res == false)
+                    throw new Exception("Cant convert Create Date of Task from string to DateTime");
 
-            //string description = Console.ReadLine();
+                bool erasable = bool.Parse(Console.ReadLine());
 
-            //DateTime ScheduledDate = DateTime.Now;
 
-            //DateTime startDate = DateTime.Parse(Console.ReadLine());
-            //DateTime deadLine = DateTime.Parse(Console.ReadLine());
-            //deadLine.AddHours(s_rand.Next(1, 24)).AddMinutes(s_rand.Next(1, 60)).AddSeconds(s_rand.Next(1, 60));
-            //startDate.AddHours(s_rand.Next(1, 24)).AddMinutes(s_rand.Next(1, 60)).AddSeconds(s_rand.Next(1, 60));
+                DateTime ScheduledDate;
+                string sSchedule = (Console.ReadLine());
+                res = DateTime.TryParse(sSchedule, out ScheduledDate);
+                if (res == false)
+                    throw new Exception("Cant convert ScheduledDate Date of Task from string to DateTime");
 
-            //int id = 0;
-            //DO.Task t = new DO.Task(alias, we, description, id, ScheduledDate, deadLine);
-            //t.StartDate = startDate;
-            //try
-            //{
-            //    s_dal.Task.Create(t);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.Message);
-            //}
+                DateTime Deadline;
+                string sDeadline = (Console.ReadLine());
+                res = DateTime.TryParse(sDeadline, out Deadline);
+                if (res == false)
+                    throw new Exception("Cant convert Deadline Date of Task from string to DateTime");
+
+                string Remarks = Console.ReadLine();
+                string NameOfWorker = Console.ReadLine();
+
+                int IdOfWorker;
+                string sIdWorker = Console.ReadLine();
+                res = int.TryParse(sIdWorker, out IdOfWorker);
+                if (res == false)
+                    throw new Exception("Cant convert ID of worker on Task from string to int");
+
+                BO.WorkerInTask myWorker = new BO.WorkerInTask { Id = IdOfWorker, Name = NameOfWorker };
+
+                int complexity;
+                string sComplexity = Console.ReadLine();
+                res = int.TryParse(sComplexity, out complexity);
+                if (res == false)
+                    throw new Exception("Cant convert Complexity from string to int");
+                BO.WorkerExperience TaskComplexity = (BO.WorkerExperience)complexity;
+                Console.WriteLine("Enter number of dependent tasks");
+                int numOfDep;
+                string SNumOfDep = Console.ReadLine();
+                res = int.TryParse(SNumOfDep, out numOfDep);
+                if (res == false)
+                    throw new Exception("Cant convert number of dependent tasks from string to int");
+
+                Console.WriteLine("Enter ID of dependent tasks");
+                List<TaskInList> depTasks = new List<TaskInList>();
+                for (int i = 0; i < numOfDep; i++)
+                {
+                    int idOfTask;
+                    string sIdTask = Console.ReadLine();
+                    res = int.TryParse(sIdTask, out idOfTask);
+                    if (res == false)
+                        throw new Exception("Cant convert ID of dependent Task from string to int");
+                    BO.TaskInList taskInList = new BO.TaskInList { Id = idOfTask };
+                    depTasks.Add(taskInList);
+                }
+
+                BO.Task newTask = new BO.Task
+                {
+                    Description = description,
+                    Alias = alias,
+                    CreatedAtDate = creatingDate,
+                    Eraseable = erasable,
+                    Dependencies = depTasks,
+                    ScheduledDate = ScheduledDate,
+                    Deadline = Deadline,
+                    Remarks = Remarks,
+                    Worker = myWorker,
+                    Complexity = TaskComplexity
+                };
+
+                //what with Status RequiredEffortTime StartDate CompleteDate Deliverables???
+
+                s_bl.Task.AddTask(newTask);
+            }
+
+
+              catch (BO.BlAlreadyExistsException ex)
+            {
+                Console.WriteLine($"BlAlreadyExistsException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
+
+            }
+            catch (BO.BlInvalidGivenValueException ex)
+            {
+                Console.WriteLine($"BlInvalidGivenValueException: {ex.Message} ");
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
 
@@ -296,15 +369,15 @@ namespace BlTest
             IEnumerable<BO.WorkerInList?> w;
             switch (FilterMenu())
             {
-                case 0:w=s_bl.Worker.ReadAllWorkers((BO.FilterWorker)0, ShowLevel());break;
-                case 1: w=s_bl.Worker.ReadAllWorkers((BO.FilterWorker)1); break;
-                case 2: w=s_bl.Worker.ReadAllWorkers((BO.FilterWorker)2); break;
-                case 3: w=s_bl.Worker.ReadAllWorkers((BO.FilterWorker)3); break;
-                case 4: w=s_bl.Worker.ReadAllWorkers((BO.FilterWorker)4); break;
-                default:w = s_bl.Worker.ReadAllWorkers((BO.FilterWorker)4);break;
+                case 0: w = s_bl.Worker.ReadAllWorkers((BO.FilterWorker)0, ShowLevel()); break;
+                case 1: w = s_bl.Worker.ReadAllWorkers((BO.FilterWorker)1); break;
+                case 2: w = s_bl.Worker.ReadAllWorkers((BO.FilterWorker)2); break;
+                case 3: w = s_bl.Worker.ReadAllWorkers((BO.FilterWorker)3); break;
+                case 4: w = s_bl.Worker.ReadAllWorkers((BO.FilterWorker)4); break;
+                default: w = s_bl.Worker.ReadAllWorkers((BO.FilterWorker)4); break;
             }
 
-       
+
 
             foreach (WorkerInList x in w)
             {
@@ -313,13 +386,49 @@ namespace BlTest
             }
         }
 
+        private static int ShowComplexity ()
+        {
+            Console.WriteLine(@"Which complexity do you want?" +
+                              "0 for Tasks of Beginner" +
+                              "1 for Tasks of Intermediate" +
+                              "2 for Tasks of Expert");
+
+
+            int complexity = int.Parse(Console.ReadLine());
+            return complexity;
+
+        }
+
+        private static int showStatus()
+        {
+            Console.WriteLine(@"Which status do you want?" +
+                              "0 for Unscheduled Tasks" +
+                              "1 for Scheduled Tasks" +
+                              "2 for OnTrack Tasks"+
+                              "3 for Done tasks");
+            int MyStatus=int.Parse(Console.ReadLine());
+            return MyStatus;
+        }
+
         /// <summary>
         /// this method prints all the tasks data
         /// </summary>
         private static void readAllT()
         {
-            IEnumerable<DO.Task> t = s_dal.Task.ReadAll();
-            foreach (DO.Task x in t)
+            IEnumerable<BO.TaskInList?> t;
+            switch (FilterMenu())
+            {
+                case 0: t = s_bl.Task.ReadAllTasks((BO.Filter)0, ShowComplexity()); break;
+                case 1: t = s_bl.Task.ReadAllTasks((BO.Filter)1,showStatus()); break;
+                case 2: t = s_bl.Task.ReadAllTasks((BO.Filter)2,ShowComplexity()); break;
+                case 3: t = s_bl.Task.ReadAllTasks((BO.Filter)3); break;
+                default: t = s_bl.Task.ReadAllTasks((BO.Filter)4); break;
+            }
+            //add option of print with GroupByStatus....
+
+
+
+            foreach (TaskInList x in t)
             {
                 Console.WriteLine(x);
                 Console.WriteLine("\n");
@@ -374,7 +483,7 @@ namespace BlTest
                 s_bl.Worker.UpdateWorker(WorkerToUp);
 
             }
-            catch(BO.BlNotActiveException ex)
+            catch (BO.BlNotActiveException ex)
             {
                 Console.WriteLine($"BlNotActiveException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
 
@@ -440,8 +549,8 @@ namespace BlTest
             //}
         }
 
-     
-      
+
+
 
 
         /// <summary>
@@ -453,10 +562,10 @@ namespace BlTest
             {
                 Console.WriteLine("Enter the ID of the worker you want to delete");
                 int id;
-                string sIdTask = (Console.ReadLine());
-                bool res = int.TryParse(sIdTask, out id);
+                string sIdWorker = (Console.ReadLine());
+                bool res = int.TryParse(sIdWorker, out id);
                 if (res == false)
-                    throw new Exception("Cant convert ID Task of worker from string to int");
+                    throw new Exception("Cant convert ID of worker from string to int");
                 s_bl.Worker.RemoveWorker(id);
             }
 
@@ -490,21 +599,34 @@ namespace BlTest
         /// </summary>
         private static void deleteT()
         {
-            //try
-            //{
-            //    Console.WriteLine("Enter the ID of the task you want to delete");
-            //    int id = int.Parse(Console.ReadLine());
-            //    s_dal.Task.Delete(id);
-            //}
-            //catch (Exception ex)
-            //{
-            //    Console.WriteLine(ex.Message);
-            //}
+            try
+            {
+                Console.WriteLine("Enter the ID of the task you want to delete");
+                int id;
+                string sIdTask = (Console.ReadLine());
+                bool res = int.TryParse(sIdTask, out id);
+                if (res == false)
+                    throw new Exception("Cant convert ID Task of worker from string to int");
+
+                s_bl.Task.RemoveTask(id);
+            }
+            catch (BO.BlNotErasableException ex)
+            {
+                Console.WriteLine($"BlNotErasableException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
+
+            }
+
+            catch (BO.BlDoesNotExistException ex)
+            {
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
+
+            }
+
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
-
-       
-
-
 
     }
 

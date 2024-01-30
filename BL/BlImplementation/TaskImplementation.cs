@@ -29,9 +29,8 @@ internal class TaskImplementation : BlApi.ITask
     public void AddTask(BO.Task newTask)
     {
         DO.Task DoTask = new DO.Task(newTask.Alias, (DO.WorkerExperience)(newTask.Complexity), newTask.Description, newTask.Id, newTask.ScheduledDate, newTask.Deadline, newTask.Worker.Id);
-        DoTask.RequiredEffortTime = newTask.RequiredEffortTime; 
-        DoTask.Eraseable=newTask.Eraseable;
-
+        DoTask.RequiredEffortTime = newTask.RequiredEffortTime;
+        DoTask.Eraseable = newTask.Eraseable;
         //add dependencies
         var item = from BoDep in newTask.Dependencies
                    let id = newTask.Id
@@ -90,9 +89,10 @@ internal class TaskImplementation : BlApi.ITask
        enumFilter switch
        {
            BO.Filter.ByComplexity => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => bc.Complexity == (DO.WorkerExperience)filtervalue) : _dal.Task.ReadAll(),
-           BO.Filter.None => _dal.Task.ReadAll(),
             BO.Filter.Status=> ((BO.Status)filtervalue != null) ? _dal.Task.ReadAll(s => getStatus(s) == (BO.Status)filtervalue) : _dal.Task.ReadAll(),
-               BO.Filter.PossibleTaskForWorker => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => (int)bc.Complexity <= (int)(DO.WorkerExperience)filtervalue&&bc.StartDate!=null&&checkDependentTaskDone(bc)==true) : _dal.Task.ReadAll(),
+            BO.Filter.PossibleTaskForWorker => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => (int)bc.Complexity <= (int)(DO.WorkerExperience)filtervalue&&bc.StartDate!=null&&checkDependentTaskDone(bc)==true) : _dal.Task.ReadAll(),
+           BO.Filter.None => _dal.Task.ReadAll(),
+
        };
 
         return result.Select(dotask => new BO.TaskInList()

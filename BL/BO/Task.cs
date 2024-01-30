@@ -19,16 +19,16 @@ namespace BO
         public TimeSpan RequiredEffortTime { get; set; }
         public DateTime? ScheduledDate { get; set; }
 
-        public DateTime? StartDate { get; set; }
+        public DateTime? StartDate { get; set; } = null;
 
 
         public DateTime? ForecastDate { get; set; }
 
         public DateTime? Deadline { get; set; }
 
-        public DateTime? CompleteDate { get; set; }
+        public DateTime? CompleteDate { get; set; } = null;
 
-        public string? Deliverables { get; set; }
+        public string? Deliverables { get; set; } = null;
 
         public string? Remarks { get; set; }
 
