@@ -1,5 +1,6 @@
 ﻿using System.Collections.Specialized;
 using System.Data.Common;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Xml.Linq;
 using BL;
@@ -96,7 +97,7 @@ namespace BlTest
             Console.WriteLine("2.Adding a new task to the list");//Hen
             Console.WriteLine("3.Task display by ID");//Lea Done
             Console.WriteLine("4.Display list of all tasks");//Hen
-            Console.WriteLine("5.Display list of all tasks in group by status");//Lea Done
+            //Console.WriteLine("5.Display list of all tasks in group by status");//Lea Done
             Console.WriteLine("6.Updating existing task data");//Lea Done
             Console.WriteLine("7.Updating start date of existing task");//Lea Done
             Console.WriteLine("8.Deleting an existing task from the list");//Hen
@@ -109,7 +110,7 @@ namespace BlTest
                     case 2: createT(); break;
                     case 3: readT(); break;
                     case 4: readAllT(); break;
-                    case 5: printGroups(); break;
+                    //case 5: printGroups(); break;
                     case 6: updateT(); break;
                     case 7: AddUpdDateDate();break;
                     case 8: deleteT(); break;
@@ -262,7 +263,7 @@ namespace BlTest
                     Complexity = TaskComplexity
                 };
 
-                //what with Status RequiredEffortTime StartDate CompleteDate Deliverables???
+                
 
                 s_bl.Task.AddTask(newTask);
             }
@@ -421,16 +422,16 @@ namespace BlTest
             return MyStatus;
         }
 
-        private static void printGroups()
-        {
-           var group= s_bl.Task.GroupByStatus();
+        //private static void printGroups()
+        //{
+        //   var group= s_bl.Task.GroupByStatus();
 
-            foreach(var x in group)
-            {
-                Console.WriteLine(x);
-            }
-            Console.WriteLine();
-        }
+        //    foreach(var x in group)
+        //    {
+        //        Console.WriteLine(x);
+        //    }
+        //    Console.WriteLine();
+        //}
 
 
         /// <summary>
@@ -438,18 +439,31 @@ namespace BlTest
         /// </summary>
         private static void readAllT()
         {
-            IEnumerable<BO.TaskInList?> t;
-            switch (FilterMenu())
+            IEnumerable<BO.TaskInList?> t= s_bl.Task.ReadAllTasks((BO.Filter)4);
+
+                            
+                //var tGroup = s_bl.Task.GroupByStatus(); 
+
+                int choice = FilterMenu();
+            switch (choice)
             {
                 case 0: t = s_bl.Task.ReadAllTasks((BO.Filter)0, ShowComplexity()); break;
                 case 1: t = s_bl.Task.ReadAllTasks((BO.Filter)1,showStatus()); break;
                 case 2: t = s_bl.Task.ReadAllTasks((BO.Filter)2,ShowComplexity()); break;
-                case 3: t = s_bl.Task.ReadAllTasks((BO.Filter)3); break;
+                case 3:break;
+                case 4: t = s_bl.Task.ReadAllTasks((BO.Filter)4); break;
                 default: t = s_bl.Task.ReadAllTasks((BO.Filter)4); break;
             }
             //add option of print with GroupByStatus....
 
-
+            //if(choice==4)
+            // foreach(var grp in tGroup )
+            //    {
+            //        Status Currentstatus = grp.Status;
+            //        Console.WriteLine($"Status: {grp.Status}");
+            //        while ( grp.Status==Currentstatus)
+            //        Console.WriteLine(grp);
+            //    }
 
             foreach (TaskInList x in t)
             {
@@ -514,7 +528,7 @@ namespace BlTest
                 string aliasOfTask = Console.ReadLine();
 
                 BO.TaskInWorker TaskOfWorker = new BO.TaskInWorker { Id = IdOfTask, Alias = aliasOfTask };
-                BO.Worker WorkerToUp = new BO.Worker { Name = name, Id = id, Level = we, PhoneNumber = phonenumber, Cost = cost, Task = TaskOfWorker };
+                BO.Worker WorkerToUp = new BO.Worker { Name = name, Id = id, Level = lvl, PhoneNumber = phonenumber, Cost = cost, Task = TaskOfWorker };
 
                 s_bl.Worker.UpdateWorker(WorkerToUp);
 

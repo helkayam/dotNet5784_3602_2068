@@ -21,6 +21,6 @@ public interface ITask
  
     public IEnumerable<BO.TaskInList?> ReadAllTasks(BO.Filter enumFilter = BO.Filter.None, Object? filtervalue = null);
 
-    public IGrouping<BO.Status , BO.TaskInList> GroupByStatus();
+    //public IGrouping<BO.Status , BO.TaskInList> GroupByStatus();
 
 }

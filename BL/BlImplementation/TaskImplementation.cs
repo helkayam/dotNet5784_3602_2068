@@ -210,7 +210,7 @@ internal class TaskImplementation : BlApi.ITask
 
         try
         {
-            DO.Task updatedTask;
+            DO.Task updatedTask=new DO.Task();
             if (TaskToUpdate.Id >= 0 && TaskToUpdate.Alias.Length > 0)
             {
 
@@ -273,16 +273,10 @@ internal class TaskImplementation : BlApi.ITask
             }
 
 
-
-
-
-
-            _dal.Task.Update(updatedTask);
-
-
-
             else
                 throw new BO.BlInvalidGivenValueException($"One of the data of the Updated Task is incorrect");
+            _dal.Task.Update(updatedTask);
+
         }
 
         catch (BO.BlDoesNotExistException ex)
@@ -292,15 +286,21 @@ internal class TaskImplementation : BlApi.ITask
     }
 
 
-    public IGrouping<BO.Status, BO.TaskInList> GroupByStatus()
-{
-    var groupByStatus = (from item in _dal.Task.ReadAll()
-                         group new TaskInList { Alias = item.Alias, Description = item.Description, Id = item.Id, Status = getStatus(item) } by getStatus(item) into groupStatus
-                         select new { Status = groupStatus.Key, Group = groupStatus });
+//    public IEnumerable <TaskInList>  GroupByStatus()
+//{
+      
+//    var groupByStatus = (from item in _dal.Task.ReadAll()
+//                         group new TaskInList { Alias = item.Alias, Description = item.Description, Id = item.Id, Status = getStatus(item) } by getStatus(item) into groupStatus
+//                         select groupStatus);
 
+//        foreach(var group in groupByStatus)
+//        {
+//            foreach (var item in group)
+//                yield return new TaskInList { Alias = item.Alias, Description = item.Description, Id = item.Id, Status = item.Status };
+//        }
 
-    return (IGrouping<Status, TaskInList>)groupByStatus;
-}
+    
+//}
 
 public void AddOrUpdateStartDate(int Id, DateTime? startDate)
 {
