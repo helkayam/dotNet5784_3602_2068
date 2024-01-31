@@ -129,13 +129,13 @@ public static class Initialization
             _complexity = s_rand.Next(0, 2);
 
             //start date of the time we can create a task.
-            DateTime start = new DateTime(2023, 12, 1);
+            DateTime start = new DateTime(2024, 1, 1);
 
             //the end of the time we can create a task
-            DateTime end = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day - 1);
+            DateTime end = DateTime.Today.AddDays(-1);
             
             //range=numbers of the days beween start and end
-            int range = (end - start).Days;
+            int range = ((end - start).Days);
 
             //then we get a random date between start and end 
             _createdAtDate = start.AddDays(s_rand.Next(range)).AddHours(s_rand.Next(0, 24)).AddMinutes(s_rand.Next(0, 60)).AddSeconds(s_rand.Next(0, 60));
@@ -165,7 +165,7 @@ public static class Initialization
         //now we go over the matrix and add the dependencies to the list of dependencies
         for (int i = 0; i < 45; i++)
         {
-            Dependency dNew = new Dependency(halpMatrix[i, 0], halpMatrix[i, 1]);
+            Dependency dNew = new Dependency(halpMatrix[i, 0]-1, halpMatrix[i, 1]-1);
             s_dal!.Dependency.Create(dNew);
         }
     }
