@@ -6,6 +6,7 @@ using System.Xml.Linq;
 using BL;
 using BlApi;
 using BO;
+using DalApi;
 
 //using DO;
 
@@ -22,7 +23,13 @@ namespace BlTest
             Console.Write("Would you like to create Initial data? (Y/N)");
             string? ans = Console.ReadLine() ?? throw new FormatException("Wrong input");
             if (ans == "Y")
+            {
+               
+               
+                s_bl.Worker.deleteAll();
+                s_bl.Task.deleteAll();
                 DalTest.Initialization.Do();
+            }
 
 
 
@@ -187,22 +194,19 @@ namespace BlTest
         {
             try
             {
-                Console.WriteLine("Enter description, alias, date of creating, erasable of the task, ScheduledDate,Deadline, Remarks, name of worker ,Id of Worker, Complexity of the task ");
+                Console.WriteLine("Enter description, alias, erasable of the task, ScheduledDate,Deadline, Remarks, name of worker ,Id of Worker, Complexity of the task ");
                 string description = Console.ReadLine();
                 string alias = Console.ReadLine();
 
-                DateTime creatingDate;
-                string sCreating = (Console.ReadLine());
-                bool res = DateTime.TryParse(sCreating, out creatingDate);
-                if (res == false)
-                    throw new Exception("Cant convert Create Date of Task from string to DateTime");
+                DateTime creatingDate=DateTime.Now;
+              
 
                 bool erasable = bool.Parse(Console.ReadLine());
 
 
                 DateTime ScheduledDate;
                 string sSchedule = (Console.ReadLine());
-                res = DateTime.TryParse(sSchedule, out ScheduledDate);
+               bool  res = DateTime.TryParse(sSchedule, out ScheduledDate);
                 if (res == false)
                     throw new Exception("Cant convert ScheduledDate Date of Task from string to DateTime");
 
@@ -279,6 +283,10 @@ namespace BlTest
                 Console.WriteLine($"BlInvalidGivenValueException: {ex.Message} ");
 
             }
+            catch (BO.BlDoesNotExistException ex)
+            {
+                Console.WriteLine($"BlDoesNotExistException:{ex.Message}");
+            }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
@@ -351,7 +359,7 @@ namespace BlTest
 
         }
 
-        private static int FilterMenu()
+        private static int FilterMenuW()
         {
             Console.WriteLine("Select the filter you want to operate");
             Console.WriteLine("0.filter by Level");
@@ -363,6 +371,20 @@ namespace BlTest
             int choice = int.Parse(Console.ReadLine());
             return choice;
         }
+
+
+        private static int FilterMenuT()
+        {
+            Console.WriteLine("Select the filter you want to operate");
+            Console.WriteLine("0.filter by Complexity");
+            Console.WriteLine("1.filter by Status of tasks");
+            Console.WriteLine("2.filter by Possible Task for workers");
+            Console.WriteLine(".None");
+
+            int choice = int.Parse(Console.ReadLine());
+            return choice;
+        }
+
 
         private static int ShowLevel()
         {
@@ -379,7 +401,7 @@ namespace BlTest
         {
 
             IEnumerable<BO.WorkerInList?> w;
-            switch (FilterMenu())
+            switch (FilterMenuW())
             {
                 case 0: w = s_bl.Worker.ReadAllWorkers((BO.FilterWorker)0, ShowLevel()); break;
                 case 1: w = s_bl.Worker.ReadAllWorkers((BO.FilterWorker)1); break;
@@ -439,19 +461,19 @@ namespace BlTest
         /// </summary>
         private static void readAllT()
         {
-            IEnumerable<BO.TaskInList?> t= s_bl.Task.ReadAllTasks((BO.Filter)4);
+            IEnumerable<BO.TaskInList> t= s_bl.Task.ReadAllTasks((BO.Filter)4);
 
                             
                 //var tGroup = s_bl.Task.GroupByStatus(); 
 
-                int choice = FilterMenu();
+                int choice = FilterMenuT();
             switch (choice)
             {
                 case 0: t = s_bl.Task.ReadAllTasks((BO.Filter)0, ShowComplexity()); break;
                 case 1: t = s_bl.Task.ReadAllTasks((BO.Filter)1,showStatus()); break;
-                case 2: t = s_bl.Task.ReadAllTasks((BO.Filter)2,ShowComplexity()); break;
-                case 3:break;
-                case 4: t = s_bl.Task.ReadAllTasks((BO.Filter)4); break;
+                case 2: t = s_bl.Task.ReadAllTasks((BO.Filter)2); break;
+              
+                case 3: t = s_bl.Task.ReadAllTasks((BO.Filter)4); break;
                 default: t = s_bl.Task.ReadAllTasks((BO.Filter)4); break;
             }
             //add option of print with GroupByStatus....

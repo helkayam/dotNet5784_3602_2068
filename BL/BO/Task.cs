@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,7 +38,14 @@ namespace BO
         public WorkerExperience Complexity {  get; set; }
 
 
+        public override string ToString()
+        {
 
+            string enumerableString = string.Join(",", Dependencies );
+
+            return $"Id of Task:  { Id}  Alias {Alias}    Description: {Description}   Complexity: {Complexity}  Created at Date: { CreatedAtDate}   Status:{Status}   Dependencies {enumerableString}  Required effort time: {RequiredEffortTime}   Scheduled Date: {ScheduledDate} " +
+                $"Start Date: {StartDate} Forecast Date: {ForecastDate}  Dead Line Date: {Deadline}    Complete Date: {CompleteDate}  Deliverables: {Deliverables}  Remarks: {Remarks}  Worker in Task: {Worker} "  ;
+        }
 
     }
 }

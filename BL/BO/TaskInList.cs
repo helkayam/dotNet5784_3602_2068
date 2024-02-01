@@ -15,5 +15,10 @@ namespace BO
         public string Alias { get; init; }
 
         public Status Status { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}  Alias: {Alias}  Description: {Description}  Status: {Status}";
+        }
     }
 }

@@ -213,6 +213,11 @@ internal class WorkerImplementation : IWorker
         }
 
     }
+
+    public void deleteAll()
+    {
+        _dal.Worker.DeleteAll();
+    }
 }
 
 

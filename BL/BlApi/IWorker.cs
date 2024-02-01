@@ -18,6 +18,8 @@ public interface IWorker
 
     public BO.Worker? ReadWorker(int Id);
 
+    public void deleteAll();
+
     public IEnumerable<BO.WorkerInList?> ReadAllWorkers(BO.FilterWorker enumFilter = BO.FilterWorker.None, Object? filtervalue = null);
 
 

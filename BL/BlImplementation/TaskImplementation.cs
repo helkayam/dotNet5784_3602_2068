@@ -31,12 +31,16 @@ internal class TaskImplementation : BlApi.ITask
         DO.Task DoTask = new DO.Task(newTask.Alias, (DO.WorkerExperience)(newTask.Complexity), newTask.Description, newTask.Id, newTask.ScheduledDate, newTask.Deadline, newTask.Worker.Id);
         DoTask.RequiredEffortTime = newTask.RequiredEffortTime;
         DoTask.Eraseable = newTask.Eraseable;
+        if (_dal.Worker.Read(newTask.Worker.Id) == null)
+            throw new BO.BlDoesNotExistException($"The worker assigned to the task doesnt exist");
+
         //add dependencies
         var item = from BoDep in newTask.Dependencies
                    let id = newTask.Id
                    select new DO.Dependency { DependentTask = BoDep.Id, DependsOnTask = id };
         foreach (var dep in item)
         {
+            if(_dal.Task.Read(dep.DependentTask)!=null)
             _dal.Dependency.Create(dep);
         }
 
@@ -52,6 +56,7 @@ internal class TaskImplementation : BlApi.ITask
         {
             throw new BO.BlAlreadyExistsException($"Task with ID={newTask.Id} already exists", ex);
         }
+    
 
 
     }
@@ -90,12 +95,13 @@ internal class TaskImplementation : BlApi.ITask
        {
            BO.Filter.ByComplexity => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => bc.Complexity == (DO.WorkerExperience)filtervalue) : _dal.Task.ReadAll(),
             BO.Filter.Status=> ((BO.Status)filtervalue != null) ? _dal.Task.ReadAll(s => getStatus(s) == (BO.Status)filtervalue) : _dal.Task.ReadAll(),
-            BO.Filter.PossibleTaskForWorker => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => (int)bc.Complexity <= (int)(DO.WorkerExperience)filtervalue&&bc.StartDate!=null&&checkDependentTaskDone(bc)==true) : _dal.Task.ReadAll(),
+            BO.Filter.PossibleTaskForWorker => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => (bc.Complexity <= (DO.WorkerExperience)filtervalue && bc.StartDate!=null&&checkDependentTaskDone(bc)==true)) : _dal.Task.ReadAll(),
+         
            BO.Filter.None => _dal.Task.ReadAll(),
 
        };
 
-        return result.Select(dotask => new BO.TaskInList()
+      return  result.Select(dotask => new BO.TaskInList()
         {
             Alias = dotask.Alias,
             Id = dotask.Id,
@@ -104,6 +110,8 @@ internal class TaskImplementation : BlApi.ITask
         }
         ).OrderBy(t => t.Alias);
 
+
+       
     }
 
     public BO.Task? ReadTask(int Id)
@@ -112,7 +120,7 @@ internal class TaskImplementation : BlApi.ITask
         BO.Task BoTask = new BO.Task();
         try
         {
-            DO.Task DoTask = _dal.Task.Read(Id);
+            DO.Task DoTask = _dal.Task.Read(Id,true);
             BoTask.Id = DoTask.Id;
             BoTask.Description = DoTask.Description;
             BoTask.Alias = DoTask.Alias;
@@ -134,23 +142,39 @@ internal class TaskImplementation : BlApi.ITask
             BoTask.Complexity = (BO.WorkerExperience)(DoTask.Complexity);
 
             //get the list of dependencies and check where this task is dependent on another task
-            var dep = _dal.Dependency.ReadAll().Where(item => item.DependentTask == Id).
-                Select(item => new BO.TaskInList()
-                {
-                    Id = item.DependsOnTask,
-                    Description = (_dal.Task.Read(item.DependsOnTask)).Description,
-                    Alias = (_dal.Task.Read(item.DependsOnTask)).Alias,
-                    Status = getStatus(_dal.Task.Read(item.DependsOnTask))
-                });
 
+            var dep = from item in _dal.Dependency.ReadAll()
+                       where item.Id == Id
+                       select new TaskInList
+                       {
+                           Id = item.DependsOnTask,
+                           Description = (_dal.Task.Read(item.DependsOnTask)).Description,
+                           Alias = (_dal.Task.Read(item.DependsOnTask)).Alias,
+                           Status = getStatus(_dal.Task.Read(item.DependsOnTask))
+                       };
 
+            //IEnumerable < TaskInList > dep = _dal.Dependency.ReadAll().Where(item => item.DependentTask == Id).
+            //    Select(item => new BO.TaskInList()
+            //    {
+            //        Id = item.DependsOnTask,
+            //        Description = (_dal.Task.Read(item.DependsOnTask)).Description,
+            //        Alias = (_dal.Task.Read(item.DependsOnTask)).Alias,
+            //        Status = getStatus(_dal.Task.Read(item.DependsOnTask))
+            //    });
+           
+          BoTask.Dependencies=new List<TaskInList>();
             foreach (var item in dep)
-                BoTask.Dependencies.Add(item);
+                    BoTask.Dependencies.Add(item);
+
+
+             
+     
 
             //worker...
             int? idWorker = DoTask.WorkerId;
             if (idWorker != null)
             {
+                BoTask.Worker = new WorkerInTask();
                 BoTask.Worker.Id = (int)idWorker;
                 BoTask.Worker.Name = (_dal.Worker.Read(BoTask.Worker.Id)!).Name;
             }
@@ -176,9 +200,9 @@ internal class TaskImplementation : BlApi.ITask
     {
         try
         {
-            _dal.Task.Read(Id);
+            _dal.Task.Read(Id,true);
             var dep = _dal.Dependency.ReadAll().
-                Where(item => item.DependsOnTask == Id).Select(item => item);
+                Where(item => item.DependsOnTask == Id).Select(item => item).ToList();
 
 
             if (dep == null)
@@ -324,6 +348,12 @@ public void AddOrUpdateStartDate(int Id, DateTime? startDate)
 
 
 }
+
+    public void deleteAll()
+    {
+        _dal.Task.DeleteAll();
+        _dal.Dependency.DeleteAll();
+    }
 
 }
 
