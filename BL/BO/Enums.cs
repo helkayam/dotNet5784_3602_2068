@@ -8,3 +8,5 @@ public enum Status { Unscheduled, Scheduled, OnTrack, Done }
 public enum Filter { ByComplexity, Status,PossibleTaskForWorker, GroupByStatus,None }
 
 public enum FilterWorker {  ByLevel,ActiveW, Erasable,WithoutTask, None }
+
+public enum ProjectStatus { PlanStage, ScheduleDetermination, ExecutionStage }

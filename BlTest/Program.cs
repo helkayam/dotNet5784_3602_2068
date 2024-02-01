@@ -194,7 +194,7 @@ namespace BlTest
         {
             try
             {
-                Console.WriteLine("Enter description, alias, erasable of the task, ScheduledDate,Deadline, Remarks, name of worker ,Id of Worker, Complexity of the task ");
+                Console.WriteLine("Enter description, alias, erasable of the task, ScheduledDate,Deadline, Remarks ,Id of Worker, Complexity of the task ");
                 string description = Console.ReadLine();
                 string alias = Console.ReadLine();
 
@@ -217,7 +217,7 @@ namespace BlTest
                     throw new Exception("Cant convert Deadline Date of Task from string to DateTime");
 
                 string Remarks = Console.ReadLine();
-                string NameOfWorker = Console.ReadLine();
+                
 
                 int IdOfWorker;
                 string sIdWorker = Console.ReadLine();
@@ -225,6 +225,7 @@ namespace BlTest
                 if (res == false)
                     throw new Exception("Cant convert ID of worker on Task from string to int");
 
+                string NameOfWorker = s_bl.Worker.ReadWorker(IdOfWorker).Name;
                 BO.WorkerInTask myWorker = new BO.WorkerInTask { Id = IdOfWorker, Name = NameOfWorker };
 
                 int complexity;

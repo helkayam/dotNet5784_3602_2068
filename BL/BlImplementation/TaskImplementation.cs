@@ -12,6 +12,22 @@ internal class TaskImplementation : BlApi.ITask
     private DalApi.IDal _dal = DalApi.Factory.Get;
 
 
+
+    //public ProjectStatus ProjectStatus()
+    //{
+        
+    //    if (StartDateProject == null)
+    //        return BO.ProjectStatus.PlanStage;
+    //    else
+
+    //    if (StartDateProject != null)
+    //    {
+    //        var withoutDate = (from tasks in _dal.Task.ReadAll()
+
+
+    //    }
+
+    //}
     public BO.Status getStatus(DO.Task task)
     {
         TimeSpan t = TimeSpan.FromDays(2);
@@ -27,12 +43,21 @@ internal class TaskImplementation : BlApi.ITask
             return BO.Status.OnTrack;
     }
     public void AddTask(BO.Task newTask)
-    {
-        DO.Task DoTask = new DO.Task(newTask.Alias, (DO.WorkerExperience)(newTask.Complexity), newTask.Description, newTask.Id, newTask.ScheduledDate, newTask.Deadline, newTask.Worker.Id);
-        DoTask.RequiredEffortTime = newTask.RequiredEffortTime;
+    { 
+        if (GetStatusOfProject() != BO.ProjectStatus.PlanStage)//fix it 
+            throw new BO.BlForbiddenActionException("The project status cant allow to add Task");
+
+
+        //DO.Task DoTask = new DO.Task(newTask.Alias, (DO.WorkerExperience)(newTask.Complexity), newTask.Description, newTask.Id, newTask.ScheduledDate, newTask.Deadline);
+        DO.Task DoTask;
+            DoTask = new DO.Task(newTask.Alias, (DO.WorkerExperience)(newTask.Complexity), newTask.Description, newTask.Id);
+
+
+  
+            DoTask.RequiredEffortTime = newTask.RequiredEffortTime;
         DoTask.Eraseable = newTask.Eraseable;
-        if (_dal.Worker.Read(newTask.Worker.Id) == null)
-            throw new BO.BlDoesNotExistException($"The worker assigned to the task doesnt exist");
+        //if (_dal.Worker.Read(newTask.Worker.Id) == null)
+        //    throw new BO.BlDoesNotExistException($"The worker assigned to the task doesnt exist");
 
         //add dependencies
         var item = from BoDep in newTask.Dependencies
@@ -144,7 +169,7 @@ internal class TaskImplementation : BlApi.ITask
             //get the list of dependencies and check where this task is dependent on another task
 
             var dep = from item in _dal.Dependency.ReadAll()
-                       where item.Id == Id
+                       where item.DependentTask == Id
                        select new TaskInList
                        {
                            Id = item.DependsOnTask,
@@ -205,7 +230,7 @@ internal class TaskImplementation : BlApi.ITask
                 Where(item => item.DependsOnTask == Id).Select(item => item).ToList();
 
 
-            if (dep == null)
+            if (dep.Count==0)
             {
                 _dal.Task.Delete(Id);
 
@@ -229,11 +254,16 @@ internal class TaskImplementation : BlApi.ITask
 
     }
 
+    
+    
     public void UpdateTask(BO.Task TaskToUpdate)
     {
 
+       // if((GetStatusOfProject == BO.ProjectStatus.ScheduleDetermination)
+
         try
         {
+
             DO.Task updatedTask=new DO.Task();
             if (TaskToUpdate.Id >= 0 && TaskToUpdate.Alias.Length > 0)
             {
@@ -241,29 +271,40 @@ internal class TaskImplementation : BlApi.ITask
                 var TaskToUpd = _dal.Task.ReadAll().Where(item => item.Id == TaskToUpdate.Id)
                     .Select(item => item).FirstOrDefault();
 
-                if (TaskToUpd.ScheduledDate != null)
+                if (GetStatusOfProject == BO.ProjectStatus.ExecutionStage)
                 {
-                    updatedTask = new DO.Task(TaskToUpdate.Alias, TaskToUpd.Complexity, TaskToUpdate.Description, TaskToUpd.Id, TaskToUpd.ScheduledDate, TaskToUpd.DeadLineDate,
-                        TaskToUpdate.Worker.Id);
+
+                   
+                    updatedTask = new DO.Task(TaskToUpdate.Alias, (DO.WorkerExperience)TaskToUpdate.Complexity, TaskToUpdate.Description, TaskToUpd.Id, TaskToUpd.ScheduledDate, TaskToUpdate.Deadline,TaskToUpdate.Worker.Id );
+
+                   
+
+                 
+
                     updatedTask.IsMileStone = TaskToUpd.IsMileStone;
-                    updatedTask.StartDate = TaskToUpd.StartDate;
-                    updatedTask.Eraseable = TaskToUpd.Eraseable;
-                    updatedTask.CompleteDate = TaskToUpd.CompleteDate;
-                    updatedTask.Remarks = TaskToUpdate.Remarks;
-                    updatedTask.CreatedAtDate = TaskToUpd.CreatedAtDate;
-                    updatedTask.Deliverables = TaskToUpdate.Deliverables;
+                   
+                    updatedTask.Remarks = TaskToUpdate.Remarks;//1 3 
+                    updatedTask.CreatedAtDate = TaskToUpd.CreatedAtDate;//1 3 
+
+                  
+                        updatedTask.CompleteDate = TaskToUpd.CompleteDate;//3
+                        updatedTask.Deliverables = TaskToUpdate.Deliverables;//3
+                        updatedTask.StartDate = TaskToUpd.StartDate;//3
+                  
+
+                
+
+                   
+
+
                 }
-                else
+                else//1 
                 {
-                    updatedTask = new DO.Task(TaskToUpdate.Alias, (DO.WorkerExperience)TaskToUpdate.Complexity, TaskToUpdate.Description, TaskToUpdate.Id, TaskToUpdate.ScheduledDate, TaskToUpdate.Deadline,
-                       TaskToUpdate.Worker.Id);
+                    updatedTask = new DO.Task(TaskToUpdate.Alias, (DO.WorkerExperience)TaskToUpdate.Complexity, TaskToUpdate.Description, TaskToUpdate.Id);
                     updatedTask.IsMileStone = TaskToUpd.IsMileStone;
-                    updatedTask.StartDate = TaskToUpd.StartDate;
                     updatedTask.Eraseable = TaskToUpdate.Eraseable;
-                    updatedTask.CompleteDate = TaskToUpdate.CompleteDate;
                     updatedTask.Remarks = TaskToUpdate.Remarks;
                     updatedTask.CreatedAtDate = TaskToUpd.CreatedAtDate;
-                    updatedTask.Deliverables = TaskToUpdate.Deliverables;
 
                     bool contradictionBetweenDependencies = false;
                     foreach (var item in TaskToUpdate.Dependencies)
@@ -328,24 +369,46 @@ internal class TaskImplementation : BlApi.ITask
 
 public void AddOrUpdateStartDate(int Id, DateTime? startDate)
 {
-
+     
     foreach (var item in _dal.Dependency.ReadAll())
     {
         if (item.DependentTask == Id && _dal.Task.Read(item.DependsOnTask).ScheduledDate == null)
             throw new BO.BlFalseUpdateDate($"update of start date of task with id={Id} failed because trial to update before scheduling previous task");
-        if (startDate < this.ReadTask(item.DependsOnTask).ForecastDate)
+        if (item.DependentTask == Id&& startDate < this.ReadTask(item.DependsOnTask).ForecastDate)
             throw new BO.BlFalseUpdateDate($"update of task with id={Id} failed because trial to update the start date of task to be before forecast finishing date of  previous task");
-    }
-    try
-    {
-        DO.Task TaskWithStartDate = _dal.Task.Read(Id) with { StartDate = startDate };
-        _dal.Task.Update(TaskWithStartDate);
-    }
-    catch (DO.DalDoesNotExistException ex)
-    {
-        throw new BO.BlDoesNotExistException($"Task with id={Id} does not exists", ex);
-    }
 
+        
+    }
+   var depends= from task in _dal.Dependency.ReadAll()
+                where task.DependentTask == Id
+                select task;
+
+        try {
+            if (depends.Count() == 0 && StartDateProject != null && startDate > StartDateProject)
+            {
+
+                DO.Task updDate = _dal.Task.Read(Id) with { StartDate = startDate };
+                _dal.Task.Update(updDate);
+
+
+            }
+            if (depends.Count() == 0 && StartDateProject == null)
+                throw new BO.BlInvalidGivenValueException($"false start date update of task: Project didnt start yet ");
+            else
+            if (depends.Count() == 0 && startDate < = StartDateProject)
+                throw new BO.BlInvalidGivenValueException($"false start date update of task: start of task before start date project");
+            else if (depends.Count() != 0)
+            {
+                DO.Task updDate = _dal.Task.Read(Id) with { StartDate = startDate };
+                _dal.Task.Update(updDate);
+            }
+
+        }
+        catch (DO.DalDoesNotExistException ex)
+        {
+            throw new BO.BlDoesNotExistException($"Task with id={Id} does not exists", ex);
+        }
+       
 
 }
 
@@ -355,5 +418,6 @@ public void AddOrUpdateStartDate(int Id, DateTime? startDate)
         _dal.Dependency.DeleteAll();
     }
 
+   
 }
 

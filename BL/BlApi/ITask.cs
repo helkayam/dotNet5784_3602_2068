@@ -23,6 +23,11 @@ public interface ITask
 
     public void deleteAll();
 
+    //public ProjectStatus ProjectStatus();
+
+    //public bool AllTaskWithDate();
+
+
     //public IGrouping<BO.Status , BO.TaskInList> GroupByStatus();
 
 }

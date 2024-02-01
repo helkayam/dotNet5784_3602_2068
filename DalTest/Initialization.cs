@@ -133,7 +133,12 @@ public static class Initialization
 
             //the end of the time we can create a task
             DateTime end = DateTime.Today.AddDays(-1);
-            
+
+            //random number of days required to do the task
+            TimeSpan Ret = TimeSpan.FromDays(s_rand.Next(0, 7));
+
+
+              
             //range=numbers of the days beween start and end
             int range = ((end - start).Days);
 

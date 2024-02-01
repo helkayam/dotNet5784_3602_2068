@@ -6,11 +6,20 @@ using System.Threading.Tasks;
 
 namespace BlImplementation;
 using BlApi;
+
+
 internal class Bl : IBl
 {
-    public IWorker Worker => new WorkerImplementation() ;
 
-    public ITask Task => new TaskImplementation ();
+    public DateTime StartDateProject { get; set; }
 
-    
+    public DateTime EndDateProject { get; set; }
+   
+  
+
+    public IWorker Worker => new WorkerImplementation();
+
+    public ITask Task => new TaskImplementation();
+
+
 }

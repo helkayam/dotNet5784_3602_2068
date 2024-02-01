@@ -18,6 +18,8 @@ public class BlAlreadyExistsException : Exception
                 : base(message, innerException) { }
 }
 
+
+
 [Serializable]
 public class BlNotErasableException : Exception
 {
@@ -33,6 +35,7 @@ public class BlNotActiveException : Exception
     public BlNotActiveException(string message, Exception innerException)
                 : base(message, innerException) { }
 }
+
 
 
 [Serializable]
@@ -53,6 +56,14 @@ public class BlInvalidGivenValueException : Exception
     }
 }
 
+
+[Serializable]
+public class BlForbiddenActionException : Exception
+{
+    public BlForbiddenActionException(string? message) : base(message)
+    {
+    }
+}
 
 [Serializable]
 public class BlFalseUpdateDate : Exception

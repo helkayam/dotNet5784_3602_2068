@@ -14,7 +14,9 @@ namespace DalApi
     /// <typeparam name="T">When any entity inherits from this generic interface it will send the name of the entity in place of this T </typeparam>
     public interface ICrud<T> where T:class
     {
-        
+
+       
+
         int Create(T item);
 
         T? Read(int id,bool throwAnException=false);
