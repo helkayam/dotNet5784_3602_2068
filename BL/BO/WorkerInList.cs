@@ -12,5 +12,10 @@ namespace BO
         public required string Name { get; set; }
         public TaskInWorker Task { get; init; }
 
+        public override string ToString()
+        {
+            return $"Id: {Id}, Name:{Name}, Task:{Task}";
+        }
+
     }
 }

@@ -15,6 +15,11 @@ namespace BO
         public string? PhoneNumber { get; set; }
         public double? Cost { get; set; }
         public TaskInWorker Task { get; set; }
-        public bool active { get; set; }    
+        public bool active { get; set; }
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, Name: {Name}, Level:{Level}, PhoneNumber: {PhoneNumber}, Cost: {Cost}, Task:{Task}, active: {active}";
+        }
     }
 }
