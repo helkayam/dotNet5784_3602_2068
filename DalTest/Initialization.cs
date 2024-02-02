@@ -145,10 +145,12 @@ public static class Initialization
             //then we get a random date between start and end 
             _createdAtDate = start.AddDays(s_rand.Next(range)).AddHours(s_rand.Next(0, 24)).AddMinutes(s_rand.Next(0, 60)).AddSeconds(s_rand.Next(0, 60));
            
+          
             //create a new object of type task
             Task newTask = new Task(_alias, (WorkerExperience)(_complexity), _description, 0,null, null);
             
             newTask.CreatedAtDate = _createdAtDate;
+            newTask.RequiredEffortTime = Ret;
 
             //Create the task and add to the list
             s_dal!.Task.Create(newTask);

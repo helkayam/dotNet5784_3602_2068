@@ -12,22 +12,32 @@ internal class TaskImplementation : BlApi.ITask
     private DalApi.IDal _dal = DalApi.Factory.Get;
 
 
+    public void UpdateStarteEndProjectDate(DateTime startDateProject, DateTime endDateProject)
+    {
 
-    //public ProjectStatus ProjectStatus()
-    //{
+   
+    }
+    public ProjectStatus ProjectStatus()
+    {
         
-    //    if (StartDateProject == null)
-    //        return BO.ProjectStatus.PlanStage;
-    //    else
+        if (StartDateProject == null)
+            return BO.ProjectStatus.PlanStage;
+        else
 
-    //    if (StartDateProject != null)
-    //    {
-    //        var withoutDate = (from tasks in _dal.Task.ReadAll()
+        if (StartDateProject != null)
+        {
+            var withoutDate = (from tasks in _dal.Task.ReadAll()
+                               where (tasks.ScheduledDate == null)
+                               select tasks).ToList();
+            if (withoutDate.Count == 0)
+                return BO.ProjectStatus.ExecutionStage;
+   
 
+        }
+        
+            return BO.ProjectStatus.ScheduleDetermination;
 
-    //    }
-
-    //}
+    }
     public BO.Status getStatus(DO.Task task)
     {
         TimeSpan t = TimeSpan.FromDays(2);
@@ -192,7 +202,7 @@ internal class TaskImplementation : BlApi.ITask
                     BoTask.Dependencies.Add(item);
 
 
-             
+         
      
 
             //worker...
@@ -392,6 +402,7 @@ public void AddOrUpdateStartDate(int Id, DateTime? startDate)
 
 
             }
+        
             if (depends.Count() == 0 && StartDateProject == null)
                 throw new BO.BlInvalidGivenValueException($"false start date update of task: Project didnt start yet ");
             else

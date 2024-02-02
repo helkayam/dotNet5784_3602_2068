@@ -27,8 +27,9 @@ internal static class Config
     /// This is a field that gets us the next running number of Dependency by using the XmlTools class
     /// </summary>
     internal static int NextDependencyId { get => XMLTools.GetAndIncreaseNextId(s_data_config_xml, "NextDependencyId"); }
+    internal static DateTime  StartDateProject { get => XMLTools.getStartDateProject(s_data_config_xml, "StartDateProject"); }
 
 
-    internal static DateTime StartDateProject { get => XMLTools.ToDateTimeNullable(""); } 
+
 
 }
