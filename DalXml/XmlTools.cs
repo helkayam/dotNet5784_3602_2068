@@ -46,15 +46,7 @@ static class XMLTools
     }
     #endregion
 
-    public static DateTime getStartDateProject(string data_config_xml, string elemName)
-    {
-        XElement root = XMLTools.LoadListFromXMLElement(data_config_xml);
-        DateTime dt=root.ToDateTimeNullable(elemName)??throw new FormatException($"can't convert Start Date Project.  {data_config_xml}, {elemName}");
    
-        root.Element(elemName)?.SetValue((" "));
-        XMLTools.SaveListToXMLElement(root, data_config_xml);
-        return dt;
-    }
     /// <summary>
     /// The method receives a root of type XElement that contains a list of elements of IEnumerable<XElement> entities 
     /// and saves this structure in an XML file

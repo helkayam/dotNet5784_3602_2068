@@ -12,16 +12,8 @@ internal class Bl : IBl
 {
 
 
-    public DateTime StartDateProject { get; set; }
+   
 
-    public DateTime EndDateProject { get; set; }
-
-    public void UpdateStarteEndProjectDate(DateTime startDateProject, DateTime endDateProject)
-    {
-        
-        StartDateProject = startDateProject;    
-        EndDateProject = endDateProject;
-    }
 
     public IWorker Worker => new WorkerImplementation();
 

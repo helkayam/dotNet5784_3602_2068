@@ -9,10 +9,8 @@ namespace BlApi;
 
 public interface IBl
 {
-    //public DateTime StartDateProject {  get; set; } 
 
-
-    //public DateTime EndDateProject { get; set; }
+   
   
     public static Enum StatusProject { get; set; }
    

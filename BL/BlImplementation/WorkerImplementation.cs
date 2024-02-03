@@ -121,7 +121,7 @@ internal class WorkerImplementation : IWorker
                                     {
                                         Id = TaskOfWorker.Id,
                                         Alias = TaskOfWorker.Alias
-                                    }).First()
+                                    }).FirstOrDefault()
 
 
                         }).FirstOrDefault();

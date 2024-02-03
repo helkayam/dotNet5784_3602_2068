@@ -5,6 +5,18 @@ using System.Collections.Generic;
 
 internal class TaskImplementation : ITask
 {
+
+    public  DateTime startdatePro;
+    
+    public DateTime? GetStartDateProject()
+    {
+        return startdatePro;
+    }
+
+    public void UpdateStartDateProject(DateTime dt)
+    {
+        startdatePro = dt;
+    }
     /// <summary>
     /// this method receive an id, and check wether a task with that id is in the list
     /// </summary>
