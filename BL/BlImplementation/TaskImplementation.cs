@@ -287,6 +287,9 @@ internal class TaskImplementation : BlApi.ITask
         {
 
             DO.Task DoTask = _dal.Task.Read(TaskToUpdate.Id) with { ScheduledDate = TaskToUpdate.ScheduledDate };
+            _dal.Task.Update(DoTask);
+
+
             //foreach(var myTask in ReadAllTasks())
             // {
             //     BO.Task BoTask=ReadTask(myTask.Id);
