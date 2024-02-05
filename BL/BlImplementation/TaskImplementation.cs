@@ -15,18 +15,17 @@ internal class TaskImplementation : BlApi.ITask
 
     public void UpdateStarteEndProjectDate(DateTime startDateProject)
     {
-        _dal.Task.UpdateStartDateProject(startDateProject);
+        _dal.Schedule.UpdateStartDateProject(startDateProject);
     }
 
    
     public ProjectStatus GetStatusOfProject()
     {
-        
-        if (_dal.Task.GetStartDateProject() == null)
+        if(_dal.Schedule.GetStartDateProject()== null)
             return BO.ProjectStatus.PlanStage;
         else
 
-        if (_dal.Task.GetStartDateProject() != null)
+        if (_dal.Schedule.GetStartDateProject() != null)
         {
             var withoutDate = (from tasks in _dal.Task.ReadAll()
                                where (tasks.ScheduledDate == null)
@@ -284,7 +283,7 @@ internal class TaskImplementation : BlApi.ITask
     public void UpdateTask(BO.Task TaskToUpdate)
     {
 
-        if ((GetStatusOfProject == BO.ProjectStatus.ScheduleDetermination))
+        if ((GetStatusOfProject() == BO.ProjectStatus.ScheduleDetermination))
         {
 
             DO.Task DoTask = _dal.Task.Read(TaskToUpdate.Id) with { ScheduledDate = TaskToUpdate.ScheduledDate };

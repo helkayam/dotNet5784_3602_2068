@@ -22,6 +22,8 @@ namespace DalApi
         /// </summary>
         ITask Task { get; }
 
+        ISchedule Schedule { get; }
+
 
     }
 }
