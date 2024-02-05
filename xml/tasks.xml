@@ -465,4 +465,19 @@
     <CompleteDate xsi:nil="true" />
     <CreatedAtDate>2024-01-19T20:01:34</CreatedAtDate>
   </Task>
+  <Task>
+    <Alias>abcA</Alias>
+    <Complexity>Beginner</Complexity>
+    <Description>aaaabbbcccc</Description>
+    <Id>31</Id>
+    <ScheduledDate xsi:nil="true" />
+    <DeadLineDate xsi:nil="true" />
+    <WorkerId xsi:nil="true" />
+    <IsMileStone>false</IsMileStone>
+    <StartDate xsi:nil="true" />
+    <Eraseable>true</Eraseable>
+    <RequiredEffortTime>PT0S</RequiredEffortTime>
+    <CompleteDate xsi:nil="true" />
+    <CreatedAtDate>2024-02-03T20:41:50.0169399+02:00</CreatedAtDate>
+  </Task>
 </ArrayOfTask>

@@ -55,7 +55,7 @@ internal class TaskImplementation : BlApi.ITask
     }
     public void AddTask(BO.Task newTask)
     { 
-        if (GetStatusOfProject() != BO.ProjectStatus.PlanStage)//fix it 
+        if (GetStatusOfProject() != BO.ProjectStatus.PlanStage) 
             throw new BO.BlForbiddenActionException("The project status cant allow to add Task");
 
 
@@ -64,8 +64,8 @@ internal class TaskImplementation : BlApi.ITask
             DoTask = new DO.Task(newTask.Alias, (DO.WorkerExperience)(newTask.Complexity), newTask.Description, newTask.Id);
 
 
-  
             DoTask.RequiredEffortTime = newTask.RequiredEffortTime;
+           
         DoTask.Eraseable = newTask.Eraseable;
         //if (_dal.Worker.Read(newTask.Worker.Id) == null)
         //    throw new BO.BlDoesNotExistException($"The worker assigned to the task doesnt exist");

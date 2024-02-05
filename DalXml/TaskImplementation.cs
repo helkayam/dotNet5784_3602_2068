@@ -158,10 +158,10 @@ internal class TaskImplementation:ITask
     {
        
         XElement root = XMLTools.LoadListFromXMLElement(data_config);
-        string? dt=root.Element("StartDateProject").Value;
+        string? dt=root.Element("StartDateProject")?.Value;
 
         XMLTools.SaveListToXMLElement(root, data_config);
-        if (dt != null)
+        if (dt != "")
             return DateTime.Parse(dt);
         else
             return null;
