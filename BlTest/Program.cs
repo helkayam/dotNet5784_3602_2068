@@ -401,7 +401,7 @@ namespace BlTest
         private static void readAllW()
         {
 
-            IEnumerable<BO.WorkerInList?> w;
+            IEnumerable<BO.Worker?> w;
             switch (FilterMenuW())
             {
                 case 0: w = s_bl.Worker.ReadAllWorkers((BO.FilterWorker)0, ShowLevel()); break;
@@ -414,7 +414,7 @@ namespace BlTest
 
 
 
-            foreach (WorkerInList x in w)
+            foreach (Worker x in w)
             {
                 Console.WriteLine(x);
                 Console.WriteLine("\n");

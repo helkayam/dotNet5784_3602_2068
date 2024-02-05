@@ -20,7 +20,7 @@ public interface IWorker
 
     public void deleteAll();
 
-    public IEnumerable<BO.WorkerInList?> ReadAllWorkers(BO.FilterWorker enumFilter = BO.FilterWorker.None, Object? filtervalue = null);
+    public IEnumerable<BO.Worker?> ReadAllWorkers(BO.FilterWorker enumFilter = BO.FilterWorker.None, Object? filtervalue = null);
 
 
 

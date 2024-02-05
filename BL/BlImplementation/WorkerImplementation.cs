@@ -113,7 +113,7 @@ internal class WorkerImplementation : IWorker
             return true;
     }
 
-    public IEnumerable<BO.WorkerInList?> ReadAllWorkers(BO.FilterWorker enumFilter = BO.FilterWorker.None, Object? filtervalue = null)
+    public IEnumerable<BO.Worker?> ReadAllWorkers(BO.FilterWorker enumFilter = BO.FilterWorker.None, Object? filtervalue = null)
     {
 
         IEnumerable<DO.Worker?> result =
@@ -130,16 +130,23 @@ internal class WorkerImplementation : IWorker
 
 
         var workersInList = (from DO.Worker DoWorker in result
-                             select new WorkerInList
+                             select new Worker
                              {
                                  Id = DoWorker.Id,
                                  Name = DoWorker.Name,
+                                 Level = (BO.WorkerExperience)DoWorker.Level,
+                                 PhoneNumber = DoWorker.PhoneNumber,
+                                 Cost = DoWorker.Cost,
+
+
                                  Task = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorker.Id)
                                          select new TaskInWorker
                                          {
                                              Id = TaskOfWorker.Id,
                                              Alias = TaskOfWorker.Alias
-                                         }).FirstOrDefault()!
+                                         }).FirstOrDefault()!,
+                                 active = DoWorker.active
+
                              }).ToList();
 
         return workersInList;

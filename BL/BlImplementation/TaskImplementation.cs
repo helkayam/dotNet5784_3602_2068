@@ -435,7 +435,7 @@ public void AddOrUpdateStartDate(int Id, DateTime? startDate)
 
 
             }
-        
+       
             if (depends.Count() == 0 && _dal.Schedule.GetStartDateProject() == null)
                 throw new BO.BlInvalidGivenValueException($"false start date update of task: Project didnt start yet ");
             else

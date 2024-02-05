@@ -19,9 +19,27 @@ namespace PL.Worker
     /// </summary>
     public partial class WorkerListWindow : Window
     {
+        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         public WorkerListWindow()
         {
             InitializeComponent();
+            WorkerList = s_bl?.Worker.ReadAllWorkers();
+
         }
+
+        public IEnumerable<BO.Worker> WorkerList
+        {
+            get { return (IEnumerable<BO.Worker>)GetValue(WorkerListProperty); }
+            set { SetValue(WorkerListProperty, value); }
+        }
+
+        public static readonly DependencyProperty WorkerListProperty = DependencyProperty.Register("WorkerList", typeof(IEnumerable<BO.Worker>),typeof(WorkerListWindow), new PropertyMetadata(null));
+
+      
+
+        //private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        //{
+
+        //}
     }
 }
