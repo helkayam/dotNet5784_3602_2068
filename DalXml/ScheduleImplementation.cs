@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DalApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Xml.Linq;
 
 namespace Dal;
 
-public class ScheduleImplementation
+public class ScheduleImplementation:ISchedule 
 {
     readonly string data_config = "data-config";
 

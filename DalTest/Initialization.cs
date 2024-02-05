@@ -182,7 +182,11 @@ public static class Initialization
     {
 
         s_dal = DalApi.Factory.Get;//stage 4
-        
+
+        s_dal.Dependency.DeleteAll();
+        s_dal.Worker.DeleteAll();
+        s_dal.Task.DeleteAll();
+
         //initialize dependencies
         createDependencies();
 

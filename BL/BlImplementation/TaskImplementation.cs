@@ -427,7 +427,7 @@ public void AddOrUpdateStartDate(int Id, DateTime? startDate)
                 select task;
 
         try {
-            if (depends.Count() == 0 && _dal.Task.GetStartDateProject() != null && startDate > _dal.Task.GetStartDateProject())
+            if (depends.Count() == 0 && _dal.Schedule.GetStartDateProject() != null && startDate > _dal.Schedule.GetStartDateProject())
             {
 
                 DO.Task updDate = _dal.Task.Read(Id) with { StartDate = startDate };
@@ -436,10 +436,10 @@ public void AddOrUpdateStartDate(int Id, DateTime? startDate)
 
             }
         
-            if (depends.Count() == 0 && _dal.Task.GetStartDateProject() == null)
+            if (depends.Count() == 0 && _dal.Schedule.GetStartDateProject() == null)
                 throw new BO.BlInvalidGivenValueException($"false start date update of task: Project didnt start yet ");
             else
-            if (depends.Count() == 0 && startDate <= _dal.Task.GetStartDateProject())
+            if (depends.Count() == 0 && startDate <= _dal.Schedule.GetStartDateProject())
                 throw new BO.BlInvalidGivenValueException($"false start date update of task: start of task before start date project");
             else if (depends.Count() != 0)
             {

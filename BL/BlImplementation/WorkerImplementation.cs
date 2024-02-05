@@ -30,7 +30,26 @@ internal class WorkerImplementation : IWorker
     /// <exception cref="BO.BlInvalidGivenValueException">This is an exception that is thrown if one of the logical entity's data is incorrect </exception>
     /// <exception cref="BO.BlAlreadyExistsException"> This is an exception that is thrown in the event that the data layer threw an exception following a situation where an attempt is made to add an object that already exists</exception>
 
+    public ProjectStatus GetStatusOfProject()
+    {
+        if (_dal.Schedule.GetStartDateProject() == null)
+            return BO.ProjectStatus.PlanStage;
+        else
 
+        if (_dal.Schedule.GetStartDateProject() != null)
+        {
+            var withoutDate = (from tasks in _dal.Task.ReadAll()
+                               where (tasks.ScheduledDate == null)
+                               select tasks).ToList();
+            if (withoutDate.Count == 0)
+                return BO.ProjectStatus.ExecutionStage;
+
+
+        }
+
+        return BO.ProjectStatus.ScheduleDetermination;
+
+    }
     public void AddWorker(BO.Worker newWorker)
     {
         //in first case: id,level,name,PhoneNumber, Cost, Eraseable, active

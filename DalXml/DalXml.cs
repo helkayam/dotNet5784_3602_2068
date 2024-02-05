@@ -28,7 +28,7 @@ namespace Dal
         public static DalXml Instance { get { return LazyInstance.Value; } }
 
 
-
+        public ISchedule Schedule => new ScheduleImplementation();
         public IDependency Dependency => new DependencyImplementation();
 
         public IWorker Worker => new WorkerImplementation();

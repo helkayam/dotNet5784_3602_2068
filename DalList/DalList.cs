@@ -29,6 +29,8 @@ sealed internal class DalList : IDal
 
     private DalList() { }
     public static DalList Instance { get { return LazyInstance.Value; } }
+
+    public ISchedule Schedule => new ScheduleImplementation();
     
     //Implementing the appropriate property defined for dependencies in the IDal interface, so that they return objects of the type that implements IDendency
     public IDependency Dependency => new DependencyImplementation();
