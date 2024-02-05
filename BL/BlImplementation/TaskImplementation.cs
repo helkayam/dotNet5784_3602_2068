@@ -2,6 +2,7 @@
 using BlApi;
 using BO;
 using DalApi;
+using DO;
 //using DO;
 using System;
 using System.Collections.Generic;
@@ -223,130 +224,159 @@ internal class TaskImplementation : BlApi.ITask
 
     public void RemoveTask(int Id)
     {
-        try
+        if (GetStatusOfProject() == BO.ProjectStatus.PlanStage)
         {
-            _dal.Task.Read(Id,true);
-            var dep = _dal.Dependency.ReadAll().
-                Where(item => item.DependsOnTask == Id).Select(item => item).ToList();
-
-
-            if (dep.Count==0)
+            try
             {
-                _dal.Task.Delete(Id);
+                _dal.Task.Read(Id, true);
+                var dep = _dal.Dependency.ReadAll().
+                    Where(item => item.DependsOnTask == Id).Select(item => item).ToList();
 
-                var depDel = _dal.Dependency.ReadAll().
-                   Where(item => item.DependentTask == Id).Select(item => item);
-                foreach (var item in depDel)
-                    _dal.Dependency.Delete(item.Id);
+
+                if (dep.Count == 0)
+                {
+                    _dal.Task.Delete(Id);
+
+                    var depDel = _dal.Dependency.ReadAll().
+                       Where(item => item.DependentTask == Id).Select(item => item);
+                    foreach (var item in depDel)
+                        _dal.Dependency.Delete(item.Id);
+                }
+            }
+            catch (DO.DalNotErasableException ex)
+            {
+                throw new BO.BlNotErasableException($"Task with ID={Id} does Not Erasable");
+
+            }
+
+            catch (DO.DalDoesNotExistException ex)
+            {
+                throw new BO.BlDoesNotExistException($"Task with ID={Id} does Not exist");
             }
         }
-        catch (DO.DalNotErasableException ex)
-        {
-            throw new BO.BlNotErasableException($"Task with ID={Id} does Not Erasable");
-
-        }
-
-        catch (DO.DalDoesNotExistException ex)
-        {
-            throw new BO.BlDoesNotExistException($"Task with ID={Id} does Not exist");
-        }
-
-
     }
 
-    
-    
+    //private static readonly Random s_rand = new();
+    //public void reqUpdateDependencies(BO.Task myTesk)
+    //{
+    //    if (myTesk.Dependencies.Count != 0)
+    //           myTesk.ScheduledDate = StartDateProject.AddDays(s_rand.Next(1, 7));
+    //    foreach(var item in myTesk.Dependencies)
+    //    {
+    //        reqUpdateDependencies(ReadTask(item.Id));
+    //    }
+    //    myTesk.ScheduledDate = StartDateProject.AddDays(s_rand.Next(1, 7));
+
+    //}
+
+
     public void UpdateTask(BO.Task TaskToUpdate)
     {
 
-       // if((GetStatusOfProject == BO.ProjectStatus.ScheduleDetermination)
-
-        try
+        if ((GetStatusOfProject == BO.ProjectStatus.ScheduleDetermination))
         {
 
-            DO.Task updatedTask=new DO.Task();
-            if (TaskToUpdate.Id >= 0 && TaskToUpdate.Alias.Length > 0)
+            DO.Task DoTask = _dal.Task.Read(TaskToUpdate.Id) with { ScheduledDate = TaskToUpdate.ScheduledDate };
+            //foreach(var myTask in ReadAllTasks())
+            // {
+            //     BO.Task BoTask=ReadTask(myTask.Id);
+
+            //    // reqUpdateDependencies(BoTask);
+            // }
+
+
+
+        }
+        else
+        {
+
+            try
             {
 
-                var TaskToUpd = _dal.Task.ReadAll().Where(item => item.Id == TaskToUpdate.Id)
-                    .Select(item => item).FirstOrDefault();
-
-                if (GetStatusOfProject == BO.ProjectStatus.ExecutionStage)
+                DO.Task updatedTask = new DO.Task();
+                if (TaskToUpdate.Id >= 0 && TaskToUpdate.Alias.Length > 0)
                 {
 
-                   
-                    updatedTask = new DO.Task(TaskToUpdate.Alias, (DO.WorkerExperience)TaskToUpdate.Complexity, TaskToUpdate.Description, TaskToUpd.Id, TaskToUpd.ScheduledDate, TaskToUpdate.Deadline,TaskToUpdate.Worker.Id );
+                    var TaskToUpd = _dal.Task.ReadAll().Where(item => item.Id == TaskToUpdate.Id)
+                        .Select(item => item).FirstOrDefault();
 
-                   
+                    if (GetStatusOfProject == BO.ProjectStatus.ExecutionStage)
+                    {
 
-                 
 
-                    updatedTask.IsMileStone = TaskToUpd.IsMileStone;
-                   
-                    updatedTask.Remarks = TaskToUpdate.Remarks;//1 3 
-                    updatedTask.CreatedAtDate = TaskToUpd.CreatedAtDate;//1 3 
+                        updatedTask = new DO.Task(TaskToUpdate.Alias, (DO.WorkerExperience)TaskToUpdate.Complexity, TaskToUpdate.Description, TaskToUpd.Id, TaskToUpd.ScheduledDate, TaskToUpdate.Deadline, TaskToUpdate.Worker.Id);
 
-                  
+
+
+
+
+                        updatedTask.IsMileStone = TaskToUpd.IsMileStone;
+
+                        updatedTask.Remarks = TaskToUpdate.Remarks;//1 3 
+                        updatedTask.CreatedAtDate = TaskToUpd.CreatedAtDate;//1 3 
+
+
                         updatedTask.CompleteDate = TaskToUpd.CompleteDate;//3
                         updatedTask.Deliverables = TaskToUpdate.Deliverables;//3
                         updatedTask.StartDate = TaskToUpd.StartDate;//3
-                  
-
-                
-
-                   
 
 
-                }
-                else//1 
-                {
-                    updatedTask = new DO.Task(TaskToUpdate.Alias, (DO.WorkerExperience)TaskToUpdate.Complexity, TaskToUpdate.Description, TaskToUpdate.Id);
-                    updatedTask.IsMileStone = TaskToUpd.IsMileStone;
-                    updatedTask.Eraseable = TaskToUpdate.Eraseable;
-                    updatedTask.Remarks = TaskToUpdate.Remarks;
-                    updatedTask.CreatedAtDate = TaskToUpd.CreatedAtDate;
 
-                    bool contradictionBetweenDependencies = false;
-                    foreach (var item in TaskToUpdate.Dependencies)
+
+
+
+
+                    }
+                    else//1 
                     {
-                        int myId = item.Id;
-                        bool DepDoesntExist = true;
-                        DO.Task d = _dal.Task.Read(item.Id);
-                        if (d != null)
+                        updatedTask = new DO.Task(TaskToUpdate.Alias, (DO.WorkerExperience)TaskToUpdate.Complexity, TaskToUpdate.Description, TaskToUpdate.Id);
+                        updatedTask.IsMileStone = TaskToUpd.IsMileStone;
+                        updatedTask.Eraseable = TaskToUpdate.Eraseable;
+                        updatedTask.Remarks = TaskToUpdate.Remarks;
+                        updatedTask.CreatedAtDate = TaskToUpd.CreatedAtDate;
+
+                        bool contradictionBetweenDependencies = false;
+                        foreach (var item in TaskToUpdate.Dependencies)
                         {
-                            DO.Dependency newDep = new DO.Dependency(TaskToUpdate.Id, item.Id);
-                            foreach (var CurrentDependency in _dal.Dependency.ReadAll())
+                            int myId = item.Id;
+                            bool DepDoesntExist = true;
+                            DO.Task d = _dal.Task.Read(item.Id);
+                            if (d != null)
                             {
-                                if (CurrentDependency.DependentTask == newDep.DependentTask && CurrentDependency.DependsOnTask == newDep.DependsOnTask)
-                                    DepDoesntExist = false;
-                                if (CurrentDependency.DependentTask == newDep.DependsOnTask && CurrentDependency.DependsOnTask == newDep.DependentTask)
-                                    contradictionBetweenDependencies = true;
+                                DO.Dependency newDep = new DO.Dependency(TaskToUpdate.Id, item.Id);
+                                foreach (var CurrentDependency in _dal.Dependency.ReadAll())
+                                {
+                                    if (CurrentDependency.DependentTask == newDep.DependentTask && CurrentDependency.DependsOnTask == newDep.DependsOnTask)
+                                        DepDoesntExist = false;
+                                    if (CurrentDependency.DependentTask == newDep.DependsOnTask && CurrentDependency.DependsOnTask == newDep.DependentTask)
+                                        contradictionBetweenDependencies = true;
 
 
+                                }
+
+                                if (DepDoesntExist == true && contradictionBetweenDependencies == false)
+                                    _dal.Dependency.Create(newDep);
                             }
-
-                            if (DepDoesntExist == true && contradictionBetweenDependencies == false)
-                                _dal.Dependency.Create(newDep);
                         }
+
                     }
 
+
+
+
                 }
 
 
-
+                else
+                    throw new BO.BlInvalidGivenValueException($"One of the data of the Updated Task is incorrect");
+                _dal.Task.Update(updatedTask);
 
             }
 
-
-            else
-                throw new BO.BlInvalidGivenValueException($"One of the data of the Updated Task is incorrect");
-            _dal.Task.Update(updatedTask);
-
-        }
-
-        catch (BO.BlDoesNotExistException ex)
-        {
-            throw new BO.BlDoesNotExistException($"Task with id={TaskToUpdate.Id} does not exist");
+            catch (BO.BlDoesNotExistException ex)
+            {
+                throw new BO.BlDoesNotExistException($"Task with id={TaskToUpdate.Id} does not exist");
+            }
         }
     }
 

@@ -33,29 +33,53 @@ internal class WorkerImplementation : IWorker
 
     public void AddWorker(BO.Worker newWorker)
     {
-        DO.Worker doWorker = new DO.Worker(newWorker.Id, (DO.WorkerExperience)newWorker.Level, newWorker.Name, newWorker.PhoneNumber, newWorker.Cost);
-        if ((int)newWorker.Level == 2)
-            doWorker.Eraseable = true;
-        string[] phonePrefix = { "050", "051", "052", "053", "054", "055 ", "056", "058" };
+        //in first case: id,level,name,PhoneNumber, Cost, Eraseable, active
+        //in seconde case:..............
+        //in third case: task, id,level,name,PhoneNumber, Cost, Eraseable, active
+        /*     
+    Id,
+    Level
+    Name
+    PhoneNumber
+    Cost
+    Eraseable
+    active 
+    
+     BO-
+     Task   
 
-        string prefixOfPhoneNumber = doWorker.PhoneNumber[0].ToString() + doWorker.PhoneNumber[1].ToString() + doWorker.PhoneNumber[2].ToString();
-        try
+         */
+        if (GetStatusOfProject() != BO.ProjectStatus.ScheduleDetermination)
         {
-            if (doWorker.Id > 0 && (doWorker.Id.ToString().Length == 9) && doWorker.Name.Length > 0 &&
-                doWorker.Cost > 0 && doWorker.PhoneNumber.Length == 10 && phonePrefix.Contains(prefixOfPhoneNumber))
+            DO.Worker doWorker = new DO.Worker(newWorker.Id, (DO.WorkerExperience)newWorker.Level, newWorker.Name, newWorker.PhoneNumber, newWorker.Cost);
+            if ((int)newWorker.Level == 2)
+                doWorker.Eraseable = true;
+            string[] phonePrefix = { "050", "051", "052", "053", "054", "055 ", "056", "058" };
+
+            string prefixOfPhoneNumber = doWorker.PhoneNumber[0].ToString() + doWorker.PhoneNumber[1].ToString() + doWorker.PhoneNumber[2].ToString();
+            try
             {
-                _dal.Worker.Create(doWorker);
+                if (doWorker.Id > 0 && (doWorker.Id.ToString().Length == 9) && doWorker.Name.Length > 0 &&
+                    doWorker.Cost > 0 && doWorker.PhoneNumber.Length == 10 && phonePrefix.Contains(prefixOfPhoneNumber))
+                {
+
+                    _dal.Worker.Create(doWorker);
+                    if (GetStatusOfProject() == BO.ProjectStatus.ExecutionStage)
+                    {
+                        DO.Task taskWithUpdateWorker = _dal.Task.Read(newWorker.Task.Id) with { WorkerId = newWorker.Id };
+                        _dal.Task.Update(taskWithUpdateWorker);
+                    }
+
+                }
+                else
+                    throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect");
 
             }
-            else
-                throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect");
-
+            catch (DO.DalAlreadyExistException ex)
+            {
+                throw new BO.BlAlreadyExistsException($"Worker with ID={doWorker.Id} already exists", ex);
+            }
         }
-        catch (DO.DalAlreadyExistException ex)
-        {
-            throw new BO.BlAlreadyExistsException($"Worker with ID={doWorker.Id} already exists", ex);
-        }
-
 
     }
 
@@ -135,37 +159,40 @@ internal class WorkerImplementation : IWorker
 
     public void RemoveWorker(int Id)
     {
-        DO.Worker? DoWorkerToRemove;
-        try
+        if (GetStatusOfProject() != BO.ProjectStatus.ScheduleDetermination)
         {
-            DoWorkerToRemove = _dal.Worker.Read(Id, true);
+            DO.Worker? DoWorkerToRemove;
+            try
+            {
+                DoWorkerToRemove = _dal.Worker.Read(Id, true);
 
-            if (DoWorkerToRemove.active == false)
-                throw new BO.BlNotActiveException($"Worker with ID={Id} does Not Active");
+                if (DoWorkerToRemove.active == false)
+                    throw new BO.BlNotActiveException($"Worker with ID={Id} does Not Active");
 
-            DO.Task taskOfWorker = (from task in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorkerToRemove!.Id)
-                                    select task).FirstOrDefault()!;
-            if (taskOfWorker.CompleteDate == null || taskOfWorker.StartDate != null)
-                _dal.Worker.Delete(Id);
+                DO.Task taskOfWorker = (from task in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorkerToRemove!.Id)
+                                        select task).FirstOrDefault()!;
+                if (taskOfWorker.CompleteDate == null || taskOfWorker.StartDate != null)
+                    _dal.Worker.Delete(Id);
 
-            else if (taskOfWorker.CompleteDate != null)
-                throw new BO.BlNotErasableException($"Worker with ID={Id} does Not Erasable because he completed a Task");
+                else if (taskOfWorker.CompleteDate != null)
+                    throw new BO.BlNotErasableException($"Worker with ID={Id} does Not Erasable because he completed a Task");
 
-            else if (taskOfWorker.StartDate == null)
-                throw new BO.BlNotErasableException($"Worker with ID={Id} does Not Erasable because he started a Task");
+                else if (taskOfWorker.StartDate == null)
+                    throw new BO.BlNotErasableException($"Worker with ID={Id} does Not Erasable because he started a Task");
 
 
 
-        }
+            }
 
-        catch (DO.DalNotErasableException ex)
-        {
-            throw new BO.BlNotErasableException($"Worker with ID={Id} does Not Erasable",ex);
-        }
+            catch (DO.DalNotErasableException ex)
+            {
+                throw new BO.BlNotErasableException($"Worker with ID={Id} does Not Erasable", ex);
+            }
 
-        catch (DO.DalDoesNotExistException ex)
-        {
-            throw new BO.BlDoesNotExistException($"Worker with ID={Id} does Not exist",ex);
+            catch (DO.DalDoesNotExistException ex)
+            {
+                throw new BO.BlDoesNotExistException($"Worker with ID={Id} does Not exist", ex);
+            }
         }
 
     }
@@ -194,8 +221,11 @@ internal class WorkerImplementation : IWorker
             {
 
                 _dal.Worker.Update(doWorker);
-                DO.Task taskWithUpdateWorker = _dal.Task.Read(TaskToUp) with { WorkerId = workerToUpdate.Id };
-                _dal.Task.Update(taskWithUpdateWorker);
+                if (GetStatusOfProject() == BO.ProjectStatus.ExecutionStage)
+                { 
+                    DO.Task taskWithUpdateWorker = _dal.Task.Read(TaskToUp) with { WorkerId = workerToUpdate.Id };
+                    _dal.Task.Update(taskWithUpdateWorker);
+                }
             }
             else
                 throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect");
@@ -216,7 +246,8 @@ internal class WorkerImplementation : IWorker
 
     public void deleteAll()
     {
-        _dal.Worker.DeleteAll();
+        if(GetStatusOfProject() != BO.ProjectStatus.ScheduleDetermination)
+            _dal.Worker.DeleteAll();
     }
 }
 

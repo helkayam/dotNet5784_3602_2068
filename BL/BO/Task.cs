@@ -15,7 +15,7 @@ namespace BO
         public DateTime CreatedAtDate { get; set; }
         public Status Status { get; set; }
         public bool Eraseable { get; set; }
-        public   List<TaskInList> Dependencies { get; set; }
+        public List<TaskInList> Dependencies { get; set; }
 
         public TimeSpan RequiredEffortTime { get; set; }
         public DateTime? ScheduledDate { get; set; }
