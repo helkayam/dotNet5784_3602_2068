@@ -13,22 +13,33 @@ internal class TaskImplementation : BlApi.ITask
     private DalApi.IDal _dal = DalApi.Factory.Get;
 
 
+    public void UpdateStarteEndProjectDate(DateTime startDateProject)
+    {
+        _dal.Task.UpdateStartDateProject(startDateProject);
+    }
 
-    //public ProjectStatus ProjectStatus()
-    //{
+   
+    public ProjectStatus GetStatusOfProject()
+    {
         
-    //    if (StartDateProject == null)
-    //        return BO.ProjectStatus.PlanStage;
-    //    else
+        if (_dal.Task.GetStartDateProject() == null)
+            return BO.ProjectStatus.PlanStage;
+        else
 
-    //    if (StartDateProject != null)
-    //    {
-    //        var withoutDate = (from tasks in _dal.Task.ReadAll()
+        if (_dal.Task.GetStartDateProject() != null)
+        {
+            var withoutDate = (from tasks in _dal.Task.ReadAll()
+                               where (tasks.ScheduledDate == null)
+                               select tasks).ToList();
+            if (withoutDate.Count == 0)
+                return BO.ProjectStatus.ExecutionStage;
+   
 
+        }
+        
+            return BO.ProjectStatus.ScheduleDetermination;
 
-    //    }
-
-    //}
+    }
     public BO.Status getStatus(DO.Task task)
     {
         TimeSpan t = TimeSpan.FromDays(2);
@@ -193,7 +204,7 @@ internal class TaskImplementation : BlApi.ITask
                     BoTask.Dependencies.Add(item);
 
 
-             
+         
      
 
             //worker...
@@ -300,8 +311,8 @@ internal class TaskImplementation : BlApi.ITask
                     var TaskToUpd = _dal.Task.ReadAll().Where(item => item.Id == TaskToUpdate.Id)
                         .Select(item => item).FirstOrDefault();
 
-                    if (GetStatusOfProject == BO.ProjectStatus.ExecutionStage)
-                    {
+                if (GetStatusOfProject() == BO.ProjectStatus.ExecutionStage)
+                {
 
 
                         updatedTask = new DO.Task(TaskToUpdate.Alias, (DO.WorkerExperience)TaskToUpdate.Complexity, TaskToUpdate.Description, TaskToUpd.Id, TaskToUpd.ScheduledDate, TaskToUpdate.Deadline, TaskToUpdate.Worker.Id);
@@ -414,7 +425,7 @@ public void AddOrUpdateStartDate(int Id, DateTime? startDate)
                 select task;
 
         try {
-            if (depends.Count() == 0 && StartDateProject != null && startDate > StartDateProject)
+            if (depends.Count() == 0 && _dal.Task.GetStartDateProject() != null && startDate > _dal.Task.GetStartDateProject())
             {
 
                 DO.Task updDate = _dal.Task.Read(Id) with { StartDate = startDate };
@@ -422,10 +433,11 @@ public void AddOrUpdateStartDate(int Id, DateTime? startDate)
 
 
             }
-            if (depends.Count() == 0 && StartDateProject == null)
+        
+            if (depends.Count() == 0 && _dal.Task.GetStartDateProject() == null)
                 throw new BO.BlInvalidGivenValueException($"false start date update of task: Project didnt start yet ");
             else
-            if (depends.Count() == 0 && startDate < = StartDateProject)
+            if (depends.Count() == 0 && startDate <= _dal.Task.GetStartDateProject())
                 throw new BO.BlInvalidGivenValueException($"false start date update of task: start of task before start date project");
             else if (depends.Count() != 0)
             {

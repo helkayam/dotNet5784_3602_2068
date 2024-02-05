@@ -12,7 +12,7 @@ namespace BO
 
          public string Name { get; set; }
 
-        public override string toString()
+        public override string ToString()
         {
             return $"Id: {Id}, Name:{Name}";
         }
