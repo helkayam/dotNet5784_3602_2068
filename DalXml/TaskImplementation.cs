@@ -14,7 +14,6 @@ using System.Xml.Linq;
 /// </summary>
 internal class TaskImplementation:ITask
 {
-    readonly string data_config = "data-config";
     /// <summary>
     /// This is a private read-only field of string type that will be initialized with the name of the xml file that constitutes the database of the task entity.
     /// </summary>
@@ -147,25 +146,8 @@ internal class TaskImplementation:ITask
 
     }
 
-    public void UpdateStartDateProject(DateTime startDate)
-    {
-        XElement root = XMLTools.LoadListFromXMLElement(data_config);
-        root.Element("StartDateProject")?.SetValue((startDate));
-        XMLTools.SaveListToXMLElement(root, data_config);
-
-    }
-    public  DateTime? GetStartDateProject( )
-    {
-       
-        XElement root = XMLTools.LoadListFromXMLElement(data_config);
-        string? dt=root.Element("StartDateProject")?.Value;
-
-        XMLTools.SaveListToXMLElement(root, data_config);
-        if (dt != "")
-            return DateTime.Parse(dt);
-        else
-            return null;
-    }
+   
+    
 
     /// <summary>
     /// 1.With the help of the XmlSerializer class, the list of objects is loaded from an XML file into a logical list of the List type.
