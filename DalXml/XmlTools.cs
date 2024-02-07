@@ -11,6 +11,8 @@ using System.Xml.Serialization;
 /// </summary>
 static class XMLTools
 {
+
+
     const string s_xml_dir = @"..\xml\";
     static XMLTools()
     {
@@ -47,6 +49,8 @@ static class XMLTools
     #endregion
 
    
+
+
     /// <summary>
     /// The method receives a root of type XElement that contains a list of elements of IEnumerable<XElement> entities 
     /// and saves this structure in an XML file

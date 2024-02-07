@@ -21,7 +21,7 @@ namespace DalApi
         /// attribute for the type of the task interface read only
         /// </summary>
         ITask Task { get; }
-
+        
         ISchedule Schedule { get; }
 
 

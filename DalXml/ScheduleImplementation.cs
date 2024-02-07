@@ -26,7 +26,7 @@ public class ScheduleImplementation:ISchedule
         string? dt = root.Element("StartDateProject").Value;
 
         XMLTools.SaveListToXMLElement(root, data_config);
-        if (dt != null)
+        if (dt != "")
             return DateTime.Parse(dt);
         else
             return null;

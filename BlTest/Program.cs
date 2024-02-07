@@ -194,7 +194,7 @@ namespace BlTest
         {
             try
             {
-                Console.WriteLine("Enter description, alias, erasable of the task, ScheduledDate,Deadline, Remarks ,Id of Worker, Complexity of the task ");
+                Console.WriteLine("Enter description, alias, erasable of the task, Remarks  Complexity of the task and Required effort Time  ");
                 string description = Console.ReadLine();
                 string alias = Console.ReadLine();
 
@@ -204,36 +204,41 @@ namespace BlTest
                 bool erasable = bool.Parse(Console.ReadLine());
 
 
-                DateTime ScheduledDate;
-                string sSchedule = (Console.ReadLine());
-               bool  res = DateTime.TryParse(sSchedule, out ScheduledDate);
-                if (res == false)
-                    throw new Exception("Cant convert ScheduledDate Date of Task from string to DateTime");
+               // DateTime ScheduledDate;
+               // string sSchedule = (Console.ReadLine());
+               //bool  res = DateTime.TryParse(sSchedule, out ScheduledDate);
+               // if (res == false)
+               //     throw new Exception("Cant convert ScheduledDate Date of Task from string to DateTime");
 
-                DateTime Deadline;
-                string sDeadline = (Console.ReadLine());
-                res = DateTime.TryParse(sDeadline, out Deadline);
-                if (res == false)
-                    throw new Exception("Cant convert Deadline Date of Task from string to DateTime");
+                //DateTime Deadline;
+                //string sDeadline = (Console.ReadLine());
+                //res = DateTime.TryParse(sDeadline, out Deadline);
+                //if (res == false)
+                //    throw new Exception("Cant convert Deadline Date of Task from string to DateTime");
 
                 string Remarks = Console.ReadLine();
                 
 
-                int IdOfWorker;
-                string sIdWorker = Console.ReadLine();
-                res = int.TryParse(sIdWorker, out IdOfWorker);
-                if (res == false)
-                    throw new Exception("Cant convert ID of worker on Task from string to int");
+                //int IdOfWorker;
+                //string sIdWorker = Console.ReadLine();
+                //res = int.TryParse(sIdWorker, out IdOfWorker);
+                //if (res == false)
+                //    throw new Exception("Cant convert ID of worker on Task from string to int");
 
-                string NameOfWorker = s_bl.Worker.ReadWorker(IdOfWorker).Name;
-                BO.WorkerInTask myWorker = new BO.WorkerInTask { Id = IdOfWorker, Name = NameOfWorker };
+                //string NameOfWorker = s_bl.Worker.ReadWorker(IdOfWorker).Name;
+                //BO.WorkerInTask myWorker = new BO.WorkerInTask { Id = IdOfWorker, Name = NameOfWorker };
 
                 int complexity;
                 string sComplexity = Console.ReadLine();
-                res = int.TryParse(sComplexity, out complexity);
+                bool res = int.TryParse(sComplexity, out complexity);
                 if (res == false)
                     throw new Exception("Cant convert Complexity from string to int");
                 BO.WorkerExperience TaskComplexity = (BO.WorkerExperience)complexity;
+
+
+                TimeSpan RET = TimeSpan.Parse(Console.ReadLine());
+
+
                 Console.WriteLine("Enter number of dependent tasks");
                 int numOfDep;
                 string SNumOfDep = Console.ReadLine();
@@ -261,11 +266,13 @@ namespace BlTest
                     CreatedAtDate = creatingDate,
                     Eraseable = erasable,
                     Dependencies = depTasks,
-                    ScheduledDate = ScheduledDate,
-                    Deadline = Deadline,
+                    ScheduledDate = null,
+                    Deadline = null,
                     Remarks = Remarks,
-                    Worker = myWorker,
-                    Complexity = TaskComplexity
+                    Worker = null,
+                    Complexity = TaskComplexity,
+                    RequiredEffortTime=RET
+                    
                 };
 
                 

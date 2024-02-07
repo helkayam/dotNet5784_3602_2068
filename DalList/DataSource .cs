@@ -1,9 +1,11 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Xml.Linq;
 
 namespace Dal
 {
     internal static class DataSource
     {
+    
         internal static List<DO.Task?> Tasks { get; } = new();
         internal static List<DO.Dependency?> Dependencies { get; } = new();
         internal static List<DO.Worker?> Workers { get; } = new();
@@ -13,6 +15,8 @@ namespace Dal
         /// </summary>
         internal static class Config
         {
+
+          
             //A constant numeric field that will receive an initial value for the Hertz number of Task
             internal const int startTaskId = 0;
             //A static numeric field that will receive as an initial value the previous fixed field of TaskId.
@@ -24,7 +28,6 @@ namespace Dal
             internal const int startDependencyId = 0;
             private static int nextDependencyId = startDependencyId;
             internal static int NextDependencyId { get => nextDependencyId++; }
-
 
 
            

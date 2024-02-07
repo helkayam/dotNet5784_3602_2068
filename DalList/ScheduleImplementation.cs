@@ -13,9 +13,7 @@ public class ScheduleImplementation : ISchedule
 
     public DateTime? GetStartDateProject()
     {
-
-
-        return startdatePro;
+        return startdatePro; 
     }
 
     public void UpdateStartDateProject(DateTime dt)
