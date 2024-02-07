@@ -102,7 +102,7 @@ internal class DependencyImplementation:IDependency
     /// </summary>
     /// <param name="filter">filter function</param>
     /// <return>return a collection of all the dependency that respond true to the filter</returns>
-    public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
+    public IEnumerable<Dependency> ReadAll(Func<Dependency, bool>? filter = null)
     {
         List<Dependency> dependencies = XMLTools.LoadListFromXMLSerializer<Dependency>(s_dependencies_xml);
         XMLTools.SaveListToXMLSerializer<Dependency>(dependencies, s_dependencies_xml);

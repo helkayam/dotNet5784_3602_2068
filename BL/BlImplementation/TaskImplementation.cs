@@ -123,7 +123,7 @@ internal class TaskImplementation : BlApi.ITask
 
         return DoTask.StartDate + DoTask.RequiredEffortTime;
     }
-    public IEnumerable<BO.TaskInList?> ReadAllTasks(BO.Filter enumFilter = BO.Filter.None, Object? filtervalue = null)
+    public IEnumerable<BO.TaskInList> ReadAllTasks(BO.Filter enumFilter = BO.Filter.None, Object? filtervalue = null)
     {
 
         IEnumerable<DO.Task?> result =
@@ -409,7 +409,10 @@ internal class TaskImplementation : BlApi.ITask
 
     
 //}
+public void UpdateScheduleDate(DateTime dt)
+    {
 
+    }
 public void AddOrUpdateStartDate(int Id, DateTime? startDate)
 {
      

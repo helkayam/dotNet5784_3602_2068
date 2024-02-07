@@ -77,7 +77,7 @@ internal class DependencyImplementation : IDependency
     /// </summary>
     /// <param name="filter">This is a pointer to a boolean function (delegate) of type FUNC that will work on objects of type dependency </param>
     /// <returns></returns>
-    public IEnumerable<Dependency?> ReadAll(Func<Dependency, bool>? filter = null)
+    public IEnumerable<Dependency> ReadAll(Func<Dependency, bool>? filter = null)
     {
         if (filter != null)
         {

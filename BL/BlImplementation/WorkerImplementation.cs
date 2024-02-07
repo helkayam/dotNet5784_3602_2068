@@ -113,23 +113,21 @@ internal class WorkerImplementation : IWorker
             return true;
     }
 
-    public IEnumerable<BO.Worker?> ReadAllWorkers(BO.FilterWorker enumFilter = BO.FilterWorker.None, Object? filtervalue = null)
+    public IEnumerable<BO.Worker> ReadAllWorkers(BO.FilterWorker enumFilter = BO.FilterWorker.None, Object? filtervalue = null)
     {
+        IEnumerable<BO.Worker> workersInList;
+        IEnumerable<DO.Worker> readByLevel;
+        if (enumFilter == (BO.FilterWorker.ByLevel) && (filtervalue != null))
+        {
+            var grpByLevel = (from currentWorker in _dal.Worker.ReadAll()
+                              group currentWorker.Id by currentWorker.Level into grp
+                              select new { level = grp.Key, workerslvl = grp });
+            readByLevel = (from k in grpByLevel
+                           where k.level == (DO.WorkerExperience)filtervalue
+                           from b in k.workerslvl
+                           select (_dal.Worker.Read(b))).ToList();
 
-        IEnumerable<DO.Worker?> result =
-       enumFilter switch
-       {
-           BO.FilterWorker.ByLevel => ((DO.WorkerExperience)filtervalue != null) ? _dal.Worker.ReadAll(bc => bc.Level == (DO.WorkerExperience)filtervalue) : _dal.Worker.ReadAll(),
-           BO.FilterWorker.WithoutTask => (_dal.Worker.ReadAll(MyWorker => (WorkerDoesntHaveTask(MyWorker.Id) == true))),
-           BO.FilterWorker.ActiveW => _dal.Worker.ReadAll(d => d.active == true),
-           BO.FilterWorker.Erasable => _dal.Worker.ReadAll(d => d.Eraseable == true),
-           BO.FilterWorker.None => _dal.Worker.ReadAll()
-
-
-       };
-
-
-        var workersInList = (from DO.Worker DoWorker in result
+            workersInList = (from DO.Worker DoWorker in readByLevel 
                              select new Worker
                              {
                                  Id = DoWorker.Id,
@@ -148,8 +146,51 @@ internal class WorkerImplementation : IWorker
                                  active = DoWorker.active
 
                              }).ToList();
+            return workersInList;
 
-        return workersInList;
+        }
+        else
+        {
+            if (filtervalue == null && enumFilter == (BO.FilterWorker.ByLevel))
+                enumFilter = FilterWorker.None;
+
+
+            IEnumerable<DO.Worker?> result =
+       enumFilter switch
+       {
+           BO.FilterWorker.WithoutTask => (_dal.Worker.ReadAll(MyWorker => (WorkerDoesntHaveTask(MyWorker.Id) == true))),
+           BO.FilterWorker.ActiveW => _dal.Worker.ReadAll(d => d.active == true),
+           BO.FilterWorker.Erasable => _dal.Worker.ReadAll(d => d.Eraseable == true),
+           BO.FilterWorker.None => _dal.Worker.ReadAll()
+
+
+       };
+
+
+
+
+                   workersInList = (from DO.Worker DoWorker in result
+                                  select new Worker
+                                  {
+                                      Id = DoWorker.Id,
+                                      Name = DoWorker.Name,
+                                      Level = (BO.WorkerExperience)DoWorker.Level,
+                                      PhoneNumber = DoWorker.PhoneNumber,
+                                      Cost = DoWorker.Cost,
+
+
+                                      Task = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorker.Id)
+                                              select new TaskInWorker
+                                              {
+                                                  Id = TaskOfWorker.Id,
+                                                  Alias = TaskOfWorker.Alias
+                                              }).FirstOrDefault()!,
+                                      active = DoWorker.active
+
+                                  }).ToList();
+            return workersInList;
+        }
+        
     }
 
     public BO.Worker? ReadWorker(int Id)
@@ -171,7 +212,7 @@ internal class WorkerImplementation : IWorker
                                     {
                                         Id = TaskOfWorker.Id,
                                         Alias = TaskOfWorker.Alias
-                                    }).FirstOrDefault()
+                                    }).FirstOrDefault()!
 
 
                         }).FirstOrDefault();

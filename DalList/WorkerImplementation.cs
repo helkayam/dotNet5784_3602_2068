@@ -89,7 +89,7 @@ internal class WorkerImplementation : IWorker
     /// </summary>
     /// <param name="filter">filter function</param>
     /// <returns></returns>
-    public IEnumerable<Worker?> ReadAll(Func<Worker, bool>? filter = null)
+    public IEnumerable<Worker> ReadAll(Func<Worker, bool>? filter = null)
     {
         if(filter!=null)
         {

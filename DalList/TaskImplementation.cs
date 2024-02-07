@@ -77,7 +77,7 @@ internal class TaskImplementation : ITask
     /// </summary>
     /// <param name="filter">delegate of type FUNC that get a Task type</param>
     /// <returns>Returns a list of objects of type tasks that meet the condition of delegate</returns>
-    public IEnumerable<Task?> ReadAll(Func<Task, bool>? filter = null)
+    public IEnumerable<Task> ReadAll(Func<Task, bool>? filter = null)
     {
         if (filter != null)
         {

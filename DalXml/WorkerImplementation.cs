@@ -160,7 +160,7 @@ internal class WorkerImplementation:IWorker
     /// </summary>
     /// <param name="filter">filter function</param>
     /// <returns>return a collection of all the workers that respond true to the filter</returns>
-    public IEnumerable<Worker?> ReadAll(Func<Worker, bool>? filter = null)
+    public IEnumerable<Worker> ReadAll(Func<Worker, bool>? filter = null)
     {
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
 

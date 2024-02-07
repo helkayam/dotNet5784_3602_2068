@@ -110,7 +110,7 @@ internal class TaskImplementation:ITask
     /// </summary>
     /// <param name="filter">delegate of type FUNC that get a Task type</param>
     /// <returns>Returns a list of objects of type tasks that meet the condition of delegate</returns>
-    public IEnumerable<DO.Task?> ReadAll(Func<DO.Task, bool>? filter = null)
+    public IEnumerable<DO.Task> ReadAll(Func<DO.Task, bool>? filter = null)
     {
         List<DO.Task> tasks = XMLTools.LoadListFromXMLSerializer<DO.Task>(s_tasks_xml);
         XMLTools.SaveListToXMLSerializer<DO.Task>(tasks, s_tasks_xml);
