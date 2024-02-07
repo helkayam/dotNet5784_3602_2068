@@ -16,10 +16,15 @@ public interface ITask
 
     public BO.Task? ReadTask(int Id);
 
-    public void  AddOrUpdateStartDate (int Id, DateTime? startDate);
+    public void AddOrUpdateStartDate(int Id);
 
- 
-    public IEnumerable<BO.TaskInList?> ReadAllTasks(BO.Filter enumFilter = BO.Filter.None, Object? filtervalue = null);
+
+    public void UpdateScheduleDate(int Id, DateTime mySceduelDate);
+
+    public ProjectStatus GetStatusOfProject();
+
+
+    public IEnumerable<BO.TaskInList> ReadAllTasks(BO.Filter enumFilter = BO.Filter.None, Object? filtervalue = null);
 
     public void deleteAll();
 

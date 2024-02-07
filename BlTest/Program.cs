@@ -132,11 +132,12 @@ namespace BlTest
 
         private static void createW()
         {
-
-
-            Console.WriteLine("Enter ID, name,level, phone number ,hourly payment,id of task,alias of task ");
+     
             try
             {
+                    Console.WriteLine("Enter ID, name,level, phone number ,hourly payment of Worker ");
+               
+
                 int id;
                 string Sid = (Console.ReadLine());
                 bool res = int.TryParse(Sid, out id);
@@ -153,18 +154,22 @@ namespace BlTest
                 res = double.TryParse(SCost, out cost);
                 if (res == false)
                     throw new Exception("Cant convert hourly payment of worker from string to double");
+                BO.Worker myNewWorker = new BO.Worker { Name = name, Id = id, Level = we, PhoneNumber = phonenumber, Cost = cost };
+
+                if (s_bl.Task.GetStatusOfProject() == ProjectStatus.ExecutionStage)
+                {
+                    Console.WriteLine("Enter Id of Task for the worker");
+                    int IdOfTask;
+                    string sIdTask = (Console.ReadLine());
+                    res = int.TryParse(sIdTask, out IdOfTask);
+                    if (res == false)
+                        throw new Exception("Cant convert ID Task of worker from string to int");
+                    string aliasOfTask = s_bl.Task.ReadTask(IdOfTask).Alias;
 
 
-                int IdOfTask;
-                string sIdTask = (Console.ReadLine());
-                res = int.TryParse(sIdTask, out IdOfTask);
-                if (res == false)
-                    throw new Exception("Cant convert ID Task of worker from string to int");
-
-                string aliasOfTask = Console.ReadLine();
-
-                BO.TaskInWorker TaskOfWorker = new BO.TaskInWorker { Id = IdOfTask, Alias = aliasOfTask };
-                BO.Worker myNewWorker = new BO.Worker { Name = name, Id = id, Level = we, PhoneNumber = phonenumber, Cost = cost, Task = TaskOfWorker };
+                    BO.TaskInWorker TaskOfWorker = new BO.TaskInWorker { Id = IdOfTask, Alias = aliasOfTask };
+                    myNewWorker.Task = TaskOfWorker;
+                }
 
 
                 s_bl.Worker.AddWorker(myNewWorker);
@@ -194,6 +199,8 @@ namespace BlTest
         {
             try
             {
+                if(s_bl.Task.GetStatusOfProject()==ProjectStatus.PlanStage)
+                  
                 Console.WriteLine("Enter description, alias, erasable of the task, Remarks  Complexity of the task and Required effort Time  ");
                 string description = Console.ReadLine();
                 string alias = Console.ReadLine();
@@ -778,7 +785,7 @@ namespace BlTest
                     throw new Exception("Cant convert complete date of task from string to DateTime");
 
 
-                s_bl.Task.AddOrUpdateStartDate(IdOfTask, StartDate);
+                s_bl.Task.AddOrUpdateStartDate(IdOfTask);
 
             }
             catch(BO.BlDoesNotExistException ex)

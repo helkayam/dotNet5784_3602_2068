@@ -409,44 +409,41 @@ internal class TaskImplementation : BlApi.ITask
 
     
 //}
-public void UpdateScheduleDate(DateTime dt)
+public void UpdateScheduleDate(int Id,DateTime mySceduelDate)
     {
 
-    }
-public void AddOrUpdateStartDate(int Id, DateTime? startDate)
-{
-     
-    foreach (var item in _dal.Dependency.ReadAll())
-    {
-        if (item.DependentTask == Id && _dal.Task.Read(item.DependsOnTask).ScheduledDate == null)
-            throw new BO.BlFalseUpdateDate($"update of start date of task with id={Id} failed because trial to update before scheduling previous task");
-        if (item.DependentTask == Id&& startDate < this.ReadTask(item.DependsOnTask).ForecastDate)
-            throw new BO.BlFalseUpdateDate($"update of task with id={Id} failed because trial to update the start date of task to be before forecast finishing date of  previous task");
+        foreach (var item in _dal.Dependency.ReadAll())
+        {
+            if (item.DependentTask == Id && _dal.Task.Read(item.DependsOnTask).ScheduledDate == null)
+                throw new BO.BlFalseUpdateDate($"update of start date of task with id={Id} failed because trial to update before scheduling previous task");
+            if (item.DependentTask == Id && mySceduelDate < this.ReadTask(item.DependsOnTask).ForecastDate)
+                throw new BO.BlFalseUpdateDate($"update of task with id={Id} failed because trial to update schedule date of task to be before forecast finishing date of  previous task");
 
-        
-    }
-   var depends= from task in _dal.Dependency.ReadAll()
-                where task.DependentTask == Id
-                select task;
 
-        try {
-            if (depends.Count() == 0 && _dal.Schedule.GetStartDateProject() != null && startDate > _dal.Schedule.GetStartDateProject())
+        }
+        var depends = from task in _dal.Dependency.ReadAll()
+                      where task.DependentTask == Id
+                      select task;
+
+        try
+        {
+            if (depends.Count() == 0 && _dal.Schedule.GetStartDateProject() != null && mySceduelDate > _dal.Schedule.GetStartDateProject())
             {
 
-                DO.Task updDate = _dal.Task.Read(Id) with { StartDate = startDate };
+                DO.Task updDate = _dal.Task.Read(Id) with { ScheduledDate = mySceduelDate };
                 _dal.Task.Update(updDate);
 
 
             }
-       
+
             if (depends.Count() == 0 && _dal.Schedule.GetStartDateProject() == null)
-                throw new BO.BlInvalidGivenValueException($"false start date update of task: Project didnt start yet ");
+                throw new BO.BlInvalidGivenValueException($"false Schedule date update of task: Project did not start yet ");
             else
-            if (depends.Count() == 0 && startDate <= _dal.Schedule.GetStartDateProject())
-                throw new BO.BlInvalidGivenValueException($"false start date update of task: start of task before start date project");
+            if (depends.Count() == 0 && mySceduelDate <= _dal.Schedule.GetStartDateProject())
+                throw new BO.BlInvalidGivenValueException($"false Schedule Date date update of task: Schedule Date  before start date project");
             else if (depends.Count() != 0)
             {
-                DO.Task updDate = _dal.Task.Read(Id) with { StartDate = startDate };
+                DO.Task updDate = _dal.Task.Read(Id) with { ScheduledDate = mySceduelDate };
                 _dal.Task.Update(updDate);
             }
 
@@ -455,9 +452,23 @@ public void AddOrUpdateStartDate(int Id, DateTime? startDate)
         {
             throw new BO.BlDoesNotExistException($"Task with id={Id} does not exists", ex);
         }
-       
 
-}
+    }
+
+
+public void AddOrUpdateStartDate(int Id)
+{
+
+        if (DateTime.Now < (_dal.Task.Read(Id).ScheduledDate))
+            throw new BO.BlInvalidGivenValueException("false start date update of task: date before scheduled date");
+        else
+        {
+            DO.Task updDate = _dal.Task.Read(Id) with { StartDate = DateTime.Now };
+            _dal.Task.Update(updDate);
+        }
+
+
+    }
 
     public void deleteAll()
     {

@@ -236,16 +236,16 @@ internal class WorkerImplementation : IWorker
                 if (DoWorkerToRemove.active == false)
                     throw new BO.BlNotActiveException($"Worker with ID={Id} does Not Active");
 
-                DO.Task taskOfWorker = (from task in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorkerToRemove!.Id)
-                                        select task).FirstOrDefault()!;
-                if (taskOfWorker.CompleteDate == null || taskOfWorker.StartDate != null)
+               var taskOfWorker = (from task in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorkerToRemove!.Id)
+                                   where (task.CompleteDate!=null||task.StartDate!=null)
+                                        select task).ToList();
+                if (taskOfWorker.Count() == 0)//if the worker started a task and finished it or didnt start yet the task
                     _dal.Worker.Delete(Id);
 
-                else if (taskOfWorker.CompleteDate != null)
-                    throw new BO.BlNotErasableException($"Worker with ID={Id} does Not Erasable because he completed a Task");
+                else 
+                    throw new BO.BlNotErasableException($"Worker with ID={Id} does Not Erasable because he completed a Task or he is working on a task");
 
-                else if (taskOfWorker.StartDate == null)
-                    throw new BO.BlNotErasableException($"Worker with ID={Id} does Not Erasable because he started a Task");
+                
 
 
 
