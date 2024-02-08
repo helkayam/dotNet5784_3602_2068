@@ -211,29 +211,8 @@ namespace BlTest
                 bool erasable = bool.Parse(Console.ReadLine());
 
 
-               // DateTime ScheduledDate;
-               // string sSchedule = (Console.ReadLine());
-               //bool  res = DateTime.TryParse(sSchedule, out ScheduledDate);
-               // if (res == false)
-               //     throw new Exception("Cant convert ScheduledDate Date of Task from string to DateTime");
-
-                //DateTime Deadline;
-                //string sDeadline = (Console.ReadLine());
-                //res = DateTime.TryParse(sDeadline, out Deadline);
-                //if (res == false)
-                //    throw new Exception("Cant convert Deadline Date of Task from string to DateTime");
-
                 string Remarks = Console.ReadLine();
-                
-
-                //int IdOfWorker;
-                //string sIdWorker = Console.ReadLine();
-                //res = int.TryParse(sIdWorker, out IdOfWorker);
-                //if (res == false)
-                //    throw new Exception("Cant convert ID of worker on Task from string to int");
-
-                //string NameOfWorker = s_bl.Worker.ReadWorker(IdOfWorker).Name;
-                //BO.WorkerInTask myWorker = new BO.WorkerInTask { Id = IdOfWorker, Name = NameOfWorker };
+               
 
                 int complexity;
                 string sComplexity = Console.ReadLine();
