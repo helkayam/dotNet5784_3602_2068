@@ -1,6 +1,7 @@
 ﻿namespace BlImplementation;
 using BlApi;
 using BO;
+using DO;
 using System;
 using System.Collections.Generic;
 
@@ -72,7 +73,10 @@ internal class WorkerImplementation : IWorker
         {
             DO.Worker doWorker = new DO.Worker(newWorker.Id, (DO.WorkerExperience)newWorker.Level, newWorker.Name, newWorker.PhoneNumber, newWorker.Cost);
             if ((int)newWorker.Level == 2)
+                doWorker.Eraseable =false;
+            else
                 doWorker.Eraseable = true;
+
             string[] phonePrefix = { "050", "051", "052", "053", "054", "055 ", "056", "058" };
 
             string prefixOfPhoneNumber = doWorker.PhoneNumber[0].ToString() + doWorker.PhoneNumber[1].ToString() + doWorker.PhoneNumber[2].ToString();
@@ -107,7 +111,7 @@ internal class WorkerImplementation : IWorker
         var Tasks = (from currentTask in _dal.Task.ReadAll()
                      where currentTask.WorkerId == id
                      select currentTask).ToList();
-        if (Tasks != null)
+        if (Tasks.Count()!=0)
             return false;
         else
             return true;
@@ -128,7 +132,7 @@ internal class WorkerImplementation : IWorker
                            select (_dal.Worker.Read(b))).ToList();
 
             workersInList = (from DO.Worker DoWorker in readByLevel 
-                             select new Worker
+                             select new BO.Worker
                              {
                                  Id = DoWorker.Id,
                                  Name = DoWorker.Name,
@@ -170,7 +174,7 @@ internal class WorkerImplementation : IWorker
 
 
                    workersInList = (from DO.Worker DoWorker in result
-                                  select new Worker
+                                  select new BO.Worker
                                   {
                                       Id = DoWorker.Id,
                                       Name = DoWorker.Name,
@@ -195,31 +199,32 @@ internal class WorkerImplementation : IWorker
 
     public BO.Worker? ReadWorker(int Id)
     {
-        BO.Worker DoWorker;
 
-        var myWorker = (from worker in _dal.Worker.ReadAll()
-                        where worker.Id == Id
-                        select new BO.Worker()
-                        {
-                            Id = worker.Id,
-                            Name = worker.Name,
-                            Level = (BO.WorkerExperience)worker.Level,
-                            PhoneNumber = worker.PhoneNumber,
-                            Cost = worker.Cost,
-                            active = worker.active,
-                            Task = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == worker.Id)
-                                    select new TaskInWorker
-                                    {
-                                        Id = TaskOfWorker.Id,
-                                        Alias = TaskOfWorker.Alias
-                                    }).FirstOrDefault()!
+        BO.Worker boworker;
+        try
+        {
+            DO.Worker doworker = _dal.Worker.Read(Id,true);
 
-
-                        }).FirstOrDefault();
-        if (myWorker == null)
-            throw new BO.BlDoesNotExistException($"Worker with ID={Id} does Not exist");
-        return myWorker; 
-
+            boworker = new BO.Worker { Id = Id, Name = doworker.Name };
+            boworker.Level = (BO.WorkerExperience)doworker.Level;
+            boworker.PhoneNumber = doworker.PhoneNumber;
+            boworker.Cost = doworker.Cost;
+            boworker.active= doworker.active;
+       
+            TaskInWorker Task  = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == doworker.Id)
+                                      select new TaskInWorker
+                                      {
+                                          Id = TaskOfWorker.Id,
+                                          Alias = TaskOfWorker.Alias
+                                      }).FirstOrDefault()!;
+          
+           
+        }
+        catch(DO.DalDoesNotExistException ex)
+        {
+            throw new BO.BlDoesNotExistException($"Worker with ID={Id} does Not exist", ex);
+        }
+        return boworker;
     }
 
 

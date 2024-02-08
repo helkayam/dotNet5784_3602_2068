@@ -33,20 +33,41 @@ namespace BlTest
 
 
 
+
+
             try
             {
-                MainPage();
-                int choice = int.Parse(Console.ReadLine());
-                while (choice != 0)
+                if (s_bl.Task.GetStatusOfProject() != ProjectStatus.ScheduleDetermination)
                 {
-                    switch (choice)
-                    {
-                        case 1: WorkerPage(); break;
-                        case 2: TaskPage(); break;
-                        default: break;
-                    }
                     MainPage();
-                    choice = int.Parse(Console.ReadLine());
+                    int choice = int.Parse(Console.ReadLine());
+                    while (choice != 0)
+                    {
+                        switch (choice)
+                        {
+                            case 1: WorkerPage(); break;
+                            case 2: TaskPage(); break;
+                            default: break;
+                        }
+                        MainPage();
+                        choice = int.Parse(Console.ReadLine());
+                    }
+                }
+                else
+                {
+                    MainPage();
+
+                    int choice = int.Parse(Console.ReadLine());
+                    while (choice != 0)
+                    {
+                        switch (choice)
+                        {
+                            case 0: updateScheduleDate(); break;
+                            default: break;
+                        }
+                        MainPage();
+                        choice = int.Parse(Console.ReadLine());
+                    }
                 }
 
             }
@@ -56,13 +77,21 @@ namespace BlTest
             }
 
         }
+        
         static void MainPage()
         {
-
-            Console.WriteLine("Select an entity you want to check");
-            Console.WriteLine("0.Exit from main menu");
-            Console.WriteLine("1.Worker entity");
-            Console.WriteLine("2.Task entity");
+            if (s_bl.Task.GetStatusOfProject() != ProjectStatus.ScheduleDetermination)
+            {
+                Console.WriteLine("Select an entity you want to check");
+                Console.WriteLine("0.Exit from main menu");
+                Console.WriteLine("1.Worker entity");
+                Console.WriteLine("2.Task entity");
+            }
+            else
+            {
+                Console.WriteLine("select the action you want to do");
+                Console.WriteLine("0.Schedule a Task");
+            }
         }
 
         private static void WorkerPage()
@@ -98,31 +127,62 @@ namespace BlTest
 
         private static void TaskPage()
         {
-
             Console.WriteLine("Select the method you want to perform");
-            Console.WriteLine("1.Exiting the main menu");
-            Console.WriteLine("2.Adding a new task to the list");//Hen
-            Console.WriteLine("3.Task display by ID");//Lea Done
-            Console.WriteLine("4.Display list of all tasks");//Hen
-            //Console.WriteLine("5.Display list of all tasks in group by status");//Lea Done
-            Console.WriteLine("6.Updating existing task data");//Lea Done
-            Console.WriteLine("7.Updating start date of existing task");//Lea Done
-            Console.WriteLine("8.Deleting an existing task from the list");//Hen
 
-            int choice = int.Parse(Console.ReadLine());
-            if (choice != 1)
+            if (s_bl.Task.GetStatusOfProject() == ProjectStatus.PlanStage)
             {
-                switch (choice)
-                {
-                    case 2: createT(); break;
-                    case 3: readT(); break;
-                    case 4: readAllT(); break;
-                    //case 5: printGroups(); break;
-                    case 6: updateT(); break;
-                    case 7: AddUpdDateDate();break;
-                    case 8: deleteT(); break;
-                    default: break;
+                Console.WriteLine("1.Exiting the main menu");
+                Console.WriteLine("2.Adding a new task to the list");
+                Console.WriteLine("3.Task display by ID");
+                Console.WriteLine("4.Display list of all tasks");
+                Console.WriteLine("5.Updating existing task data");
+                Console.WriteLine("6.Deleting an existing task from the list");
+            }
+            if (s_bl.Task.GetStatusOfProject() == ProjectStatus.ExecutionStage)
+            {
+                Console.WriteLine("1.Exiting the main menu");
+                Console.WriteLine("2.Task display by ID");
+                Console.WriteLine("3.Display list of all tasks");
+                Console.WriteLine("4.Updating existing task data");
+                Console.WriteLine("5.Report that a task has started ");
+                Console.WriteLine("6.Report that a task  is completed");
 
+              
+            }
+
+
+            if (s_bl.Task.GetStatusOfProject() == ProjectStatus.PlanStage)
+            {
+                int choice = int.Parse(Console.ReadLine());
+                if (choice != 1)
+                {
+                    switch (choice)
+                    {
+                        case 2: createT(); break;
+                        case 3: readT(); break;
+                        case 4: readAllT(); break;
+                        case 5:updateT(); break;
+                        case 6: deleteT(); break;
+                        default: break;
+
+                    }
+                }
+            }
+            if (s_bl.Task.GetStatusOfProject() == ProjectStatus.ExecutionStage)
+            {
+                int choice = int.Parse(Console.ReadLine());
+                if (choice != 1)
+                {
+                    switch (choice)
+                    {
+                        case 2: readT(); break;
+                        case 3: readAllT(); break;
+                        case 4:updateT(); break;
+                        case 5: AddUpdDateStartDate(); break;
+                        case 6: AddCompleteDate(); break;
+                        default: break;
+
+                    }
                 }
             }
 
@@ -176,7 +236,7 @@ namespace BlTest
             }
             catch (BO.BlAlreadyExistsException ex)
             {
-                Console.WriteLine($"BlAlreadyExistsException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
+                Console.WriteLine($"BlAlreadyExistsException: {ex.Message} \n Inner Exception: {ex.InnerException.Message} ");
 
             }
             catch (BO.BlInvalidGivenValueException ex)
@@ -199,6 +259,7 @@ namespace BlTest
         {
             try
             {
+              
                 if(s_bl.Task.GetStatusOfProject()==ProjectStatus.PlanStage)
                   
                 Console.WriteLine("Enter description, alias, erasable of the task, Remarks  Complexity of the task and Required effort Time  ");
@@ -290,7 +351,7 @@ namespace BlTest
 
               catch (BO.BlAlreadyExistsException ex)
             {
-                Console.WriteLine($"BlAlreadyExistsException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
+                Console.WriteLine($"BlAlreadyExistsException: {ex.Message} \n Inner Exception: {ex.InnerException.Message} ");
 
             }
             catch (BO.BlInvalidGivenValueException ex)
@@ -331,7 +392,7 @@ namespace BlTest
             }
             catch (BO.BlDoesNotExistException ex)
             {
-                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException}");
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException.Message}");
             }
 
             catch (Exception ex)
@@ -365,7 +426,7 @@ namespace BlTest
             }
             catch(BO.BlDoesNotExistException ex )
             {
-                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException}");
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException.Message}");
             }
             catch (Exception ex)
             {
@@ -459,17 +520,14 @@ namespace BlTest
             return MyStatus;
         }
 
-        //private static void printGroups()
-        //{
-        //   var group= s_bl.Task.GroupByStatus();
-
-        //    foreach(var x in group)
-        //    {
-        //        Console.WriteLine(x);
-        //    }
-        //    Console.WriteLine();
-        //}
-
+        
+        private static int ComplexityTaskForWorker()
+        {
+            Console.WriteLine("Enter Id of worker you want to check wich Task he can chose");
+            int IdW=int.Parse(Console.ReadLine());
+           WorkerExperience  Complexity = s_bl.Worker.ReadWorker(IdW).Level;
+            return (int)Complexity;
+        }
 
         /// <summary>
         /// this method prints all the tasks data
@@ -486,7 +544,7 @@ namespace BlTest
             {
                 case 0: t = s_bl.Task.ReadAllTasks((BO.Filter)0, ShowComplexity()); break;
                 case 1: t = s_bl.Task.ReadAllTasks((BO.Filter)1,showStatus()); break;
-                case 2: t = s_bl.Task.ReadAllTasks((BO.Filter)2); break;
+                case 2: t = s_bl.Task.ReadAllTasks((BO.Filter)2, ComplexityTaskForWorker()); break;
               
                 case 3: t = s_bl.Task.ReadAllTasks((BO.Filter)4); break;
                 default: t = s_bl.Task.ReadAllTasks((BO.Filter)4); break;
@@ -527,6 +585,7 @@ namespace BlTest
         {
             try
             {
+
                 Console.WriteLine("Enter the ID number of the worker you want to update");
                 int id;
                 string Sid = (Console.ReadLine());
@@ -535,7 +594,7 @@ namespace BlTest
                     throw new Exception("Cant convert Id of worker from string to int");
                 Worker w = s_bl.Worker.ReadWorker(id);
 
-                Console.WriteLine("Enter name,experience, phone number, hourly payment and ID and alias of task of the worker");
+                Console.WriteLine("Enter name,experience, phone number, hourly payment ");
 
                 string name = Console.ReadLine();
 
@@ -555,30 +614,39 @@ namespace BlTest
                 if (res == false)
                     throw new Exception("Cant convert hourly payment of worker from string to double");
 
+                BO.Worker MyUpdWorker = new BO.Worker { Name = name, Id = id, Level = lvl, PhoneNumber = phonenumber, Cost = cost };
 
-                int IdOfTask;
-                string sIdTask = (Console.ReadLine());
-                res = int.TryParse(sIdTask, out IdOfTask);
-                if (res == false)
-                    throw new Exception("Cant convert ID Task of worker from string to int");
+                if (s_bl.Task.GetStatusOfProject() == ProjectStatus.ExecutionStage)
+                {
+                    Console.WriteLine("Do you want to alocate a task to the worker? Y/N");
+                        char c=char.Parse(Console.ReadLine());
+                    if (c == 'Y')
+                    {
+                        Console.WriteLine("Enter Id of task you want to allocate to the worker ");
+                        int IdOfTask;
+                        string sIdTask = (Console.ReadLine());
+                        res = int.TryParse(sIdTask, out IdOfTask);
+                        if (res == false)
+                            throw new Exception("Cant convert ID Task of worker from string to int");
+                        TaskInWorker t = new TaskInWorker() { Alias = s_bl.Task.ReadTask(IdOfTask).Alias, Id = IdOfTask };
+                        MyUpdWorker.Task = t;
+                    }
 
-                string aliasOfTask = Console.ReadLine();
+                }
 
-                BO.TaskInWorker TaskOfWorker = new BO.TaskInWorker { Id = IdOfTask, Alias = aliasOfTask };
-                BO.Worker WorkerToUp = new BO.Worker { Name = name, Id = id, Level = lvl, PhoneNumber = phonenumber, Cost = cost, Task = TaskOfWorker };
 
-                s_bl.Worker.UpdateWorker(WorkerToUp);
+                s_bl.Worker.UpdateWorker(MyUpdWorker);
 
             }
             catch (BO.BlNotActiveException ex)
             {
-                Console.WriteLine($"BlNotActiveException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
+                Console.WriteLine($"BlNotActiveException: {ex.Message} \n Inner Exception: {ex.InnerException.Message} ");
 
             }
 
             catch (BO.BlDoesNotExistException ex)
             {
-                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException.Message} ");
 
             }
             catch (BO.BlInvalidGivenValueException ex)
@@ -594,6 +662,40 @@ namespace BlTest
 
         }
 
+        private static void updateScheduleDate()
+        {
+            try
+            {
+                Console.WriteLine("Enter Id of task you want to schedule and enter schedule date");
+                int id;
+                string Sid = (Console.ReadLine());
+                bool res = int.TryParse(Sid, out id);
+                if (res == false)
+                    throw new Exception("Cant convert Id of worker from string to int");
+
+                DateTime sdt;
+                string date = (Console.ReadLine());
+                 res = DateTime.TryParse(date,out  sdt);
+                if (res == false)
+                    throw new Exception("Cant convert Schedule date of worker from string to DateTime");
+
+                s_bl.Task.UpdateScheduleDate(id, sdt);
+
+
+            }
+            catch(BO.BlFalseUpdateDate e)
+            {
+                Console.WriteLine($" BO.BlFalseUpdateDate: {e.Message}" );
+            }
+            catch (BO.BlInvalidGivenValueException e)
+            {
+                Console.WriteLine($" BO.BlInvalidGivenValueException: {e.Message}");
+            }
+            catch (BO.BlDoesNotExistException e)
+            {
+                Console.WriteLine($" BO.BlInvalidGivenValueException: {e.Message} \n Inner Exception: {e.InnerException.Message}");
+            }
+        }
         /// <summary>
         /// this method gets from the user id of a task and update data of that task 
         /// </summary>
@@ -617,8 +719,8 @@ namespace BlTest
                 TaskToUpdate.Id = id;
 
               
-                Console.WriteLine("Enter  the description of the task,the alias of the task,the complexity of the task, scheduled start date of the task, deadline of the task, Id of Worker assigned to that Task" +
-                    ",erasability of Task, Complete Date of task, remarks on the task and deliverables");
+                Console.WriteLine("Enter  the description of the task, alias of the task,the complexity of the task, " +
+                    ",erasability of Task,  remarks on the task");
                 string  Description=Console.ReadLine();
                 string Alias=Console.ReadLine();
 
@@ -707,7 +809,7 @@ namespace BlTest
             }
             catch (BO.BlDoesNotExistException ex)
             {
-                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException.Message} ");
 
             }
             catch(BO.BlInvalidGivenValueException ex)
@@ -743,7 +845,7 @@ namespace BlTest
 
             catch (BO.BlNotErasableException ex)
             {
-                Console.WriteLine($"BlNotErasableException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
+                Console.WriteLine($"BlNotErasableException: {ex.Message} \n Inner Exception: {ex.InnerException.Message } ");
 
             }
 
@@ -755,7 +857,7 @@ namespace BlTest
 
             catch (BO.BlDoesNotExistException ex)
             {
-                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException.Message } ");
 
             }
 
@@ -765,32 +867,46 @@ namespace BlTest
             }
         }
         
-
-        private static void AddUpdDateDate()
+        private static void AddCompleteDate()
         {
             try
             {
-                Console.WriteLine("Enter Id of the Task you want to add the Start Date and also write the start date");
+                Console.WriteLine("Enter Id of the Task you want to report that is completed");
+                int IdOfTask;
+                string sIdTask = (Console.ReadLine());
+                bool res = int.TryParse(sIdTask, out IdOfTask);
+                if (res == false)
+                    throw new Exception("Cant convert ID Task from string to int");
+            }
+            catch(BO.BlDoesNotExistException ex)
+            {
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException.Message} ");
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);   
+            }
+
+
+
+        }
+        private static void AddUpdDateStartDate()
+        {
+            try
+            {
+                Console.WriteLine("Enter Id of the Task you want to report that has started");
                 int IdOfTask;
                 string sIdTask = (Console.ReadLine());
                bool  res = int.TryParse(sIdTask, out IdOfTask);
                 if (res == false)
                     throw new Exception("Cant convert ID Task of worker from string to int");
 
-
-                DateTime StartDate;
-                string StrStartDate = Console.ReadLine();
-                res = DateTime.TryParse(StrStartDate, out StartDate);
-                if (res == false)
-                    throw new Exception("Cant convert complete date of task from string to DateTime");
-
-
                 s_bl.Task.AddOrUpdateStartDate(IdOfTask);
 
             }
             catch(BO.BlDoesNotExistException ex)
             {
-                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException.Message } ");
             }
             catch(BO.BlFalseUpdateDate ex)
             {
@@ -820,13 +936,13 @@ namespace BlTest
             }
             catch (BO.BlNotErasableException ex)
             {
-                Console.WriteLine($"BlNotErasableException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
+                Console.WriteLine($"BlNotErasableException: {ex.Message} \n Inner Exception: {ex.InnerException.Message } ");
 
             }
 
             catch (BO.BlDoesNotExistException ex)
             {
-                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException} ");
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException.Message } ");
 
             }
 
