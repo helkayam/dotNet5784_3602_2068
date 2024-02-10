@@ -195,15 +195,15 @@ namespace BlTest
      
             try
             {
-                    Console.WriteLine("Enter ID, name,level, phone number ,hourly payment of Worker ");
+                Console.WriteLine("Enter ID, name,level, phone number ,hourly payment of Worker ");
                
 
                 int id;
-                string Sid = (Console.ReadLine());
+                 string Sid = (Console.ReadLine());
                 bool res = int.TryParse(Sid, out id);
                 if (res == false)
                     throw new Exception("Cant convert Id of worker from string to int");
-
+                
                 string name = Console.ReadLine();
                 BO.WorkerExperience we = (BO.WorkerExperience)int.Parse(Console.ReadLine());
                 string phonenumber = Console.ReadLine();
@@ -921,7 +921,7 @@ namespace BlTest
 
             catch (BO.BlDoesNotExistException ex)
             {
-                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException.Message } ");
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message} ");
 
             }
 

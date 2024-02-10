@@ -2,6 +2,11 @@
 using static DalApi.Config;
 using System.Reflection;
 namespace DalApi;
+
+/// <summary>
+/// This is a factory class called Factory that uses the Config class to load and initialize the correct class with which they will want to implement 
+/// the data layer.
+/// </summary>
 public static class Factory
 {
     public static IDal Get

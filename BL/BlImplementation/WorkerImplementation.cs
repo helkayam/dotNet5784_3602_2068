@@ -1,11 +1,14 @@
 ﻿namespace BlImplementation;
 using BlApi;
 using BO;
+using DalApi;
 using DO;
 using System;
+using System.Buffers.Text;
 using System.Collections.Generic;
 
 using System.Reflection.Emit;
+using System.Reflection.Metadata;
 
 
 /// <summary>
@@ -51,24 +54,18 @@ internal class WorkerImplementation : IWorker
         return BO.ProjectStatus.ScheduleDetermination;
 
     }
+    /// <summary>
+    /// A method for creating a new task, the method will allow you to add a task if the project status is the planning stage or the execution stage, 
+    /// and if all the received data is correct.
+    /// If all the following conditions are met, the method will send to the DAL layer a request to add a task with
+    /// a parameter of a DO entity of a task it created based on a BO entity received as a parameter
+    /// </summary>
+    /// <param name="newWorker"> BO entity of task to add</param>
+    /// <exception cref="BO.BlInvalidGivenValueException"> An exception that is thrown if one of the entity's data is incorrect </exception>
+    /// <exception cref="BO.BlAlreadyExistsException"> An exception that is thrown if an attempt is made to add a task that already exists</exception>
     public void AddWorker(BO.Worker newWorker)
     {
-        //in first case: id,level,name,PhoneNumber, Cost, Eraseable, active
-        //in seconde case:..............
-        //in third case: task, id,level,name,PhoneNumber, Cost, Eraseable, active
-        /*     
-    Id,
-    Level
-    Name
-    PhoneNumber
-    Cost
-    Eraseable
-    active 
-    
-     BO-
-     Task   
 
-         */
         if (GetStatusOfProject() != BO.ProjectStatus.ScheduleDetermination)
         {
             DO.Worker doWorker = new DO.Worker(newWorker.Id, (DO.WorkerExperience)newWorker.Level, newWorker.Name, newWorker.PhoneNumber, newWorker.Cost);
@@ -106,6 +103,12 @@ internal class WorkerImplementation : IWorker
 
     }
 
+    /// <summary>
+    /// A method that checks for a certain employee whether he has a task assigned to him
+    /// </summary>
+    /// <param name="id"> id of worker that we check it for him </param>
+    /// <returns>True- if the employee has not been assigned a task
+   /// False- if the employee has been assigned a task</returns>
     public bool WorkerDoesntHaveTask(int id)
     {
         var Tasks = (from currentTask in _dal.Task.ReadAll()
@@ -116,7 +119,16 @@ internal class WorkerImplementation : IWorker
         else
             return true;
     }
-
+    /// <summary>
+    /// The method returns a collection of workers according to a certain filter:
+    /// *All workers who have not been assigned a task
+    /// *All active workers
+    /// * All erasable workers
+    /// *All the workers without any filtering
+    /// </summary>
+    /// <param name="enumFilter">The filter by which the collection of returned workers is built</param>
+    /// <param name="filtervalue">In the filters of workers By level you need to know what level to return and therefore this parameter allows us to know what level of filtering is requested. </param>
+    /// <returns> A collection of Workers by filtering </returns>
     public IEnumerable<BO.Worker> ReadAllWorkers(BO.FilterWorker enumFilter = BO.FilterWorker.None, Object? filtervalue = null)
     {
         IEnumerable<BO.Worker> workersInList;
@@ -159,7 +171,7 @@ internal class WorkerImplementation : IWorker
                 enumFilter = FilterWorker.None;
 
 
-            IEnumerable<DO.Worker?> result =
+     IEnumerable<DO.Worker?> result =
        enumFilter switch
        {
            BO.FilterWorker.WithoutTask => (_dal.Worker.ReadAll(MyWorker => (WorkerDoesntHaveTask(MyWorker.Id) == true))),
@@ -196,7 +208,12 @@ internal class WorkerImplementation : IWorker
         }
         
     }
-
+    /// <summary>
+    /// The method receives an ID of a worker and returns a BO entity of a worker after creating this entity according to certain calculations and requests from the DAL layer
+    /// </summary>
+    /// <param name="Id"> ID of worker to read </param>
+    /// <returns> BO entity of a worker </returns>
+    /// <exception cref="BO.BlDoesNotExistException"> An exception that is thrown if the worker you want to read does not exist </exception>
     public BO.Worker? ReadWorker(int Id)
     {
 
@@ -268,14 +285,25 @@ internal class WorkerImplementation : IWorker
         }
 
     }
-
+    /// <summary>
+    /// This is a method for updating employee details. 
+    /// If we are in the planning phase of the project, only technical details of the list can be updated.
+    /// If we are in the schedule phase, then there is no possibility to update, 
+    /// if we are in the execution phase, there is a possibility to update technical details, as well as to assign a task to an employee
+    /// </summary>
+    /// <param name="workerToUpdate"> Updated employee BO entity </param>
+    /// <exception cref="BO.BlInvalidGivenValueException"> An exception that is thrown if one of the data to be updated, of the entity of the received employee, is incorrect </exception>
+    /// <exception cref="BO.BlDoesNotExistException">An exception that is thrown if the worker you want to update does not exist </exception>
+    /// <exception cref="BO.BlNotActiveException"> An exception that is thrown if you try to update an inactive employee </exception>
     public void UpdateWorker(BO.Worker workerToUpdate)
     {
 
         DO.Worker doWorker = new DO.Worker(workerToUpdate.Id, (DO.WorkerExperience)workerToUpdate.Level, workerToUpdate.Name,
             workerToUpdate.PhoneNumber, workerToUpdate.Cost);
-        int TaskToUp = workerToUpdate.Task.Id;
+       
         if ((int)workerToUpdate.Level == 2)
+            doWorker.Eraseable = false;
+        else
             doWorker.Eraseable = true;
 
         //if(doWorker.active == false)
@@ -286,15 +314,17 @@ internal class WorkerImplementation : IWorker
         string prefixOfPhoneNumber = doWorker.PhoneNumber[0].ToString() + doWorker.PhoneNumber[1].ToString() + doWorker.PhoneNumber[2].ToString();
         try
         {
-            if (_dal.Task.Read(TaskToUp) == null)
-                throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, Task with id={TaskToUp} of worker does not exsists");
+            
             if (doWorker.Id > 0 && (doWorker.Id.ToString().Length == 9) && doWorker.Name.Length > 0 &&
                 doWorker.Cost > 0 && doWorker.PhoneNumber.Length == 10 && phonePrefix.Contains(prefixOfPhoneNumber))
             {
 
                 _dal.Worker.Update(doWorker);
                 if (GetStatusOfProject() == BO.ProjectStatus.ExecutionStage)
-                { 
+                {
+                    int TaskToUp = workerToUpdate.Task.Id;
+                    if (_dal.Task.Read(TaskToUp) == null)
+                        throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, Task with id={TaskToUp} of worker does not exsists");
                     DO.Task taskWithUpdateWorker = _dal.Task.Read(TaskToUp) with { WorkerId = workerToUpdate.Id };
                     _dal.Task.Update(taskWithUpdateWorker);
                 }
@@ -316,6 +346,9 @@ internal class WorkerImplementation : IWorker
 
     }
 
+    /// <summary>
+    /// The method deletes all employees in the database, of course only if we are not currently in the planning phase
+    /// </summary>
     public void deleteAll()
     {
         if(GetStatusOfProject() != BO.ProjectStatus.ScheduleDetermination)

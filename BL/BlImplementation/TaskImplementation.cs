@@ -3,22 +3,40 @@ using BlApi;
 using BO;
 using DalApi;
 using DO;
-//using DO;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
+using System.Diagnostics;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 internal class TaskImplementation : BlApi.ITask
 {
+    /// <summary>
+    /// This is a field called s_bl of the interface type of the logical layer IBl, 
+    /// which is initialized with the help of the Factory class that initializes the corresponding implementation class within the BL project(DALXML/DALLIST).
+    /// </summary>
     private DalApi.IDal _dal = DalApi.Factory.Get;
 
-
+    /// <summary>
+    /// This is a method that receives a date as a parameter and sends it to a class in the DAL layer that takes care of initializing the start date of the project 
+    /// on the received date
+    /// </summary>
+    /// <param name="startDateProject"> Date to start the StartDateOfProject field </param>
     public void UpdateStarteEndProjectDate(DateTime startDateProject)
     {
         _dal.Schedule.UpdateStartDateProject(startDateProject);
     }
 
-
+    /// <summary>
+    /// This is a method that takes care of returning the status of the project.
+    /// Return a status of the planning phase if the project start date has not been updated
+    ///Return the status of the schedule step if the project start date has been updated but the schedule update of all tasks has not finished
+    ///You will return the status of the execution phase if the schedule and also the project start date are available
+    /// </summary>
+    /// <returns> Return the project status: Plan Stage/Schedule Determination/Execution Stage </returns>
     public ProjectStatus GetStatusOfProject()
     {
         if (_dal.Schedule.GetStartDateProject() == null)
@@ -39,6 +57,11 @@ internal class TaskImplementation : BlApi.ITask
         return BO.ProjectStatus.ScheduleDetermination;
 
     }
+    /// <summary>
+    /// Receives a task and returns its status: task schedule not updated / task schedule updated / task in progress / task completed
+    /// </summary>
+    /// <param name="task"> A task received and you want to know its status </param>
+    /// <returns> Task status: Unscheduled/Scheduled/OnTrack/Done</returns>
     public BO.Status getStatus(DO.Task task)
     {
         TimeSpan t = TimeSpan.FromDays(2);
@@ -53,13 +76,20 @@ internal class TaskImplementation : BlApi.ITask
         else
             return BO.Status.OnTrack;
     }
+    /// <summary>
+    /// The method receives a BO entity of a Task and takes care of generating a corresponding DO entity and sends it to the DAL layer 
+    /// which will take care of generating a new task and adding it to the DATABASE.
+    ///The method will allow you to add the task only if the project status is a status of the planning phase
+    /// </summary>
+    /// <param name="newTask"> A task type entity received from the user, to be added </param>
+    /// <exception cref="BO.BlForbiddenActionException"> Exception for an attempt to add in a phase of the project that does not allow it </exception>
+    /// <exception cref="BO.BlInvalidGivenValueException"> An exception for a case where one of the mission data is incorrect or does not match expectations </exception>
+    /// <exception cref="BO.BlAlreadyExistsException"> Exception for the case of adding an already existing task </exception>
     public void AddTask(BO.Task newTask)
     {
         if (GetStatusOfProject() != BO.ProjectStatus.PlanStage)
             throw new BO.BlForbiddenActionException("The project status cant allow to add Task");
 
-
-        //DO.Task DoTask = new DO.Task(newTask.Alias, (DO.WorkerExperience)(newTask.Complexity), newTask.Description, newTask.Id, newTask.ScheduledDate, newTask.Deadline);
         DO.Task DoTask;
         DoTask = new DO.Task(newTask.Alias, (DO.WorkerExperience)(newTask.Complexity), newTask.Description, newTask.Id);
 
@@ -67,10 +97,7 @@ internal class TaskImplementation : BlApi.ITask
         DoTask.RequiredEffortTime = newTask.RequiredEffortTime;
 
         DoTask.Eraseable = newTask.Eraseable;
-        //if (_dal.Worker.Read(newTask.Worker.Id) == null)
-        //    throw new BO.BlDoesNotExistException($"The worker assigned to the task doesnt exist");
-
-        //add dependencies
+        
         var item = from BoDep in newTask.Dependencies
                    let id = newTask.Id
                    select new DO.Dependency { DependentTask = BoDep.Id, DependsOnTask = id };
@@ -97,6 +124,13 @@ internal class TaskImplementation : BlApi.ITask
 
     }
 
+    /// <summary>
+    /// The method receives a task and checks whether all the tasks that the received task depends on have finished.
+    /// If so, return true
+    /// otherwise return false.
+    /// </summary>
+    /// <param name="newTask"> A task for which it is checked whether the tasks it depends on have been completed  </param>
+    /// <returns> true/false </returns>
     public bool checkDependentTaskDone(DO.Task newTask)
     {
         var previousTask = from myDep in _dal.Dependency.ReadAll()
@@ -116,6 +150,11 @@ internal class TaskImplementation : BlApi.ITask
 
     }
 
+    /// <summary>
+    /// The method accepts a task and returns estimated time to completion of task
+    /// </summary>
+    /// <param name="DoTask"> A BO entity of a task for which the estimated time to completion is returned </param>
+    /// <returns> estimated time to completion </returns>
     public DateTime? GetForecastDate(DO.Task DoTask)
     {
         if (DoTask.StartDate < DoTask.ScheduledDate)
@@ -123,6 +162,16 @@ internal class TaskImplementation : BlApi.ITask
 
         return DoTask.StartDate + DoTask.RequiredEffortTime;
     }
+    /// <summary>
+    /// The method returns a collection of tasks according to a certain filter:
+    /// *All tasks with the same level of complexity
+    /// *All tasks with the same task status
+    /// * All possible tasks that an employee can start performing
+    /// *All the tasks without any filtering
+    /// </summary>
+    /// <param name="enumFilter"> The filter by which the collection of returned tasks is built </param>
+    /// <param name="filtervalue"> In the filters of Tasks By Complexity/Status of task/PossibleTaskForWorker you need to know what level to return and therefore this parameter allows us to know what level of filtering is requested. </param>
+    /// <returns> A collection of tasks by filtering </returns>
     public IEnumerable<BO.TaskInList> ReadAllTasks(BO.Filter enumFilter = BO.Filter.None, Object? filtervalue = null)
     {
 
@@ -132,7 +181,6 @@ internal class TaskImplementation : BlApi.ITask
            BO.Filter.ByComplexity => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => bc.Complexity == (DO.WorkerExperience)filtervalue) : _dal.Task.ReadAll(),
            BO.Filter.Status => ((BO.Status)filtervalue != null) ? _dal.Task.ReadAll(s => getStatus(s) == (BO.Status)filtervalue) : _dal.Task.ReadAll(),
            BO.Filter.PossibleTaskForWorker => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => (bc.Complexity <= (DO.WorkerExperience)filtervalue && bc.StartDate != null && checkDependentTaskDone(bc) == true)) : _dal.Task.ReadAll(),
-
            BO.Filter.None => _dal.Task.ReadAll(),
 
        };
@@ -150,6 +198,12 @@ internal class TaskImplementation : BlApi.ITask
 
     }
 
+    /// <summary>
+    /// The method receives an ID of a task and returns a BO entity of a task after creating this entity according to certain calculations and requests from the DAL layer
+    /// </summary>
+    /// <param name="Id"> id of task to read </param>
+    /// <returns> BO entity of a task </returns>
+    /// <exception cref="BO.BlDoesNotExistException"> An exception that is thrown if the task you want to read does not exist </exception>
     public BO.Task? ReadTask(int Id)
     {
 
@@ -189,14 +243,7 @@ internal class TaskImplementation : BlApi.ITask
                           Status = getStatus(_dal.Task.Read(item.DependsOnTask))
                       };
 
-            //IEnumerable < TaskInList > dep = _dal.Dependency.ReadAll().Where(item => item.DependentTask == Id).
-            //    Select(item => new BO.TaskInList()
-            //    {
-            //        Id = item.DependsOnTask,
-            //        Description = (_dal.Task.Read(item.DependsOnTask)).Description,
-            //        Alias = (_dal.Task.Read(item.DependsOnTask)).Alias,
-            //        Status = getStatus(_dal.Task.Read(item.DependsOnTask))
-            //    });
+            
 
             BoTask.Dependencies = new List<TaskInList>();
             foreach (var item in dep)
@@ -232,6 +279,14 @@ internal class TaskImplementation : BlApi.ITask
 
     }
 
+    /// <summary>
+    /// The method receives an ID of a task to delete.
+    /// It allows deletion of the task if the project status is the planning stage, and if no task is dependent on this task.
+    /// If all the following conditions are met then it sends a deletion request to the DAL layer
+    /// </summary>
+    /// <param name="Id"> ID of task to remove</param>
+    /// <exception cref="BO.BlNotErasableException"> An exception that is thrown if an attempt was made to delete a task that is prohibited by deletion </exception>
+    /// <exception cref="BO.BlDoesNotExistException"> An exception thrown if an attempt was made to delete a task that does not exist  </exception>
     public void RemoveTask(int Id)
     {
         if (GetStatusOfProject() == BO.ProjectStatus.PlanStage)
@@ -266,18 +321,7 @@ internal class TaskImplementation : BlApi.ITask
         }
     }
 
-    //private static readonly Random s_rand = new();
-    //public void reqUpdateDependencies(BO.Task myTesk)
-    //{
-    //    if (myTesk.Dependencies.Count != 0)
-    //           myTesk.ScheduledDate = StartDateProject.AddDays(s_rand.Next(1, 7));
-    //    foreach(var item in myTesk.Dependencies)
-    //    {
-    //        reqUpdateDependencies(ReadTask(item.Id));
-    //    }
-    //    myTesk.ScheduledDate = StartDateProject.AddDays(s_rand.Next(1, 7));
-
-    //}
+   
 
 
     public void UpdateTask(BO.Task TaskToUpdate)
@@ -394,21 +438,7 @@ internal class TaskImplementation : BlApi.ITask
     }
 
 
-    //    public IEnumerable <TaskInList>  GroupByStatus()
-    //{
-
-    //    var groupByStatus = (from item in _dal.Task.ReadAll()
-    //                         group new TaskInList { Alias = item.Alias, Description = item.Description, Id = item.Id, Status = getStatus(item) } by getStatus(item) into groupStatus
-    //                         select groupStatus);
-
-    //        foreach(var group in groupByStatus)
-    //        {
-    //            foreach (var item in group)
-    //                yield return new TaskInList { Alias = item.Alias, Description = item.Description, Id = item.Id, Status = item.Status };
-    //        }
-
-
-    //}
+    
     public void UpdateScheduleDate(int Id, DateTime mySceduelDate)
     {
 
