@@ -14,7 +14,7 @@ using System.Reflection.Metadata;
 /// <summary>
 /// This is a class that implements the methods of the Worker logical entity by implementing the IWorker interface
 /// </summary>
-internal class WorkerImplementation : IWorker
+internal class WorkerImplementation : BlApi.IWorker
 {
     /// <summary>
     /// This is a private field named dal_ of type IDal, for access from the methods to the DAL layer. 
@@ -245,7 +245,14 @@ internal class WorkerImplementation : IWorker
     }
 
 
-
+    /// <summary>
+    /// this method gets an id of a worker 
+    /// and delete it 
+    /// </summary>
+    /// <param name="Id">Id of the worker</param>
+    /// <exception cref="BO.BlNotActiveException">if the worker is not active, we throw an exception</exception>
+    /// <exception cref="BO.BlNotErasableException">if the workers is not erasable, we throw an exception</exception>
+    /// <exception cref="BO.BlDoesNotExistException">if the worker does not exist, we throw an excpetion</exception>
     public void RemoveWorker(int Id)
     {
         if (GetStatusOfProject() != BO.ProjectStatus.ScheduleDetermination)

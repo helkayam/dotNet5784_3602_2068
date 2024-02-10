@@ -10,7 +10,6 @@ using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 internal class TaskImplementation : BlApi.ITask
 {
@@ -97,20 +96,24 @@ internal class TaskImplementation : BlApi.ITask
         DoTask.RequiredEffortTime = newTask.RequiredEffortTime;
 
         DoTask.Eraseable = newTask.Eraseable;
-        
-        var item = from BoDep in newTask.Dependencies
-                   let id = newTask.Id
-                   select new DO.Dependency { DependentTask = BoDep.Id, DependsOnTask = id };
-        foreach (var dep in item)
-        {
-            if (_dal.Task.Read(dep.DependentTask) != null)
-                _dal.Dependency.Create(dep);
-        }
+      
 
         try
         {
             if (DoTask.Alias.Length > 0 && DoTask.Id >= 0)
-                _dal.Task.Create(DoTask);
+            {
+               int IdOfNewTask= _dal.Task.Create(DoTask);
+                var item = from BoDep in newTask.Dependencies
+                           let id = IdOfNewTask
+                           select new DO.Dependency { DependentTask = id, DependsOnTask = BoDep.Id };
+
+
+                foreach (var dep in item)
+                {
+                    if (_dal.Task.Read(dep.DependentTask) != null)
+                        _dal.Dependency.Create(dep);
+                }
+            }
             else
                 throw new BO.BlInvalidGivenValueException($"One of the data of Task with ID={DoTask.Id} is incorrect");
 
@@ -270,7 +273,7 @@ internal class TaskImplementation : BlApi.ITask
         }
         catch (DO.DalDoesNotExistException ex)
         {
-            throw new BO.BlDoesNotExistException($"Task with ID={Id} does Not exist");
+            throw new BO.BlDoesNotExistException($"Task with ID={Id} does Not exist",ex);
         }
 
 
@@ -307,46 +310,39 @@ internal class TaskImplementation : BlApi.ITask
                     foreach (var item in depDel)
                         _dal.Dependency.Delete(item.Id);
                 }
+                else
+                    throw new BO.BlInvalidGivenValueException("Can't delete the task because there is a task that depends on that task ");
             }
             catch (DO.DalNotErasableException ex)
             {
-                throw new BO.BlNotErasableException($"Task with ID={Id} does Not Erasable");
+                throw new BO.BlNotErasableException($"Task with ID={Id} does Not Erasable",ex);
 
             }
 
             catch (DO.DalDoesNotExistException ex)
             {
-                throw new BO.BlDoesNotExistException($"Task with ID={Id} does Not exist");
+                throw new BO.BlDoesNotExistException($"Task with ID={Id} does Not exist",ex);
             }
         }
     }
 
    
-
+    /// <summary>
+    /// this method gets a BO task entity and if we are not in schedule determination stage, we can update the task.
+    /// we create a do entity according to the bo we got. (according to the stage, we will add just the relevant fields, for example in firsst stage (plan stage)
+    /// we dont allow to update all date fields, and also deliverables ) and in stage 3 we allow it ...
+    /// and then we send a update request to the DAL Layer.
+    /// </summary>
+    /// <param name="TaskToUpdate">Task updated with relevant fields</param>
+    /// <exception cref="BO.BlInvalidGivenValueException">if the BO task we got has invalid fields (like id<0 or alias of task null) we throw this exception</exception>
+    /// <exception cref="BO.BlDoesNotExistException">if the task we are trying to update doesnt exist we throw an error</exception>
 
     public void UpdateTask(BO.Task TaskToUpdate)
     {
 
-        if ((GetStatusOfProject() == BO.ProjectStatus.ScheduleDetermination))
-        {
-
-            DO.Task DoTask = _dal.Task.Read(TaskToUpdate.Id) with { ScheduledDate = TaskToUpdate.ScheduledDate };
-            _dal.Task.Update(DoTask);
-
-
-            //foreach(var myTask in ReadAllTasks())
-            // {
-            //     BO.Task BoTask=ReadTask(myTask.Id);
-
-            //    // reqUpdateDependencies(BoTask);
-            // }
-
-
-
-        }
-        else
-        {
-
+      
+       
+        if(GetStatusOfProject()!=BO.ProjectStatus.ScheduleDetermination)
             try
             {
 
@@ -354,8 +350,7 @@ internal class TaskImplementation : BlApi.ITask
                 if (TaskToUpdate.Id >= 0 && TaskToUpdate.Alias.Length > 0)
                 {
 
-                    var TaskToUpd = _dal.Task.ReadAll().Where(item => item.Id == TaskToUpdate.Id)
-                        .Select(item => item).FirstOrDefault();
+                    var TaskToUpd = _dal.Task.Read(TaskToUpdate.Id, true);
 
                     if (GetStatusOfProject() == BO.ProjectStatus.ExecutionStage)
                     {
@@ -400,6 +395,7 @@ internal class TaskImplementation : BlApi.ITask
                             DO.Task d = _dal.Task.Read(item.Id);
                             if (d != null)
                             {
+                                
                                 DO.Dependency newDep = new DO.Dependency(TaskToUpdate.Id, item.Id);
                                 foreach (var CurrentDependency in _dal.Dependency.ReadAll())
                                 {
@@ -430,15 +426,23 @@ internal class TaskImplementation : BlApi.ITask
 
             }
 
-            catch (BO.BlDoesNotExistException ex)
+            catch (DO.DalDoesNotExistException ex)
             {
-                throw new BO.BlDoesNotExistException($"Task with id={TaskToUpdate.Id} does not exist");
+                throw new BO.BlDoesNotExistException($"Task with id={TaskToUpdate.Id} does not exist",ex);
             }
-        }
+        
     }
 
 
-    
+    /// <summary>
+    /// this method gets an Id of a task, and a date
+    /// and update that task with update date 
+    /// </summary>
+    /// <param name="Id">Id of the task</param>
+    /// <param name="mySceduelDate">schedule date we want to add to the task</param>
+    /// <exception cref="BO.BlFalseUpdateDate">throw excpetion if there is a problem with the date (schedule date before start project date or before scheduling the previous tasks or before forecast date of previous tasks...)</exception>
+    /// <exception cref="BO.BlInvalidGivenValueException">update date before updating schedule date of project</exception>
+    /// <exception cref="BO.BlDoesNotExistException">if we schedule a task that doesnt exist we throw an exception</exception>
     public void UpdateScheduleDate(int Id, DateTime mySceduelDate)
     {
 
@@ -465,18 +469,20 @@ internal class TaskImplementation : BlApi.ITask
 
 
             }
-
-            if (depends.Count() == 0 && _dal.Schedule.GetStartDateProject() == null)
-                throw new BO.BlInvalidGivenValueException($"false Schedule date update of task: Project did not start yet ");
             else
-            if (depends.Count() == 0 && mySceduelDate <= _dal.Schedule.GetStartDateProject())
-                throw new BO.BlInvalidGivenValueException($"false Schedule Date date update of task: Schedule Date  before start date project");
-            else if (depends.Count() != 0)
             {
-                DO.Task updDate = _dal.Task.Read(Id) with { ScheduledDate = mySceduelDate };
-                _dal.Task.Update(updDate);
-            }
+                if (depends.Count() == 0 && _dal.Schedule.GetStartDateProject() == null)
+                    throw new BO.BlInvalidGivenValueException($"false Schedule date update of task: Project did not start yet ");
+                else
+            if (depends.Count() == 0 && mySceduelDate <= _dal.Schedule.GetStartDateProject())
+                    throw new BO.BlInvalidGivenValueException($"false Schedule Date date update of task: Schedule Date  before start date project");
+                else if (depends.Count() != 0)
+                {
+                    DO.Task updDate = _dal.Task.Read(Id) with { ScheduledDate = mySceduelDate };
+                    _dal.Task.Update(updDate);
+                }
 
+            }
         }
         catch (DO.DalDoesNotExistException ex)
         {
@@ -485,7 +491,13 @@ internal class TaskImplementation : BlApi.ITask
 
     }
 
-
+    /// <summary>
+    /// this method gets an id of task and update the start date
+    /// to be now.
+    /// </summary>
+    /// <param name="Id">Id of the task we want to update the start date</param>
+    /// <exception cref="BO.BlInvalidGivenValueException">if we started this task before the scheduled date</exception>
+    /// <exception cref="BO.BlDoesNotExistException">if the task we are trying to update does not exist we throw an error</exception>
     public void AddOrUpdateStartDate(int Id)
     {
         try
@@ -507,7 +519,11 @@ internal class TaskImplementation : BlApi.ITask
 
 
     }
-
+    /// <summary>
+    /// this method gets Id of task and update the complete date to be now 
+    /// </summary>
+    /// <param name="Id">Id of task we want to update</param>
+    /// <exception cref="BO.BlDoesNotExistException">the task does not exist</exception>
     public void AddCompleteDate(int Id)
     {
 
@@ -524,7 +540,9 @@ internal class TaskImplementation : BlApi.ITask
 
 
     }
-
+    /// <summary>
+    /// this method delete all the tasks and dependencies
+    /// </summary>
     public void deleteAll()
     {
         _dal.Task.DeleteAll();

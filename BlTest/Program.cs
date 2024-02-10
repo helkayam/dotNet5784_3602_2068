@@ -62,7 +62,7 @@ namespace BlTest
                     {
                         switch (choice)
                         {
-                            case 0: updateScheduleDate(); break;
+                            case 1: updateScheduleDate(); break;
                             default: break;
                         }
                         MainPage();
@@ -73,7 +73,7 @@ namespace BlTest
             }
             catch (Exception ex)
             {
-                // Console.WriteLine(ex.ToString());
+                /Console.WriteLine(ex.ToString());
             }
 
         }
@@ -90,7 +90,7 @@ namespace BlTest
             else
             {
                 Console.WriteLine("select the action you want to do");
-                Console.WriteLine("0.Schedule a Task");
+                Console.WriteLine("1.Schedule a Task");
             }
         }
 
@@ -189,7 +189,10 @@ namespace BlTest
 
 
         }
-
+        /// <summary>
+        /// this method gets from the user data of the worker we want to add, 
+        /// and send a add request to the BL layer
+        /// </summary>
         private static void createW()
         {
      
@@ -254,7 +257,10 @@ namespace BlTest
         }
 
 
-
+        /// <summary>
+        /// this method gets from the user data of the task we want to add, 
+        /// and send a add request to the BL layer
+        /// </summary>
         private static void createT()
         {
             try
@@ -293,10 +299,10 @@ namespace BlTest
                 if (res == false)
                     throw new Exception("Cant convert number of dependent tasks from string to int");
 
-                Console.WriteLine("Enter ID of dependent tasks");
                 List<TaskInList> depTasks = new List<TaskInList>();
                 for (int i = 0; i < numOfDep; i++)
                 {
+                    Console.WriteLine("Enter ID of dependent tasks");
                     int idOfTask;
                     string sIdTask = Console.ReadLine();
                     res = int.TryParse(sIdTask, out idOfTask);
@@ -340,7 +346,12 @@ namespace BlTest
             }
             catch (BO.BlDoesNotExistException ex)
             {
-                Console.WriteLine($"BlDoesNotExistException:{ex.Message}");
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message}");
+            }
+            catch (BO.BlForbiddenActionException ex)
+            {
+                Console.WriteLine($"BlForbiddenActionException: {ex.Message} ");
+
             }
             catch (Exception ex)
             {
@@ -510,47 +521,33 @@ namespace BlTest
 
         /// <summary>
         /// this method prints all the tasks data
+        /// gets from the user wich filter he wants to perform
+        /// and print the task according to the filter
         /// </summary>
         private static void readAllT()
         {
-            IEnumerable<BO.TaskInList> t= s_bl.Task.ReadAllTasks((BO.Filter)4);
+            IEnumerable<BO.TaskInList> t = s_bl.Task.ReadAllTasks((BO.Filter)4);
 
-                            
-                //var tGroup = s_bl.Task.GroupByStatus(); 
 
-                int choice = FilterMenuT();
+            //var tGroup = s_bl.Task.GroupByStatus(); 
+
+            int choice = FilterMenuT();
             switch (choice)
             {
                 case 0: t = s_bl.Task.ReadAllTasks((BO.Filter)0, ShowComplexity()); break;
-                case 1: t = s_bl.Task.ReadAllTasks((BO.Filter)1,showStatus()); break;
+                case 1: t = s_bl.Task.ReadAllTasks((BO.Filter)1, showStatus()); break;
                 case 2: t = s_bl.Task.ReadAllTasks((BO.Filter)2, ComplexityTaskForWorker()); break;
-              
+
                 case 3: t = s_bl.Task.ReadAllTasks((BO.Filter)4); break;
                 default: t = s_bl.Task.ReadAllTasks((BO.Filter)4); break;
             }
-            //add option of print with GroupByStatus....
 
-            //if(choice==4)
-            // foreach(var grp in tGroup )
-            //    {
-            //        Status Currentstatus = grp.Status;
-            //        Console.WriteLine($"Status: {grp.Status}");
-            //        while ( grp.Status==Currentstatus)
-            //        Console.WriteLine(grp);
-            //    }
 
             foreach (TaskInList x in t)
             {
                 Console.WriteLine(x);
                 Console.WriteLine("\n");
             }
-            //IEnumerable<BO.TaskInList> t = s_bl.Task.ReadAllTasks();
-            //foreach (BO.TaskInList x in t)
-            //{
-            //    Console.WriteLine(x);
-            //    Console.WriteLine("\n");
-            //}
-
         }
 
 
@@ -641,6 +638,11 @@ namespace BlTest
 
         }
 
+        /// <summary>
+        /// this method ask from the user the id of the task he want to schedule 
+        /// and also the schedule date and send a request to bl layer.
+        /// </summary>
+        /// <exception cref="Exception">throw exception if he cant convert chedule date from string to datetime</exception>
         private static void updateScheduleDate()
         {
             try
@@ -692,14 +694,13 @@ namespace BlTest
                 if (res == false)
                     throw new Exception("Cant convert Id of worker from string to int");
 
-                BO.Task t = s_bl.Task.ReadTask(id);//catch
               
 
                 TaskToUpdate.Id = id;
 
               
                 Console.WriteLine("Enter  the description of the task, alias of the task,the complexity of the task, " +
-                    ",erasability of Task,  remarks on the task");
+                    " remarks on the task and erasability of Task");
                 string  Description=Console.ReadLine();
                 string Alias=Console.ReadLine();
 
@@ -711,61 +712,68 @@ namespace BlTest
                     throw new Exception("Cant convert Level of task from string to enum");
                 lvl =(BO.WorkerExperience)levelT;
 
-                DateTime ScheduledDate;
-                string schedDate=Console.ReadLine();
-                res=DateTime.TryParse(schedDate,out ScheduledDate);
-              if(res==false)
-                    throw new Exception("Cant convert scheduled date of task from string to DateTime");
-
-                DateTime DeadLineDate;
-                string dlDate = Console.ReadLine();
-                res = DateTime.TryParse(dlDate, out DeadLineDate);
-                if (res == false)
-                    throw new Exception("Cant convert dead line date of task from string to DateTime");
-
-                int IdOfWorker;
-                string sIdWorker = (Console.ReadLine());
-                res = int.TryParse(sIdWorker, out IdOfWorker);
-                if (res == false)
-                    throw new Exception("Cant convert ID Task of worker from string to int");
-
-                bool eraseable =bool.Parse(Console.ReadLine());
-
-                DateTime CompleteDate;
-                string CompDate = Console.ReadLine();
-                res = DateTime.TryParse(CompDate, out CompleteDate );
-                if (res == false)
-                    throw new Exception("Cant convert complete date of task from string to DateTime");
+                string remark = Console.ReadLine();
+                bool eraseable = bool.Parse(Console.ReadLine());
 
 
-                string remark=Console.ReadLine();   
-                string deliverables=Console.ReadLine();
-
-
-                Console.WriteLine("How many dependencies do you want to add?");
-
-                int NumDep;
-                string sNumDep = (Console.ReadLine());
-                res = int.TryParse(sNumDep, out NumDep);
-                if (res == false)
-                    throw new Exception("Cant convert number of dependencies from string to int");
-
-
-                List<BO.TaskInList?> lst = new List<TaskInList?>();
-                for (int i=0;i< NumDep;i++)
+                if (s_bl.Task.GetStatusOfProject() == ProjectStatus.ExecutionStage)
                 {
-                    Console.WriteLine($"enter dependency that task with Id={id} depends on them");
-                    int Dep;
-                    string sDep = (Console.ReadLine());
-                    res = int.TryParse(sDep, out Dep);
+
+                    Console.WriteLine("Enter Deadline of task, Id of worker assigned to the task and deliverables");
+                    DateTime DeadLineDate;
+                    string dlDate = Console.ReadLine();
+                    res = DateTime.TryParse(dlDate, out DeadLineDate);
+                    if (res == false)
+                        throw new Exception("Cant convert dead line date of task from string to DateTime");
+
+                    int IdOfWorker;
+                    string sIdWorker = (Console.ReadLine());
+                    res = int.TryParse(sIdWorker, out IdOfWorker);
+                    if (res == false)
+                        throw new Exception("Cant convert ID Task of worker from string to int");
+
+
+
+                    string deliverables = Console.ReadLine();
+
+
+                    TaskToUpdate.Deadline = DeadLineDate;
+                    TaskToUpdate.Worker = new WorkerInTask { Id = IdOfWorker, Name = s_bl.Worker.ReadWorker(IdOfWorker).Name };
+                    TaskToUpdate.Deliverables = deliverables;
+
+                }
+                else
+                {
+
+                    Console.WriteLine("enter required effort time");
+                        TimeSpan re = TimeSpan.Parse(Console.ReadLine());
+                    Console.WriteLine("How many dependencies do you want to add?");
+
+                    int NumDep;
+                    string sNumDep = (Console.ReadLine());
+                    res = int.TryParse(sNumDep, out NumDep);
                     if (res == false)
                         throw new Exception("Cant convert number of dependencies from string to int");
 
 
-                    BO.TaskInList? taskDep = new TaskInList { Alias = TaskToUpdate .Alias, Description = TaskToUpdate .Description, Id = TaskToUpdate .Id, Status = TaskToUpdate .Status }; 
-                    lst.Add(taskDep);
-                    
+                    List<BO.TaskInList?> lst = new List<TaskInList?>();
+                    for (int i = 0; i < NumDep; i++)
+                    {
+                        Console.WriteLine($"enter dependency that task with Id={id} depends on them");
+                        int Dep;
+                        string sDep = (Console.ReadLine());
+                        res = int.TryParse(sDep, out Dep);
+                        if (res == false)
+                            throw new Exception("Cant convert number of dependencies from string to int");
 
+
+                        BO.TaskInList? taskDep = new TaskInList { Alias = TaskToUpdate.Alias, Description = TaskToUpdate.Description, Id = TaskToUpdate.Id, Status = TaskToUpdate.Status };
+                        lst.Add(taskDep);
+
+
+
+                    }
+                    TaskToUpdate.Dependencies = lst;
 
                 }
 
@@ -774,13 +782,8 @@ namespace BlTest
                 TaskToUpdate.Description = Description;
                 TaskToUpdate.Alias = Alias;
                 TaskToUpdate.Complexity = lvl;
-                TaskToUpdate.ScheduledDate = ScheduledDate;
-                TaskToUpdate.Deadline = DeadLineDate;
-                TaskToUpdate.Worker = new WorkerInTask { Id = IdOfWorker, Name = s_bl.Worker.ReadWorker(IdOfWorker).Name };
-                TaskToUpdate.CompleteDate = CompleteDate;
+                TaskToUpdate.Eraseable = eraseable;
                 TaskToUpdate.Remarks = remark;
-                TaskToUpdate.Deliverables = deliverables;
-                TaskToUpdate.Dependencies = lst;
 
 
 
@@ -845,7 +848,13 @@ namespace BlTest
                 Console.WriteLine(ex.Message);
             }
         }
-        
+
+
+
+        /// <summary>
+        ///this method ask from the use the id of the task 
+        ///he want to report that is completed, and send a request to the bl layer 
+        /// </summary>
         private static void AddCompleteDate()
         {
             try
@@ -869,6 +878,12 @@ namespace BlTest
 
 
         }
+
+        //this method ask from the use the id of the task he want to report that has started, and send a request to the bl layer 
+        /// <summary>
+        /// this method ask from the use the id of the task he want to report that has started, 
+        /// and send a request to the bl layer 
+        /// </summary>
         private static void AddUpdDateStartDate()
         {
             try
