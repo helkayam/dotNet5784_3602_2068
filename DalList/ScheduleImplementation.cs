@@ -9,18 +9,26 @@ namespace Dal;
 
 public class ScheduleImplementation : ISchedule
 {
-    public DateTime startdatePro;
 
     public DateTime? GetStartDateProject()
     {
-        return startdatePro; 
+        return DataSource.Config.startdateProject; 
     }
 
     public void UpdateStartDateProject(DateTime dt)
     {
-        startdatePro = dt;
+        DataSource.Config.startdateProject = dt;
+    }
+
+    public DateTime? GetCurrentDate()
+    {
+        return DataSource.Config.CurrentDate;
+    }
+
+    public void UpdateCurrentDate(DateTime dt)
+    {
+        DataSource.Config.CurrentDate  = dt;
     }
 
 
-  
 }

@@ -14,10 +14,14 @@ public interface ITask
 
     public void UpdateTask(BO.Task TaskToUpdate);
 
+
     public BO.Task? ReadTask(int Id);
 
     public void AddOrUpdateStartDate(int Id);
 
+    public void UpdateCurrentDate(DateTime UpdateCurrentDate);
+
+    public void UpdateStartProjectDate(DateTime startDateProject);
 
     public void UpdateScheduleDate(int Id, DateTime mySceduelDate);
 

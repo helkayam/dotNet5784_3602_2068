@@ -19,7 +19,7 @@ namespace BO
 
         public override string ToString()
         {
-            return $"Id: {Id}, Name: {Name}, Level:{Level}, PhoneNumber: {PhoneNumber}, Cost: {Cost}, Task:{Task}, active: {active}";
+            return this.ToStringProperty();
         }
     }
 }
