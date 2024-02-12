@@ -7,11 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="300" Width="800" Background="LightBlue">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Button Content="Worker" Margin="214,217,418,10"/>
         <Button Content="Admin" Click="ButtonWorker_Click" Margin="31,217,601,10"/>
         <Button Content="INITDB" Click="ButtonINIT_Click" Margin="607,217,25,10"/>
 
 
     </Grid>
-    
+
 </Window>

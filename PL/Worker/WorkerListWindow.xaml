@@ -10,9 +10,9 @@
     <!--External Grid-->
     <Grid>
         <Grid.RowDefinitions>
-        <RowDefinition Height="40*"/>
-        <RowDefinition Height="500*"/>
-        <RowDefinition Height="Auto"/>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="500*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <!--Internal, Upper Grid-->
         <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
@@ -21,13 +21,16 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <!--Lebel select-->
-            <Label Grid.Column="0">    
+            <Label Grid.Column="0">
             </Label>
             <!--filter-->
-            <ComboBox  Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                
-                
-            </ComboBox>
+            <ComboBox SelectedValue="{Binding Path=filterWorkers, Mode=TwoWay}"
+                ItemsSource="{Binding Source={StaticResource FilterWorkerKey}}"  
+                       Grid.Column="1" SelectionChanged="ComboBox_FilterWorkerChanged" Margin="64,5,213,5"/>
+            <ComboBox Visibility="{Binding bylevel, Converter={StaticResource  BoolToVisibilityConvert}}" 
+                ItemsSource="{Binding Source={StaticResource WorkerExperienceKey }}"   Grid.Column="1" Margin="248,10,59,12" />
+
+
         </Grid>
         <ListView Grid.Row="1"  ItemsSource="{Binding Path=WorkerList}">
             <ListView.View>
@@ -37,7 +40,7 @@
             </ListView.View>
         </ListView>
         <Button Content="Add" Grid.Row="2" HorizontalAlignment="Center" Height="50" Width="100"/>
-        
+
     </Grid>
-    
+
 </Window>
