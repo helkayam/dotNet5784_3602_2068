@@ -14,7 +14,7 @@ namespace BO
 
         public override string ToString()
         {
-            return $"Id: {Id}, Name:{Name}, Task:{Task}";
+            return this.ToStringProperty();
         }
 
     }

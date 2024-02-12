@@ -18,7 +18,8 @@ namespace BO
 
         public override string ToString()
         {
-            return $"Id: {Id}  Alias: {Alias}  Description: {Description}  Status: {Status}";
+            return this.ToStringProperty();
+
         }
     }
 }

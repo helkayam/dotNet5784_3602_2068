@@ -30,7 +30,11 @@ namespace Dal
             internal static int NextDependencyId { get => nextDependencyId++; }
 
 
-           
+           internal static  DateTime startdateProject;
+
+            internal static DateTime CurrentDate;
+
+
 
         }
     }

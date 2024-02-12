@@ -34,36 +34,38 @@ internal class WorkerImplementation : BlApi.IWorker
     /// <exception cref="BO.BlInvalidGivenValueException">This is an exception that is thrown if one of the logical entity's data is incorrect </exception>
     /// <exception cref="BO.BlAlreadyExistsException"> This is an exception that is thrown in the event that the data layer threw an exception following a situation where an attempt is made to add an object that already exists</exception>
 
+  
+
     public ProjectStatus GetStatusOfProject()
+{
+    if (_dal.Schedule.GetStartDateProject() == null)
+        return BO.ProjectStatus.PlanStage;
+    else
+
+    if (_dal.Schedule.GetStartDateProject() != null)
     {
-        if (_dal.Schedule.GetStartDateProject() == null)
-            return BO.ProjectStatus.PlanStage;
-        else
+        var withoutDate = (from tasks in _dal.Task.ReadAll()
+                           where (tasks.ScheduledDate == null)
+                           select tasks).ToList();
+        if (withoutDate.Count == 0)
+            return BO.ProjectStatus.ExecutionStage;
 
-        if (_dal.Schedule.GetStartDateProject() != null)
-        {
-            var withoutDate = (from tasks in _dal.Task.ReadAll()
-                               where (tasks.ScheduledDate == null)
-                               select tasks).ToList();
-            if (withoutDate.Count == 0)
-                return BO.ProjectStatus.ExecutionStage;
-
-
-        }
-
-        return BO.ProjectStatus.ScheduleDetermination;
 
     }
-    /// <summary>
-    /// A method for creating a new task, the method will allow you to add a task if the project status is the planning stage or the execution stage, 
-    /// and if all the received data is correct.
-    /// If all the following conditions are met, the method will send to the DAL layer a request to add a task with
-    /// a parameter of a DO entity of a task it created based on a BO entity received as a parameter
-    /// </summary>
-    /// <param name="newWorker"> BO entity of task to add</param>
-    /// <exception cref="BO.BlInvalidGivenValueException"> An exception that is thrown if one of the entity's data is incorrect </exception>
-    /// <exception cref="BO.BlAlreadyExistsException"> An exception that is thrown if an attempt is made to add a task that already exists</exception>
-    public void AddWorker(BO.Worker newWorker)
+
+    return BO.ProjectStatus.ScheduleDetermination;
+
+}
+/// <summary>
+/// A method for creating a new task, the method will allow you to add a task if the project status is the planning stage or the execution stage, 
+/// and if all the received data is correct.
+/// If all the following conditions are met, the method will send to the DAL layer a request to add a task with
+/// a parameter of a DO entity of a task it created based on a BO entity received as a parameter
+/// </summary>
+/// <param name="newWorker"> BO entity of task to add</param>
+/// <exception cref="BO.BlInvalidGivenValueException"> An exception that is thrown if one of the entity's data is incorrect </exception>
+/// <exception cref="BO.BlAlreadyExistsException"> An exception that is thrown if an attempt is made to add a task that already exists</exception>
+public void AddWorker(BO.Worker newWorker)
     {
 
         if (GetStatusOfProject() != BO.ProjectStatus.ScheduleDetermination)
@@ -329,9 +331,18 @@ internal class WorkerImplementation : BlApi.IWorker
                 _dal.Worker.Update(doWorker);
                 if (GetStatusOfProject() == BO.ProjectStatus.ExecutionStage)
                 {
+
                     int TaskToUp = workerToUpdate.Task.Id;
                     if (_dal.Task.Read(TaskToUp) == null)
                         throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, Task with id={TaskToUp} of worker does not exsists");
+                    if((BO.WorkerExperience)_dal.Task.Read(TaskToUp).Complexity>workerToUpdate.Level)
+                        throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, Task with id={TaskToUp} is not appropriate for the worker level");
+                    if (WorkerDoesntHaveTask(doWorker.Id)==false)
+                        throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, this worker is already on a task");
+                    if (_dal.Task.Read(workerToUpdate.Task.Id).WorkerId!=null)
+                        throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, the task have already a worker that is working on it");
+
+
                     DO.Task taskWithUpdateWorker = _dal.Task.Read(TaskToUp) with { WorkerId = workerToUpdate.Id };
                     _dal.Task.Update(taskWithUpdateWorker);
                 }

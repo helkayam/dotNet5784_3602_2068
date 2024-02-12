@@ -40,11 +40,7 @@ namespace BO
 
         public override string ToString()
         {
-
-            string enumerableString = string.Join(",", Dependencies );
-            Console.WriteLine(enumerableString);
-            return $"Id of Task:  { Id}  Alias {Alias}    Description: {Description}   Complexity: {Complexity}  Created at Date: { CreatedAtDate}   Status:{Status}   Dependencies {enumerableString}  Required effort time: {RequiredEffortTime}   Scheduled Date: {ScheduledDate} " +
-                $"Start Date: {StartDate} Forecast Date: {ForecastDate}  Dead Line Date: {Deadline}    Complete Date: {CompleteDate}  Deliverables: {Deliverables}  Remarks: {Remarks}  Worker in Task: {Worker} "  ;
+            return this.ToStringProperty();
         }
 
     }

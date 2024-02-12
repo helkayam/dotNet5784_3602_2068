@@ -32,5 +32,24 @@ public class ScheduleImplementation:ISchedule
             return null;
     }
 
+    public void UpdateCurrentDate(DateTime currentdt)
+    {
+        XElement root = XMLTools.LoadListFromXMLElement(data_config);
+        root.Element("CurrentDate")?.SetValue((currentdt));
+        XMLTools.SaveListToXMLElement(root, data_config);
+
+    }
+    public DateTime? GetCurrentDate()
+    {
+
+        XElement root = XMLTools.LoadListFromXMLElement(data_config);
+        string? dt = root.Element("CurrentDate").Value;
+
+        XMLTools.SaveListToXMLElement(root, data_config);
+        if (dt != "")
+            return DateTime.Parse(dt);
+        else
+            return null;
+    }
 
 }

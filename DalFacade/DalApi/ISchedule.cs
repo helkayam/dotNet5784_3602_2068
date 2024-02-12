@@ -10,4 +10,10 @@ public interface ISchedule
 {
     public DateTime? GetStartDateProject();
     public void UpdateStartDateProject(DateTime startDate);
+
+    public DateTime? GetCurrentDate();
+
+    public void UpdateCurrentDate(DateTime dt);
+
+
 }
