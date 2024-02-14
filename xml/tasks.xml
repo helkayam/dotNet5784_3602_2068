@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfTask xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Task>
-    <Alias>souvenirs</Alias>
+    <Alias>fireworks</Alias>
     <Complexity>Beginner</Complexity>
-    <Description>Take care of 5 types of souvenirs from the event</Description>
-    <Id>1</Id>
+    <Description>Take care of 4 types of fireworks, for 9 o'clock in the evening</Description>
+    <Id>0</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -13,7 +13,37 @@
     <Eraseable>true</Eraseable>
     <RequiredEffortTime>P5D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-01T01:08:23</CreatedAtDate>
+    <CreatedAtDate>2024-01-08T03:54:51</CreatedAtDate>
+  </Task>
+  <Task>
+    <Alias>souvenirs</Alias>
+    <Complexity>Intermediate</Complexity>
+    <Description>Take care of 5 types of souvenirs from the event</Description>
+    <Id>1</Id>
+    <ScheduledDate xsi:nil="true" />
+    <DeadLineDate xsi:nil="true" />
+    <WorkerId xsi:nil="true" />
+    <IsMileStone>false</IsMileStone>
+    <StartDate xsi:nil="true" />
+    <Eraseable>true</Eraseable>
+    <RequiredEffortTime>P1D</RequiredEffortTime>
+    <CompleteDate xsi:nil="true" />
+    <CreatedAtDate>2024-02-06T05:18:21</CreatedAtDate>
+  </Task>
+  <Task>
+    <Alias>Children's corner</Alias>
+    <Complexity>Beginner</Complexity>
+    <Description>Take care of 10 positions of experiential activities for children aged 5-12</Description>
+    <Id>2</Id>
+    <ScheduledDate xsi:nil="true" />
+    <DeadLineDate xsi:nil="true" />
+    <WorkerId xsi:nil="true" />
+    <IsMileStone>false</IsMileStone>
+    <StartDate xsi:nil="true" />
+    <Eraseable>true</Eraseable>
+    <RequiredEffortTime>P3D</RequiredEffortTime>
+    <CompleteDate xsi:nil="true" />
+    <CreatedAtDate>2024-01-30T13:43:56</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Activities for adults</Alias>
@@ -26,13 +56,13 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P2D</RequiredEffortTime>
+    <RequiredEffortTime>PT0S</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-07T08:27:30</CreatedAtDate>
+    <CreatedAtDate>2024-02-02T21:06:03</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Alcohol stand</Alias>
-    <Complexity>Beginner</Complexity>
+    <Complexity>Intermediate</Complexity>
     <Description>Take care of the position with beer, vodka, whiskey, and energy drinks. In addition, you will take care of the employees in the position and age enforcement</Description>
     <Id>4</Id>
     <ScheduledDate xsi:nil="true" />
@@ -41,13 +71,13 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P6D</RequiredEffortTime>
+    <RequiredEffortTime>P4D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-11T18:03:32</CreatedAtDate>
+    <CreatedAtDate>2024-02-02T09:45:15</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Snack stand</Alias>
-    <Complexity>Beginner</Complexity>
+    <Complexity>Intermediate</Complexity>
     <Description>Take care of popcoren position, Potato Chips. Beasley in 5 different positions</Description>
     <Id>5</Id>
     <ScheduledDate xsi:nil="true" />
@@ -56,13 +86,13 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P3D</RequiredEffortTime>
+    <RequiredEffortTime>P5D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-02T17:42:00</CreatedAtDate>
+    <CreatedAtDate>2024-01-31T00:31:26</CreatedAtDate>
   </Task>
   <Task>
     <Alias>food stands</Alias>
-    <Complexity>Beginner</Complexity>
+    <Complexity>Intermediate</Complexity>
     <Description>Take care of 5 different stalls of sausage in a bun, chips, falafel, shawarma and schnitzel</Description>
     <Id>6</Id>
     <ScheduledDate xsi:nil="true" />
@@ -71,13 +101,13 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>PT0S</RequiredEffortTime>
+    <RequiredEffortTime>P3D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-28T14:39:17</CreatedAtDate>
+    <CreatedAtDate>2024-01-26T17:31:50</CreatedAtDate>
   </Task>
   <Task>
     <Alias>gifts for children</Alias>
-    <Complexity>Intermediate</Complexity>
+    <Complexity>Beginner</Complexity>
     <Description>Organize 3 interesting and original gifts for children in honor of Independence Day</Description>
     <Id>7</Id>
     <ScheduledDate xsi:nil="true" />
@@ -86,13 +116,13 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P1D</RequiredEffortTime>
+    <RequiredEffortTime>P3D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-04T10:46:13</CreatedAtDate>
+    <CreatedAtDate>2024-02-01T21:49:06</CreatedAtDate>
   </Task>
   <Task>
     <Alias>performances</Alias>
-    <Complexity>Beginner</Complexity>
+    <Complexity>Intermediate</Complexity>
     <Description>Take care of 2 singers for the evening, including a guest singer, a popular singer and a singer for the older ages</Description>
     <Id>8</Id>
     <ScheduledDate xsi:nil="true" />
@@ -101,9 +131,9 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P6D</RequiredEffortTime>
+    <RequiredEffortTime>P5D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-29T06:02:25</CreatedAtDate>
+    <CreatedAtDate>2024-01-06T01:52:11</CreatedAtDate>
   </Task>
   <Task>
     <Alias>flags</Alias>
@@ -116,13 +146,13 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P4D</RequiredEffortTime>
+    <RequiredEffortTime>P5D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-02-01T22:21:15</CreatedAtDate>
+    <CreatedAtDate>2024-02-02T02:04:53</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Sports and fitness station</Alias>
-    <Complexity>Beginner</Complexity>
+    <Complexity>Intermediate</Complexity>
     <Description>Organize sports activities, tournaments and fitness stations</Description>
     <Id>10</Id>
     <ScheduledDate xsi:nil="true" />
@@ -131,13 +161,13 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P6D</RequiredEffortTime>
+    <RequiredEffortTime>P1D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-16T23:16:55</CreatedAtDate>
+    <CreatedAtDate>2024-01-06T10:49:13</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Corner of knowledge and history</Alias>
-    <Complexity>Intermediate</Complexity>
+    <Complexity>Beginner</Complexity>
     <Description>Creating a corner that provides information and explanations about the history of Independence Day</Description>
     <Id>11</Id>
     <ScheduledDate xsi:nil="true" />
@@ -146,9 +176,9 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P6D</RequiredEffortTime>
+    <RequiredEffortTime>P4D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-23T23:15:16</CreatedAtDate>
+    <CreatedAtDate>2024-02-05T04:05:26</CreatedAtDate>
   </Task>
   <Task>
     <Alias>photo station</Alias>
@@ -161,13 +191,13 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P3D</RequiredEffortTime>
+    <RequiredEffortTime>P5D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-14T21:24:00</CreatedAtDate>
+    <CreatedAtDate>2024-02-06T15:32:49</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Knowledge and training station</Alias>
-    <Complexity>Beginner</Complexity>
+    <Complexity>Intermediate</Complexity>
     <Description>and tutorials on issues related to independence</Description>
     <Id>13</Id>
     <ScheduledDate xsi:nil="true" />
@@ -176,13 +206,13 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P2D</RequiredEffortTime>
+    <RequiredEffortTime>P4D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-29T22:31:28</CreatedAtDate>
+    <CreatedAtDate>2024-02-08T20:10:59</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Digital advertising</Alias>
-    <Complexity>Beginner</Complexity>
+    <Complexity>Intermediate</Complexity>
     <Description>Take care of developing digital content and maintaining activity on social networks</Description>
     <Id>14</Id>
     <ScheduledDate xsi:nil="true" />
@@ -193,7 +223,7 @@
     <Eraseable>true</Eraseable>
     <RequiredEffortTime>P5D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-10T00:45:19</CreatedAtDate>
+    <CreatedAtDate>2024-01-25T17:42:58</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Government agencies station</Alias>
@@ -206,13 +236,13 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P4D</RequiredEffortTime>
+    <RequiredEffortTime>P5D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-02-06T06:29:37</CreatedAtDate>
+    <CreatedAtDate>2024-01-12T03:25:07</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Public transport route</Alias>
-    <Complexity>Intermediate</Complexity>
+    <Complexity>Beginner</Complexity>
     <Description>Free shuttles or public transportation stations should be allowed to receive the participants</Description>
     <Id>16</Id>
     <ScheduledDate xsi:nil="true" />
@@ -221,9 +251,9 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>PT0S</RequiredEffortTime>
+    <RequiredEffortTime>P3D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-23T08:45:39</CreatedAtDate>
+    <CreatedAtDate>2024-02-08T16:03:32</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Waste disposal area</Alias>
@@ -236,13 +266,13 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>PT0S</RequiredEffortTime>
+    <RequiredEffortTime>P3D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-09T15:52:11</CreatedAtDate>
+    <CreatedAtDate>2024-02-07T23:34:02</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Rental of equipment and accessories</Alias>
-    <Complexity>Beginner</Complexity>
+    <Complexity>Intermediate</Complexity>
     <Description>Taking care of the props, equipment and infrastructure needed for the event</Description>
     <Id>18</Id>
     <ScheduledDate xsi:nil="true" />
@@ -251,9 +281,9 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P2D</RequiredEffortTime>
+    <RequiredEffortTime>PT0S</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-14T03:38:41</CreatedAtDate>
+    <CreatedAtDate>2024-01-01T00:59:57</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Supervision of safety level</Alias>
@@ -266,13 +296,13 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P6D</RequiredEffortTime>
+    <RequiredEffortTime>P3D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-26T10:01:50</CreatedAtDate>
+    <CreatedAtDate>2024-01-19T15:51:14</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Art workshops</Alias>
-    <Complexity>Beginner</Complexity>
+    <Complexity>Intermediate</Complexity>
     <Description>Production of art workshops, such as painting, creating costumes and more</Description>
     <Id>20</Id>
     <ScheduledDate xsi:nil="true" />
@@ -281,13 +311,13 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P6D</RequiredEffortTime>
+    <RequiredEffortTime>P1D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-02-03T01:44:21</CreatedAtDate>
+    <CreatedAtDate>2024-01-27T01:05:32</CreatedAtDate>
   </Task>
   <Task>
     <Alias>seating area</Alias>
-    <Complexity>Beginner</Complexity>
+    <Complexity>Intermediate</Complexity>
     <Description>Creating bright and pleasant sitting areas</Description>
     <Id>21</Id>
     <ScheduledDate xsi:nil="true" />
@@ -296,9 +326,9 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P2D</RequiredEffortTime>
+    <RequiredEffortTime>P5D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-27T09:01:51</CreatedAtDate>
+    <CreatedAtDate>2024-01-12T02:09:03</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Photogenic station</Alias>
@@ -311,9 +341,9 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P1D</RequiredEffortTime>
+    <RequiredEffortTime>P3D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-02-07T17:05:11</CreatedAtDate>
+    <CreatedAtDate>2024-01-17T19:43:39</CreatedAtDate>
   </Task>
   <Task>
     <Alias>family activities</Alias>
@@ -326,9 +356,9 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P4D</RequiredEffortTime>
+    <RequiredEffortTime>P2D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-12T09:59:24</CreatedAtDate>
+    <CreatedAtDate>2024-01-16T18:12:45</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Jewelry manufacturing station</Alias>
@@ -341,9 +371,9 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P2D</RequiredEffortTime>
+    <RequiredEffortTime>P5D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-20T02:04:35</CreatedAtDate>
+    <CreatedAtDate>2024-01-19T22:33:23</CreatedAtDate>
   </Task>
   <Task>
     <Alias>ground activities</Alias>
@@ -356,13 +386,13 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P1D</RequiredEffortTime>
+    <RequiredEffortTime>P4D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-24T17:16:59</CreatedAtDate>
+    <CreatedAtDate>2024-02-05T23:48:24</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Determining the place of the event</Alias>
-    <Complexity>Beginner</Complexity>
+    <Complexity>Intermediate</Complexity>
     <Description>Choosing a place suitable for the number of participants and the type of activities</Description>
     <Id>26</Id>
     <ScheduledDate xsi:nil="true" />
@@ -371,9 +401,9 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P4D</RequiredEffortTime>
+    <RequiredEffortTime>P5D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-02-09T15:17:53</CreatedAtDate>
+    <CreatedAtDate>2024-01-13T21:24:10</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Events Manager</Alias>
@@ -386,9 +416,9 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P5D</RequiredEffortTime>
+    <RequiredEffortTime>P1D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-02-04T04:37:36</CreatedAtDate>
+    <CreatedAtDate>2024-01-31T23:47:45</CreatedAtDate>
   </Task>
   <Task>
     <Alias>music</Alias>
@@ -401,13 +431,13 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P1D</RequiredEffortTime>
+    <RequiredEffortTime>PT0S</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-09T21:01:13</CreatedAtDate>
+    <CreatedAtDate>2024-01-09T17:50:03</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Open areas and sports</Alias>
-    <Complexity>Intermediate</Complexity>
+    <Complexity>Beginner</Complexity>
     <Description>Creating open grass for sports activities and games</Description>
     <Id>29</Id>
     <ScheduledDate xsi:nil="true" />
@@ -418,7 +448,7 @@
     <Eraseable>true</Eraseable>
     <RequiredEffortTime>P3D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-28T07:34:32</CreatedAtDate>
+    <CreatedAtDate>2024-01-01T02:59:43</CreatedAtDate>
   </Task>
   <Task>
     <Alias>Event documentation</Alias>
@@ -431,57 +461,23 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P1D</RequiredEffortTime>
-    <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-17T10:00:21</CreatedAtDate>
-  </Task>
-  <Task>
-    <Alias>fireworks</Alias>
-    <Complexity>Intermediate</Complexity>
-    <Description>Take care of 4 types of fireworks, for 9 o'clock in the evening</Description>
-    <Id>0</Id>
-    <ScheduledDate>2024-02-15T00:00:00</ScheduledDate>
-    <DeadLineDate xsi:nil="true" />
-    <WorkerId>293682021</WorkerId>
-    <IsMileStone>false</IsMileStone>
-    <StartDate xsi:nil="true" />
-    <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P5D</RequiredEffortTime>
-    <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-01-28T00:59:14</CreatedAtDate>
-  </Task>
-  <Task>
-    <Alias>fggh</Alias>
-    <Complexity>Beginner</Complexity>
-    <Description>errtyyy</Description>
-    <Id>2</Id>
-    <ScheduledDate>2024-02-16T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-03-16T00:00:00</DeadLineDate>
-    <WorkerId>387429849</WorkerId>
-    <IsMileStone>false</IsMileStone>
-    <StartDate xsi:nil="true" />
-    <Eraseable>true</Eraseable>
     <RequiredEffortTime>PT0S</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <Deliverables>fgfgfgfg</Deliverables>
-    <Remarks>u</Remarks>
-    <CreatedAtDate>2024-01-04T16:59:55</CreatedAtDate>
+    <CreatedAtDate>2024-01-18T18:06:57</CreatedAtDate>
   </Task>
   <Task>
-    <Alias>t</Alias>
-    <Complexity>Beginner</Complexity>
-    <Description>rdfdgdg</Description>
+    <Alias>First aid</Alias>
+    <Complexity>Intermediate</Complexity>
+    <Description>Ensure that there are MDA teams in the area</Description>
     <Id>31</Id>
-    <ScheduledDate>2024-03-05T00:00:00</ScheduledDate>
-    <DeadLineDate>2024-04-03T00:00:00</DeadLineDate>
+    <ScheduledDate xsi:nil="true" />
+    <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>PT0S</RequiredEffortTime>
+    <RequiredEffortTime>P3D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
-    <Deliverables>fgghh</Deliverables>
-    <Remarks>g</Remarks>
-    <CreatedAtDate>2024-02-01T07:41:17</CreatedAtDate>
+    <CreatedAtDate>2024-02-07T17:13:05</CreatedAtDate>
   </Task>
 </ArrayOfTask>

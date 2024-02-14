@@ -35,7 +35,17 @@ namespace PL.Worker
 
         public static readonly DependencyProperty WorkerListProperty = DependencyProperty.Register("WorkerList", typeof(IEnumerable<BO.Worker>),typeof(WorkerListWindow), new PropertyMetadata(null));
 
-      
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
 
         //private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         //{
