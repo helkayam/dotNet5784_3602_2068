@@ -37,21 +37,21 @@ namespace PL.Worker
 
 
 
-        public WorkerWindow(string Name,int IdOfWorker = 0)
+        public WorkerWindow( int IdOfWorker = 0)
         {
             try
-             {
+            {
                 InitializeComponent();
                 if (IdOfWorker == 0)
                 {
-                    MyWorker = new BO.Worker { Name = Name };
+                    MyWorker = new BO.Worker { };
                 }
                 else
                     MyWorker = s_bl.Worker.ReadWorker(IdOfWorker);
             }
-            catch (Dal.DalDoesNotExistException ex)
+            catch (BO.BlDoesNotExistException ex)
             {
-                throw new PL.BlDoesNotExistException($"Worker with ID={IdOfWorker} does Not exist", ex);
+                MessageBox.Show(ex.Message);
             }
 
 
@@ -59,7 +59,7 @@ namespace PL.Worker
 
         private void AddOrUpdate_Click(object sender, RoutedEventArgs e)
         {
-            if(MyWorker.Id==0)
+            if (MyWorker.Id == 0)
             {
                 s_bl.Worker.AddWorker(MyWorker);
                 //if(s_bl.Worker.ReadWorker())
@@ -69,25 +69,27 @@ namespace PL.Worker
                 try
                 {
                     s_bl.Worker.UpdateWorker(MyWorker);
-                    //cout messege for user abut succes
-                    WorkerWindow.Close();
+                    MessageBox.Show($"Updating the employee with ID: {MyWorker.Id} card was successful");
+                    //WorkerWindow.Close();
                 }
-                catch ( BO.BlInvalidGivenValueException ex)
-                { 
-                    throw ex;
-                
-                }
-                catch (DO.DalDoesNotExistException ex)
+                catch (BO.BlInvalidGivenValueException ex)
                 {
-                    throw new BO.BlDoesNotExistException($"Worker with ID={MyWorker.Id} does Not exist", ex);
+                    MessageBox.Show(ex.Message);
+
 
                 }
-                catch (DO.DalNotActiveException ex)
+                catch (BO.BlDoesNotExistException ex)
                 {
-                    throw new BO.BlNotActiveException($"Worker with ID={MyWorker.Id} is Not active", ex);
+                    MessageBox.Show(ex.Message);
+
+                }
+                catch (BO.BlNotActiveException ex)
+                {
+                    MessageBox.Show(ex.Message);
 
                 }
 
             }
+        }
     }
 }

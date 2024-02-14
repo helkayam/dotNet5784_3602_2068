@@ -38,9 +38,8 @@
         <TextBox Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
             HorizontalAlignment="Left" Margin="200,80,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Height="25"/>
         <ComboBox 
-            SelectedValue="{Binding LevelOfWorker, Mode=TwoWay}"
              ItemsSource="{Binding Source={StaticResource WorkerExperienceCollectionKey}}"
-
+            SelectedValue="{Binding LevelOfWorker, Mode=TwoWay}"
             HorizontalAlignment="Left" Margin="200,120,0,0" Grid.Row="1" VerticalAlignment="Top" Width="95" Height="25"/>
         <TextBox 
             Text="{Binding PhoneNumber, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
@@ -56,10 +55,10 @@
                   HorizontalAlignment="Left" Margin="200,280,0,0" Grid.Row="1" VerticalAlignment="Top" Width="95" Height="25"/>
 
         <Button 
-             Grid.Row="9" Grid.Column="0" 
+             Grid.Row="1" Grid.Column="0" 
              Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}" 
-             HorizontalAlignment="Left" Margin="3,0,0,0"  VerticalAlignment="Top" Padding="5" 
-             Click="btnAddUpdate_Click"/>
+             HorizontalAlignment="Left" Margin="690,333,0,0"  VerticalAlignment="Top" Padding="5" 
+             Click="AddOrUpdate_Click" RenderTransformOrigin="53.083,-1.767" Height="20" Width="64"/>
 
 
 

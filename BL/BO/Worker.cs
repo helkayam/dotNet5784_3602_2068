@@ -9,7 +9,7 @@ namespace BO
     public class Worker
     {
         public int Id {  get; init; }
-        public required string Name { get; set; }
+        public string Name { get; set; }
         public WorkerExperience Level { get; set; }    
 
         public string? PhoneNumber { get; set; }
