@@ -19,7 +19,7 @@
     <Alias>souvenirs</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Take care of 5 types of souvenirs from the event</Description>
-    <Id>1</Id>
+    <Id>35</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -49,7 +49,7 @@
     <Alias>Activities for adults</Alias>
     <Complexity>Beginner</Complexity>
     <Description>Take care of 2 positions of adult activities</Description>
-    <Id>3</Id>
+    <Id>37</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -64,7 +64,7 @@
     <Alias>Alcohol stand</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Take care of the position with beer, vodka, whiskey, and energy drinks. In addition, you will take care of the employees in the position and age enforcement</Description>
-    <Id>4</Id>
+    <Id>38</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -79,7 +79,7 @@
     <Alias>Snack stand</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Take care of popcoren position, Potato Chips. Beasley in 5 different positions</Description>
-    <Id>5</Id>
+    <Id>39</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -94,7 +94,7 @@
     <Alias>food stands</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Take care of 5 different stalls of sausage in a bun, chips, falafel, shawarma and schnitzel</Description>
-    <Id>6</Id>
+    <Id>40</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -109,7 +109,7 @@
     <Alias>gifts for children</Alias>
     <Complexity>Beginner</Complexity>
     <Description>Organize 3 interesting and original gifts for children in honor of Independence Day</Description>
-    <Id>7</Id>
+    <Id>41</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -124,7 +124,7 @@
     <Alias>performances</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Take care of 2 singers for the evening, including a guest singer, a popular singer and a singer for the older ages</Description>
-    <Id>8</Id>
+    <Id>42</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -139,7 +139,7 @@
     <Alias>flags</Alias>
     <Complexity>Beginner</Complexity>
     <Description>Make sure to order Independence Day flags in different sizes</Description>
-    <Id>9</Id>
+    <Id>43</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -154,7 +154,7 @@
     <Alias>Sports and fitness station</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Organize sports activities, tournaments and fitness stations</Description>
-    <Id>10</Id>
+    <Id>44</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -169,7 +169,7 @@
     <Alias>Corner of knowledge and history</Alias>
     <Complexity>Beginner</Complexity>
     <Description>Creating a corner that provides information and explanations about the history of Independence Day</Description>
-    <Id>11</Id>
+    <Id>45</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -184,7 +184,7 @@
     <Alias>photo station</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>An area for photographs and a combination of treats such as headphones and photo treats</Description>
-    <Id>12</Id>
+    <Id>46</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -199,7 +199,7 @@
     <Alias>Knowledge and training station</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>and tutorials on issues related to independence</Description>
-    <Id>13</Id>
+    <Id>47</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -214,7 +214,7 @@
     <Alias>Digital advertising</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Take care of developing digital content and maintaining activity on social networks</Description>
-    <Id>14</Id>
+    <Id>48</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -229,7 +229,7 @@
     <Alias>Government agencies station</Alias>
     <Complexity>Beginner</Complexity>
     <Description>Make sure there is an area of advice and solutions in government matters</Description>
-    <Id>15</Id>
+    <Id>49</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -244,7 +244,7 @@
     <Alias>Public transport route</Alias>
     <Complexity>Beginner</Complexity>
     <Description>Free shuttles or public transportation stations should be allowed to receive the participants</Description>
-    <Id>16</Id>
+    <Id>50</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -259,7 +259,7 @@
     <Alias>Waste disposal area</Alias>
     <Complexity>Beginner</Complexity>
     <Description>Take care of establishing an area for waste disposal and recycling</Description>
-    <Id>17</Id>
+    <Id>51</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -274,7 +274,7 @@
     <Alias>Rental of equipment and accessories</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Taking care of the props, equipment and infrastructure needed for the event</Description>
-    <Id>18</Id>
+    <Id>52</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -289,14 +289,14 @@
     <Alias>Supervision of safety level</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>The security of the security forces in the area must be taken care of</Description>
-    <Id>19</Id>
+    <Id>53</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P3D</RequiredEffortTime>
+    <RequiredEffortTime>P2D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
     <CreatedAtDate>2024-01-19T15:51:14</CreatedAtDate>
   </Task>
@@ -304,7 +304,7 @@
     <Alias>Art workshops</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Production of art workshops, such as painting, creating costumes and more</Description>
-    <Id>20</Id>
+    <Id>54</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -319,14 +319,14 @@
     <Alias>seating area</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Creating bright and pleasant sitting areas</Description>
-    <Id>21</Id>
+    <Id>55</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P5D</RequiredEffortTime>
+    <RequiredEffortTime>P6D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
     <CreatedAtDate>2024-01-12T02:09:03</CreatedAtDate>
   </Task>
@@ -334,7 +334,7 @@
     <Alias>Photogenic station</Alias>
     <Complexity>Beginner</Complexity>
     <Description>Setting up a photo station with interesting backgrounds</Description>
-    <Id>22</Id>
+    <Id>56</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -347,9 +347,9 @@
   </Task>
   <Task>
     <Alias>family activities</Alias>
-    <Complexity>Beginner</Complexity>
+    <Complexity>Intermediate</Complexity>
     <Description>Activities suitable for families with children</Description>
-    <Id>23</Id>
+    <Id>57</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -362,9 +362,9 @@
   </Task>
   <Task>
     <Alias>Jewelry manufacturing station</Alias>
-    <Complexity>Beginner</Complexity>
+    <Complexity>Intermediate</Complexity>
     <Description>Workshops to create unique jewelry</Description>
-    <Id>24</Id>
+    <Id>58</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -379,7 +379,7 @@
     <Alias>ground activities</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Workshops and unique land activities</Description>
-    <Id>25</Id>
+    <Id>59</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -394,7 +394,7 @@
     <Alias>Determining the place of the event</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Choosing a place suitable for the number of participants and the type of activities</Description>
-    <Id>26</Id>
+    <Id>60</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -409,7 +409,7 @@
     <Alias>Events Manager</Alias>
     <Complexity>Beginner</Complexity>
     <Description>Viewing and operating an event management team to supervise the production</Description>
-    <Id>27</Id>
+    <Id>61</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -422,9 +422,9 @@
   </Task>
   <Task>
     <Alias>music</Alias>
-    <Complexity>Intermediate</Complexity>
+    <Complexity>Beginner</Complexity>
     <Description>You have to take care of unique and diverse and happy music and order a suitable DJ</Description>
-    <Id>28</Id>
+    <Id>62</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -439,7 +439,7 @@
     <Alias>Open areas and sports</Alias>
     <Complexity>Beginner</Complexity>
     <Description>Creating open grass for sports activities and games</Description>
-    <Id>29</Id>
+    <Id>63</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />
@@ -454,7 +454,7 @@
     <Alias>Event documentation</Alias>
     <Complexity>Beginner</Complexity>
     <Description>Photographers should be taken care of to document the entire event in a broad way</Description>
-    <Id>30</Id>
+    <Id>64</Id>
     <ScheduledDate xsi:nil="true" />
     <DeadLineDate xsi:nil="true" />
     <WorkerId xsi:nil="true" />

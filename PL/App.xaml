@@ -5,10 +5,10 @@
              StartupUri="MainWindow.xaml">
     
     <Application.Resources>
-        <local:SemestersCollection x:Key="SemestersCollectionKey" />
-        <local:WorkerExperienceCollection x:Key="WorkerExperienceCollectionKey" />
-        <local:ConvertIdToContent x:Key="ConverIdToContentKey"/>
-        <local:ConvertIdToBool x:Key="ConverIdToBoolKey"/>
+        <local:FilterWorker x:Key="FilterWorkerKey"/>
+        <local:WorkerExperience x:Key="WorkerExperienceKey"/>
+        <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConvert"/>
+
 
     </Application.Resources>
 </Application>

@@ -1,56 +1,56 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfWorker xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Worker>
-    <Id>240640942</Id>
+    <Id>252803043</Id>
     <Level>Intermediate</Level>
     <Name>Hanna Cohen</Name>
-    <PhoneNumber>0561203389</PhoneNumber>
-    <Cost>80.5562432768572</Cost>
+    <PhoneNumber>0538171084</PhoneNumber>
+    <Cost>88.89853687108811</Cost>
     <Eraseable>true</Eraseable>
     <active>true</active>
   </Worker>
   <Worker>
-    <Id>360336723</Id>
+    <Id>296125639</Id>
     <Level>Beginner</Level>
     <Name>Ziv Peretz</Name>
-    <PhoneNumber>0522740240</PhoneNumber>
-    <Cost>182.66691239218216</Cost>
+    <PhoneNumber>0523802268</PhoneNumber>
+    <Cost>87.92129568676233</Cost>
     <Eraseable>true</Eraseable>
     <active>true</active>
   </Worker>
   <Worker>
-    <Id>230975200</Id>
-    <Level>Intermediate</Level>
+    <Id>309462228</Id>
+    <Level>Beginner</Level>
     <Name>Tali Levi</Name>
-    <PhoneNumber>0546010185</PhoneNumber>
-    <Cost>175.88378122918866</Cost>
+    <PhoneNumber>0546321483</PhoneNumber>
+    <Cost>61.06527939582539</Cost>
     <Eraseable>true</Eraseable>
     <active>true</active>
   </Worker>
   <Worker>
-    <Id>382869120</Id>
-    <Level>Intermediate</Level>
+    <Id>204919305</Id>
+    <Level>Beginner</Level>
     <Name>Yair Israel</Name>
-    <PhoneNumber>0563521905</PhoneNumber>
-    <Cost>196.93460861447238</Cost>
+    <PhoneNumber>052800740</PhoneNumber>
+    <Cost>39.225639327254584</Cost>
     <Eraseable>true</Eraseable>
     <active>true</active>
   </Worker>
   <Worker>
-    <Id>206623885</Id>
+    <Id>318412727</Id>
     <Level>Beginner</Level>
     <Name>Dalya Amar</Name>
-    <PhoneNumber>0525227170</PhoneNumber>
-    <Cost>170.65123265954801</Cost>
+    <PhoneNumber>0535691487</PhoneNumber>
+    <Cost>139.44993470700274</Cost>
     <Eraseable>true</Eraseable>
     <active>true</active>
   </Worker>
   <Worker>
-    <Id>264021245</Id>
-    <Level>Intermediate</Level>
+    <Id>220826917</Id>
+    <Level>Beginner</Level>
     <Name>Ben Klein</Name>
-    <PhoneNumber>0564520259</PhoneNumber>
-    <Cost>57.59430243692591</Cost>
+    <PhoneNumber>0502703469</PhoneNumber>
+    <Cost>162.2788221762338</Cost>
     <Eraseable>true</Eraseable>
     <active>true</active>
   </Worker>

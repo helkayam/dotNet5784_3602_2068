@@ -177,7 +177,7 @@ public void AddWorker(BO.Worker newWorker)
        enumFilter switch
        {
            BO.FilterWorker.WithoutTask => (_dal.Worker.ReadAll(MyWorker => (WorkerDoesntHaveTask(MyWorker.Id) == true))),
-           BO.FilterWorker.ActiveW => _dal.Worker.ReadAll(d => d.active == true),
+           BO.FilterWorker.Active => _dal.Worker.ReadAll(d => d.active == true),
            BO.FilterWorker.Erasable => _dal.Worker.ReadAll(d => d.Eraseable == true),
            BO.FilterWorker.None => _dal.Worker.ReadAll()
 
