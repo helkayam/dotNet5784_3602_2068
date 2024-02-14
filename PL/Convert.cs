@@ -13,7 +13,7 @@ public class BoolToVisibilityConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is bool boolValue && boolValue)
+        if (value is Boolean && (bool)value)
         {
             return Visibility.Visible;
         }

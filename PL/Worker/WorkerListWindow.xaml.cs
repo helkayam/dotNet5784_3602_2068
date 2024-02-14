@@ -21,8 +21,10 @@ namespace PL.Worker
     /// </summary>
     public partial class WorkerListWindow : Window
     {
-
         public BO.FilterWorker filterWorkers { get; set; } = BO.FilterWorker.None;
+
+        public BO.FilterWorker filterLevel { get; set; } = BO.FilterWorker.None;
+
         public bool bylevel { get; set; } = false;
        
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
@@ -41,18 +43,25 @@ namespace PL.Worker
 
         public static readonly DependencyProperty WorkerListProperty = DependencyProperty.Register("WorkerList", typeof(IEnumerable<BO.Worker>), typeof(WorkerListWindow), new PropertyMetadata(null));
 
+
+
         private void ComboBox_FilterWorkerChanged(object sender, SelectionChangedEventArgs e)
         {
             if (filterWorkers == BO.FilterWorker.ByLevel)
             {
-                DataContext = this;
+                //DataContext = this;
                 bylevel = true;
+                return;
             }
 
             WorkerList = s_bl.Worker.ReadAllWorkers(filterWorkers);
 
         }
 
-      
+        private void ComboBox_FilterLevelChanged(object sender, SelectionChangedEventArgs e)
+        {
+            WorkerList = s_bl.Worker.ReadAllWorkers(filterWorkers, filterLevel);
+
+        }
     }
 }
