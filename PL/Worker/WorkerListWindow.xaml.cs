@@ -23,16 +23,27 @@ namespace PL.Worker
     {
         public BO.FilterWorker filterWorkers { get; set; } = BO.FilterWorker.None;
 
-        public BO.FilterWorker filterLevel { get; set; } = BO.FilterWorker.None;
 
-        public bool bylevel { get; set; } = false;
-       
+
+        public bool Bylevel
+        {
+            get { return (bool)GetValue(bylevelProperty); }
+            set { SetValue(bylevelProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for bylevel.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty bylevelProperty =
+            DependencyProperty.Register("Bylevel", typeof(bool), typeof(WorkerListWindow), new PropertyMetadata(null));
+
+
+
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         public WorkerListWindow()
         {
+            Bylevel = false;
             InitializeComponent();
             WorkerList = s_bl?.Worker.ReadAllWorkers();
-
+            
         }
 
         public IEnumerable<BO.Worker> WorkerList
@@ -49,18 +60,34 @@ namespace PL.Worker
         {
             if (filterWorkers == BO.FilterWorker.ByLevel)
             {
-                //DataContext = this;
-                bylevel = true;
-                return;
+                Bylevel = true;
+            }
+            else
+            {
+                WorkerList = s_bl.Worker.ReadAllWorkers(filterWorkers);
+                Bylevel = false;
             }
 
-            WorkerList = s_bl.Worker.ReadAllWorkers(filterWorkers);
 
         }
 
-        private void ComboBox_FilterLevelChanged(object sender, SelectionChangedEventArgs e)
+       
+
+        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            WorkerList = s_bl.Worker.ReadAllWorkers(filterWorkers, filterLevel);
+            int id = ((BO.Worker)((ListView)sender).SelectedItem).Id;
+            new WorkerWindow(id).ShowDialog();
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            WorkerList = s_bl.Worker.ReadAllWorkers(filterWorkers,(BO.WorkerExperience)((ComboBox)sender).SelectedItem);
+        }
+
+        private void Button_AddClick(object sender, RoutedEventArgs e)
+        {
+            new WorkerWindow().ShowDialog();
 
         }
     }

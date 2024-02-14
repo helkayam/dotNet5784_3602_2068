@@ -7,16 +7,18 @@ using System.Threading.Tasks;
 
 namespace PL;
 
-internal class FilterWorker:IEnumerable
+public class FilterWorker:IEnumerable
 {
     static readonly IEnumerable<BO.FilterWorker> w_enums = (Enum.GetValues(typeof(BO.FilterWorker)) as IEnumerable<BO.FilterWorker>)!;
 
     public IEnumerator GetEnumerator ()=> w_enums.GetEnumerator();
 }
 
-internal class WorkerExperience : IEnumerable
+public class WorkerExperienceCollection : IEnumerable
 {
-    static readonly IEnumerable<BO.WorkerExperience> we_enums = (Enum.GetValues(typeof(BO.WorkerExperience)) as IEnumerable<BO.WorkerExperience>)!;
+    static readonly IEnumerable<BO.WorkerExperience> W_experience = 
+        (Enum.GetValues(typeof(BO.WorkerExperience)) as IEnumerable<BO.WorkerExperience>)!;
 
-    public IEnumerator GetEnumerator() => we_enums.GetEnumerator();
+    public IEnumerator GetEnumerator() => W_experience.GetEnumerator();
 }
+

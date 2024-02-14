@@ -1,0 +1,67 @@
+﻿<Window x:Class="PL.Worker.WorkerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.Worker"
+        mc:Ignorable="d"
+        Title="WorkerWindow" Height="450" Width="800"
+        DataContext="{Binding MyWorker, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40*"/>
+            <RowDefinition Height="500*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <!--Internal, Upper Grid-->
+        <Grid HorizontalAlignment="Stretch" Height="auto" Grid.Row="0" VerticalAlignment="Stretch" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+
+        </Grid>
+
+        <Label Content="Id:" HorizontalAlignment="Left" Margin="93,40,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="93,80,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
+        <Label Content="Level:" HorizontalAlignment="Left" Margin="93,120,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
+        <Label Content="PhoneNumber:" HorizontalAlignment="Left" Margin="93,160,0,0" Grid.Row="1" VerticalAlignment="Top" Height="29" Width="90"/>
+        <Label Content="Cost:" HorizontalAlignment="Left" Margin="93,200,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
+        <Label Content="Task Id:" HorizontalAlignment="Left" Margin="93,240,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
+        <Label Content="active:" HorizontalAlignment="Left" Margin="93,280,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
+
+        <TextBox Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" 
+                 IsEnabled="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToBoolKey}}" 
+            HorizontalAlignment="Left" Margin="200,40,0,0" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Top" Width="95" Height="25"/>
+        <TextBox Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
+            HorizontalAlignment="Left" Margin="200,80,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="95" Height="25"/>
+        <ComboBox 
+             ItemsSource="{Binding Source={StaticResource WorkerExperienceCollectionKey}}"
+            SelectedValue="{Binding LevelOfWorker, Mode=TwoWay}"
+            HorizontalAlignment="Left" Margin="200,120,0,0" Grid.Row="1" VerticalAlignment="Top" Width="95" Height="25"/>
+        <TextBox 
+            Text="{Binding PhoneNumber, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
+            HorizontalAlignment="Left" Margin="200,160,0,0" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Top" Width="95" Height="25"/>
+        <TextBox 
+            Text="{Binding Cost, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
+            HorizontalAlignment="Left" Margin="200,200,0,0" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Top" Width="95" Height="25"/>
+        <TextBox 
+            Text="{Binding Task.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
+            HorizontalAlignment="Left" Margin="200,240,0,0" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Top" Width="95" Height="25"/>
+        <CheckBox Content="Active" 
+                  IsChecked="{Binding active, Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
+                  HorizontalAlignment="Left" Margin="200,280,0,0" Grid.Row="1" VerticalAlignment="Top" Width="95" Height="25"/>
+
+        <Button 
+             Grid.Row="1" Grid.Column="0" 
+             Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}" 
+             HorizontalAlignment="Left" Margin="690,333,0,0"  VerticalAlignment="Top" Padding="5" 
+             Click="AddOrUpdate_Click" RenderTransformOrigin="53.083,-1.767" Height="20" Width="64"/>
+
+
+
+
+    </Grid>
+</Window>

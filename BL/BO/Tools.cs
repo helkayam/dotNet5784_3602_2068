@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,37 +10,51 @@ namespace BO;
 
 static internal class Tools
 {
+
     public static string ToStringProperty<T>(this T obj)
     {
-        string str = " ";
-        foreach (PropertyInfo item in obj.GetType().GetProperties())
+        StringBuilder sb = new StringBuilder();
+
+        Type type = obj.GetType();
+        PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+        foreach (PropertyInfo prop in properties)
         {
-            if (item.PropertyType.IsGenericTypeParameter&&item.PropertyType.GetGenericTypeDefinition() ==typeof(List<>))
+            sb.Append(prop.Name);
+            sb.Append(": ");
+
+            object value = prop.GetValue(obj)!;
+
+            if (value is IEnumerable && !(value is string))
             {
-
-                str += "\n" + item.Name + ": "+ item.ToStringProperty();
-              
-                
-
-
-
+                IEnumerable enumerable = (IEnumerable)value;
+                //if (value is ICollection collection && collection.Count == 0)
+                //    break;
+                    sb.Append("[");
+                foreach (object item in enumerable)
+                {
+                    sb.Append(item.ToString());
+                    sb.Append(", ");
+                }
+                if (sb[sb.Length - 2] == ',')
+                {
+                    sb.Remove(sb.Length - 2, 2); // Remove trailing comma and space
+                }
+                sb.Append("]");
+               
             }
             else
-            str += "\n" + item.Name + ": " + item.GetValue(obj, null);
+            {
+                sb.Append(value?.ToString() ?? "null");
+            }
+
+            sb.AppendLine();
         }
 
-        return str;
+        return sb.ToString();
     }
-
-
-    public static string ToStringProperty<T>(this IEnumerable<T> obj)
-    {
-        string str = " ";
-        foreach (T element in obj)
-            str += element.ToStringProperty();
-
-        return str;
-    }
-
 
 }
+
+
+
