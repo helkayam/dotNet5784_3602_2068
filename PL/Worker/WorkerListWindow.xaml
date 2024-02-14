@@ -27,8 +27,10 @@
             <ComboBox SelectedValue="{Binding Path=filterWorkers, Mode=TwoWay}"
                 ItemsSource="{Binding Source={StaticResource FilterWorkerKey}}"  
                        Grid.Column="1" SelectionChanged="ComboBox_FilterWorkerChanged" Margin="64,5,213,5"/>
-            <ComboBox Visibility="{Binding bylevel, Converter={StaticResource  BoolToVisibilityConvert}}" 
-                ItemsSource="{Binding Source={StaticResource WorkerExperienceKey }}"   Grid.Column="1" Margin="248,10,59,12" />
+            <ComboBox SelectedValue="{Binding Path=filterLevel, Mode=TwoWay}"
+                       Visibility="{Binding Path=bylevel,Mode=TwoWay, Converter={StaticResource  BoolToVisibilityConvert}}"
+ 
+                ItemsSource="{Binding Source={StaticResource WorkerExperienceKey }}"   Grid.Column="1" Margin="248,10,59,12" SelectionChanged="ComboBox_FilterLevelChanged"  />
 
 
         </Grid>
