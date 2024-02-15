@@ -11,6 +11,8 @@
         <local:ConvertIdToContent x:Key="ConverIdToContentKey"/>
         <local:ConvertIdToBool x:Key="ConverIdToBoolKey"/>
         <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverterKey"/>
+        <local:FilterTask x:Key="FilterTaskKey"/>
+        <local:StatusTaskCollection x:Key="TaskStatusKey"/>
 
     </Application.Resources>
 </Application>

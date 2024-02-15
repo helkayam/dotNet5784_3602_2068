@@ -18,6 +18,41 @@ static internal class Tools
         Type type = obj.GetType();
         PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
+        //foreach (PropertyInfo prop in properties)
+        //{
+        //    sb.Append(prop.Name);
+        //    sb.Append(": ");
+
+        //    object value = prop.GetValue(obj)!;
+
+        //    if (value is IEnumerable && !(value is string))
+        //    {
+        //        IEnumerable enumerable = (IEnumerable)value;
+        //        //if (value is ICollection collection && collection.Count == 0)
+        //        //    break;
+        //            sb.Append("[");
+        //        foreach (object item in enumerable)
+        //        {
+        //            sb.Append(item.ToString());
+        //            sb.Append(", ");
+        //        }
+        //        if (sb[sb.Length - 2] == ',')
+        //        {
+        //            sb.Remove(sb.Length - 2, 2); // Remove trailing comma and space
+        //        }
+        //        sb.Append("]");
+
+        //    }
+        //    else
+        //    {
+        //        sb.Append(value?.ToString() ?? "null");
+        //    }
+
+        //    sb.AppendLine();
+        //}
+
+        //return sb.ToString();
+
         foreach (PropertyInfo prop in properties)
         {
             sb.Append(prop.Name);
@@ -28,20 +63,18 @@ static internal class Tools
             if (value is IEnumerable && !(value is string))
             {
                 IEnumerable enumerable = (IEnumerable)value;
-                //if (value is ICollection collection && collection.Count == 0)
-                //    break;
-                    sb.Append("[");
+                sb.Append("[");
+                bool isFirst = true;
                 foreach (object item in enumerable)
                 {
+                    if (!isFirst)
+                    {
+                        sb.Append(", ");
+                    }
                     sb.Append(item.ToString());
-                    sb.Append(", ");
-                }
-                if (sb[sb.Length - 2] == ',')
-                {
-                    sb.Remove(sb.Length - 2, 2); // Remove trailing comma and space
+                    isFirst = false;
                 }
                 sb.Append("]");
-               
             }
             else
             {

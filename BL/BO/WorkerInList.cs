@@ -10,7 +10,7 @@ namespace BO
     {
         public int Id { get; init; }
         public required string Name { get; set; }
-        public TaskInWorker Task { get; init; }
+        //public TaskInWorker Task { get; init; }
 
         public override string ToString()
         {

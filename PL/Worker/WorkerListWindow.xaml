@@ -21,7 +21,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <!--Lebel select-->
-            <Label Grid.Column="0">
+            <Label Content="Chose the filter you want to perform:" FontFamily="Arial Black" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"  Grid.Column="0">
             </Label>
             <!--filter-->
             <ComboBox SelectedValue="{Binding Path=filterWorkers, Mode=TwoWay}"
@@ -29,6 +29,7 @@
                        Grid.Column="1" SelectionChanged="ComboBox_FilterWorkerChanged" Margin="64,5,213,5"/>
             <ComboBox Visibility="{Binding Bylevel,Mode=OneWay, Converter={StaticResource  BoolToVisibilityConverterKey}}" 
                 ItemsSource="{Binding Source={StaticResource WorkerExperienceCollectionKey }}"   Grid.Column="1" Margin="200,12,107,10" SelectionChanged="ComboBox_SelectionChanged" />
+            
 
 
         </Grid>

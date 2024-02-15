@@ -195,7 +195,7 @@ internal class TaskImplementation : BlApi.ITask
        {
            BO.Filter.ByComplexity => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => bc.Complexity == (DO.WorkerExperience)filtervalue) : _dal.Task.ReadAll(),
            BO.Filter.Status => ((BO.Status)filtervalue != null) ? _dal.Task.ReadAll(s => getStatus(s) == (BO.Status)filtervalue) : _dal.Task.ReadAll(),
-           BO.Filter.PossibleTaskForWorker => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => (bc.Complexity <= (DO.WorkerExperience)filtervalue && bc.ScheduledDate!= null && checkDependentTaskDone(bc) == true)) : _dal.Task.ReadAll(),
+           BO.Filter.PossibleTaskForWorker => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => (bc.Complexity<= (DO.WorkerExperience)filtervalue && bc.ScheduledDate!= null && checkDependentTaskDone(bc) == true)) : _dal.Task.ReadAll(),
            BO.Filter.None => _dal.Task.ReadAll(),
 
        };
@@ -219,13 +219,20 @@ internal class TaskImplementation : BlApi.ITask
     /// <param name="Id"> id of task to read </param>
     /// <returns> BO entity of a task </returns>
     /// <exception cref="BO.BlDoesNotExistException"> An exception that is thrown if the task you want to read does not exist </exception>
-    public BO.Task? ReadTask(int Id)
+    public BO.Task? ReadTask(int Id, bool throwexception = false )
     {
 
         BO.Task BoTask = new BO.Task();
         try
         {
-            DO.Task DoTask = _dal.Task.Read(Id, true);
+            DO.Task DoTask = _dal.Task.Read(Id);
+
+            if(DoTask == null);
+            { if (throwexception == true)
+                    _dal.Task.Read(Id, true);
+                else
+                    return null;                    }
+
             BoTask.Id = DoTask.Id;
             BoTask.Description = DoTask.Description;
             BoTask.Alias = DoTask.Alias;

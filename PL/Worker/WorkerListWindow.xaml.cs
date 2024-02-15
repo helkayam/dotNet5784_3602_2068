@@ -46,6 +46,8 @@ namespace PL.Worker
             
         }
 
+
+
         public IEnumerable<BO.Worker> WorkerList
         {
             get { return (IEnumerable<BO.Worker>)GetValue(WorkerListProperty); }
@@ -77,6 +79,8 @@ namespace PL.Worker
         {
             int id = ((BO.Worker)((ListView)sender).SelectedItem).Id;
             new WorkerWindow(id).ShowDialog();
+            WorkerList = s_bl.Worker.ReadAllWorkers();
+
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -88,7 +92,11 @@ namespace PL.Worker
         private void Button_AddClick(object sender, RoutedEventArgs e)
         {
             new WorkerWindow().ShowDialog();
+            WorkerList = s_bl.Worker.ReadAllWorkers();
+
 
         }
+
+
     }
 }

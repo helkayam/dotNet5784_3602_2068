@@ -1,57 +1,75 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ArrayOfWorker xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Worker>
-    <Id>218978246</Id>
-    <Level>Intermediate</Level>
-    <Name>Hanna Cohen</Name>
-    <PhoneNumber>0529794660</PhoneNumber>
-    <Cost>143.7635709376013</Cost>
-    <Eraseable>true</Eraseable>
-    <active>true</active>
+    <Id>267448548</Id>
+    <Level>Expert</Level>
+    <Name>Lea Berdugo</Name>
+    <PhoneNumber>0509837751</PhoneNumber>
+    <Cost>70</Cost>
+    <Eraseable>False</Eraseable>
+    <active>True</active>
   </Worker>
   <Worker>
-    <Id>299558690</Id>
-    <Level>Beginner</Level>
-    <Name>Tali Levi</Name>
-    <PhoneNumber>0567285337</PhoneNumber>
-    <Cost>36.694447657084986</Cost>
-    <Eraseable>true</Eraseable>
-    <active>true</active>
-  </Worker>
-  <Worker>
-    <Id>250675504</Id>
-    <Level>Beginner</Level>
-    <Name>Yair Israel</Name>
-    <PhoneNumber>0548216370</PhoneNumber>
-    <Cost>181.35633213081462</Cost>
-    <Eraseable>true</Eraseable>
-    <active>true</active>
-  </Worker>
-  <Worker>
-    <Id>306667459</Id>
-    <Level>Beginner</Level>
-    <Name>Dalya Amar</Name>
-    <PhoneNumber>0563078161</PhoneNumber>
-    <Cost>137.09504862956777</Cost>
-    <Eraseable>true</Eraseable>
-    <active>true</active>
-  </Worker>
-  <Worker>
-    <Id>389027905</Id>
-    <Level>Intermediate</Level>
-    <Name>Ben Klein</Name>
-    <PhoneNumber>0527963544</PhoneNumber>
-    <Cost>101.52102703966357</Cost>
-    <Eraseable>true</Eraseable>
-    <active>true</active>
-  </Worker>
-  <Worker>
-    <Id>363987924</Id>
+    <Id>238148737</Id>
     <Level>Intermediate</Level>
     <Name>Ziv Peretz</Name>
-    <PhoneNumber>050695914</PhoneNumber>
-    <Cost>57.745303431056634</Cost>
+    <PhoneNumber>0518255374</PhoneNumber>
+    <Cost>161.29539193879455</Cost>
     <Eraseable>true</Eraseable>
-    <active>False</active>
+    <active>true</active>
+  </Worker>
+  <Worker>
+    <Id>367266858</Id>
+    <Level>Intermediate</Level>
+    <Name>Tali Levi</Name>
+    <PhoneNumber>0513162166</PhoneNumber>
+    <Cost>58.92843656960661</Cost>
+    <Eraseable>true</Eraseable>
+    <active>true</active>
+  </Worker>
+  <Worker>
+    <Id>201239619</Id>
+    <Level>Intermediate</Level>
+    <Name>Yair Israel</Name>
+    <PhoneNumber>0547322178</PhoneNumber>
+    <Cost>68.37570685270319</Cost>
+    <Eraseable>true</Eraseable>
+    <active>true</active>
+  </Worker>
+  <Worker>
+    <Id>268733514</Id>
+    <Level>Intermediate</Level>
+    <Name>Dalya Amar</Name>
+    <PhoneNumber>0523465560</PhoneNumber>
+    <Cost>172.6654135019139</Cost>
+    <Eraseable>true</Eraseable>
+    <active>true</active>
+  </Worker>
+  <Worker>
+    <Id>256920396</Id>
+    <Level>Beginner</Level>
+    <Name>Ben Klein</Name>
+    <PhoneNumber>0543700129</PhoneNumber>
+    <Cost>187.01247496951794</Cost>
+    <Eraseable>true</Eraseable>
+    <active>true</active>
+  </Worker>
+  <Worker>
+    <Id>345654765</Id>
+    <Level>Beginner</Level>
+    <Name>Hanna Cohen</Name>
+    <PhoneNumber>0508765432</PhoneNumber>
+    <Cost>70</Cost>
+    <Eraseable>true</Eraseable>
+    <active>true</active>
+  </Worker>
+  <Worker>
+    <Id>987654321</Id>
+    <Level>Intermediate</Level>
+    <Name>Omer Levi</Name>
+    <PhoneNumber>0585623456</PhoneNumber>
+    <Cost>150</Cost>
+    <Eraseable>true</Eraseable>
+    <active>true</active>
   </Worker>
 </ArrayOfWorker>

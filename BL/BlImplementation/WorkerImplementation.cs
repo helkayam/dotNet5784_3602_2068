@@ -216,15 +216,25 @@ public void AddWorker(BO.Worker newWorker)
     /// <param name="Id"> ID of worker to read </param>
     /// <returns> BO entity of a worker </returns>
     /// <exception cref="BO.BlDoesNotExistException"> An exception that is thrown if the worker you want to read does not exist </exception>
-    public BO.Worker? ReadWorker(int Id)
+    public BO.Worker? ReadWorker(int Id, bool throwexception = false)
     {
 
         BO.Worker boworker;
         try
         {
-            DO.Worker doworker = _dal.Worker.Read(Id,true);
+            DO.Worker doworker = _dal.Worker.Read(Id);
 
-            boworker = new BO.Worker { Id = Id, Name = doworker.Name };
+            if (doworker == null)
+            { if (throwexception == true)
+                    _dal.Worker.Read(Id, true);
+                else
+                    return null;
+             }
+
+
+          
+
+             boworker = new BO.Worker { Id = Id, Name = doworker.Name };
             boworker.Level = (BO.WorkerExperience)doworker.Level;
             boworker.PhoneNumber = doworker.PhoneNumber;
             boworker.Cost = doworker.Cost;
@@ -325,7 +335,7 @@ public void AddWorker(BO.Worker newWorker)
         {
             
             if (doWorker.Id > 0 && (doWorker.Id.ToString().Length == 9) && doWorker.Name.Length > 0 &&
-                doWorker.Cost > 0 && doWorker.PhoneNumber.Length == 10 && phonePrefix.Contains(prefixOfPhoneNumber))
+                doWorker.Cost > 0 && doWorker.PhoneNumber.Length == 10 && phonePrefix.Contains(prefixOfPhoneNumber)&&(_dal.Worker.Read(doWorker.Id).Level<=doWorker.Level))
             {
 
                 _dal.Worker.Update(doWorker);

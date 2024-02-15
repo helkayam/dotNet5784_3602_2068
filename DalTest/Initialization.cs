@@ -177,7 +177,12 @@ public static class Initialization
         }
     }
 
-
+    public static void reset()
+    {
+        s_dal.Dependency.DeleteAll();
+        s_dal.Worker.DeleteAll();
+        s_dal.Task.DeleteAll();
+    }
     public static void Do() 
     {
 

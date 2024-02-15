@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using PL.Worker;
-
+using PL.Task;
 namespace PL
 {
     /// <summary>
@@ -17,26 +17,61 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
+        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+        private MediaPlayer mediaPlayer = new MediaPlayer();
+
         public MainWindow()
         {
             InitializeComponent();
+            mediaPlayer.Open(new Uri(@"C:\Users\leasb\source\repos\Israel National Anthem (Instrumental).mp3"));
         }
 
         private void ButtonWorker_Click(object sender, RoutedEventArgs e)
         {
             new WorkerListWindow().Show();
         }
+
+        private void ButtonTask_Click(object sender, RoutedEventArgs e)
+        {
+            new TaskListWindow().Show();
+        }
         private void ButtonINIT_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult messageBoxResult = MessageBox.Show("do you want To initialize data Base?","hello", MessageBoxButton.YesNo, MessageBoxImage.Question) ;
+            MessageBoxResult messageBoxResult = MessageBox.Show("do you want to initialize data Base?","hello", MessageBoxButton.YesNo, MessageBoxImage.Question) ;
             switch(messageBoxResult)
             {
-                case MessageBoxResult.Yes: DalTest.Initialization.Do();break;
+                case MessageBoxResult.Yes: s_bl.InitializeDB();break;
                 case MessageBoxResult.No:break;
             }
             
         }
 
+        private void ButtonReset_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult messageBoxResult = MessageBox.Show("do you want to reset data Base?", "hello", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            switch (messageBoxResult)
+            {
+                case MessageBoxResult.Yes: s_bl.ResetDB(); break;
+                case MessageBoxResult.No: break;
+            }
+        }
 
+      
+
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Play();
+        }
+
+        private void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Pause();
+        }
+
+        private void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Stop();
+
+        }
     }
 }

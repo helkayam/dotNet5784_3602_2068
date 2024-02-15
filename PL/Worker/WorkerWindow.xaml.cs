@@ -24,6 +24,8 @@ namespace PL.Worker
         public BO.WorkerExperience LevelOfWorker { get; set; } = BO.WorkerExperience.Beginner;
 
 
+    
+
 
         public BO.Worker MyWorker
         {
@@ -36,7 +38,7 @@ namespace PL.Worker
             DependencyProperty.Register("MyWorker", typeof(BO.Worker), typeof(WorkerWindow), new PropertyMetadata());
 
 
-
+    
         public WorkerWindow( int IdOfWorker = 0)
         {
             try
@@ -59,7 +61,7 @@ namespace PL.Worker
 
         private void AddOrUpdate_Click(object sender, RoutedEventArgs e)
         {
-            if (MyWorker.Id == 0)
+            if (s_bl.Worker.ReadWorker(MyWorker.Id) == null)
             {
                 s_bl.Worker.AddWorker(MyWorker);
                 //if(s_bl.Worker.ReadWorker())
@@ -90,6 +92,15 @@ namespace PL.Worker
                 }
 
             }
+
+            this.Close();
         }
+
+        private void ComboBox_LevelChangedWorker(object sender, SelectionChangedEventArgs e)
+        {
+            MyWorker.Level = (BO.WorkerExperience)((ComboBox)sender).SelectedItem;
+        }
+
+       
     }
 }

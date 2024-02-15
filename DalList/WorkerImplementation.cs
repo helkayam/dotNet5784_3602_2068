@@ -146,6 +146,9 @@ internal class WorkerImplementation : IWorker
     public void DeleteAll()
     {
 
-        return;
+        foreach( var item in DataSource.Workers)
+        {
+            DataSource.Workers.Remove(item);
+        }
     }
 }

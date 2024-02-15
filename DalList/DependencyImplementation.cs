@@ -126,7 +126,9 @@ internal class DependencyImplementation : IDependency
 
     public void DeleteAll()
     {
-        return;
-
+        foreach (var item in DataSource.Dependencies)
+        {
+            DataSource.Dependencies.Remove(item);
+        }
     }
 }

@@ -14,11 +14,27 @@ public class FilterWorker:IEnumerable
     public IEnumerator GetEnumerator ()=> w_enums.GetEnumerator();
 }
 
+public class FilterTask : IEnumerable
+{
+    static readonly IEnumerable<BO.Filter> t_enums = (Enum.GetValues(typeof(BO.Filter)) as IEnumerable<BO.Filter>)!;
+
+    public IEnumerator GetEnumerator() => t_enums.GetEnumerator();
+}
+
 public class WorkerExperienceCollection : IEnumerable
 {
     static readonly IEnumerable<BO.WorkerExperience> W_experience = 
         (Enum.GetValues(typeof(BO.WorkerExperience)) as IEnumerable<BO.WorkerExperience>)!;
 
     public IEnumerator GetEnumerator() => W_experience.GetEnumerator();
+}
+
+
+public class StatusTaskCollection : IEnumerable
+{
+    static readonly IEnumerable<BO.Status> t_status =
+        (Enum.GetValues(typeof(BO.Status)) as IEnumerable<BO.Status>)!;
+
+    public IEnumerator GetEnumerator() => t_status.GetEnumerator();
 }
 

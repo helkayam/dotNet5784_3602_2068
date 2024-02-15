@@ -130,7 +130,9 @@ internal class TaskImplementation : ITask
     /// </summary>
     public void DeleteAll()
     {
-        return;
-
+        foreach (var item in DataSource.Tasks)
+        {
+            DataSource.Tasks.Remove(item);
+        }
     }
 }
