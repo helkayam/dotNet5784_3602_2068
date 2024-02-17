@@ -61,18 +61,22 @@ namespace PL.Worker
 
         private void AddOrUpdate_Click(object sender, RoutedEventArgs e)
         {
-            if (s_bl.Worker.ReadWorker(MyWorker.Id) == null)
-            {
-                s_bl.Worker.AddWorker(MyWorker);
-                //if(s_bl.Worker.ReadWorker())
-            }
-            else
-            {
+         
+           
                 try
                 {
-                    s_bl.Worker.UpdateWorker(MyWorker);
-                    MessageBox.Show($"Updating the employee with ID: {MyWorker.Id} card was successful");
-                    this.Close();
+                    if (s_bl.Worker.ReadWorker(MyWorker.Id) == null)
+                    {
+                        s_bl.Worker.AddWorker(MyWorker);
+                        MessageBox.Show($"Adding the employee with ID: {MyWorker.Id} card was successful");
+
+                    }
+                    else
+                    {
+                        s_bl.Worker.UpdateWorker(MyWorker);
+                        MessageBox.Show($"Updating the employee with ID: {MyWorker.Id} card was successful");
+                    }
+                    //WorkerWindow.Close();
                 }
                 catch (BO.BlInvalidGivenValueException ex)
                 {
@@ -91,7 +95,7 @@ namespace PL.Worker
 
                 }
 
-            }
+            
 
             this.Close();
         }

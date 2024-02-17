@@ -41,6 +41,7 @@ namespace PL.Worker
         public WorkerListWindow()
         {
             Bylevel = false;
+
             InitializeComponent();
             WorkerList = s_bl?.Worker.ReadAllWorkers();
             
