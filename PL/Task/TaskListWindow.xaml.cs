@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -70,6 +71,8 @@ namespace PL.Task
         public TaskListWindow()
         {
             Bylevel = false;
+            ByStatus = false;
+            ByPossibleTaskforWorker = false;
             InitializeComponent();
             TaskList=s_bl.Task.ReadAllTasks(); 
         }
@@ -79,22 +82,31 @@ namespace PL.Task
             if (filter == BO.Filter.ByComplexity)
             {
                 Bylevel = true;
+                ByPossibleTaskforWorker = false;
+                ByStatus = false;
             }
             else
             if (filter == BO.Filter.PossibleTaskForWorker)
             {
                 ByPossibleTaskforWorker = true;
+                ByStatus = false;
+                Bylevel = false;
+
+
             }
             else
             if (filter == BO.Filter.Status)
             {
                 ByStatus = true;
+                Bylevel = false;
+                ByPossibleTaskforWorker = false;
             }
             else
                     {
                 TaskList = s_bl.Task.ReadAllTasks(filter);
                 Bylevel = false;
                 ByPossibleTaskforWorker = false;
+                ByStatus = false;
             }
 
         }

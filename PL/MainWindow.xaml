@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="400" Width="800" Background="LightBlue">
 
-
     <Grid>
 
        
@@ -21,14 +20,15 @@
         <Button Content="INITDB" Click="ButtonINIT_Click" Margin="644,278,35,57"/>
         <Button Content="ResetDB" Margin="494,278,185,57" Click="ButtonReset_Click"/>
         <Button Margin="36,250,709,30" Click="PlayButton_Click"   Height="45" Width="55" >
-            <Image Source="C:\Users\leasb\source\repos\play-buttton.png" Height="30" Width="30" ></Image>
+            <Image Source="/Images/play-buttton.png" Height="30" Width="30" ></Image>
         </Button>
         <Button Margin="127,250,618,30" Click="PauseButton_Click" Height="45" Width="55">
-            <Image Source="C:\Users\leasb\source\repos\bouton-pause.png" Height="30" Width="30"></Image>
+            <Image Source="/Images/bouton-pause.png" Height="30" Width="30"></Image>
         </Button>
         <Button Margin="227,250,518,30" Click="StopButton_Click"  Height="45" Width="55">
-            <Image Source="C:\Users\leasb\source\repos\arret.png" Height="30" Width="30"></Image>
+            <Image Source="/Images/arret.png" Height="30" Width="30"></Image>
         </Button>
+        <MediaElement HorizontalAlignment="Left" Height="100" Margin="127,256,0,0" VerticalAlignment="Top" Width="100"/>
 
     </Grid>
 
