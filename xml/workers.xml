@@ -15,8 +15,8 @@
     <Name>Ziv Peretz</Name>
     <PhoneNumber>0518255374</PhoneNumber>
     <Cost>161.29539193879455</Cost>
-    <Eraseable>true</Eraseable>
-    <active>true</active>
+    <Eraseable>True</Eraseable>
+    <active>True</active>
   </Worker>
   <Worker>
     <Id>367266858</Id>

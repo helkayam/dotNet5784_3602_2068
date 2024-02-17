@@ -72,7 +72,7 @@ namespace PL.Worker
                 {
                     s_bl.Worker.UpdateWorker(MyWorker);
                     MessageBox.Show($"Updating the employee with ID: {MyWorker.Id} card was successful");
-                    //WorkerWindow.Close();
+                    this.Close();
                 }
                 catch (BO.BlInvalidGivenValueException ex)
                 {
