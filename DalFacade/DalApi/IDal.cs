@@ -24,6 +24,8 @@ namespace DalApi
         
         ISchedule Schedule { get; }
 
+  IUser User { get; }
+
 
     }
 }
