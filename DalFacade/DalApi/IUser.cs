@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace DalApi;
+using DO;
 
-namespace DalApi
+public interface IUser 
 {
-    public interface IUser: ICrud<IUser>
-    {
-    }
+    string Create(User item);
+
+    User? Read(string id, bool throwAnException = false);
+
+
+    IEnumerable<User?> ReadAll();
+
+    void Update(User item);
+
+    void Delete(string id);
+
+    void DeleteAll();
 }
+

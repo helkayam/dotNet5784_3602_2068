@@ -1,4 +1,4 @@
-﻿   namespace Dal;
+﻿namespace Dal;
 using DalApi;
 using DO;
 using System.Collections.Generic;
@@ -47,7 +47,7 @@ internal class TaskImplementation : ITask
         DO.Task taskToRemove=Read(id);
         if(!taskToRemove.Eraseable)
         {
-            throw new DalNotErasableException($"Task with id={id} is not eraseable");
+            throw new DalNotErasableException($"Task with id={id} is not erasable");
         }
         DataSource.Tasks.RemoveAll(t=>t.Id==id);
     }

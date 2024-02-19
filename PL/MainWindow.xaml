@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
+        Title="MainWindow" Height="200" Width="400">
+    <Grid Margin="314,145,0,0">
+
+        <Label Content="Password" Margin="-240,-92,270,106"  FontFamily="Arial Black" FontSize="8" Background="White"/>
+        <Label Content="UserName"  Margin="-240,-52,270,67" FontFamily="Arial Black" FontSize="8" Background="White"/>
+
     </Grid>
 </Window>

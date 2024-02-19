@@ -9,6 +9,9 @@ namespace Dal
         internal static List<DO.Task?> Tasks { get; } = new();
         internal static List<DO.Dependency?> Dependencies { get; } = new();
         internal static List<DO.Worker?> Workers { get; } = new();
+        internal static List<DO.User?> Users { get; } = new();
+
+
 
         /// <summary>
         /// A configuration class, which will generate automatic running numbers for us, for the fields that are defined as "running ID number".
