@@ -134,5 +134,8 @@ internal class TaskImplementation : ITask
         {
             DataSource.Tasks.Remove(item);
         }
+
+        DataSource.Config.ResetNextTaskId();
+
     }
 }

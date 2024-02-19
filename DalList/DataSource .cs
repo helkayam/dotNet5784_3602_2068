@@ -22,12 +22,12 @@ namespace Dal
             //A static numeric field that will receive as an initial value the previous fixed field of TaskId.
             private static int nextTaskId = startTaskId;
             //A property with a get method only that will advance the private field automatically, with a number greater than the previous one by 1
-            internal static int NextTaskId { get => nextTaskId++; }
+            internal static int NextTaskId { get => nextTaskId++; set => nextDependencyId = value; }
 
             //Likewise for DependencyId
             internal const int startDependencyId = 0;
             private static int nextDependencyId = startDependencyId;
-            internal static int NextDependencyId { get => nextDependencyId++; }
+            internal static int NextDependencyId { get => nextDependencyId++; set => nextDependencyId = value; }
 
 
            internal static  DateTime startdateProject;
@@ -35,7 +35,19 @@ namespace Dal
             internal static DateTime CurrentDate;
 
 
+            public static void ResetNextDependencyId()
+            {
+                NextDependencyId = 0;
+            }
+
+            public static void ResetNextTaskId()
+            {
+                NextTaskId = 0;
+            }
+
 
         }
+
+      
     }
 }

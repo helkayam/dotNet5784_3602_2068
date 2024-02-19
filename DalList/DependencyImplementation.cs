@@ -130,5 +130,8 @@ internal class DependencyImplementation : IDependency
         {
             DataSource.Dependencies.Remove(item);
         }
+
+
+        DataSource.Config.ResetNextDependencyId();
     }
 }

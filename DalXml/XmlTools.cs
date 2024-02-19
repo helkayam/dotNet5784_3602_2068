@@ -48,7 +48,14 @@ static class XMLTools
     }
     #endregion
 
-   
+    public static void InitializeId(string data_config_xml, string elemName)
+    {
+        XElement root = XMLTools.LoadListFromXMLElement(data_config_xml);
+        root.Element(elemName)?.SetValue((0).ToString());
+        XMLTools.SaveListToXMLElement(root, data_config_xml);
+    }
+
+
 
 
     /// <summary>

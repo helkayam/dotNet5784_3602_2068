@@ -182,6 +182,8 @@ public static class Initialization
         s_dal.Dependency.DeleteAll();
         s_dal.Worker.DeleteAll();
         s_dal.Task.DeleteAll();
+
+
     }
     public static void Do() 
     {

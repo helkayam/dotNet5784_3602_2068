@@ -3,6 +3,7 @@ using DalApi;
 using DO;
 using System;
 using System.Collections.Generic;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 internal class DependencyImplementation:IDependency
@@ -151,7 +152,7 @@ internal class DependencyImplementation:IDependency
 
         dependencies.Clear();
         XMLTools.SaveListToXMLSerializer<Dependency>(dependencies, s_dependencies_xml);
-
+        XMLTools.InitializeId("data - config.xml", "NextDependencyId");
 
     }
 }
