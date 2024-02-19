@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DalApi
 {
-    internal interface IUser: ICrud<IUser>
+    public interface IUser: ICrud<IUser>
     {
     }
 }
