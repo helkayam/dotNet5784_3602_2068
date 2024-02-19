@@ -7,12 +7,15 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="300" Width="500">
     <Grid Margin="314,145,0,0">
-        <Label HorizontalAlignment="Left" Margin="70,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1">
+        <Label Content="{Binding Clock}" HorizontalAlignment="Left" Margin="70,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1">
 
         </Label>
-        <Button Content="one Day" HorizontalAlignment="Left" Margin="70,-101,0,0" VerticalAlignment="Top" FontSize="8" RenderTransformOrigin="0.724,-1.432"/>
+        <Button Content="one Day" HorizontalAlignment="Left" Margin="70,-101,0,0" VerticalAlignment="Top" FontSize="8" RenderTransformOrigin="0.724,-1.432" Click="Button_Click""/>
         <Button Content="one Hour" HorizontalAlignment="Left" Margin="103,-101,0,0" VerticalAlignment="Top" FontSize="8"/>
         <Button Content="one Week" HorizontalAlignment="Left" Margin="140,-101,0,0" VerticalAlignment="Top" FontSize="8"/>
+        <Button Content="Init" HorizontalAlignment="Left" Margin="150,-81,0,0" VerticalAlignment="Top" Height="15" Width="29" FontSize="8"/>
+        <Button Content="Sign In" HorizontalAlignment="Left" Margin="-52,93,0,0" VerticalAlignment="Top" Height="28" Width="86" Click="SignIn_Click"/>
+        <Button Content="Log In" HorizontalAlignment="Left" Margin="-155,93,0,0" VerticalAlignment="Top" Height="28" Width="86" Click="LogIn_Click"/>
 
 
 

@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace DO;
 public record User
+    (
+    int Id
+    
+    )
 {
+    public User() : this(0) { }
 
     public bool isAdmin {  get; set; }=false; 
 
