@@ -22,4 +22,17 @@ public interface IBl
     public void ResetDB();
     public void InitializeDB();
 
+    #region
+
+    public DateTime Clock { get; }
+
+    public void IncreasInHour();
+
+    public void IncreasInDay();
+
+    public void IncreasInWeek();
+
+    public void InitClock();
+    #endregion
+
 }

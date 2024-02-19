@@ -5,11 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="200" Width="400">
+        Title="MainWindow" Height="300" Width="500">
     <Grid Margin="314,145,0,0">
+        <Label HorizontalAlignment="Left" Margin="70,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1">
 
-        <Label Content="Password" Margin="-240,-92,270,106"  FontFamily="Arial Black" FontSize="8" Background="White"/>
-        <Label Content="UserName"  Margin="-240,-52,270,67" FontFamily="Arial Black" FontSize="8" Background="White"/>
+        </Label>
+        <Button Content="one Day" HorizontalAlignment="Left" Margin="70,-101,0,0" VerticalAlignment="Top" FontSize="8" RenderTransformOrigin="0.724,-1.432"/>
+        <Button Content="one Hour" HorizontalAlignment="Left" Margin="103,-101,0,0" VerticalAlignment="Top" FontSize="8"/>
+        <Button Content="one Week" HorizontalAlignment="Left" Margin="140,-101,0,0" VerticalAlignment="Top" FontSize="8"/>
+
+
+
+
+
 
     </Grid>
 </Window>

@@ -23,6 +23,9 @@ internal class WorkerImplementation : BlApi.IWorker
     /// </summary>
     private DalApi.IDal _dal = DalApi.Factory.Get;
 
+    private readonly Bl _bl;
+    internal WorkerImplementation(Bl bl) => _bl = bl;
+
 
     /// <summary>
     /// The method receives an Worker object (logical entity)
@@ -34,7 +37,7 @@ internal class WorkerImplementation : BlApi.IWorker
     /// <exception cref="BO.BlInvalidGivenValueException">This is an exception that is thrown if one of the logical entity's data is incorrect </exception>
     /// <exception cref="BO.BlAlreadyExistsException"> This is an exception that is thrown in the event that the data layer threw an exception following a situation where an attempt is made to add an object that already exists</exception>
 
-  
+
 
     public ProjectStatus GetStatusOfProject()
 {

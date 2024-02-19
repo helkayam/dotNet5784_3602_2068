@@ -19,6 +19,9 @@ internal class TaskImplementation : BlApi.ITask
     /// </summary>
     private DalApi.IDal _dal = DalApi.Factory.Get;
 
+    private readonly Bl _bl;
+    internal TaskImplementation(Bl bl) => _bl = bl;
+
     /// <summary>
     /// This is a method that receives a date as a parameter and sends it to a class in the DAL layer that takes care of initializing the start date of the project 
     /// on the received date
@@ -26,7 +29,7 @@ internal class TaskImplementation : BlApi.ITask
     /// <param name="startDateProject"> Date to start the StartDateOfProject field </param>
     public void UpdateStartProjectDate(DateTime startDateProject)
     {
-        if (startDateProject >= _dal.Schedule.GetCurrentDate())
+        if (startDateProject >= _bl.Clock)
             _dal.Schedule.UpdateStartDateProject(startDateProject);
         else
             throw new BO.BlInvalidGivenValueException($"error:start date of project is before current date {_dal.Schedule.GetCurrentDate()}");
@@ -544,11 +547,11 @@ internal class TaskImplementation : BlApi.ITask
         try
         {
 
-            if (_dal.Schedule.GetCurrentDate() <(_dal.Task.Read(Id).ScheduledDate))
+            if (_bl.Clock < (_dal.Task.Read(Id).ScheduledDate))
                 throw new BO.BlInvalidGivenValueException("false start date update of task: date before scheduled date");
             else
             {
-                DO.Task updDate = _dal.Task.Read(Id) with { StartDate = _dal.Schedule.GetCurrentDate() };
+                DO.Task updDate = _dal.Task.Read(Id) with { StartDate = _bl.Clock };
                 _dal.Task.Update(updDate);
             }
         }
@@ -570,7 +573,7 @@ internal class TaskImplementation : BlApi.ITask
 
         try
         {
-            DO.Task updDate = _dal.Task.Read(Id) with { CompleteDate = _dal.Schedule.GetCurrentDate() };
+            DO.Task updDate = _dal.Task.Read(Id) with { CompleteDate = _bl.Clock };
             _dal.Task.Update(updDate);
         }
         catch (DO.DalDoesNotExistException ex)
