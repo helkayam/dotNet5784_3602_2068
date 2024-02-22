@@ -10,19 +10,17 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button Content="Worker" Margin="379,109,269,192" Click="ButtonWorker_Click" FontFamily="Arial Black"/>
-        <Button Content="Task" Margin="596,109,52,192" Click="ButtonTask_Click" FontFamily="Arial Black"/>
-
-        <Button Content="Admin" Margin="154,109,494,192" Click="ButtonWorker_Click" FontFamily="Arial Black" Background="White"/>
-        <Button Content="INITDB" Click="ButtonINIT_Click" Margin="644,278,35,57" Background="White"/>
-        <Button Content="ResetDB" Margin="494,278,185,57" Click="ButtonReset_Click" Background="White"/>
-        <Button Margin="36,250,709,30" Click="PlayButton_Click"   Height="45" Width="55" >
+        <Button Content="Workers" Margin="227,127,421,174" Click="ButtonWorker_Click" FontFamily="Arial Black" Background="WhiteSmoke" />
+        <Button Content="Tasks" Margin="463,127,185,174" Click="ButtonTask_Click" FontFamily="Arial Black" Background="WhiteSmoke" />
+        <Button Content="INITDB" Click="ButtonINIT_Click" Margin="644,278,35,57" Background="WhiteSmoke" />
+        <Button Content="ResetDB" Margin="494,278,185,57" Click="ButtonReset_Click" Background="WhiteSmoke" />
+        <Button Margin="36,250,709,30" Click="PlayButton_Click"   Height="45" Width="55" Background="WhiteSmoke"  >
             <Image Source="/Images/play-buttton.png" Height="30" Width="30" ></Image>
         </Button>
-        <Button Margin="127,250,618,30" Click="PauseButton_Click" Height="45" Width="55">
+        <Button Margin="127,250,618,30" Click="PauseButton_Click" Height="45" Width="55" Background="WhiteSmoke" >
             <Image Source="/Images/bouton-pause.png" Height="30" Width="30"></Image>
         </Button>
-        <Button Margin="227,250,518,30" Click="StopButton_Click"  Height="45" Width="55">
+        <Button Margin="227,250,518,30" Click="StopButton_Click"  Height="45" Width="55" Background="WhiteSmoke" >
             <Image Source="/Images/arret.png" Height="30" Width="30"></Image>
         </Button>
         <MediaElement HorizontalAlignment="Left" Height="100" Margin="127,256,0,0" VerticalAlignment="Top" Width="100"/>

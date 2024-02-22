@@ -37,7 +37,7 @@ internal class Bl : IBl
     {
         Clock=DateTime.Now;
     }
-
+    public IUser User => new UserImplementation();
 
     public IWorker Worker => new WorkerImplementation(this);
 
