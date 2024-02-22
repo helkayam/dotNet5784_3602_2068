@@ -30,10 +30,7 @@ internal class UserImplementation : IUser
         DataSource.Users.RemoveAll(user => user.UserName == id);
     }
 
-    public void Delete(int id)
-    {
-        throw new NotImplementedException();
-    }
+    
 
     public void DeleteAll()
     {

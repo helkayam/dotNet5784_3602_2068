@@ -7,12 +7,13 @@
     <Application.Resources>
         
         <local:FilterWorker x:Key="FilterWorkerKey"/>
-        <local:WorkerExperienceCollection x:Key="WorkerExperienceCollectionKey" />
+        <local:WorkerExperienceCollection x:Key="WorkerExperienceCollectionKey"/>
         <local:ConvertIdToContent x:Key="ConverIdToContentKey"/>
         <local:ConvertIdToBool x:Key="ConverIdToBoolKey"/>
         <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverterKey"/>
         <local:FilterTask x:Key="FilterTaskKey"/>
         <local:StatusTaskCollection x:Key="TaskStatusKey"/>
+        <local:ConverDateTimeToString x:Key="ConverDateTimeToStringKey"/>
 
     </Application.Resources>
 </Application>

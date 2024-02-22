@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DO;
 public record User
     (
-    int Id
+    int? Id
     
     )
 {
