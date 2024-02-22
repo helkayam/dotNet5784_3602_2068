@@ -10,6 +10,8 @@
     
     <Grid Margin="314,145,0,0">
         <Label Content="{Binding Clock,Converter={StaticResource ConverDateTimeToStringKey}}" HorizontalAlignment="Left" Margin="70,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1">
+        <Image Source="Images/LogoHaatsmautParty.png" Margin="-298,-124,99,54"/>
+        <Label Content="{Binding Clock}" HorizontalAlignment="Left" Margin="70,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1">
 
         </Label>
         <Button Content="one Day" HorizontalAlignment="Left" Margin="70,-101,0,0" VerticalAlignment="Top" FontSize="8" RenderTransformOrigin="0.724,-1.432" Click="AddOneDay_click"/>

@@ -24,13 +24,13 @@
 
         </Grid>
 
-        <Label Content="Id:" HorizontalAlignment="Left" Margin="93,40,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
-        <Label Content="Name:" HorizontalAlignment="Left" Margin="93,80,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
-        <Label Content="Level:" HorizontalAlignment="Left" Margin="93,120,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
-        <Label Content="PhoneNumber:" HorizontalAlignment="Left" Margin="93,160,0,0" Grid.Row="1" VerticalAlignment="Top" Height="29" Width="90"/>
-        <Label Content="Cost:" HorizontalAlignment="Left" Margin="93,200,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
-        <Label Content="Task Id:" HorizontalAlignment="Left" Margin="93,240,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
-        <Label Content="active:" HorizontalAlignment="Left" Margin="93,280,0,0" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
+        <Label Content="Id:" HorizontalAlignment="Left" Margin="93,40,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="93,80,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
+        <Label Content="Level:" HorizontalAlignment="Left" Margin="93,120,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
+        <Label Content="PhoneNumber:" HorizontalAlignment="Left" Margin="93,160,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="29" Width="90"/>
+        <Label Content="Cost:" HorizontalAlignment="Left" Margin="93,200,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
+        <Label Content="Task Id:" HorizontalAlignment="Left" Margin="93,240,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
+        <Label Content="active:" HorizontalAlignment="Left" Margin="93,280,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
 
         <TextBox Text="{Binding Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" 
                  IsEnabled="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToBoolKey}}" 

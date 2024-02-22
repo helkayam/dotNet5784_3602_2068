@@ -5,12 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="UserLogIn" Height="200" Width="400">
-    <Grid Margin="314,145,0,0">
-        <Label Content="Password" Margin="-240,-52,270,66"  FontFamily="Arial Black" FontSize="8" Background="White"/>
-        <Label Content="UserName"  Margin="-240,-92,270,107" FontFamily="Arial Black" FontSize="8" Background="White"/>
-        <TextBox HorizontalAlignment="Left" Margin="-170,-92,0,0" VerticalAlignment="Top" Width="95" Height="25"/>
-        <TextBox HorizontalAlignment="Left" Margin="-170,-52,0,0"   VerticalAlignment="Top" Width="95" Height="25"/>
+        Title="UserLogIn" Height="200" Width="400"
+        DataContext="{Binding MyUser, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
 
+    <Grid Margin="314,145,0,0">
+        <Label Content="Password" Margin="-240,-27,270,41"  FontFamily="Arial Black" FontSize="8" Background="White"/>
+        <Label Content="UserName"  Margin="-240,-65,270,80" FontFamily="Arial Black" FontSize="8" Background="White"/>
+        <Label Content="Id" FontFamily="Arial Black" FontSize="8" Margin="-240,-102,252,117" />
+
+        <TextBox  Text="{Binding UserName, Mode=OneWay , NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Margin="-166,-65,0,0" VerticalAlignment="Top" Width="95" Height="19"/>
+        <TextBox Text="{Binding Password, Mode=OneWay , NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="-166,-27,0,0"   VerticalAlignment="Top" Width="95" Height="19" KeyDown="KeyDownUserSignIn" TextChanged="TextBox_TextChanged"/>
+        <TextBox  Text="{Binding Id,Mode=OneWay,NotifyOnValidationError=true,  ValidatesOnExceptions=True}" Margin="-166,-102,157,122"/>
     </Grid>
 </Window>

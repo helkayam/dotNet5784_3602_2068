@@ -41,5 +41,7 @@ sealed internal class DalList : IDal
     //Implementing the appropriate property defined for Task in the IDal interface, so that they return objects of the type that implements ITask
     public ITask Task => new TaskImplementation();
 
+    public IUser User => new UserImplementation();
+
    
 }

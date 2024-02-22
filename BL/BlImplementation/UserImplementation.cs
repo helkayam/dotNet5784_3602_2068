@@ -51,15 +51,23 @@ internal class UserImplementation: BlApi.IUser
      { 
         try
         {
+            if(throwexception==true) 
             _dal.User.Read(userName, true);
+            else
+                _dal.User.Read(userName, false);
+
+
         }
-        catch(DO.DalDoesNotExistException ex)
+        catch (DO.DalDoesNotExistException ex)
         {
             throw new BO.BlAlreadyExistsException($"User with UserName={userName} doesnt exists", ex);
         }
 
         DO.User user = _dal.User.Read(userName);
+        if (user == null)
+            return null;
         return new BO.User { IsAdmin = user.isAdmin, Password = user.PassWord, UserName = user.UserName, };
+        
      }
 
     public void UpdateUser(BO.User user)
@@ -71,7 +79,7 @@ internal class UserImplementation: BlApi.IUser
             if (user.Password.Length >= 8 && user.Password.Any(t => (int)t >= 65 && (int)t <= 90) && user.Password.Any(t => (int)t >= 97 && (int)t <= 122))
                 _dal.User.Update(updUser);
             else
-                throw new BO.BlInvalidGivenValueException($"This password={user.Password} is not valid")
+                throw new BO.BlInvalidGivenValueException($"This password={user.Password} is not valid");
         }
         catch(DO.DalDoesNotExistException ex)
         {

@@ -19,6 +19,8 @@ public interface IBl
     public IWorker Worker { get; }
     public ITask Task { get; }
 
+    public IUser User { get; set; }
+
     public void ResetDB();
     public void InitializeDB();
 

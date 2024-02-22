@@ -1,0 +1,15 @@
+﻿<Window x:Class="PL.WorkerMainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="WorkerMainWindow" Height="450" Width="800"
+         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+    <Grid>
+        <Label Content="{Binding Hello}" Margin="198,61,198,303" FontSize="20" FontFamily="Arial Black"></Label>
+        <Button Content="Update your details"   FontSize="20" FontFamily="Arial Black" Margin="127,171,452,185" Click="Button_Click"></Button>
+        <Button Content="Tasks" FontSize="20" FontFamily="Arial Black" Margin="458,171,121,185" Click="Button_Click"  ></Button>
+    </Grid>
+</Window>

@@ -49,7 +49,7 @@ namespace PL.Worker
                     MyWorker = new BO.Worker { };
                 }
                 else
-                    MyWorker = s_bl.Worker.ReadWorker(IdOfWorker);
+                    MyWorker = s_bl.Worker.ReadWorker(IdOfWorker,true);
             }
             catch (BO.BlDoesNotExistException ex)
             {
