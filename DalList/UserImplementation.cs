@@ -20,14 +20,14 @@ internal class UserImplementation : IUser
 
 
 
-    public void Delete(string id)
+    public void Delete(string userName)
     {
 
-        DO.User? user = DataSource.Users.Find(user => user.UserName == id);
+        DO.User? user = DataSource.Users.Find(user => user.UserName == userName);
         if (user == null)
-            throw new DalDoesNotExistException($"User with UserName={id} does not exist");
+            throw new DalDoesNotExistException($"User with UserName={userName} does not exist");
 
-        DataSource.Users.RemoveAll(user => user.UserName == id);
+        DataSource.Users.RemoveAll(user => user.UserName == userName);
     }
 
     
@@ -40,15 +40,15 @@ internal class UserImplementation : IUser
         }
     }
 
-    public User? Read(string id, bool throwAnException = false)
+    public User? Read(string userName, bool throwAnException = false)
     {
-        if (DataSource.Users.Any(user => user.UserName == id))
+        if (DataSource.Users.Any(user => user.UserName == userName))
             if (throwAnException)
-                throw new DalDoesNotExistException($"Worker with id={id} does not exist");
+                throw new DalDoesNotExistException($"User with userName={userName} does not exist");
             else
                 return null;
 
-        DO.User newUser = DataSource.Users.Find(newUser => newUser.UserName == id);
+        DO.User newUser = DataSource.Users.Find(newUser => newUser.UserName == userName);
 
 
         return newUser;

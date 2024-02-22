@@ -34,5 +34,7 @@ namespace Dal
         public IWorker Worker => new WorkerImplementation();
 
         public ITask Task => new TaskImplementation();
+
+        public IUser User => new UserImplementation();  
     }
 }

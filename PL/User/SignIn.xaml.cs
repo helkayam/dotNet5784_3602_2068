@@ -34,35 +34,6 @@ namespace PL.User
             DependencyProperty.Register("MyUser", typeof(BO.User), typeof(SignIn), new PropertyMetadata(0));
 
 
-
-
-
-        public string phonNumber
-        {
-            get { return (string)GetValue(phonNumberProperty); }
-            set { SetValue(phonNumberProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for phonNumber.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty phonNumberProperty =
-            DependencyProperty.Register("phonNumber", typeof(string), typeof(SignIn), new PropertyMetadata(0));
-
-
-
-
-
-        public string Name
-        {
-            get { return (string)GetValue(NameProperty); }
-            set { SetValue(NameProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Name.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty NameProperty =
-            DependencyProperty.Register("Name", typeof(string), typeof(SignIn), new PropertyMetadata(0));
-
-
-
         public SignIn()
         {
             InitializeComponent();
@@ -75,22 +46,30 @@ namespace PL.User
         {
             try
             {
-                if (Name == null)
-                    throw new Exception($"The name field is a required field ");
-                if (MyUser.Id == null)
-                    throw new Exception("The ID field is a required field ");
+
                 s_bl.Worker.ReadWorker(MyUser.Id, true);
-                s_bl.User.AddUser(MyUser.Id);
+                s_bl.User.AddUser(MyUser);
+                MessageBox.Show($"Adding the user with user name: {MyUser.Id} card was successful");
+
             }
-            catch(BO.BlAlreadyExistsException ex)
+            catch (BO.BlAlreadyExistsException ex)
             {
                 MessageBox.Show(ex.Message);
             }
-            
-            catch (Exception ex) 
+            catch (BO.BlDoesNotExistException ex)
             {
-               MessageBox.Show(ex.Message);
+                MessageBox.Show($"No worker was found with the same ID:{MyUser.Id} as the user with this username;{MyUser.UserName}" );
             }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
 
         }
     }

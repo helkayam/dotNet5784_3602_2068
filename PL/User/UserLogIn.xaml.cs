@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using PL.Admin;
+using PL.User;
 using PL.Worker;
 
 namespace PL
@@ -61,6 +62,16 @@ namespace PL
                 MessageBox.Show(ex.Message);
             }
 
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ChackEmail_Click(object sender, RoutedEventArgs e)
+        {
+           new Two_Step_Verification().ShowDialog(((BO.User)sender).Email);
         }
 
 
