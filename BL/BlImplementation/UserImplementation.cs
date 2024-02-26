@@ -145,6 +145,16 @@ internal class UserImplementation : BlApi.IUser
 
     }
 
+    public bool checkExistId(int id)
+    {
+        var users = ReadAllUsers();
+        foreach(var user in users) 
+        {
+            if(user.Id == id) 
+                return true;
+        }
+        return false;
+    }
 
 
 }

@@ -19,6 +19,7 @@ namespace BlApi
 
         public IEnumerable<BO.User>  ReadAllUsers();
 
+        public bool checkExistId(int id);
 
     }
 }

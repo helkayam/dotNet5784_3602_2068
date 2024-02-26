@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PL.User
 {
@@ -50,39 +51,47 @@ namespace PL.User
             {
 
                 s_bl.Worker.ReadWorker(MyUser.Id, true);
-                int randCode = 0;
-                Random rand = new Random();
-                randCode = rand.Next(1000, 10000);
-                // פרטי ההתחברות לשרת הדואר האלקטרוני
-                string smtpServer = "smtp.gmail.com";
-                int port = 587; // יתכן וצריך לשנות את הערך לפורט המתאים
-                string email = "henelkayam99@gmail.com";
-                string password = "helkayam214243602";
-
-                // פרטי האימייל שתשלחי
-                string recipientEmail = MyUser.Email;
-                string subject = @"Your verification code is:
-                               *The code is valid for 30 seconds";
-                string body = randCode.ToString();
-                // יצירת האימייל
-                MailMessage mail = new MailMessage(email, recipientEmail, subject, body);
-
-                // הגדרת פרטי התחברות לשרת הדואר האלקטרוני
-                SmtpClient client = new SmtpClient(smtpServer);
-                client.Port = port;
-                client.Credentials = new NetworkCredential(email, password);
-                client.EnableSsl = true;
-
-                // שליחת האימייל
-                try
+                s_bl.User.ReadUser(MyUser.UserName,true);
+                if (s_bl.User.checkExistId(MyUser.Id) == true)
+                    MessageBox.Show($"user with Id:{MyUser.Id} already exist");
+                else
                 {
-                    client.Send(mail);
+                    int randCode = 0;
+                    Random rand = new Random();
+                    randCode = rand.Next(1000, 10000);
+                    // פרטי ההתחברות לשרת הדואר האלקטרוני
+                    string smtpServer = "smtp.gmail.com";
+                    int port = 587;
+                    string email = "henelkayam99@gmail.com";
+                    string password = "helkayam214243602";
+
+                    // פרטי האימייל שתשלחי
+                    string recipientEmail = MyUser.Email;
+                    string subject = "Verification Code";
+                    string Prebody = @"Your verification code is:";
+                    string body =Prebody + randCode.ToString()+ "\n *The code is valid for 30 seconds";
+                    // יצירת האימייל
+                    MailMessage mail = new MailMessage(email, recipientEmail, subject, body);
+
+                    // הגדרת פרטי התחברות לשרת הדואר האלקטרוני
+                    SmtpClient client = new SmtpClient(smtpServer);
+                    client.Port = port;
+                    client.Credentials = new NetworkCredential(email, password);
+                    client.EnableSsl = true;
+
+                    // שליחת האימייל
+                    try
+                    {
+                        client.Send(mail);
+                        new Two_Step_Verification(randCode,MyUser);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("There was an error sending the email " + ex.Message);
+                        new SignIn().ShowDialog();
+                    }
+                    
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("There was an error sending the email " + ex.Message);
-                }
-                //new Two_Step_Verification(randCode);
 
             }
             catch (BO.BlDoesNotExistException ex)

@@ -44,48 +44,72 @@ namespace PL.User
 
 
 
+        public int CodeFromSignOrLogIn
+        {
+            get { return (int)GetValue(CodeFromSignOrLogInProperty); }
+            set { SetValue(CodeFromSignOrLogInProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CodeFromSignOrLogIn.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CodeFromSignOrLogInProperty =
+            DependencyProperty.Register("CodeFromSignOrLogIn", typeof(int), typeof(Two_Step_Verification), new PropertyMetadata(0));
+
+
+
+
         BO.User myUser=new BO.User();
 
-        public Two_Step_Verification(BO.User MyUser)
+        public Two_Step_Verification(int Code,BO.User MyUser)
         {
             InitializeComponent();
             myUser = MyUser;
             CodeFromEmail = 0;
+            CodeFromSignOrLogIn = Code;
         }
 
         private void CheckAndOpenUserWindow_click(object sender, RoutedEventArgs e)
         {
-
-            if (CodeFromEmail == SendEmail(myUser.Email))
+            try
             {
-                if (s_bl.User.ReadUser(myUser.UserName) == null)
+
+                if (CodeFromEmail == CodeFromSignOrLogIn)
                 {
-              
-                    s_bl.User.AddUser(myUser);
-                    MessageBox.Show($"Adding the user with user name: {myUser.UserName} card was successful");
-                    if(myUser.IsAdmin) 
+
+                    if (s_bl.User.ReadUser(myUser.UserName) == null)
+                    {
+
+                        s_bl.User.AddUser(myUser);
+                        MessageBox.Show($"Adding the user with user name: {myUser.UserName} card was successful");
+
+                    }
+
+                    if (myUser.IsAdmin)
                     {
                         new AdminWindow().ShowDialog();
                     }
+                    else
+                        new WorkerMainWindow(myUser.Id).ShowDialog();
                 }
                 else
-                    try
-                    {
-                        s_bl.User.AddUser(myUser);
-                    }
-                    catch(BO.BlInvalidGivenValueException ex) 
-                    {
-                        MessageBox.Show(ex.Message);
-                    
-                    }
+                {
+                    MessageBox.Show("The code entered is incorrect");
 
-
-
+                }
             }
-            else
+            catch (BO.BlInvalidGivenValueException ex)
             {
-                MessageBox.Show("The email entered is incorrect");
+                MessageBox.Show(ex.Message);
+
             }
+            catch (BO.BlAlreadyExistsException ex)
+            {
+                throw new BO.BlAlreadyExistsException($"User with UserName={myUser.UserName} already exists", ex);
+            }
+
+
+
+
+
 
 
         }
