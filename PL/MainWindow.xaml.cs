@@ -38,32 +38,29 @@ namespace PL
 
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
 
         public MainWindow(int IdOfWorker = 0)
         {
             
-                InitializeComponent();
+            InitializeComponent();
 
-                Clock = DateTime.Now;
-            
-            //    if (IdOfWorker == 0)
-            //    {
-            //        MyWorker = new BO.Worker { };
-            //    }
-            //    else
-            //        MyWorker = s_bl.Worker.ReadWorker(IdOfWorker);
-            //}
-            //catch (BO.BlDoesNotExistException ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
+             Clock = DateTime.Now;
+
+        //    if (IdOfWorker == 0)
+        //    {
+        //        MyWorker = new BO.Worker { };
+        //    }
+        //    else
+        //        MyWorker = s_bl.Worker.ReadWorker(IdOfWorker);
+        //}
+        //    catch (BO.BlDoesNotExistException ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
 
 
-        }
+}
 
         private void AddOneDay_click(object sender, RoutedEventArgs e)
         {

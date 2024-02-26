@@ -58,7 +58,7 @@
              Grid.Row="1" 
              Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdWorkerToContentKey}}" 
              HorizontalAlignment="Center" Margin="0,314,0,0"  VerticalAlignment="Top" Padding="5" 
-             Click="AddOrUpdate_Click" RenderTransformOrigin="53.083,-1.767" Height="20" Width="64"/>
+             Click="AddOrUpdate_Click" RenderTransformOrigin="53.083,-1.767" Height="20" Width="64" FontSize="10"/>
 
 
 
