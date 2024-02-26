@@ -5,22 +5,43 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="500"
-        DataContext="{Binding Clock, RelativeSource={RelativeSource Self}, Mode=TwoWay}" Background="#064773">
-    
+        Title="MainWindow" Height="400" Width="600"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}" Background="#064773">
+
     <Grid Margin="314,145,0,0">
-        <Label  HorizontalAlignment="Left" Margin="70,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1"/>
-        <Image Source="Images/LogoHaatsmautParty.png" Margin="-298,-124,99,54">
-            </Image>
-        <Label Content="{Binding Clock}" HorizontalAlignment="Left" Margin="70,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions >
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--<Label Grid.Row="0"  HorizontalAlignment="Left" Margin="70,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1" Grid.ColumnSpan="2"/>-->
+        <Image Grid.Row="0" Grid.Column ="0" Source="Images/LogoHaatsmautParty.png" Margin="-283,-113,67,55">
+        </Image>
+        <Label Grid.Row="0" Content="{Binding Clock}" HorizontalAlignment="Left" Margin="153,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1" Grid.ColumnSpan="2"/>
 
 
-        <Button Content="one Day" HorizontalAlignment="Left" Margin="70,-101,0,0" VerticalAlignment="Top" FontSize="8" RenderTransformOrigin="0.724,-1.432" Click="AddOneDay_click"/>
-        <Button Content="one Hour" HorizontalAlignment="Left" Margin="103,-101,0,0" VerticalAlignment="Top" FontSize="8" Click="AddOneHour_click"/>
-        <Button Content="one Week" HorizontalAlignment="Left" Margin="140,-101,0,0" VerticalAlignment="Top" FontSize="8" Click="AddWeek_click"/>
-        <Button Content="Init" HorizontalAlignment="Left" Margin="150,-81,0,0" VerticalAlignment="Top" Height="15" Width="29" FontSize="8" Click="InitClock_click"/>
-        <Button Content="Sign In" HorizontalAlignment="Left" Margin="-52,93,0,0" VerticalAlignment="Top" Height="28" Width="86" Click="SignIn_Click"/>
-        <Button Content="Log In" HorizontalAlignment="Left" Margin="-155,93,0,0" VerticalAlignment="Top" Height="28" Width="86" Click="LogIn_Click"/>
+        <Button Grid.Row="0" Content="one Day" HorizontalAlignment="Left" Margin="153,-101,0,0" VerticalAlignment="Top" FontSize="8" RenderTransformOrigin="0.724,-1.432" Click="AddOneDay_click"/>
+        <Button Grid.Row="0"  Content="one Hour" HorizontalAlignment="Left" Margin="186,-101,0,0" VerticalAlignment="Top" FontSize="8" Click="AddOneHour_click"/>
+        <Button Grid.Row="0" Content="one Week" HorizontalAlignment="Left" Margin="223,-101,0,0" VerticalAlignment="Top" FontSize="8" Click="AddWeek_click" Grid.ColumnSpan="2" Width="39"/>
+        <Button Content="Init" HorizontalAlignment="Left" Margin="221,-81,0,0" VerticalAlignment="Top" Height="15" Width="41" FontSize="8" Click="InitClock_click" Grid.ColumnSpan="2"/>
+        <Button Content="Sign In" HorizontalAlignment="Left" Margin="-144,175,0,0" VerticalAlignment="Top" Height="28" Width="86" Click="SignIn_Click" Grid.RowSpan="2"/>
+        <Button Content="Log In" HorizontalAlignment="Left" Margin="-250,176,0,0" VerticalAlignment="Top" Height="28" Width="86" Click="LogIn_Click" Grid.RowSpan="2"/>
+
+        <Button Margin="54,155,134,8" Click="PlayButton_Click" Background="WhiteSmoke"  >
+            <Image Source="/Images/play-buttton.png" Height="22" Width="28" ></Image>
+        </Button>
+        <Button Margin="114,158,74,8" Click="PauseButton_Click" Background="WhiteSmoke" >
+            <Image Source="/Images/bouton-pause.png" Height="22" Width="28"></Image>
+        </Button>
+        <Button Margin="178,158,10,8" Click="StopButton_Click" Background="WhiteSmoke" >
+            <Image Source="/Images/arret.png" Height="22" Width="28"></Image>
+        </Button>
+        <MediaElement HorizontalAlignment="Left" Height="100" Margin="127,256,0,0" VerticalAlignment="Top" Width="100"/>
+
 
 
 

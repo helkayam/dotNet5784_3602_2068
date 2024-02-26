@@ -24,7 +24,7 @@ namespace PL
             throw new NotImplementedException();
         }
     }
-
+    
     public class ConvertIdTaskToContent : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -34,7 +34,7 @@ namespace PL.User
 
         // Using a DependencyProperty as the backing store for MyUser.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MyUserProperty =
-            DependencyProperty.Register("MyUser", typeof(BO.User), typeof(SignIn), new PropertyMetadata(0));
+            DependencyProperty.Register("MyUser", typeof(BO.User), typeof(SignIn), new PropertyMetadata());
 
 
         public SignIn()
@@ -51,7 +51,7 @@ namespace PL.User
             {
 
                 s_bl.Worker.ReadWorker(MyUser.Id, true);
-                s_bl.User.ReadUser(MyUser.UserName,true);
+               
                 if (s_bl.User.checkExistId(MyUser.Id) == true)
                     MessageBox.Show($"user with Id:{MyUser.Id} already exist");
                 else
@@ -62,8 +62,8 @@ namespace PL.User
                     // פרטי ההתחברות לשרת הדואר האלקטרוני
                     string smtpServer = "smtp.gmail.com";
                     int port = 587;
-                    string email = "henelkayam99@gmail.com";
-                    string password = "helkayam214243602";
+                    string email = "d9349019@gmail.com";
+                    string password = "dotNet20683602";
 
                     // פרטי האימייל שתשלחי
                     string recipientEmail = MyUser.Email;
@@ -74,10 +74,17 @@ namespace PL.User
                     MailMessage mail = new MailMessage(email, recipientEmail, subject, body);
 
                     // הגדרת פרטי התחברות לשרת הדואר האלקטרוני
-                    SmtpClient client = new SmtpClient(smtpServer);
-                    client.Port = port;
-                    client.Credentials = new NetworkCredential(email, password);
-                    client.EnableSsl = true;
+                    //SmtpClient client = new SmtpClient(smtpServer);
+                    //client.Port = port;
+                    //client.Credentials = new NetworkCredential(email, password);
+                    //client.EnableSsl = true;
+
+                    var client = new SmtpClient(smtpServer , 465)
+                    {
+                        Credentials = new NetworkCredential(email, password),
+                        EnableSsl = true
+                    };
+
 
                     // שליחת האימייל
                     try

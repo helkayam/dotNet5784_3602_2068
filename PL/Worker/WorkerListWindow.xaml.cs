@@ -34,7 +34,7 @@ namespace PL.Worker
 
         // Using a DependencyProperty as the backing store for ContentSearch.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ContentSearchProperty =
-            DependencyProperty.Register("ContentSearch", typeof(string), typeof(WorkerListWindow ), new PropertyMetadata(0));
+            DependencyProperty.Register("ContentSearch", typeof(string), typeof(WorkerListWindow ), new PropertyMetadata());
 
 
         public bool Bylevel

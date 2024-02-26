@@ -25,6 +25,7 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+            <Button Content="Add Dependency"  HorizontalAlignment="Center" Margin="0,432,0,0" VerticalAlignment="Top" Height="38" Width="136" Click="AddDependency_Click"  />
         </Grid>
 
         <Grid Grid.Column="1">
@@ -49,7 +50,7 @@
             <Label Content="Required Effort Time:"  HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="19,0,0,0" VerticalAlignment="Center" Grid.Row="7"/>
             <Label Content="Description:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="19,10,0,0" VerticalAlignment="Top" Grid.Row="2"/>
 
-            <Button Content="{Binding MyTask.Id, Mode=OneTime, Converter={StaticResource ConverIdTaskToContentKey}}" HorizontalAlignment="Left" Margin="94,18,0,0" VerticalAlignment="Top" Height="59" Width="122" Click="AddOrUpdate_Click" Grid.Row="8"/>
+            <Button Content="{Binding MyTask.Id, Mode=TwoWay ,Converter={StaticResource ConverIdTaskToContentKey} }" HorizontalAlignment="Left"  Margin="92,10,0,0" VerticalAlignment="Top" Height="59" FontSize="10" Width="122" Click="AddOrUpdate_Click" Grid.Row="8"/>
 
             <TextBox Text="{Binding MyTask.Id , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" 
                      IsEnabled="False"  HorizontalAlignment="Left" Margin="94,42,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Height="26"/>

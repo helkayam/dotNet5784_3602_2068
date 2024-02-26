@@ -63,5 +63,5 @@ int? WorkerId=null
     /// </summary>
     public DateTime CreatedAtDate { get; set; } =DateTime.Now;
 
-    public Task():this(" ", 0," ",0) { }//empty constructor
+    public Task():this(" ", 0," ",-1) { }//empty constructor
 }

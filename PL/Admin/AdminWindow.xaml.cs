@@ -63,20 +63,6 @@ namespace PL.Admin
 
 
 
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
-        {
-            mediaPlayer.Play();
-        }
-
-        private void PauseButton_Click(object sender, RoutedEventArgs e)
-        {
-            mediaPlayer.Pause();
-        }
-
-        private void StopButton_Click(object sender, RoutedEventArgs e)
-        {
-            mediaPlayer.Stop();
-
-        }
+      
     }
 }

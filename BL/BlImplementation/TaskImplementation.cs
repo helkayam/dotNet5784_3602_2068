@@ -114,9 +114,12 @@ internal class TaskImplementation : BlApi.ITask
             if (DoTask.Alias.Length > 0 )
             {
                int IdOfNewTask= _dal.Task.Create(DoTask);
+            if (newTask.Dependencies != null)
+            {
                 var item = from BoDep in newTask.Dependencies
                            let id = IdOfNewTask
                            select new DO.Dependency { DependentTask = id, DependsOnTask = BoDep.Id };
+
 
 
                 bool contradictionBetweenDependencies = false;
@@ -129,9 +132,10 @@ internal class TaskImplementation : BlApi.ITask
                     if (d != null)
                     {
 
-                            _dal.Dependency.Create(newDep);
+                        _dal.Dependency.Create(newDep);
                     }
                 }
+            }
             }
             else
                 throw new BO.BlInvalidGivenValueException($"One of the data of Task with ID={DoTask.Id} is incorrect");
