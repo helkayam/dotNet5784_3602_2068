@@ -39,30 +39,26 @@ namespace PL
 
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
 
         public MainWindow()
         {
             
-                InitializeComponent();
-            mediaPlayer.Open(new Uri(@"MediaFile\Israel National Anthem (Instrumental).mp3", UriKind.RelativeOrAbsolute));
+            InitializeComponent();
 
-            Clock = DateTime.Now;
-
-        //    if (IdOfWorker == 0)
-        //    {
-        //        MyWorker = new BO.Worker { };
-        //    }
-        //    else
-        //        MyWorker = s_bl.Worker.ReadWorker(IdOfWorker);
-        //}
-        //    catch (BO.BlDoesNotExistException ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
+                Clock = DateTime.Now;
+            
+            //    if (IdOfWorker == 0)
+            //    {
+            //        MyWorker = new BO.Worker { };
+            //    }
+            //    else
+            //        MyWorker = s_bl.Worker.ReadWorker(IdOfWorker);
+            //}
+            //catch (BO.BlDoesNotExistException ex)
+            //{
+            //    MessageBox.Show(ex.Message);
+            //}
 
 
 }
