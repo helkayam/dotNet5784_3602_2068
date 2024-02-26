@@ -32,6 +32,7 @@ namespace PL.User
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
 
+
         public int CodeFromEmail
         {
             get { return (int)GetValue(CodeFromEmailProperty); }
@@ -44,18 +45,7 @@ namespace PL.User
 
 
 
-        public int CodeFromSignOrLogIn
-        {
-            get { return (int)GetValue(CodeFromSignOrLogInProperty); }
-            set { SetValue(CodeFromSignOrLogInProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for CodeFromSignOrLogIn.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CodeFromSignOrLogInProperty =
-            DependencyProperty.Register("CodeFromSignOrLogIn", typeof(int), typeof(Two_Step_Verification), new PropertyMetadata(0));
-
-
-
+        private int CodeFromSignOrLogIn = 0;
 
         BO.User myUser=new BO.User();
 
@@ -82,6 +72,7 @@ namespace PL.User
                         MessageBox.Show($"Adding the user with user name: {myUser.UserName} card was successful");
 
                     }
+                    this.Close();
 
                     if (myUser.IsAdmin)
                     {
@@ -152,6 +143,26 @@ namespace PL.User
             return randCode;
         }
 
+        
+
+        private void BackToSignOrLogW_click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+            if (s_bl.User.ReadUser(myUser.UserName) == null)
+               
+                new SignIn().ShowDialog();
+            else
+                new UserLogIn().ShowDialog();
+
+        }
+
+        
+
+        private void SendEmail_click(object sender, RoutedEventArgs e)
+        {
+            CodeFromSignOrLogIn= SendEmail(myUser.Email);
+
+        }
     }
     
 

@@ -9,12 +9,13 @@
         DataContext="{Binding CodeFromEmail, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
     <Grid Margin="314,145,0,0">
         <Label Content="enter verification code:" HorizontalAlignment="Left" Margin="-277,-90,0,0" VerticalAlignment="Top" Height="27" Width="135"/>
-        <TextBox MaxLength="4" HorizontalAlignment="Left" Margin="-121,-90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="67" Height="27"
-                 Text="{Binding  ,Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"/>
-        <Button Content="enter" HorizontalAlignment="Left" Margin="-75,0,0,13" VerticalAlignment="Bottom" Height="22" Width="38" Click="CheckAndOpenUserWindow_click"/>
-        <PasswordBox MaxLength="4" HorizontalAlignment="Left" Margin="-268,-58,0,0" VerticalAlignment="Top" Width="86"
-                      ="{Binding CodeFromEmail ,Mode=OneWay,Converter NotifyOnValidationError=true,  ValidatesOnExceptions=true }"/>
 
+        <Button Content="enter" HorizontalAlignment="Left" Margin="-57,0,0,0" VerticalAlignment="Center" Height="18" Width="28" Click="CheckAndOpenUserWindow_click" FontSize="8"/>
+
+        <PasswordBox MaxLength="4" HorizontalAlignment="Left" Margin="-121,-90,0,0"  VerticalAlignment="Top" Width="67" Height="27"
+                     Password="{Binding }" PasswordChar="*" />
+        <Button Content="send again" HorizontalAlignment="Left" Margin="-277,-58,0,0" VerticalAlignment="Top" Height="11" Width="41"  FontSize="5" Click="SendEmail_click"/>
+        <Button Content="back" HorizontalAlignment="Left" Margin="-301,0,0,0" VerticalAlignment="Center" Height="17" Width="28" RenderTransformOrigin="-2.053,0.447" FontSize="8" Click="BackToSignOrLogW_click"/>
 
     </Grid>
 </Window>

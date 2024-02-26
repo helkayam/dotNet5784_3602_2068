@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
+using System.Globalization;
+using System.Security;
 
 namespace PL
 {
@@ -133,15 +136,31 @@ namespace PL
 
     }
 
-    public class ConvertStringToInt : IValueConverter
+    
+
+
+public class SecurePasswordConverter : IValueConverter
     {
+        // ממיר מ-SecurePassword לטקסט רגיל
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-
-           return int.Parse(value.ToString());
+            if (value is SecureString secureString)
+            {
+                IntPtr valuePtr = IntPtr.Zero;
+                try
+                {
+                    valuePtr = System.Runtime.InteropServices.Marshal.SecureStringToGlobalAllocUnicode(secureString);
+                    return int.Parse(System.Runtime.InteropServices.Marshal.PtrToStringUni(valuePtr));
+                }
+                finally
+                {
+                    System.Runtime.InteropServices.Marshal.ZeroFreeGlobalAllocUnicode(valuePtr);//Performs a reset of the memory allocated by the function
+                }
+            }
+            return 0;
         }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
