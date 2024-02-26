@@ -46,21 +46,6 @@
     <CreatedAtDate>2024-01-11T15:11:14</CreatedAtDate>
   </Task>
   <Task>
-    <Alias>Activities for adults</Alias>
-    <Complexity>Intermediate</Complexity>
-    <Description>Take care of 2 positions of adult activities</Description>
-    <Id>3</Id>
-    <ScheduledDate xsi:nil="true" />
-    <DeadLineDate xsi:nil="true" />
-    <WorkerId xsi:nil="true" />
-    <IsMileStone>false</IsMileStone>
-    <StartDate xsi:nil="true" />
-    <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P4D</RequiredEffortTime>
-    <CompleteDate xsi:nil="true" />
-    <CreatedAtDate>2024-02-09T04:08:52</CreatedAtDate>
-  </Task>
-  <Task>
     <Alias>Alcohol stand</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Take care of the position with beer, vodka, whiskey, and energy drinks. In addition, you will take care of the employees in the position and age enforcement</Description>
@@ -479,5 +464,20 @@
     <RequiredEffortTime>P1D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
     <CreatedAtDate>2024-01-03T00:39:05</CreatedAtDate>
+  </Task>
+  <Task>
+    <Alias>Activities for adults</Alias>
+    <Complexity>Intermediate</Complexity>
+    <Description>Take care of 2 positions of adult activities</Description>
+    <Id>3</Id>
+    <ScheduledDate xsi:nil="true" />
+    <DeadLineDate xsi:nil="true" />
+    <WorkerId xsi:nil="true" />
+    <IsMileStone>false</IsMileStone>
+    <StartDate>2024-02-23T15:35:16.51202+02:00</StartDate>
+    <Eraseable>true</Eraseable>
+    <RequiredEffortTime>P4D</RequiredEffortTime>
+    <CompleteDate xsi:nil="true" />
+    <CreatedAtDate>2024-02-09T04:08:52</CreatedAtDate>
   </Task>
 </ArrayOfTask>

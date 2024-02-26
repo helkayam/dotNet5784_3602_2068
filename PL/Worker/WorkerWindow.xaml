@@ -56,7 +56,7 @@
 
         <Button 
              Grid.Row="1" Grid.Column="0" 
-             Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}" 
+             Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdWorkerToContentKey}}" 
              HorizontalAlignment="Left" Margin="690,333,0,0"  VerticalAlignment="Top" Padding="5" 
              Click="AddOrUpdate_Click" RenderTransformOrigin="53.083,-1.767" Height="20" Width="64"/>
 

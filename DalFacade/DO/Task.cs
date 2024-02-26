@@ -18,7 +18,7 @@ public record Task
  string Alias,
 WorkerExperience Complexity,
 string Description,
-int Id = 0,
+int Id = -1,
 
 DateTime? ScheduledDate=null,
 DateTime? DeadLineDate = null,

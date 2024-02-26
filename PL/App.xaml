@@ -2,18 +2,24 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:PL"
-             StartupUri="MainWindow.xaml">
+             StartupUri="MainWindow.xaml"  >
+    
 
     <Application.Resources>
-        
+
         <local:FilterWorker x:Key="FilterWorkerKey"/>
         <local:WorkerExperienceCollection x:Key="WorkerExperienceCollectionKey"/>
-        <local:ConvertIdToContent x:Key="ConverIdToContentKey"/>
+        <local:ConvertIdWorkerToContent x:Key="ConverIdWorkerToContentKey"/>
         <local:ConvertIdToBool x:Key="ConverIdToBoolKey"/>
         <local:BoolToVisibilityConverter x:Key="BoolToVisibilityConverterKey"/>
         <local:FilterTask x:Key="FilterTaskKey"/>
         <local:StatusTaskCollection x:Key="TaskStatusKey"/>
         <local:ConverDateTimeToString x:Key="ConverDateTimeToStringKey"/>
+        <local:BoolToEnableConverter x:Key="BoolToEnableConverterKey"/>
+        <local:BoolToNotEnableConverter x:Key="BoolToNotEnableConverterKey"/>
+        <local:ConvertIdTaskToContent x:Key="ConverIdTaskToContentKey"/>
+
 
     </Application.Resources>
-</Application>
+</Application> 
+

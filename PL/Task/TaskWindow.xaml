@@ -5,28 +5,111 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Task"
         mc:Ignorable="d"
-        Title="TaskWindow" Height="900" Width="900"
-        DataContext="{Binding MyTask, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
+        Title="TaskWindow" Height="800" Width="1000"
+        DataContext="{Binding RelativeSource={RelativeSource Mode= Self}}">
 
     <Grid>
-        <Label Content="Id" Margin="100,80,710,779" FontFamily="Arial Black" FontSize="12" Height="25" Width="90" />
-        <Label Content="Alias" FontFamily="Arial Black" FontSize="12" Height="25" Width="90" Margin="100,133,710,726"/>
-        <Label Content="Description" FontFamily="Arial Black" FontSize="12" Height="25" Width="90" Margin="83,188,727,671"/>
-        <Label Content="Created at Date" FontFamily="Arial Black" FontSize="12" Height="25" Margin="82,248,499,611"/>
-        <Label Content="Status" FontFamily="Arial Black" FontSize="12" Height="25" Width="90" Margin="83,306,727,553"/>
-        <Label Content="Eraseable" FontFamily="Arial Black" FontSize="12" Height="25" Width="90" Margin="83,366,727,493"/>
-        <Label Content="Dependencies" FontFamily="Arial Black" FontSize="12" Height="25" Margin="82,430,499,429"/>
-        <Label Content="Required Effort Time" FontFamily="Arial Black" FontSize="12" Height="25" Margin="82,480,471,379"/>
-        <Label Content="Scheduled Date" FontFamily="Arial Black" FontSize="12" Height="25" Margin="82,538,500,321"/>
-        <Label Content="Start Date" FontFamily="Arial Black" FontSize="12" Height="25" Margin="474,80,107,779"/>
-        <Label Content="Forecast Date" FontFamily="Arial Black" FontSize="12" Height="25" Margin="474,133,107,726"/>
-        <Label Content="Dead Line" FontFamily="Arial Black" FontSize="12" Height="25" Margin="473,188,107,671"/>
-        <Label Content="Complete Date" FontFamily="Arial Black" FontSize="12" Height="25" Margin="473,248,108,611"/>
-        <Label Content="Deliverables" FontFamily="Arial Black" FontSize="12" Height="25" Margin="474,306,107,553"/>
-        <Label Content="Remarks" FontFamily="Arial Black" FontSize="12" Height="25" Margin="473,366,108,493"/>
-        <Label Content="Worker" FontFamily="Arial Black" FontSize="12" Height="25" Margin="474,430,107,429"/>
-        <Label Content="Complexity" FontFamily="Arial Black" FontSize="12" Height="25" Margin="473,480,108,379"/>
-        <TextBox HorizontalAlignment="Left" Margin="241,84,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Label Content="Dependencies:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="18,110,0,0" VerticalAlignment="Top" Height="40" Width="108"/>
+            <ListView ItemsSource="{Binding MyTask.Dependencies , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Margin="18,150,17,375" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions >
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label Content="Id:" HorizontalAlignment="Left" Grid.Row="0" FontFamily="Arial Black" FontSize="12" Margin="29,44,0,0" VerticalAlignment="Top"/>
+            <Label Content="Alias:" HorizontalAlignment="Left" Grid.Row="1" FontFamily="Arial Black" FontSize="12" Margin="27,15,0,0" VerticalAlignment="Top"/>
+            <Label Content="Created at date:" HorizontalAlignment="Left" Grid.Row="3" FontFamily="Arial Black" FontSize="12" Margin="16,0,0,0" VerticalAlignment="Center"/>
+            <Label Content="Status:" HorizontalAlignment="Left" FontFamily="Arial Black" Grid.Row="4" FontSize="12" Margin="16,28,0,0" VerticalAlignment="Top"/>
+            <Label Content="Eraseable:" HorizontalAlignment="Left" FontFamily="Arial Black"  FontSize="12" Margin="16,23,0,0" VerticalAlignment="Top" Grid.Row="5"/>
+            <Label Content="Complexity:" HorizontalAlignment="Left" Grid.Row="6" FontFamily="Arial Black" FontSize="12" Margin="16,19,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.536,-1.418"/>
+            <Label Content="Required Effort Time:"  HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="19,0,0,0" VerticalAlignment="Center" Grid.Row="7"/>
+            <Label Content="Description:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="19,10,0,0" VerticalAlignment="Top" Grid.Row="2"/>
+
+            <Button Content="{Binding MyTask.Id, Mode=OneTime, Converter={StaticResource ConverIdTaskToContentKey}}" HorizontalAlignment="Left" Margin="94,18,0,0" VerticalAlignment="Top" Height="59" Width="122" Click="AddOrUpdate_Click" Grid.Row="8"/>
+
+            <TextBox Text="{Binding MyTask.Id , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" 
+                     IsEnabled="False"  HorizontalAlignment="Left" Margin="94,42,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Height="26"/>
+            <TextBox  Text="{Binding MyTask.Alias, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="105,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="159" Height="57" Grid.Row="1"/>
+            <TextBox Text="{Binding MyTask.Description , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="110,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="213" Height="77" Grid.Row="2"/>
+            <DatePicker   SelectedDate="{Binding MyTask.CreatedAtDate , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="False"  HorizontalAlignment="Left" Margin="152,0,0,0" VerticalAlignment="Center" Height="26" Width="132" Grid.Row="3"/>
+            <ComboBox ItemsSource="{Binding Source={StaticResource TaskStatusKey}}"  
+           SelectedValue="{Binding MyTask.Status , Mode=TwoWay}" HorizontalAlignment="Left" IsEnabled="False" Margin="94,24,0,0" VerticalAlignment="Top" Width="204" Height="34" Grid.Row="4"/>
+            <CheckBox Content="Erasable" IsChecked="{Binding MyTask.Eraseable , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="123,28,0,0" VerticalAlignment="Top" Grid.Row="5"/>
+            <ComboBox ItemsSource="{Binding Source={StaticResource WorkerExperienceCollectionKey}}"
+    SelectedValue="{Binding MyTask.Complexity , Mode=TwoWay}"  SelectionChanged="ComboBox_LevelChangedTask" HorizontalAlignment="Left" Margin="109,15,0,0" VerticalAlignment="Top" Width="166" Height="32" Grid.Row="6"/>
+            <TextBox Text="{Binding MyTask.RequiredEffortTime , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="184,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Height="32" Grid.Row="7"/>
+
+        </Grid>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions >
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Label Content="Schedule Date:" HorizontalAlignment="Left" Grid.Row="0" FontFamily="Arial Black" FontSize="12" Margin="10,0,0,0" VerticalAlignment="Center"/>
+
+            <Label Content="Start Date:" HorizontalAlignment="Left"  FontFamily="Arial Black" FontSize="12" Margin="10,28,0,0" VerticalAlignment="Top" Grid.Row="1"/>
+            <Label Content="Forecast Date:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="13,30,0,0" VerticalAlignment="Top" Grid.Row="2"/>
+            <Label Content="DeadLine Date:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="13,0,0,0" VerticalAlignment="Center" Grid.Row="3"/>
+            <Label Content="Complete  Date:" HorizontalAlignment="Left" Grid.Row="4"  FontFamily="Arial Black" FontSize="12" Margin="4,37,0,0" VerticalAlignment="Top"/>
+
+            <Label Content="Deliverables:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="19,10,0,0" VerticalAlignment="Top" Grid.Row="5"/>
+            <Label Content="Remarks:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="20,11,0,0" VerticalAlignment="Top" Grid.Row="6"/>
+            <Label Content="Worker ID:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="27,0,0,0" VerticalAlignment="Center" Grid.Row="7"/>
+            <Label Content="Worker Name:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="27,0,0,0" VerticalAlignment="Center" Grid.Row="8"/>
+
+
+
+            <DatePicker SelectedDate="{Binding MyTask.StartDate , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="False"  HorizontalAlignment="Center" VerticalAlignment="Center" Width="129" Grid.Row="1"/>
+            <DatePicker SelectedDate="{Binding MyTask.ForecastDate , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="False"  HorizontalAlignment="Left" Margin="132,0,0,0" VerticalAlignment="Center" Width="128" Grid.Row="2"/>
+            <DatePicker SelectedDate="{Binding MyTask.Deadline , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="139,32,0,0" VerticalAlignment="Top" Width="129" Grid.Row="3"/>
+            <DatePicker SelectedDate="{Binding MyTask.CompleteDate , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="False"  HorizontalAlignment="Left" Margin="118,37,0,0" VerticalAlignment="Top" Width="129" Grid.Row="4"/>
+            <DatePicker SelectedDate="{Binding MyTask.ScheduledDate , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="{Binding IsThirdStage, Mode=OneWay,Converter={StaticResource BoolToNotEnableConverterKey} }" HorizontalAlignment="Left" Margin="124,0,0,0" VerticalAlignment="Center" Width="144"/>
+
+
+            <TextBox Text="{Binding MyTask.Deliverables , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="{Binding IsThirdStage, Mode=OneWay, Converter={StaticResource BoolToEnableConverterKey }}" HorizontalAlignment="Left" Margin="118,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="206" Height="74" Grid.Row="5"/>
+            <TextBox Text="{Binding MyTask.Remarks , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="92,7,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="222" Height="70" Grid.Row="6"/>
+            <TextBox Text="{Binding MyTask.Worker.Id , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="{Binding IsThirdStage, Mode=OneWay, Converter={StaticResource BoolToEnableConverterKey }}" HorizontalAlignment="Left" Margin="110,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Height="27" Grid.Row="7"/>
+            <TextBox Text="{Binding MyTask.Worker.Name , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Margin="134,0,0,0" TextWrapping="Wrap" IsEnabled="False"  VerticalAlignment="Center" Width="166" Height="25" Grid.Row="8"/>
+
+            <Button Content="Start the&#xD;&#xA; Task" Visibility="{Binding IsThirdStage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey }}" HorizontalAlignment="Left" Margin="238,21,0,0" VerticalAlignment="Top" Width="76" Height="38" Click="StartTaskButton_Click" Grid.Row="1"/>
+            <Button Content="Finish the&#xD;&#xA; Task" Visibility="{Binding IsThirdStage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey }}" HorizontalAlignment="Left" Margin="252,29,0,0" VerticalAlignment="Top" Width="76" Height="38" Click="FinishTaskButton_Click" Grid.Row="4"/>
+        </Grid>
+
+
+
 
 
 

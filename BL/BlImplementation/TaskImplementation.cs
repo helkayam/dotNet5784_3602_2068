@@ -573,7 +573,10 @@ internal class TaskImplementation : BlApi.ITask
 
         try
         {
-            DO.Task updDate = _dal.Task.Read(Id) with { CompleteDate = _bl.Clock };
+          DO.Task t=_dal.Task.Read(Id);
+            if (t != null && t.StartDate == null)
+                throw new BO.BlInvalidGivenValueException($"False update of complete date: updating a complete date before starting the task");
+            DO.Task updDate = _dal.Task.Read(Id,true) with { CompleteDate = _bl.Clock };
             _dal.Task.Update(updDate);
         }
         catch (DO.DalDoesNotExistException ex)

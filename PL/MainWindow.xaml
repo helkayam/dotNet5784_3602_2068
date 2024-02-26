@@ -6,15 +6,15 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="300" Width="500"
-        DataContext="{Binding Clock, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
+        DataContext="{Binding Clock, RelativeSource={RelativeSource Self}, Mode=TwoWay}" Background="#064773">
     
     <Grid Margin="314,145,0,0">
-        <Label  HorizontalAlignment="Left" Margin="70,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1">
-            <Image Source="Images/LogoHaatsmautParty.png" Margin="-298,-124,99,54">
+        <Label  HorizontalAlignment="Left" Margin="70,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1"/>
+        <Image Source="Images/LogoHaatsmautParty.png" Margin="-298,-124,99,54">
             </Image>
-            <Label Content="{Binding Clock}" HorizontalAlignment="Left" Margin="70,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1">
+        <Label Content="{Binding Clock}" HorizontalAlignment="Left" Margin="70,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1"/>
 
-        </Label>
+
         <Button Content="one Day" HorizontalAlignment="Left" Margin="70,-101,0,0" VerticalAlignment="Top" FontSize="8" RenderTransformOrigin="0.724,-1.432" Click="AddOneDay_click"/>
         <Button Content="one Hour" HorizontalAlignment="Left" Margin="103,-101,0,0" VerticalAlignment="Top" FontSize="8" Click="AddOneHour_click"/>
         <Button Content="one Week" HorizontalAlignment="Left" Margin="140,-101,0,0" VerticalAlignment="Top" FontSize="8" Click="AddWeek_click"/>

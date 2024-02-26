@@ -121,6 +121,13 @@ namespace PL.Task
 
         }
 
+        private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            int id = ((BO.TaskInList)((ListView)sender).SelectedItem).Id;
+            new TaskWindow(id).ShowDialog();
+            TaskList  = s_bl.Task.ReadAllTasks();
+
+        }
         private void TextBoxIdWorkerFilter_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

@@ -9,11 +9,11 @@
         DataContext="{Binding MyUser, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
 
     <Grid Margin="314,145,0,0">
-        <Label Content="Password" Margin="-240,-75,270,89"  FontFamily="Arial Black" FontSize="8" Background="White"/>
+        <!--<Label Content="Password" Margin="-240,-75,270,89"  FontFamily="Arial Black" FontSize="8" Background="White"/>
         <Label Content="UserName"  Margin="-240,-107,270,122" FontFamily="Arial Black" FontSize="8" Background="White"/>
 
         <TextBox  MaxLength="20" Text="{Binding UserName, Mode=OneWay , NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Margin="-166,-107,0,0" VerticalAlignment="Top" Width="95" Height="19"/>
-        <TextBox MaxLength="10" Text="{Binding Password, Mode=OneWay , NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="-166,-72,0,0"   VerticalAlignment="Top" Width="95" Height="19" KeyDown="KeyDownUserSignIn" TextChanged="TextBox_TextChanged"/>
-        <Button Content="enter" HorizontalAlignment="Left" Margin="28,5,0,0" VerticalAlignment="Top" Click="ChackEmail_Click"/>
+        --><!--<TextBox MaxLength="10" Text="{Binding Password, Mode=OneWay , NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="-166,-72,0,0"   VerticalAlignment="Top" Width="95" Height="19" KeyDown="KeyDownUserSignIn" TextChanged="TextBox_TextChanged"/>--><!--
+        <Button Content="enter" HorizontalAlignment="Left" Margin="28,5,0,0" VerticalAlignment="Top" Click="ChackEmail_Click"/>-->
     </Grid>
 </Window>
