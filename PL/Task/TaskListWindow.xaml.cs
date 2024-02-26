@@ -28,6 +28,31 @@ namespace PL.Task
 
         public string IdWorker { get; set; } = "";
 
+        public int IdSelectedToDelete = -1;
+
+
+
+        public bool DoYouWantToDelete
+        {
+            get { return (bool)GetValue(DoYouWantToDeleteProperty); }
+            set { SetValue(DoYouWantToDeleteProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for DoYouWantToDelete.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DoYouWantToDeleteProperty =
+            DependencyProperty.Register("DoYouWantToDelete", typeof(bool), typeof(TaskListWindow), new PropertyMetadata());
+
+
+        public bool IsFirstStage
+        {
+            get { return (bool)GetValue(isFirstStageProperty); }
+            set { SetValue(isFirstStageProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for isThirdStage  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty isFirstStageProperty =
+            DependencyProperty.Register("isFirstStage", typeof(bool), typeof(TaskListWindow), new PropertyMetadata(null));
+
 
         public bool ByStatus
         {
@@ -72,6 +97,7 @@ namespace PL.Task
         {
             Bylevel = false;
             ByStatus = false;
+            DoYouWantToDelete=false;
             ByPossibleTaskforWorker = false;
             InitializeComponent();
             TaskList=s_bl.Task.ReadAllTasks(); 
@@ -155,6 +181,39 @@ namespace PL.Task
         {
             new TaskWindow().ShowDialog();
             TaskList=s_bl.Task.ReadAllTasks();
+        }
+
+        private void DeleteTask_Click(object sender, RoutedEventArgs e)
+        {
+            try
+                {
+                s_bl.Task.RemoveTask(IdSelectedToDelete);
+
+            }
+            catch (BO.BlNotErasableException ex)
+            {
+                MessageBox.Show(ex.Message);
+
+            }
+
+            catch (BO.BlDoesNotExistException ex)
+            {
+                MessageBox.Show(ex.Message);
+
+            }
+            catch(BO.BlInvalidGivenValueException ex) 
+            {
+                MessageBox.Show(ex.Message);
+
+            }
+
+        }
+
+        private void ChooceTaskToDelete_click(object sender, MouseButtonEventArgs e)
+        {
+            IdSelectedToDelete = ((BO.Task)((ListView)sender).SelectedValue).Id;
+            DoYouWantToDelete = true;
+            TaskList = s_bl.Task.ReadAllTasks();
         }
     }
 }
