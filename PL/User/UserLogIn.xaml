@@ -15,7 +15,7 @@
         <TextBox  MaxLength="20" Text="{Binding Id, Mode=OneWay , NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Margin="-229,-66,0,0" VerticalAlignment="Top" Width="86" Height="19"/>
 
         <TextBox  MaxLength="20" Text="{Binding UserName, Mode=OneWay , NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Margin="-229,-100,0,0" VerticalAlignment="Top" Width="86" Height="19"/>
-        <TextBox MaxLength="10" Text="{Binding Password, Mode=OneWay , NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="-229,-33,0,0"   VerticalAlignment="Top" Width="86" Height="19" KeyDown="KeyDownUserSignIn" TextChanged="TextBox_TextChanged"/>
+        <TextBox MaxLength="10" Text="{Binding Password, Mode=OneWay , NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="-229,-33,0,0"   VerticalAlignment="Top" Width="86" Height="19"  />
         <Button Content="enter" HorizontalAlignment="Left" Margin="-241,5,0,0" VerticalAlignment="Top" FontFamily="Arial Black" Background="White" Click="ChackEmail_Click"/>
     </Grid>
 </Window>

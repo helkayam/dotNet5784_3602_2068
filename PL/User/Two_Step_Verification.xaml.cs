@@ -52,7 +52,7 @@ namespace PL.User
         public Two_Step_Verification(int Code,BO.User MyUser)
         {
             InitializeComponent();
-            myUser = MyUser;
+            myUser = MyUser ;
             CodeFromEmail = 0;
             CodeFromSignOrLogIn = Code;
         }
