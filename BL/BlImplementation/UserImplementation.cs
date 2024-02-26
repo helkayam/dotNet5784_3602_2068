@@ -13,8 +13,10 @@ internal class UserImplementation : BlApi.IUser
 
     public void AddUser(BO.User user)
     {
-        DO.User newUser = new DO.User() { Id = user.Id, Name = user.Name, Email = user.Email, PassWord = user.Password, UserName = user.UserName, IsAdmin = user.IsAdmin };
-
+        DO.User newUser = new DO.User() { Id = user.Id, Name = user.Name, Email = user.Email, PassWord = user.Password, UserName = user.UserName };
+        if ((int)_dal.Worker.Read(user.Id).Level == 3)
+            newUser.IsAdmin = true;
+        else newUser.IsAdmin = false;
 
         try
         {
@@ -97,7 +99,11 @@ internal class UserImplementation : BlApi.IUser
     public void UpdateUser(BO.User user)
     {
 
-        DO.User updUser = new DO.User() { Id = user.Id, Name = user.Name, Email = user.Email, PassWord = user.Password, UserName = user.UserName, IsAdmin = user.IsAdmin };
+         DO.User updUser = new DO.User() { Id = user.Id, Name = user.Name, Email = user.Email, PassWord = user.Password, UserName = user.UserName};
+        if ((int)_dal.Worker.Read(user.Id).Level == 3)
+            updUser.IsAdmin = true;
+        else
+            updUser.IsAdmin = false;
         if (user.Name == null)
             updUser = updUser with { Name = _dal.User.Read(user.UserName).Name };
             if (user.Id == null)

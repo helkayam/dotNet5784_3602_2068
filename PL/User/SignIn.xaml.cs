@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -48,13 +50,40 @@ namespace PL.User
             {
 
                 s_bl.Worker.ReadWorker(MyUser.Id, true);
-                s_bl.User.AddUser(MyUser);
-                MessageBox.Show($"Adding the user with user name: {MyUser.Id} card was successful");
+                int randCode = 0;
+                Random rand = new Random();
+                randCode = rand.Next(1000, 10000);
+                // פרטי ההתחברות לשרת הדואר האלקטרוני
+                string smtpServer = "smtp.gmail.com";
+                int port = 587; // יתכן וצריך לשנות את הערך לפורט המתאים
+                string email = "henelkayam99@gmail.com";
+                string password = "helkayam214243602";
 
-            }
-            catch (BO.BlAlreadyExistsException ex)
-            {
-                MessageBox.Show(ex.Message);
+                // פרטי האימייל שתשלחי
+                string recipientEmail = MyUser.Email;
+                string subject = @"Your verification code is:
+                               *The code is valid for 30 seconds";
+                string body = randCode.ToString();
+                // יצירת האימייל
+                MailMessage mail = new MailMessage(email, recipientEmail, subject, body);
+
+                // הגדרת פרטי התחברות לשרת הדואר האלקטרוני
+                SmtpClient client = new SmtpClient(smtpServer);
+                client.Port = port;
+                client.Credentials = new NetworkCredential(email, password);
+                client.EnableSsl = true;
+
+                // שליחת האימייל
+                try
+                {
+                    client.Send(mail);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("There was an error sending the email " + ex.Message);
+                }
+                //new Two_Step_Verification(randCode);
+
             }
             catch (BO.BlDoesNotExistException ex)
             {
@@ -73,4 +102,6 @@ namespace PL.User
 
         }
     }
+    
 }
+

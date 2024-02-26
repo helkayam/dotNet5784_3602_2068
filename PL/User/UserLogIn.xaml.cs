@@ -71,7 +71,7 @@ namespace PL
 
         private void ChackEmail_Click(object sender, RoutedEventArgs e)
         {
-           new Two_Step_Verification().ShowDialog(((BO.User)sender).Email);
+           new Two_Step_Verification((BO.User)sender);
         }
 
 

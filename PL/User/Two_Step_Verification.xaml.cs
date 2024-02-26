@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System;
 using System.Net;
 using System.Net.Mail;
+using PL.Admin;
 namespace PL.User
 {
     /// <summary>
@@ -27,6 +28,9 @@ namespace PL.User
   
     public partial class Two_Step_Verification : Window
     {
+
+        static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
+
 
         public int CodeFromEmail
         {
@@ -52,13 +56,42 @@ namespace PL.User
         private void CheckAndOpenUserWindow_click(object sender, RoutedEventArgs e)
         {
 
-            SendEmail(myUser.Email);
+            if (CodeFromEmail == SendEmail(myUser.Email))
+            {
+                if (s_bl.User.ReadUser(myUser.UserName) == null)
+                {
+              
+                    s_bl.User.AddUser(myUser);
+                    MessageBox.Show($"Adding the user with user name: {myUser.UserName} card was successful");
+                    if(myUser.IsAdmin) 
+                    {
+                        new AdminWindow().ShowDialog();
+                    }
+                }
+                else
+                    try
+                    {
+                        s_bl.User.AddUser(myUser);
+                    }
+                    catch(BO.BlInvalidGivenValueException ex) 
+                    {
+                        MessageBox.Show(ex.Message);
+                    
+                    }
 
-            
+
+
+            }
+            else
+            {
+                MessageBox.Show("The email entered is incorrect");
+            }
+
+
         }
 
 
-        static void SendEmail(string sendTo)
+        static int SendEmail(string sendTo)
         {
             int randCode = 0;
             Random rand = new Random();
@@ -92,6 +125,7 @@ namespace PL.User
             {
                 MessageBox.Show("There was an error sending the email " + ex.Message);
             }
+            return randCode;
         }
 
     }

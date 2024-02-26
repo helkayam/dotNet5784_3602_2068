@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Worker"
         mc:Ignorable="d"
-        Title="WorkerWindow" Height="450" Width="800"
+        Title="WorkerWindow" Height="450" Width="400"
         DataContext="{Binding MyWorker, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
     <Grid>
         <Grid.RowDefinitions>
@@ -55,9 +55,9 @@
                   HorizontalAlignment="Left" Margin="200,280,0,0" Grid.Row="1" VerticalAlignment="Top" Width="95" Height="25"/>
 
         <Button 
-             Grid.Row="1" Grid.Column="0" 
+             Grid.Row="1" 
              Content="{Binding Id, Mode=OneTime, Converter={StaticResource ConverIdToContentKey}}" 
-             HorizontalAlignment="Left" Margin="690,333,0,0"  VerticalAlignment="Top" Padding="5" 
+             HorizontalAlignment="Center" Margin="0,314,0,0"  VerticalAlignment="Top" Padding="5" 
              Click="AddOrUpdate_Click" RenderTransformOrigin="53.083,-1.767" Height="20" Width="64"/>
 
 
