@@ -33,14 +33,15 @@
 
 
         </Grid>
-        <ListView Grid.Row="1"  ItemsSource="{Binding Path=WorkerList}" MouseDoubleClick="ListView_MouseDoubleClick">
+        <ListView Grid.Row="1"  ItemsSource="{Binding Path=WorkerList}"  MouseLeftButtonUp="Mouse_click_delete" MouseDoubleClick="ListView_MouseDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Add" Grid.Row="1" HorizontalAlignment="Center" Height="50" Width="100" Click="Button_AddClick" Margin="0,471,0,10"/>
+        <Button Content="Add" Grid.Row="1" HorizontalAlignment="Left" Height="50" Width="100" Click="Button_AddClick" Margin="300,513,0,15"/>
+        <Button Content="Delete" Visibility="{Binding OneClickForDelete, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey } }" Grid.Row="1" HorizontalAlignment="Left" Height="50" Width="100" Click="Button_DeleteClick" Margin="451,513,0,15"/>
 
     </Grid>
 

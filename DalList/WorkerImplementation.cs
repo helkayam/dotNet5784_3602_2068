@@ -98,7 +98,6 @@ internal class WorkerImplementation : IWorker
                    select item; 
         }
         return from worker in DataSource.Workers
-               where worker.active==true
                select worker; 
     }
 
@@ -116,8 +115,7 @@ internal class WorkerImplementation : IWorker
         DO.Worker w = DataSource.Workers.Find(w => w.Id == item.Id);
         if(w==null)
             throw new DalDoesNotExistException($"Worker with id={item.Id} does not exist");
-        if (w.active == false)
-            throw new DalNotActiveException($"Worker with id={item.Id} is not active");
+        
         if (w != null)
         {
             DataSource.Workers.RemoveAll(wrkr=>wrkr.Id==item.Id);

@@ -23,7 +23,7 @@ namespace PL.Worker
     {
         public BO.FilterWorker filterWorkers { get; set; } = BO.FilterWorker.None;
 
-
+        public int IdOfWorker;
 
 
         public string ContentSearch
@@ -35,6 +35,19 @@ namespace PL.Worker
         // Using a DependencyProperty as the backing store for ContentSearch.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ContentSearchProperty =
             DependencyProperty.Register("ContentSearch", typeof(string), typeof(WorkerListWindow ), new PropertyMetadata());
+
+
+
+
+        public bool OneClickForDelete
+        {
+            get { return (bool)GetValue(OneClickForDeleteProperty); }
+            set { SetValue(OneClickForDeleteProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for OneClickForDelete.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty OneClickForDeleteProperty =
+            DependencyProperty.Register("OneClickForDelete", typeof(bool), typeof(WorkerListWindow ), new PropertyMetadata());
 
 
         public bool Bylevel
@@ -52,6 +65,7 @@ namespace PL.Worker
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         public WorkerListWindow()
         {
+            OneClickForDelete = false;
             Bylevel = false;
 
             InitializeComponent();
@@ -120,6 +134,39 @@ namespace PL.Worker
             WorkerList = (from worker in s_bl.Worker.ReadAllWorkers()
                          where worker.Name.Contains(sender.ToString()) || ((worker.Id.ToString()).Contains(sender.ToString()))
                          select worker);
+        }
+
+        private void Mouse_click_delete(object sender, RoutedEventArgs e)
+        {
+            OneClickForDelete = true;
+            IdOfWorker = ((BO.Worker)((ListView)sender).SelectedItem).Id;
+
+        }
+        private void Button_DeleteClick(object sender, RoutedEventArgs e)
+        {
+            try {
+                MessageBoxResult messageBoxResult = MessageBox.Show($"Are you sure you want to delete worker with Id={IdOfWorker}?", "hello", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                switch (messageBoxResult)
+                {
+                    case MessageBoxResult.Yes: s_bl.Worker.RemoveWorker(IdOfWorker) ; break;
+                    case MessageBoxResult.No: break;
+                }
+                WorkerList = s_bl.Worker.ReadAllWorkers();
+                OneClickForDelete = false;
+            }
+            catch(BO.BlNotActiveException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (BO.BlNotErasableException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (BO.BlDoesNotExistException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
     }
 }

@@ -42,7 +42,6 @@ namespace PL.Task
         {
             myTask.Dependencies.Add(((BO.TaskInList)((ListView)sender).SelectedItem));
             this.Close();
-
         }
     }
 }

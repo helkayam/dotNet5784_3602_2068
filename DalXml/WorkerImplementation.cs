@@ -173,7 +173,6 @@ internal class WorkerImplementation:IWorker
            
         }
         return from worker in workers.Elements()
-               where ((bool)(worker.Element("active")!)==true)
                select getWorker(worker);
         
     }
@@ -199,8 +198,7 @@ internal class WorkerImplementation:IWorker
         if (sameId == null)
             throw new DalDoesNotExistException($"Worker with id={item.Id} does not exist");
 
-        if (getWorker(sameId).active == false)
-            throw new DalNotActiveException($"Worker with id={item.Id} is not active");
+       
 
         else
         {
