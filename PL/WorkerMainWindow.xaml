@@ -9,7 +9,7 @@
          DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <Grid>
         <Label Content="{Binding Hello}" Margin="198,61,198,303" FontSize="20" FontFamily="Arial Black"></Label>
-        <Button Content="Update your details"   FontSize="20" FontFamily="Arial Black" Margin="127,171,452,185" Click="Button_Click"></Button>
-        <Button Content="Tasks" FontSize="20" FontFamily="Arial Black" Margin="458,171,121,185" Click="Button_Click"  ></Button>
+        <Button Content="Update your details"   FontSize="20" FontFamily="Arial Black" Margin="127,171,452,185" Click="ButtonUpdateDetails_Click"></Button>
+        <Button Content="Tasks" FontSize="20" FontFamily="Arial Black" Margin="458,171,121,185" Click="ButtonTasks_Click"  ></Button>
     </Grid>
 </Window>

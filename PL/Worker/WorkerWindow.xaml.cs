@@ -23,7 +23,7 @@ namespace PL.Worker
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         public BO.WorkerExperience LevelOfWorker { get; set; } = BO.WorkerExperience.Beginner;
 
-
+       
     
 
 

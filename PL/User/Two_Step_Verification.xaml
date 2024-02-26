@@ -9,8 +9,8 @@
         DataContext="{Binding CodeFromEmail, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
     <Grid Margin="314,145,0,0">
         <Label Content="enter verification code:" HorizontalAlignment="Left" Margin="-277,-90,0,0" VerticalAlignment="Top" Height="27" Width="131"/>
-        <TextBox MaxLength="4" HorizontalAlignment="Left" Margin="-121,-90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="67" Height="27"
-                 Text="{Binding ,Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"/>
+        <!--<TextBox MaxLength="4" HorizontalAlignment="Left" Margin="-121,-90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="67" Height="27"
+                 Text="{Binding  ,Mode=OneWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true }"/>-->
         <Button Content="enter" HorizontalAlignment="Left" Margin="-277,0,0,17" VerticalAlignment="Bottom" Height="22" Width="38" Click="CheckAndOpenUserWindow_click"/>
 
 

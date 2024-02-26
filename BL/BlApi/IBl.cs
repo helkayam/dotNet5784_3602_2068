@@ -19,7 +19,7 @@ public interface IBl
     public IWorker Worker { get; }
     public ITask Task { get; }
 
-    public IUser User { get; set; }
+    public IUser User { get;  }
 
     public void ResetDB();
     public void InitializeDB();

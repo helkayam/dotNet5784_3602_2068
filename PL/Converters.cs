@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace PL
 {
-   public class ConvertIdToContent : IValueConverter
+   public class ConvertIdWorkerToContent : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -22,7 +22,21 @@ namespace PL
         }
     }
 
-   public class ConvertIdToBool: IValueConverter
+    public class ConvertIdTaskToContent : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (int)value == -1 ? "Add" : "Update";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    public class ConvertIdToBool: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -74,4 +88,49 @@ namespace PL
             throw new NotImplementedException();
         }
     }
+
+    public class BoolToEnableConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+
+            if ((bool)value)
+            {
+                return "True";
+            }
+            else
+            {
+                return "False";
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+      
+    }
+
+    public class BoolToNotEnableConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+
+            if ((bool)value)
+            {
+                return "False";
+            }
+            else
+            {
+                return "True";
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+    }
+
 }

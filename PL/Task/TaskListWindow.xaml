@@ -31,7 +31,7 @@
        ItemsSource="{Binding Source={StaticResource TaskStatusKey }}"   
              SelectionChanged="ComboBoxStatusTask_SelectionChanged" />
         </Grid>
-        <ListView Grid.Row="1" ItemsSource="{Binding Path=TaskList}" >
+        <ListView Grid.Row="1" ItemsSource="{Binding Path=TaskList}" MouseDoubleClick="ListView_MouseDoubleClick" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>

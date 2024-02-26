@@ -37,32 +37,32 @@ namespace PL
         public static readonly DependencyProperty MyUserProperty =
          DependencyProperty.Register("MyUser", typeof(BO.User), typeof(MainWindow), new PropertyMetadata());
 
-        private void KeyDownUserSignIn(object sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                BO.User user;
-                if (s_bl.User.ReadUser(MyUser.UserName) == null)
-                    s_bl.User.ReadUser(MyUser.UserName, true);
-                else
-                {
-                    user = s_bl.User.ReadUser(MyUser.UserName);
-                    if (user.Password == MyUser.Password)
-                    {
-                        if (user.IsAdmin == true)
-                            new AdminWindow().ShowDialog();
-                        else
-                            new WorkerMainWindow(s_bl.User.ReadUser(MyUser.UserName).Id);
-                    }
+        //private void KeyDownUserSignIn(object sender, TextChangedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        BO.User user;
+        //        if (s_bl.User.ReadUser(MyUser.UserName) == null)
+        //            s_bl.User.ReadUser(MyUser.UserName, true);
+        //        else
+        //        {
+        //            user = s_bl.User.ReadUser(MyUser.UserName);
+        //            if (user.Password == MyUser.Password)
+        //            {
+        //                if (user.IsAdmin == true)
+        //                    new AdminWindow().ShowDialog();
+        //                else
+        //                    new WorkerMainWindow(s_bl.User.ReadUser(MyUser.UserName).Id);
+        //            }
                    
-                }
-            }
-            catch(BO.BlDoesNotExistException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+        //        }
+        //    }
+        //    catch(BO.BlDoesNotExistException ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
 
-        }
+        //}
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
