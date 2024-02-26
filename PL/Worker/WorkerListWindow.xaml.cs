@@ -25,6 +25,18 @@ namespace PL.Worker
 
 
 
+
+        public string ContentSearch
+        {
+            get { return (string)GetValue(ContentSearchProperty); }
+            set { SetValue(ContentSearchProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for ContentSearch.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ContentSearchProperty =
+            DependencyProperty.Register("ContentSearch", typeof(string), typeof(WorkerListWindow ), new PropertyMetadata(0));
+
+
         public bool Bylevel
         {
             get { return (bool)GetValue(bylevelProperty); }
@@ -98,6 +110,16 @@ namespace PL.Worker
 
         }
 
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
 
+        }
+
+        private void ContentSearch_Changed(object sender, TextChangedEventArgs e)
+        {
+            WorkerList = (from worker in s_bl.Worker.ReadAllWorkers()
+                         where worker.Name.Contains(sender.ToString()) || ((worker.Id.ToString()).Contains(sender.ToString()))
+                         select worker);
+        }
     }
 }
