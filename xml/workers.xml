@@ -64,12 +64,21 @@
     <active>true</active>
   </Worker>
   <Worker>
+    <Id>341032068</Id>
+    <Level>Beginner</Level>
+    <Name>Lea Simha</Name>
+    <PhoneNumber>0509837751</PhoneNumber>
+    <Cost>55</Cost>
+    <Eraseable>True</Eraseable>
+    <active>False</active>
+  </Worker>
+  <Worker>
     <Id>987654321</Id>
     <Level>Intermediate</Level>
     <Name>Omer Levi</Name>
     <PhoneNumber>0585623456</PhoneNumber>
     <Cost>150</Cost>
     <Eraseable>true</Eraseable>
-    <active>true</active>
+    <active>False</active>
   </Worker>
 </ArrayOfWorker>
