@@ -9,7 +9,7 @@ namespace BO
 {
     public class Task
     {
-        public int Id { get; set; } 
+        public int Id { get; set; } = -1;
         public string Description { get; set; }
         public  string Alias { get; set; }
         public DateTime CreatedAtDate { get; set; }

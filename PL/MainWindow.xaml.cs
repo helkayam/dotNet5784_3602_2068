@@ -23,17 +23,18 @@ namespace PL
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
+        private MediaPlayer mediaPlayer = new MediaPlayer();
 
 
         public DateTime Clock
         {
-            get { return (DateTime)GetValue(ClockProperty); }
+            get { return s_bl.Clock; }
             set { SetValue(ClockProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for Clock.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ClockProperty =
-            DependencyProperty.Register("Clock", typeof(DateTime), typeof(MainWindow), new PropertyMetadata(0));
+            DependencyProperty.Register("Clock", typeof(DateTime), typeof(MainWindow), new PropertyMetadata());
 
 
 
@@ -43,27 +44,28 @@ namespace PL
 
         }
 
-        public MainWindow(int IdOfWorker = 0)
+        public MainWindow()
         {
             
                 InitializeComponent();
+            mediaPlayer.Open(new Uri(@"MediaFile\Israel National Anthem (Instrumental).mp3", UriKind.RelativeOrAbsolute));
 
-                Clock = DateTime.Now;
-            
-            //    if (IdOfWorker == 0)
-            //    {
-            //        MyWorker = new BO.Worker { };
-            //    }
-            //    else
-            //        MyWorker = s_bl.Worker.ReadWorker(IdOfWorker);
-            //}
-            //catch (BO.BlDoesNotExistException ex)
-            //{
-            //    MessageBox.Show(ex.Message);
-            //}
+            Clock = DateTime.Now;
+
+        //    if (IdOfWorker == 0)
+        //    {
+        //        MyWorker = new BO.Worker { };
+        //    }
+        //    else
+        //        MyWorker = s_bl.Worker.ReadWorker(IdOfWorker);
+        //}
+        //    catch (BO.BlDoesNotExistException ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
 
 
-        }
+}
 
         private void AddOneDay_click(object sender, RoutedEventArgs e)
         {
@@ -98,6 +100,22 @@ namespace PL
         private void LogIn_Click(object sender, RoutedEventArgs e)
         {
             new UserLogIn().ShowDialog();
+
+        }
+
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Play();
+        }
+
+        private void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Pause();
+        }
+
+        private void StopButton_Click(object sender, RoutedEventArgs e)
+        {
+            mediaPlayer.Stop();
 
         }
     }

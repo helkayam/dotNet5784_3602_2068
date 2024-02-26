@@ -80,6 +80,8 @@ namespace PL.Task
 
         public TaskWindow(int IdOfTask = -1)
         {
+            InitializeComponent();
+
             try
             {
                 if (s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.PlanStage)
@@ -102,7 +104,6 @@ namespace PL.Task
                     IsSecondStage = false;
                 }
 
-                InitializeComponent();
                 if (IdOfTask == -1)
                     MyTask = new BO.Task();
                 else
@@ -174,10 +175,12 @@ namespace PL.Task
                 {
                     s_bl.Task.UpdateTask(MyTask);
                     MessageBox.Show($"Updating the Task with ID: {MyTask.Id} card was successful");
-
+                    
                 }
+                this.Close();
+
             }
-            catch(BO.BlInvalidGivenValueException ex)
+            catch (BO.BlInvalidGivenValueException ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -193,6 +196,9 @@ namespace PL.Task
 
         }
 
-       
+        private void AddDependency_Click(object sender, RoutedEventArgs e)
+        {
+            new ChoseDependency(MyTask).ShowDialog();
+        }
     }
 }

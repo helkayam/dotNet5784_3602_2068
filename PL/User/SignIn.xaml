@@ -17,17 +17,17 @@
 
         <TextBox Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
                  HorizontalAlignment="Center" Margin="132,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" Height="25"/>
-        <TextBox Text="{Binding Id, Mode=OneWay, Converter={StaticResource ConverIdToBoolKey},  NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
+        <TextBox Text="{Binding Id, Mode=OneWayToSource ,   NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
             HorizontalAlignment="Center" Margin="132,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" Height="25"/>
         <TextBox 
-             Text="{Binding Email, Mode=OneWay,NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
+             Text="{Binding Email, Mode=OneWayToSource ,NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
 
             HorizontalAlignment="Center" Margin="132,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" Height="25"/>
         <TextBox 
-            Text="{Binding UserName, Mode=OneWay,NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
+            Text="{Binding UserName, Mode=OneWayToSource ,NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
             HorizontalAlignment="Center" Margin="132,134,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" Height="26"/>
         <TextBox
-            Text="{Binding Password, Mode=OneWay,NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
+            Text="{Binding Password, Mode=OneWayToSource ,NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
             HorizontalAlignment="Center" Margin="132,167,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" Height="25"/>
         <Button Content="enter" HorizontalAlignment="Left" Margin="333,244,0,0" VerticalAlignment="Top" Width="46" Click="AddNewUser_click"/>
         <Button Content="?" BorderBrush="Red" FontSize="4" HorizontalAlignment="Left" Margin="318,167,74,0" VerticalAlignment="Top" Height="8" Width="8" RenderTransformOrigin="0.169,0.193">
