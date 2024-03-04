@@ -172,9 +172,11 @@ namespace PL.Task
 
         private void ContentSearch_Changed(object sender, TextChangedEventArgs e)
         {
-            TaskList = (from Task in s_bl.Task.ReadAllTasks()
-                          where Task.Alias.Contains(sender.ToString()) || ((Task.Id.ToString()).Contains(sender.ToString()))
-                          select Task);
+            if (sender.ToString() != null)
+                TaskList = s_bl.Task.ReadAllSearch(((TextBox)sender).Text);
+            else
+                TaskList = s_bl.Task.ReadAllTasks();
+
         }
 
         private void ButtonAddNewTask_Click(object sender, RoutedEventArgs e)

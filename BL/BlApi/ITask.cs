@@ -29,6 +29,7 @@ public interface ITask
     public ProjectStatus GetStatusOfProject();
 
 
+    public IEnumerable<BO.TaskInList> ReadAllSearch(string search);
 
     public IEnumerable<BO.TaskInList> ReadAllTasks(BO.Filter enumFilter = BO.Filter.None, Object? filtervalue = null);
 

@@ -124,6 +124,39 @@ public void AddWorker(BO.Worker newWorker)
         else
             return true;
     }
+
+    public bool FindIdContains(DO.Worker w, string id)
+    {
+        int WorkerId = w.Id;
+        string IdStr = $"{WorkerId}";
+        if (IdStr.Contains(id))
+            return true;
+        return false;
+
+
+
+    }
+    public IEnumerable<BO.Worker> ReadAllSearch(string search)
+    {
+        string searchLower = search.ToLower();
+        IEnumerable<DO.Worker?> result = _dal.Worker.ReadAll(ts => (ts.Name.ToLower()).Contains(searchLower) || FindIdContains(ts, search) == true );
+        return result.Select(doworker => new BO.Worker()
+        {
+            Id=doworker.Id,
+            Name=doworker.Name,
+             Cost =doworker.Cost,
+             active= doworker.active,
+             Level=(BO.WorkerExperience)doworker.Level,
+            Task = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == doworker.Id)
+                    select new TaskInWorker
+                    {
+                        Id = TaskOfWorker.Id,
+                        Alias = TaskOfWorker.Alias
+                    }).FirstOrDefault()!,
+            PhoneNumber = doworker.PhoneNumber
+        }) ;
+
+    }
     /// <summary>
     /// The method returns a collection of workers according to a certain filter:
     /// *All workers who have not been assigned a task
