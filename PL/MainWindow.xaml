@@ -24,10 +24,7 @@
         <Label Grid.Row="0" Content="{Binding Clock}" HorizontalAlignment="Left" Margin="153,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1" Grid.ColumnSpan="2"/>
 
 
-        <Button Grid.Row="0" Content="one Day" HorizontalAlignment="Left" Margin="153,-101,0,0" VerticalAlignment="Top" FontSize="8" RenderTransformOrigin="0.724,-1.432" Click="AddOneDay_click"/>
-        <Button Grid.Row="0"  Content="one Hour" HorizontalAlignment="Left" Margin="186,-101,0,0" VerticalAlignment="Top" FontSize="8" Click="AddOneHour_click"/>
-        <Button Grid.Row="0" Content="one Week" HorizontalAlignment="Left" Margin="223,-101,0,0" VerticalAlignment="Top" FontSize="8" Click="AddWeek_click" Grid.ColumnSpan="2" Width="39"/>
-        <Button Content="Init" HorizontalAlignment="Left" Margin="221,-81,0,0" VerticalAlignment="Top" Height="15" Width="41" FontSize="8" Click="InitClock_click" Grid.ColumnSpan="2"/>
+       
         <Button Content="Sign In" HorizontalAlignment="Left" Margin="-144,175,0,0" VerticalAlignment="Top" Height="28" Width="86" Click="SignIn_Click" Grid.RowSpan="2"/>
         <Button Content="Log In" HorizontalAlignment="Left" Margin="-250,176,0,0" VerticalAlignment="Top" Height="28" Width="86" Click="LogIn_Click" Grid.RowSpan="2"/>
 

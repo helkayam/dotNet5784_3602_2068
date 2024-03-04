@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -23,10 +24,23 @@ namespace PL.Admin
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         private MediaPlayer mediaPlayer = new MediaPlayer();
+        public DateTime Clock
+        {
+            get { return s_bl.Clock; }
+            set { SetValue(ClockProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Clock.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ClockProperty =
+            DependencyProperty.Register("Clock", typeof(DateTime), typeof(MainWindow), new PropertyMetadata());
+
+
 
         public AdminWindow()
         {
             InitializeComponent();
+            Clock = DateTime.Now;
+
 
             mediaPlayer.Open(new Uri(@"MediaFile\Israel National Anthem (Instrumental).mp3", UriKind.RelativeOrAbsolute));
         }
@@ -61,8 +75,32 @@ namespace PL.Admin
             }
         }
 
+        private void AddOneDay_click(object sender, RoutedEventArgs e)
+        {
+            s_bl.IncreasInDay();
+            Clock = s_bl.Clock;
+        }
+
+        private void AddOneHour_click(object sender, RoutedEventArgs e)
+        {
+            s_bl.IncreasInHour();
+            Clock = s_bl.Clock;
+        }
+
+        private void AddWeek_click(object sender, RoutedEventArgs e)
+        {
+            s_bl.IncreasInWeek();
+            Clock = s_bl.Clock;
+        }
+
+        private void InitClock_click(object sender, RoutedEventArgs e)
+        {
+            s_bl.InitClock();
+            Clock = s_bl.Clock;
+        }
 
 
-      
+
+
     }
 }

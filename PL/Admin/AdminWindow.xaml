@@ -14,8 +14,12 @@
         <Button Content="Tasks" Margin="463,127,185,174" Click="ButtonTask_Click" FontFamily="Arial Black" Background="WhiteSmoke" />
         <Button Content="INITDB" Click="ButtonINIT_Click" Margin="644,278,35,57" Background="WhiteSmoke" />
         <Button Content="ResetDB" Margin="494,278,185,57" Click="ButtonReset_Click" Background="WhiteSmoke" />
-       
 
+        <Button Content="one Day" HorizontalAlignment="Left" Margin="712,62,0,307" FontSize="8" RenderTransformOrigin="0.724,-1.432" Click="AddOneDay_click"/>
+        <Button  Content="one Hour" HorizontalAlignment="Left" Margin="675,62,0,0" VerticalAlignment="Top" FontSize="8" Click="AddOneHour_click" Height="15"/>
+        <Button  Content="one Week" HorizontalAlignment="Left" Margin="745,62,0,0" VerticalAlignment="Top" FontSize="8" Click="AddWeek_click" Width="39" Height="15"/>
+        <Label Grid.Row="0" Content="{Binding Clock}" HorizontalAlignment="Left" Margin="675,23,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1"/>
+        <Button Content="Init Clock" HorizontalAlignment="Left" Margin="737,85,0,0" VerticalAlignment="Top" Height="14" Width="47" FontSize="7" Click="InitClock_click" RenderTransformOrigin="0.997,0.754"/>
 
     </Grid>
 </Window>
