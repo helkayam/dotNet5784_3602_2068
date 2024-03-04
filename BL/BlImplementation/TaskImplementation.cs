@@ -631,7 +631,23 @@ internal class TaskImplementation : BlApi.ITask
         _dal.Dependency.DeleteAll();
     }
 
-    
+    public IEnumerable<BO.TaskSchedule> ReadAllSchedule()
+    {
+        IEnumerable<DO.Task?> result = _dal.Task.ReadAll();
+
+
+        return result.Select(dotask => new BO.TaskSchedule ()
+        {
+            Alias = dotask.Alias,
+            Id = dotask.Id,
+          IdWorker= (int)dotask.WorkerId!,
+          NameWorker=_dal.Worker.Read((int)dotask.WorkerId!)!.Name
+        }
+        ).OrderBy(t => _dal.Task.Read(t.Id).ScheduledDate);
+    }
+
+
+
 
 }
 
