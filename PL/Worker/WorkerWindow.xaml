@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:PL.Worker"
         mc:Ignorable="d"
         Title="WorkerWindow" Height="450" Width="400"
+               Icon="\Images\IsraelFlag.jpg" 
+
         DataContext="{Binding MyWorker, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
     <Grid>
         <Grid.RowDefinitions>

@@ -68,14 +68,14 @@ namespace PL
 
         }
 
-        private void ButtonUpdateDetails_Click(object sender, RoutedEventArgs e)
+        private void ButtonChoseTask_Click(object sender, RoutedEventArgs e)
         {
-            new WorkerWindow(Id).ShowDialog();
+            new TasksForWorkerList(Id);
         }
 
-        private void ButtonTasks_Click(object sender, RoutedEventArgs e)
+        private void ButtonYourTask_Click(object sender, RoutedEventArgs e)
         {
-            new TaskListWindow().ShowDialog();  
+            new TaskOfWorker(s_bl.Worker.ReadWorker(Id).Task.Id).ShowDialog();  
         }
     }
 }

@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.User"
         mc:Ignorable="d"
+         Icon="\Images\IsraelFlag.jpg" 
+
         Title="Two_Step_Verification" Height="200" Width="300"
         DataContext="{Binding CodeFromEmail, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
     <Grid Margin="314,145,0,0">

@@ -508,6 +508,10 @@ internal class TaskImplementation : BlApi.ITask
         
     }
 
+    public void AutomaticSchedule()
+    {
+           
+    }
 
     /// <summary>
     /// this method gets an Id of a task, and a date
@@ -627,6 +631,7 @@ internal class TaskImplementation : BlApi.ITask
         _dal.Dependency.DeleteAll();
     }
 
+    
 
 }
 

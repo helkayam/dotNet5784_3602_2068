@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.User"
         mc:Ignorable="d"
+               Icon="\Images\IsraelFlag.jpg" 
+
         Title="SignIn" Height="300" Width="400"
               DataContext="{Binding MyUser, RelativeSource={RelativeSource Mode=Self}}">
     <Grid>
@@ -18,7 +20,7 @@
         <TextBox Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
                  HorizontalAlignment="Center" Margin="132,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" Height="25"/>
         <TextBox Text="{Binding Id, Mode=OneWayToSource ,   NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
-            HorizontalAlignment="Center" Margin="132,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" Height="25"/>
+            HorizontalAlignment="Center" Margin="132,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" Height="25" TextChanged="TextBox_TextChanged"/>
         <TextBox 
              Text="{Binding Email, Mode=OneWayToSource ,NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
 

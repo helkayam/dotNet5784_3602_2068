@@ -5,37 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
+       Icon="\Images\IsraelFlag.jpg" 
         Title="MainWindow" Height="400" Width="600"
         DataContext="{Binding RelativeSource={RelativeSource Self}}" Background="#064773">
 
-    <Grid Margin="314,145,0,0">
+
+    <Grid >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"/>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions >
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="4*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!--<Label Grid.Row="0"  HorizontalAlignment="Left" Margin="70,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1" Grid.ColumnSpan="2"/>-->
-        <Image Grid.Row="0" Grid.Column ="0" Source="Images/LogoHaatsmautParty.png" Margin="-283,-113,67,55">
-        </Image>
-        <Label Grid.Row="0" Content="{Binding Clock}" HorizontalAlignment="Left" Margin="153,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1" Grid.ColumnSpan="2"/>
+        <Image Grid.Row="0" Grid.Column ="0" Source="/Images/LogoHaatsmautParty.png" Margin="-19,17,137,10" Grid.ColumnSpan="2"/>
+        <Label Grid.Row="0" Grid.Column="1" Content="{Binding Clock}" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Height="69" Width="130" BorderBrush="WhiteSmoke"   BorderThickness="1"/>
 
 
-       
-        <Button Content="Sign In" HorizontalAlignment="Left" Margin="-144,175,0,0" VerticalAlignment="Top" Height="28" Width="86" Click="SignIn_Click" Grid.RowSpan="2"/>
-        <Button Content="Log In" HorizontalAlignment="Left" Margin="-250,176,0,0" VerticalAlignment="Top" Height="28" Width="86" Click="LogIn_Click" Grid.RowSpan="2"/>
 
-        <Button Margin="54,155,134,8" Click="PlayButton_Click" Background="WhiteSmoke"  >
-            <Image Source="/Images/play-buttton.png" Height="22" Width="28" ></Image>
+        <Button Content="Sign In" HorizontalAlignment="Left" Margin="148,20,0,0" VerticalAlignment="Top" Height="28" Width="86" Click="SignIn_Click" Grid.Row="1" Background="WhiteSmoke"/>
+        <Button Content="Log In" HorizontalAlignment="Left" Margin="27,20,0,0" VerticalAlignment="Top" Height="28" Width="86" Click="LogIn_Click" Grid.Row="1" Background="WhiteSmoke"/>
+
+        <Button Margin="288,9,131,38" Click="PlayButton_Click" Background="WhiteSmoke" Grid.Row="1" Height="30" Width="33" />
+        <Image Source="/Images/play-buttton.png" Height="15" Width="16" Margin="298,17,136,45" Grid.Row="1" ></Image>
+
+        <Button Margin="337,9,83,38" Click="PauseButton_Click" Background="WhiteSmoke" Grid.Row="1" Height="30" Width="33" >
+            <Image Source="/Images/bouton-pause.png" Height="15" Width="21"></Image>
         </Button>
-        <Button Margin="114,158,74,8" Click="PauseButton_Click" Background="WhiteSmoke" >
-            <Image Source="/Images/bouton-pause.png" Height="22" Width="28"></Image>
-        </Button>
-        <Button Margin="178,158,10,8" Click="StopButton_Click" Background="WhiteSmoke" >
-            <Image Source="/Images/arret.png" Height="22" Width="28"></Image>
+        <Button Margin="382,9,38,38" Click="StopButton_Click" Background="WhiteSmoke" Grid.Row="1" Height="30" Width="33" >
+            <Image Source="/Images/arret.png" Height="18" Width="15"></Image>
         </Button>
         <MediaElement HorizontalAlignment="Left" Height="100" Margin="127,256,0,0" VerticalAlignment="Top" Width="100"/>
 
