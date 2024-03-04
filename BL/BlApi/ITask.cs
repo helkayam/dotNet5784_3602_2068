@@ -28,6 +28,7 @@ public interface ITask
 
     public ProjectStatus GetStatusOfProject();
 
+    public IEnumerable<BO.TaskSchedule> ReadAllSchedule();
 
     public IEnumerable<BO.TaskInList> ReadAllSearch(string search);
 
