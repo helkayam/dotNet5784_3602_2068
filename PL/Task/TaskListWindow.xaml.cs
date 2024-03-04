@@ -187,7 +187,14 @@ namespace PL.Task
         {
             try
                 {
-                s_bl.Task.RemoveTask(IdSelectedToDelete);
+                MessageBoxResult messageBoxResult = MessageBox.Show($"Are you sure you want to delete worker with Id={IdSelectedToDelete}?", "hello", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                switch (messageBoxResult)
+                {
+                    case MessageBoxResult.Yes: s_bl.Task.RemoveTask(IdSelectedToDelete); break;
+                    case MessageBoxResult.No: break;
+                }
+                TaskList = s_bl.Task.ReadAllTasks();
+                DoYouWantToDelete = false;
 
             }
             catch (BO.BlNotErasableException ex)
@@ -213,7 +220,7 @@ namespace PL.Task
         {
             IdSelectedToDelete = ((BO.Task)((ListView)sender).SelectedValue).Id;
             DoYouWantToDelete = true;
-            TaskList = s_bl.Task.ReadAllTasks();
+
         }
     }
 }

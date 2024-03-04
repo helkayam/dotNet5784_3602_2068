@@ -62,12 +62,12 @@ namespace PL.User
                     // פרטי ההתחברות לשרת הדואר האלקטרוני
                     string smtpServer = "smtp.gmail.com";
                     int port = 587;
-                    string email = "d9349019@gmail.com";
-                    string password = "dotNet20683602";
+                    string email = @"d9349019@gmail.com";
+                    string password = @"dotNet20683602";
 
                     // פרטי האימייל שתשלחי
                     string recipientEmail = MyUser.Email;
-                    string subject = "Verification Code";
+                    string subject = @"Verification Code";
                     string Prebody = @"Your verification code is:";
                     string body =Prebody + randCode.ToString()+ "\n *The code is valid for 30 seconds";
                     // יצירת האימייל
