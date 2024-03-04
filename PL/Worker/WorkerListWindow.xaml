@@ -28,7 +28,7 @@
                 ItemsSource="{Binding Source={StaticResource FilterWorkerKey}}" SelectionChanged="ComboBox_FilterWorkerChanged" Margin="0,0,277,0" Grid.Column="1"/>
             <ComboBox Visibility="{Binding Bylevel,Mode=OneWay, Converter={StaticResource  BoolToVisibilityConverterKey}}" 
                 ItemsSource="{Binding Source={StaticResource WorkerExperienceCollectionKey }}"   Grid.Column="1" Margin="142,12,165,10" SelectionChanged="ComboBox_SelectionChanged" />
-            <TextBox Text="{Binding ContentSearch,Mode=OneWay }" TextChanged="ContentSearch_Changed"  Grid.Column="1" HorizontalAlignment="Left" Margin="260,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" />
+            <TextBox Text="{Binding ContentSearch,Mode=OneWay  }" TextChanged="ContentSearch_Changed"  Grid.Column="1" HorizontalAlignment="Left" Margin="260,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="120" />
 
 
 

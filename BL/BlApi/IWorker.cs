@@ -20,6 +20,9 @@ public interface IWorker
 
     public void deleteAll();
 
+    public IEnumerable<BO.Worker> ReadAllSearch(string search);
+
+
     public IEnumerable<BO.Worker> ReadAllWorkers(BO.FilterWorker enumFilter = BO.FilterWorker.None, Object? filtervalue = null);
 
 

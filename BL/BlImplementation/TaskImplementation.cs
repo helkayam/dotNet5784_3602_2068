@@ -184,6 +184,33 @@ internal class TaskImplementation : BlApi.ITask
 
         return DoTask.StartDate + DoTask.RequiredEffortTime;
     }
+
+    public bool FindIdContains(DO.Task t,string id)
+    {
+        int TaskId = t.Id;
+        string IdStr = $"{TaskId}";
+        if (IdStr.Contains(id))
+            return true;
+        return false;
+
+
+        
+    }
+    public IEnumerable<BO.TaskInList> ReadAllSearch(string search)
+    {
+        string searchLower=search.ToLower();
+        IEnumerable<DO.Task?> result = _dal.Task.ReadAll(ts => (ts.Alias.ToLower ()).Contains(searchLower) || FindIdContains(ts, search) == true ||(ts.Description.ToLower()).Contains(searchLower));
+        return result.Select(dotask => new BO.TaskInList()
+        {
+            Alias = dotask.Alias,
+            Id = dotask.Id,
+            Description = dotask.Description,
+            Status = getStatus(dotask)
+        });
+
+    }
+
+
     /// <summary>
     /// The method returns a collection of tasks according to a certain filter:
     /// *All tasks with the same level of complexity
