@@ -1,9 +1,12 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Mail;
+using System.Net;
 
 namespace BlImplementation;
 
@@ -155,6 +158,41 @@ internal class UserImplementation : BlApi.IUser
         }
         return false;
     }
+
+    public int SendEmail(string email)
+    {
+        int randCode = 0;
+        Random rand = new Random();
+        randCode = rand.Next(1000, 10000);
+
+
+        MailMessage mail = new MailMessage();
+        mail.To.Add(email);
+        mail.From = new MailAddress(@"d9349019@gmail.com");
+        mail.Subject = @"Verification Code";
+        mail.Body= @"Your verification code is: "+randCode.ToString() + "\n *The code is valid for 30 seconds";
+        mail.IsBodyHtml = true;
+        SmtpClient smpt = new SmtpClient();
+        smpt.Host = "smtp.gmail.com";
+        smpt.Credentials=new System.Net.NetworkCredential(_dal.User.getEmail(), _dal.User.getPassword());
+        smpt.EnableSsl = true;
+        smpt.Port = 587;
+        try
+        {
+            smpt.Send(mail);
+            return randCode;
+        }
+        catch (SmtpFailedRecipientException ex)
+        {
+            throw new("There was a problem sending the email to this user");
+        }
+        catch (SmtpException ex) 
+        {
+            throw new("Unable to connect to GMAIL server");
+        }
+
+    }
+
 
 
 }

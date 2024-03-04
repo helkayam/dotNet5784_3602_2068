@@ -140,4 +140,26 @@ static class XMLTools
     //    throw new NotImplementedException();
     //}
     #endregion
+
+    public static string loadEmailAdressOrPassword(string data_config_xml, string elemName)
+    {
+        XElement root = XMLTools.LoadListFromXMLElement(data_config_xml);
+        string filePath = $"{s_xml_dir + data_config_xml}.xml";
+
+        try
+        {
+            root.Element(elemName); 
+            string result = root.Element(elemName).ToString();
+            XMLTools.SaveListToXMLElement(root, data_config_xml);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            throw new DalXMLFileLoadCreateException($"fail to load xml file: {s_xml_dir + filePath}, {ex.Message}");
+        }
+        
+       
+    }
+       
+    
 }

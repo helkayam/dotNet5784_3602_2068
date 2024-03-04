@@ -28,6 +28,10 @@ internal static class Config
     /// </summary>
     internal static int NextDependencyId { get => XMLTools.GetAndIncreaseNextId(s_data_config_xml, "NextDependencyId"); }
 
+    internal static string email { get => XMLTools.loadEmailAdressOrPassword(s_data_config_xml, "from"); }
+    
+    internal static string password { get => XMLTools.loadEmailAdressOrPassword(s_data_config_xml, "password"); }
+
 
 
 

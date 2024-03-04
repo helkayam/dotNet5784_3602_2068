@@ -89,6 +89,15 @@ internal class UserImplementation:IUser
         XMLTools.SaveListToXMLSerializer<DO.User>(users, s_users_xml);
     }
 
+    public string getEmail()
+    {
+        return Config.email;
+    }
+
+    public string getPassword()
+    {
+        return Config.password;
+    }
 
 
 

@@ -37,6 +37,9 @@ namespace Dal
 
             internal static DateTime CurrentDate;
 
+            internal static string email { get => "d9349019@gmail.com"; }
+
+            internal static string password { get => "dotNet20683602"; }
 
             public static void ResetNextDependencyId()
             {

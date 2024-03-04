@@ -131,9 +131,11 @@ namespace PL.Worker
 
         private void ContentSearch_Changed(object sender, TextChangedEventArgs e)
         {
-            WorkerList = (from worker in s_bl.Worker.ReadAllWorkers()
-                         where worker.Name.Contains(sender.ToString()) || ((worker.Id.ToString()).Contains(sender.ToString()))
-                         select worker);
+            if (sender.ToString() != null)
+            
+            WorkerList = s_bl.Worker.ReadAllSearch(((TextBox)sender).Text);
+            else
+                WorkerList = s_bl.Worker.ReadAllWorkers();
         }
 
         private void Mouse_click_delete(object sender, RoutedEventArgs e)

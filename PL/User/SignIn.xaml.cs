@@ -56,41 +56,11 @@ namespace PL.User
                     MessageBox.Show($"user with Id:{MyUser.Id} already exist");
                 else
                 {
-                    int randCode = 0;
-                    Random rand = new Random();
-                    randCode = rand.Next(1000, 10000);
-                    // פרטי ההתחברות לשרת הדואר האלקטרוני
-                    string smtpServer = "smtp.gmail.com";
-                    int port = 587;
-                    string email = @"d9349019@gmail.com";
-                    string password = @"dotNet20683602";
-
-                    // פרטי האימייל שתשלחי
-                    string recipientEmail = MyUser.Email;
-                    string subject = @"Verification Code";
-                    string Prebody = @"Your verification code is:";
-                    string body =Prebody + randCode.ToString()+ "\n *The code is valid for 30 seconds";
-                    // יצירת האימייל
-                    MailMessage mail = new MailMessage(email, recipientEmail, subject, body);
-
-                    // הגדרת פרטי התחברות לשרת הדואר האלקטרוני
-                    //SmtpClient client = new SmtpClient(smtpServer);
-                    //client.Port = port;
-                    //client.Credentials = new NetworkCredential(email, password);
-                    //client.EnableSsl = true;
-
-                    var client = new SmtpClient(smtpServer , 465)
-                    {
-                        Credentials = new NetworkCredential(email, password),
-                        EnableSsl = true
-                    };
-
-
-                    // שליחת האימייל
+                  
                     try
                     {
-                        client.Send(mail);
-                        new Two_Step_Verification(randCode,MyUser);
+                        int code=s_bl.User.SendEmail(MyUser.Email);
+                        new Two_Step_Verification(code,MyUser);
                     }
                     catch (Exception ex)
                     {
@@ -113,10 +83,7 @@ namespace PL.User
 
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
     }
     
 }

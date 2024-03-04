@@ -21,5 +21,7 @@ namespace BlApi
 
         public bool checkExistId(int id);
 
+       public int SendEmail(string email);
+
     }
 }

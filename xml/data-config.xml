@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
+  <from>"d9349019@gmail.com"</from>
+  <password>dotNet20683602</password>
   <NextTaskId>35</NextTaskId>
   <NextDependencyId>45</NextDependencyId>
   <StartDateProject></StartDateProject>

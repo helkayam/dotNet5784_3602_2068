@@ -15,5 +15,9 @@ public interface IUser
     void Delete(string id);
 
     void DeleteAll();
+
+    string getEmail();
+
+    string getPassword();
 }
 

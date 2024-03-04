@@ -79,6 +79,16 @@ internal class UserImplementation : IUser
         }
     }
 
+    public string getEmail()
+    {
+        return DataSource.Config.email;
+    }
+
+    public string getPassword()
+    {
+        return DataSource.Config.password;
+    }
+
 
 }
 
