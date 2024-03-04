@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
+               Icon="\Images\IsraelFlag.jpg" 
+
         Title="UserLogIn" Height="200" Width="200"
         DataContext="{Binding MyUser, RelativeSource={RelativeSource Self}, Mode=TwoWay}">
 

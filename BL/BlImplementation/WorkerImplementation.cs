@@ -191,7 +191,7 @@ public void AddWorker(BO.Worker newWorker)
                                  Cost = DoWorker.Cost,
 
 
-                                 Task = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorker.Id)
+                                 Task = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorker.Id&&MyTask.CompleteDate==null)
                                          select new TaskInWorker
                                          {
                                              Id = TaskOfWorker.Id,
