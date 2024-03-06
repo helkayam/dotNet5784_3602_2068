@@ -168,13 +168,13 @@ internal class UserImplementation : BlApi.IUser
 
         MailMessage mail = new MailMessage();
         mail.To.Add(email);
-        mail.From = new MailAddress(@"d9349019@gmail.com");
+        mail.From = new MailAddress("d9349019@gmail.com");
         mail.Subject = @"Verification Code";
         mail.Body= @"Your verification code is: "+randCode.ToString() + "\n *The code is valid for 30 seconds";
         mail.IsBodyHtml = true;
         SmtpClient smpt = new SmtpClient();
         smpt.Host = "smtp.gmail.com";
-        smpt.Credentials=new System.Net.NetworkCredential(_dal.User.getEmail(), _dal.User.getPassword());
+        smpt.Credentials=new System.Net.NetworkCredential("d9349019", "dotNet20683602");
         smpt.EnableSsl = true;
         smpt.Port = 587;
         try
@@ -189,6 +189,10 @@ internal class UserImplementation : BlApi.IUser
         catch (SmtpException ex) 
         {
             throw new("Unable to connect to GMAIL server");
+        }
+        catch(Exception e)
+        {
+            throw new (e.Message);
         }
 
     }

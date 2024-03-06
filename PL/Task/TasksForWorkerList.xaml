@@ -20,7 +20,7 @@
             </Grid.ColumnDefinitions>
         </Grid>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Path=TaskList}" MouseDoubleClick="ListView_MouseDoubleClick"  >
+        <ListView Grid.Row="1" ItemsSource="{Binding Path=TaskList}"   >
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>

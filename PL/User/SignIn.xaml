@@ -4,11 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.User"
+        xmlns:pl="clr-namespace:PL"
         mc:Ignorable="d"
                Icon="\Images\IsraelFlag.jpg" 
 
         Title="SignIn" Height="300" Width="400"
               DataContext="{Binding MyUser, RelativeSource={RelativeSource Mode=Self}}">
+
+    <Window.Resources>
+        <pl:StringToIntConverter x:Key="StringToIntConverterkey"/>
+    </Window.Resources>
+    
     <Grid>
         <Label Content="Name"  HorizontalAlignment="Left" Margin="27,20,0,0" VerticalAlignment="Top" Height="25" Width="79" FontSize="10" />
         <Label Content="ID" HorizontalAlignment="Left" Margin="27,56,0,0" VerticalAlignment="Top" Height="26" Width="79" FontSize="10"/>
@@ -19,8 +25,8 @@
 
         <TextBox Text="{Binding Name, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
                  HorizontalAlignment="Center" Margin="132,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" Height="25"/>
-        <TextBox Text="{Binding Id, Mode=OneWayToSource ,   NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
-            HorizontalAlignment="Center" Margin="132,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" Height="25" TextChanged="TextBox_TextChanged"/>
+        <TextBox Text="{Binding Id, Mode=OneWayToSource ,   NotifyOnValidationError=true,Converter={StaticResource StringToIntConverterkey},  ValidatesOnExceptions=true }"
+            HorizontalAlignment="Center" Margin="132,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" Height="25"/>
         <TextBox 
              Text="{Binding Email, Mode=OneWayToSource ,NotifyOnValidationError=true,  ValidatesOnExceptions=true }"
 

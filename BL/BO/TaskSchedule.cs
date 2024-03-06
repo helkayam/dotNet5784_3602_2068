@@ -15,6 +15,10 @@ namespace BO
         public string NameWorker { get; set; }
         public int  IdWorker { get; set; }
 
+        public DateTime ScheduleStartDate { get; set; }
+
+        public DateTime ScheduleEndDate { get; set; }
+
         public override string ToString()
         {
             return this.ToStringProperty();

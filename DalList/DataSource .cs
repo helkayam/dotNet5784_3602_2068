@@ -37,6 +37,8 @@ namespace Dal
 
             internal static DateTime CurrentDate;
 
+            internal static DateTime EndDateProject;
+
             internal static string email { get => "d9349019@gmail.com"; }
 
             internal static string password { get => "dotNet20683602"; }

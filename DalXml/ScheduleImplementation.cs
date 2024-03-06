@@ -39,11 +39,31 @@ public class ScheduleImplementation:ISchedule
         XMLTools.SaveListToXMLElement(root, data_config);
 
     }
+
+    public void UpdateEndDateProject(DateTime currentdt)
+    {
+        XElement root = XMLTools.LoadListFromXMLElement(data_config);
+        root.Element("EndDateProject")?.SetValue((currentdt));
+        XMLTools.SaveListToXMLElement(root, data_config);
+
+    }
     public DateTime? GetCurrentDate()
     {
 
         XElement root = XMLTools.LoadListFromXMLElement(data_config);
         string? dt = root.Element("CurrentDate").Value;
+
+        XMLTools.SaveListToXMLElement(root, data_config);
+        if (dt != "")
+            return DateTime.Parse(dt);
+        else
+            return null;
+    }
+    public DateTime? getEndDateProject()
+    {
+
+        XElement root = XMLTools.LoadListFromXMLElement(data_config);
+        string? dt = root.Element("EndDateProject").Value;
 
         XMLTools.SaveListToXMLElement(root, data_config);
         if (dt != "")

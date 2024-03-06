@@ -22,23 +22,7 @@ internal class TaskImplementation : BlApi.ITask
     private readonly Bl _bl;
     internal TaskImplementation(Bl bl) => _bl = bl;
 
-    /// <summary>
-    /// This is a method that receives a date as a parameter and sends it to a class in the DAL layer that takes care of initializing the start date of the project 
-    /// on the received date
-    /// </summary>
-    /// <param name="startDateProject"> Date to start the StartDateOfProject field </param>
-    public void UpdateStartProjectDate(DateTime startDateProject)
-    {
-        if (startDateProject >= _bl.Clock)
-            _dal.Schedule.UpdateStartDateProject(startDateProject);
-        else
-            throw new BO.BlInvalidGivenValueException($"error:start date of project is before current date {_dal.Schedule.GetCurrentDate()}");
-    }
 
-    public void UpdateCurrentDate(DateTime currentdt)
-    {
-        _dal.Schedule.UpdateCurrentDate(currentdt);
-    }
 
     /// <summary>
     /// This is a method that takes care of returning the status of the project.
@@ -636,12 +620,14 @@ internal class TaskImplementation : BlApi.ITask
         IEnumerable<DO.Task?> result = _dal.Task.ReadAll();
 
 
-        return result.Select(dotask => new BO.TaskSchedule ()
+        return result.Select(dotask => new BO.TaskSchedule()
         {
             Alias = dotask.Alias,
             Id = dotask.Id,
-          IdWorker= (int)dotask.WorkerId!,
-          NameWorker=_dal.Worker.Read((int)dotask.WorkerId!)!.Name
+            IdWorker = (int)dotask.WorkerId!,
+            NameWorker = _dal.Worker.Read((int)dotask.WorkerId!)!.Name,
+            ScheduleEndDate = (DateTime)GetForecastDate(dotask),
+            ScheduleStartDate = (DateTime)dotask.ScheduledDate
         }
         ).OrderBy(t => _dal.Task.Read(t.Id).ScheduledDate);
     }

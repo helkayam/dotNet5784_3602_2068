@@ -83,7 +83,10 @@ namespace PL.User
 
         }
 
-        
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
     
 }

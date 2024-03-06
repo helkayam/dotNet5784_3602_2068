@@ -9,7 +9,12 @@ namespace DalApi;
 public interface ISchedule
 {
     public DateTime? GetStartDateProject();
+
+    public DateTime? getEndDateProject();
+
     public void UpdateStartDateProject(DateTime startDate);
+
+    public void UpdateEndDateProject(DateTime endDateProject);
 
     public DateTime? GetCurrentDate();
 

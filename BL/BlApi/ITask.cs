@@ -20,9 +20,6 @@ public interface ITask
     public void AddOrUpdateStartDate(int Id);
     public void AddCompleteDate(int Id);
 
-    public void UpdateCurrentDate(DateTime UpdateCurrentDate);
-
-    public void UpdateStartProjectDate(DateTime startDateProject);
 
     public void UpdateScheduleDate(int Id, DateTime mySceduelDate);
 
@@ -35,6 +32,7 @@ public interface ITask
     public IEnumerable<BO.TaskInList> ReadAllTasks(BO.Filter enumFilter = BO.Filter.None, Object? filtervalue = null);
 
     public void deleteAll();
+
 
     //public ProjectStatus ProjectStatus();
 

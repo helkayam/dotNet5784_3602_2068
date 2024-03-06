@@ -15,7 +15,7 @@ public interface IBl
     public static Enum StatusProject { get; set; }
    
 
-
+    public ISchedule Schedule { get;  }
     public IWorker Worker { get; }
     public ITask Task { get; }
 
