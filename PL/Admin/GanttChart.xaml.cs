@@ -76,13 +76,11 @@ namespace PL.Admin
                 {
                     string strDay = $"{day.Day}/{day.Month}/{day.Year}"; //"21/2/2024"
 
-                    if (day <  || day > task.EndDate)
-                        row[strDay] = BO.TaskStatus.None; //"EMPTY";
+                    if (day <task.ScheduleStartDate  || day > task.ScheduleEndDate)
+                        row[strDay] = 0; 
                     else
-                    {
-
-                        row[strDay] = task.Status; //BO.TaskStatus.TaskIsSchedualed; //"FULL";
-                    }
+                        row[strDay] = 1; 
+                   
                 }
                 dataTable.Rows.Add(row);
             }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PL.Admin"
         mc:Ignorable="d"
         Icon="\Images\IsraelFlag.jpg" 
-        Title="AdminWindow" Height="400" Width="800" Background="LightBlue">
+        Title="AdminWindow" Height="400" Width="800" Background="SteelBlue" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

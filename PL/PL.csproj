@@ -20,6 +20,7 @@
 	  <None Remove="Images\falgisrael.ico" />
 	  <None Remove="Images\IsraelFlag.jpg" />
 	  <None Remove="Images\LogoHaatsmautParty.png" />
+	  <None Remove="Images\New-Project-16.jpg" />
 	  <None Remove="Images\play-buttton.png" />
 	  <None Remove="MediaFile\Israel National Anthem %28Instrumental%29.mp3" />
 	</ItemGroup>
@@ -39,6 +40,9 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="Images\LogoHaatsmautParty.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Images\New-Project-16.jpg">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
 	  <Content Include="Images\play-buttton.png">

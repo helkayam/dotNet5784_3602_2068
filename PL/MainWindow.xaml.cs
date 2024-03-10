@@ -26,6 +26,18 @@ namespace PL
         private MediaPlayer mediaPlayer = new MediaPlayer();
 
 
+
+        public DateTime  StartDateProject
+        {
+            get { return s_bl.Schedule.getStartDateproject; }
+            set { SetValue(StartDateProjectProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for StartDateProject.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty StartDateProjectProperty =
+            DependencyProperty.Register("StartDateProject", typeof(DateTime ), typeof(MainWindow ), new PropertyMetadata());
+
+
         public DateTime Clock
         {
             get { return s_bl.Clock; }

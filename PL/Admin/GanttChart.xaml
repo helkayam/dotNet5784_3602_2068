@@ -7,7 +7,13 @@
         mc:Ignorable="d"
         Title="GanttChart" Height="450" Width="800">
     <Grid>
-        <DataGrid Initialized="dataGridSched_Initialized"
+        <DataGrid Initialized="dataGridSched_Initialized" >
+            <DataGrid.CellStyle>
+                <Style TargetType="DataGridCell">
+                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self},Path=Content, Converter={StaticResource ConverNumberToColorKey}}"/>
+                </Style>
+            </DataGrid.CellStyle>
+        </DataGrid>
         
     </Grid>
 </Window>

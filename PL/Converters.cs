@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Globalization;
 using System.Security;
+using System.Windows.Media;
 
 namespace PL
 {
@@ -148,6 +149,23 @@ namespace PL
         {
             if(value=="") { return 0; }
             return int.Parse(value.ToString());
+        }
+    }
+
+
+    public class ConverNumberToColor : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((int)value == 0)
+                return Brushes.WhiteSmoke;
+            else
+                return Brushes.SteelBlue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 

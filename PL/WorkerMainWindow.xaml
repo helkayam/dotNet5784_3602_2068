@@ -8,9 +8,8 @@
         Icon="\Images\IsraelFlag.jpg" 
 
         Title="WorkerMainWindow" Height="450" Width="800"
-         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}" Background="#064773">
+         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}" Background="">
     <Grid>
-        <Image Source="/Images/LogoHaatsmautParty.png" Margin="-13,10,609,316"></Image>
         <Label Content="{Binding Hello}" Margin="198,83,198,281" FontSize="20" FontFamily="Arial Black"></Label>
         <Button Content="Chose a Task"   FontSize="20" FontFamily="Arial Black" Margin="127,171,452,185" Click="ButtonChoseTask_Click" Background="WhiteSmoke" ></Button>
         <Button Content="Your Task" FontSize="20" FontFamily="Arial Black" Margin="458,171,121,185" Click="ButtonYourTask_Click"  Background="WhiteSmoke" ></Button>
