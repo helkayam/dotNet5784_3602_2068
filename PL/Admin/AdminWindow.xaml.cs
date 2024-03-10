@@ -35,13 +35,22 @@ namespace PL.Admin
             DependencyProperty.Register("Clock", typeof(DateTime), typeof(MainWindow), new PropertyMetadata());
 
 
+        public IEnumerable<BO.TaskInList> TaskList
+        {
+            get { return (IEnumerable<BO.TaskInList>)GetValue(TaskListProperty); }
+            set { SetValue(TaskListProperty, value); }
+        }
+
+        public static readonly DependencyProperty TaskListProperty =
+            DependencyProperty.Register("TaskList", typeof(IEnumerable<BO.TaskInList>), typeof(TaskListWindow), new PropertyMetadata(null));
+
 
         public AdminWindow()
         {
             InitializeComponent();
             Clock = DateTime.Now;
 
-
+            TaskList = s_bl.Task.ReadAllTasks();
             mediaPlayer.Open(new Uri(@"MediaFile\Israel National Anthem (Instrumental).mp3", UriKind.RelativeOrAbsolute));
         }
 
@@ -99,8 +108,9 @@ namespace PL.Admin
             Clock = s_bl.Clock;
         }
 
-
-
-
+        private void CreateSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            s_bl.Schedule.CreateAutomaticSchedule(TaskList);
+        }
     }
 }

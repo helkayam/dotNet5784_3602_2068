@@ -17,4 +17,6 @@ public interface ISchedule
 
     public void UpdateEndDateProjectDate(DateTime endDateProject);
 
+    public void CreateAutomaticSchedule(IEnumerable<BO.TaskInList> TaskList);
+
 }

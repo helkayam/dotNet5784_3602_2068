@@ -163,11 +163,13 @@ internal class TaskImplementation : BlApi.ITask
     /// <returns> estimated time to completion </returns>
     public DateTime? GetForecastDate(DO.Task DoTask)
     {
+        
         if (DoTask.StartDate < DoTask.ScheduledDate)
             return DoTask.ScheduledDate + DoTask.RequiredEffortTime;
-
         return DoTask.StartDate + DoTask.RequiredEffortTime;
-    }
+         
+    
+    }    
 
     public bool FindIdContains(DO.Task t,string id)
     {
