@@ -43,6 +43,8 @@ internal class Bl : IBl
 
     public ITask Task => new TaskImplementation(this);
 
+    public ISchedule Schedule => new ScheduleImplementation(this);
+
     public void InitializeDB() => DalTest.Initialization.Do();
 
     public void ResetDB() => DalTest.Initialization.reset();

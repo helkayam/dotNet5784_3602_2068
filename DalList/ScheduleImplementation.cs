@@ -5,17 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
+
 namespace Dal;
 
 public class ScheduleImplementation : ISchedule
 {
 
+
     public DateTime? GetStartDateProject()
     {
-        return DataSource.Config.startdateProject; 
+        return DataSource.Config.startdateProject;
     }
 
-   
+
 
     public DateTime? GetCurrentDate()
     {
@@ -34,13 +37,15 @@ public class ScheduleImplementation : ISchedule
 
     public void UpdateCurrentDate(DateTime dt)
     {
-        DataSource.Config.CurrentDate  = dt;
+        DataSource.Config.CurrentDate = dt;
     }
 
     public void UpdateEndDateProject(DateTime dt)
     {
         DataSource.Config.EndDateProject = dt;
     }
-
-
 }
+
+
+
+

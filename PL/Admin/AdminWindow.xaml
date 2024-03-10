@@ -21,6 +21,8 @@
         <Button  Content="one Week" HorizontalAlignment="Left" Margin="745,62,0,0" VerticalAlignment="Top" FontSize="8" Click="AddWeek_click" Width="39" Height="15"/>
         <Label Grid.Row="0" Content="{Binding Clock}" HorizontalAlignment="Left" Margin="675,23,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1"/>
         <Button Content="Init Clock" HorizontalAlignment="Left" Margin="737,85,0,0" VerticalAlignment="Top" Height="14" Width="47" FontSize="7" Click="InitClock_click" RenderTransformOrigin="0.997,0.754"/>
+        <Button Content="Grid" HorizontalAlignment="Center" Margin="0,282,0,0" VerticalAlignment="Top" Height="45" Width="120" Background="WhiteSmoke"/>
+        <Button Content="Scedule" HorizontalAlignment="Left" Margin="183,282,0,0" VerticalAlignment="Top" Height="45" Width="120" Background="WhiteSmoke" Click="CreateSchedule_Click"/>
 
     </Grid>
 </Window>

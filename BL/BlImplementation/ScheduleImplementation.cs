@@ -77,7 +77,77 @@ namespace BlImplementation
 
         }
 
-      
+        public void CreateAutomaticSchedule(IEnumerable<BO.TaskInList> TaskList)
+        {
+            List<BO.TaskInList> tasks =_bl.Task.ReadAllTasks().ToList();
+
+
+             // Create a dictionary to store tasks by their IDs
+             Dictionary<int, BO.TaskInList> taskLookup = tasks.ToDictionary(task => task.Id);
+
+            // Create a graph represented as adjacency list
+            Dictionary<BO.TaskInList, List<BO.TaskInList>> graph = new Dictionary<BO.TaskInList, List<BO.TaskInList>>();
+
+            // Populate the graph with tasks and their dependencies
+            foreach (var task in tasks)
+            {
+
+
+                graph[task] = _bl.Task.ReadTask(task.Id).Dependencies.Select(dep => taskLookup[dep.Id]).ToList();
+            }
+
+            // Perform topological sorting
+            Stack<BO.TaskInList> sortedStack = new Stack<BO.TaskInList>();
+            HashSet<BO.TaskInList> visited = new HashSet<BO.TaskInList>();
+
+            foreach (var task in tasks)
+            {
+                if (!visited.Contains(task))
+                {
+                    TopologicalSortUtil(task, visited, sortedStack, graph);
+                }
+            }
+
+            // Convert stack to list
+            List<BO.TaskInList> sortedTasks = sortedStack.ToList();
+            sortedTasks.Reverse();
+
+            // Set scheduled dates based on topological order
+            DateTime? previousEndDate = null;
+            foreach (var task in sortedTasks)
+            {
+                BO.Task BOTask=_bl.Task.ReadTask(task.Id);
+                if (previousEndDate.HasValue && BOTask.ScheduledDate < previousEndDate)
+                {
+                    BOTask.ScheduledDate = previousEndDate;
+                }
+                BOTask.ForecastDate = BOTask.ScheduledDate + BOTask.RequiredEffortTime; // Assuming ForecastDate is the same as CompleteDate
+                BOTask.Deadline = BOTask.ForecastDate; // Assuming Deadline is the same as ForecastDate
+                previousEndDate = BOTask.CompleteDate;
+            }
+           
+
+        }
+
+        private static void TopologicalSortUtil(BO.TaskInList task, HashSet<BO.TaskInList> visited, Stack<BO.TaskInList> stack, Dictionary<BO.TaskInList, List<BO.TaskInList>> graph)
+        {
+            visited.Add(task);
+
+            foreach (var dependency in graph[task])
+            {
+                if (!visited.Contains(dependency))
+                {
+                    TopologicalSortUtil(dependency, visited, stack, graph);
+                }
+            }
+
+            stack.Push(task);
+        }
     }
 
+
+
+
 }
+
+
