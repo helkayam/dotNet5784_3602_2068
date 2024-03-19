@@ -18,7 +18,9 @@
         <local:BoolToEnableConverter x:Key="BoolToEnableConverterKey"/>
         <local:BoolToNotEnableConverter x:Key="BoolToNotEnableConverterKey"/>
         <local:ConvertIdTaskToContent x:Key="ConverIdTaskToContentKey"/>
-        <local:ConverNumberToColor x:Key="ConverNumberToColorKey"/>
+        <local:ConvertNumberToColor x:Key="ConvertNumberToColorKey"/>
+        <local:StringToIntConverter x:Key="ConvertStringToIntKey"/>
+
 
 
 

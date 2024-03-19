@@ -22,6 +22,9 @@ namespace PL.Worker
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
+
+
+        public bool isStart;
         public BO.Task MyTask
         {
             get { return (BO.Task)GetValue(MyTaskProperty); }
@@ -40,6 +43,10 @@ namespace PL.Worker
             try
             {
                 MyTask = s_bl.Task.ReadTask(Id, true);
+                if (MyTask.StartDate == null)
+                    isStart = false;
+                else
+                    isStart = true;
 
             }
             catch (BO.BlDoesNotExistException ex)
@@ -53,6 +60,7 @@ namespace PL.Worker
         {
             try
             {
+                isStart = true;
                 s_bl.Task.AddOrUpdateStartDate(MyTask.Id);
             }
             catch (BO.BlInvalidGivenValueException ex)

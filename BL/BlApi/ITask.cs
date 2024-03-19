@@ -14,7 +14,7 @@ public interface ITask
 
     public void UpdateTask(BO.Task TaskToUpdate);
 
-
+    public void UpdateTimeInSchedule(BO.Task myTask);
     public BO.Task? ReadTask(int Id,bool throwexception=false);
 
     public void AddOrUpdateStartDate(int Id);

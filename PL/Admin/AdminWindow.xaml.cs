@@ -32,7 +32,7 @@ namespace PL.Admin
 
         // Using a DependencyProperty as the backing store for Clock.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ClockProperty =
-            DependencyProperty.Register("Clock", typeof(DateTime), typeof(MainWindow), new PropertyMetadata());
+            DependencyProperty.Register("Clock", typeof(DateTime), typeof(AdminWindow), new PropertyMetadata());
 
 
         public IEnumerable<BO.TaskInList> TaskList
@@ -42,13 +42,13 @@ namespace PL.Admin
         }
 
         public static readonly DependencyProperty TaskListProperty =
-            DependencyProperty.Register("TaskList", typeof(IEnumerable<BO.TaskInList>), typeof(TaskListWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("TaskList", typeof(IEnumerable<BO.TaskInList>), typeof(AdminWindow), new PropertyMetadata(null));
 
 
         public AdminWindow()
         {
             InitializeComponent();
-            Clock = DateTime.Now;
+          
 
             TaskList = s_bl.Task.ReadAllTasks();
             mediaPlayer.Open(new Uri(@"MediaFile\Israel National Anthem (Instrumental).mp3", UriKind.RelativeOrAbsolute));
@@ -111,6 +111,11 @@ namespace PL.Admin
         private void CreateSchedule_Click(object sender, RoutedEventArgs e)
         {
             s_bl.Schedule.CreateAutomaticSchedule(TaskList);
+        }
+
+        private void Gantt_Click(object sender, RoutedEventArgs e)
+        {
+            new GanttChart().ShowDialog();
         }
     }
 }

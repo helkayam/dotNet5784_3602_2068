@@ -116,12 +116,13 @@ internal class TaskImplementation:ITask
         XMLTools.SaveListToXMLSerializer<DO.Task>(tasks, s_tasks_xml);
         if (filter != null)
         {
-            return from item in tasks
+            return (from item in tasks
                    where filter(item)
-                   select item;
+                   select item).ToList();
         }
-        return from task in tasks
-               select task;
+        return (from task in tasks
+               select task).ToList();
+
     }
     /// <summary>
     /// 1.With the help of the XmlSerializer class, the list of objects is loaded from an XML file into a logical list of the List type.

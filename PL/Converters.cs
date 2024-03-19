@@ -153,7 +153,7 @@ namespace PL
     }
 
 
-    public class ConverNumberToColor : IValueConverter
+    public class ConvertNumberToColor : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -42,7 +42,7 @@
             </ListView.View>
         </ListView>
 
-        <Button Content="Add" Visibility="{Binding IsFirstStage,Mode=OneWayToSource, Converter={StaticResource BoolToVisibilityConverterKey}}" Grid.Row="1" HorizontalAlignment="Left" Height="50" Width="100" Click="ButtonAddNewTask_Click" Margin="272,356,0,0" Grid.RowSpan="2"/>
+        <Button Content="Add" Visibility="{Binding IsFirstStage,Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey}}" Grid.Row="1" HorizontalAlignment="Left" Height="50" Width="100" Click="ButtonAddNewTask_Click" Margin="272,356,0,0" Grid.RowSpan="2"/>
         <Button Content="Delete" Visibility="{Binding DoYouWantToDelete,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverterKey}}" HorizontalAlignment="Left" Margin="422,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="50" Width="100" Click="DeleteTask_Click"/>
 
     </Grid>

@@ -1,4 +1,5 @@
-﻿using PL.User;
+﻿using PL.Admin;
+using PL.User;
 using PL.Worker;
 using System;
 using System.Collections.Generic;
@@ -57,9 +58,10 @@ namespace PL
         {
             
             InitializeComponent();
+            s_bl.InitClock() ;
+            Clock = s_bl.Clock;
+            StartDateProject = s_bl.Schedule.getStartDateProject(); 
 
-                Clock = DateTime.Now;
-            
             //    if (IdOfWorker == 0)
             //    {
             //        MyWorker = new BO.Worker { };
@@ -73,7 +75,7 @@ namespace PL
             //}
 
 
-}
+        }
 
         private void AddOneDay_click(object sender, RoutedEventArgs e)
         {
@@ -101,13 +103,13 @@ namespace PL
 
         private void SignIn_Click(object sender, RoutedEventArgs e)
         {
-            new SignIn().ShowDialog();
+            new SignInWindow().ShowDialog();
 
         }
 
-        private void LogIn_Click(object sender, RoutedEventArgs e)
+        private void AdminEntrance_Click(object sender, RoutedEventArgs e)
         {
-            new UserLogIn().ShowDialog();
+            new AdminWindow().ShowDialog();
 
         }
 

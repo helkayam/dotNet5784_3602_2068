@@ -1,4 +1,7 @@
-﻿using DalApi;
+﻿using BlApi;
+using BO;
+using DalApi;
+using DO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,9 +82,11 @@ namespace BlImplementation
 
         public void CreateAutomaticSchedule(IEnumerable<BO.TaskInList> TaskList)
         {
-            List<BO.TaskInList> tasks =_bl.Task.ReadAllTasks().ToList();
+            List<BO.TaskInList> tasks;
 
+            IEnumerable<TaskInList> taskList = _bl.Task.ReadAllTasks();
 
+            tasks=taskList.ToList();
              // Create a dictionary to store tasks by their IDs
              Dictionary<int, BO.TaskInList> taskLookup = tasks.ToDictionary(task => task.Id);
 
@@ -113,17 +118,26 @@ namespace BlImplementation
             sortedTasks.Reverse();
 
             // Set scheduled dates based on topological order
-            DateTime? previousEndDate = null;
+           
+            BO.Task BOFirstTask = _bl.Task.ReadTask(sortedTasks[0].Id);
+            BOFirstTask.ScheduledDate = _bl.Schedule.getStartDateProject();
+            BOFirstTask.ForecastDate = BOFirstTask.ScheduledDate + BOFirstTask.RequiredEffortTime; // Assuming ForecastDate is the same as CompleteDate
+            BOFirstTask.Deadline = BOFirstTask.ForecastDate; // Assuming Deadline is the same as ForecastDate
+            _bl.Task.UpdateTimeInSchedule(BOFirstTask);
+            DateTime? previousEndDate = BOFirstTask.ForecastDate;
             foreach (var task in sortedTasks)
             {
-                BO.Task BOTask=_bl.Task.ReadTask(task.Id);
-                if (previousEndDate.HasValue && BOTask.ScheduledDate < previousEndDate)
+                if (task.Id != BOFirstTask.Id)
                 {
-                    BOTask.ScheduledDate = previousEndDate;
+                    BO.Task BOTask = _bl.Task.ReadTask(task.Id);
+                        BOTask.ScheduledDate = previousEndDate;
+                    
+                    BOTask.ForecastDate = BOTask.ScheduledDate + BOTask.RequiredEffortTime; // Assuming ForecastDate is the same as CompleteDate
+                    BOTask.Deadline = BOTask.ForecastDate; // Assuming Deadline is the same as ForecastDate
+                    _bl.Task.UpdateTimeInSchedule(BOTask);
+                    previousEndDate = BOTask.ForecastDate;
                 }
-                BOTask.ForecastDate = BOTask.ScheduledDate + BOTask.RequiredEffortTime; // Assuming ForecastDate is the same as CompleteDate
-                BOTask.Deadline = BOTask.ForecastDate; // Assuming Deadline is the same as ForecastDate
-                previousEndDate = BOTask.CompleteDate;
+
             }
            
 
