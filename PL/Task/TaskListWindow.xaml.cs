@@ -224,5 +224,10 @@ namespace PL.Task
             DoYouWantToDelete = true;
 
         }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

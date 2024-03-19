@@ -24,7 +24,7 @@
 
         </Grid.RowDefinitions>
 
-        <Image Source="/Images/New-Project-16.jpg" Grid.ColumnSpan="3" Margin="-61,-69,-27,-69" Grid.RowSpan="3"></Image>
+        <Image Source="/Images/New-Project-16.jpg" Grid.ColumnSpan="3" Margin="-61,-69,-27,-69" Grid.RowSpan="3" ></Image>
         <!--<Label Grid.Row="0"  HorizontalAlignment="Left" Margin="70,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1" Grid.ColumnSpan="2"/>-->
         <Label  Grid.Row="0" Grid.Column="2" Content="{Binding Clock}" HorizontalAlignment="Center" Margin="0,19,0,0" VerticalAlignment="Top" Height="45" Width="146" BorderBrush="#FFFFE4E1" FontFamily="Arial Black" FontSize="8"   BorderThickness="2" />
         <Label Grid.Row="0" Grid.Column="2" Content="{Binding StartDateProject }" HorizontalAlignment="Center" Margin="0,80,0,0" VerticalAlignment="Top" Height="23" Width="146" BorderBrush="#FFFFE4E1" FontFamily="Arial Black" FontSize="8"   BorderThickness="2"/>
