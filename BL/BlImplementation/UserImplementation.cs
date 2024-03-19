@@ -174,7 +174,8 @@ internal class UserImplementation : BlApi.IUser
         mail.IsBodyHtml = true;
         SmtpClient smpt = new SmtpClient();
         smpt.Host = "smtp.gmail.com";
-        smpt.Credentials=new System.Net.NetworkCredential("d9349019", "dotNet20683602");
+        smpt.Credentials=new NetworkCredential("d9349019@gmail.com", "dotNet20683602");
+        smpt.DeliveryMethod = SmtpDeliveryMethod.Network;
         smpt.EnableSsl = true;
         smpt.Port = 587;
         try

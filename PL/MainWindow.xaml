@@ -12,35 +12,39 @@
 
     <Grid >
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions >
-            <RowDefinition Height="4*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+
         </Grid.RowDefinitions>
 
-        <Image Source="/Images/New-Project-16.jpg" Grid.ColumnSpan="2" Margin="-35,-61,-47,-59" Grid.RowSpan="2"></Image>
+        <Image Source="/Images/New-Project-16.jpg" Grid.ColumnSpan="3" Margin="-61,-69,-27,-69" Grid.RowSpan="3"></Image>
         <!--<Label Grid.Row="0"  HorizontalAlignment="Left" Margin="70,-140,0,0" VerticalAlignment="Top" Height="54" Width="109" BorderBrush="LightBlue" BorderThickness="1" Grid.ColumnSpan="2"/>-->
-        <Label Grid.Row="0" Content="{Binding Clock}" HorizontalAlignment="Left" Margin="444,10,0,0" VerticalAlignment="Top" Height="45" Width="146" BorderBrush="#FFFFE4E1" FontFamily="Arial Black" FontSize="8"   BorderThickness="2" Grid.ColumnSpan="2"/>
-        <Label Grid.Row="0" Content="{Binding StartDateProject }" HorizontalAlignment="Left" Margin="444,72,0,0" VerticalAlignment="Top" Height="23" Width="146" BorderBrush="#FFFFE4E1" FontFamily="Arial Black" FontSize="8"   BorderThickness="2" Grid.ColumnSpan="2"/>
+        <Label  Grid.Row="0" Grid.Column="2" Content="{Binding Clock}" HorizontalAlignment="Center" Margin="0,19,0,0" VerticalAlignment="Top" Height="45" Width="146" BorderBrush="#FFFFE4E1" FontFamily="Arial Black" FontSize="8"   BorderThickness="2" />
+        <Label Grid.Row="0" Grid.Column="2" Content="{Binding StartDateProject }" HorizontalAlignment="Center" Margin="0,80,0,0" VerticalAlignment="Top" Height="23" Width="146" BorderBrush="#FFFFE4E1" FontFamily="Arial Black" FontSize="8"   BorderThickness="2"/>
 
 
 
-        <Button Content="Sign In"  BorderBrush="#FFFFE4E1" Foreground="#FFFFE4E1" FontFamily="Arial Black" FontSize="14"  FontStyle="Normal"  BorderThickness="2" HorizontalAlignment="Left" Margin="111,30,0,0" VerticalAlignment="Top" Height="37" Width="86"  Click="SignIn_Click" Background="{x:Null}" Grid.Row="1"/>
-        <Button Content="Log In" BorderBrush="#FFFFE4E1" Foreground="#FFFFE4E1" FontFamily="Arial Black" FontSize="12"  FontStyle="Normal"  BorderThickness="2"  HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Height="37" Width="86" Click="LogIn_Click" Grid.Row="1" Background="{x:Null}"/>
+        <Button Content="Sign In" Grid.Row="2" Grid.Column="0"  BorderBrush="#FFFFE4E1" Foreground="#FFFFE4E1" FontFamily="Arial Black" FontSize="14"  FontStyle="Normal"  BorderThickness="2" HorizontalAlignment="Left" Margin="104,0,0,0" VerticalAlignment="Center" Height="37" Width="86"  Click="SignIn_Click" Background="{x:Null}" />
+        <Button Content="Log In" Grid.Row="2" Grid.Column="0" BorderBrush="#FFFFE4E1" Foreground="#FFFFE4E1" FontFamily="Arial Black" FontSize="14"  FontStyle="Normal"  BorderThickness="2"  HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Height="37" Width="86" Click="LogIn_Click"  Background="{x:Null}"/>
 
-        <Button Margin="27,23,381,246"  BorderThickness="2" BorderBrush="#FFFFE4E1" Click="PlayButton_Click" Background="{x:Null}" >
+        <Button Margin="42,38,120,53" Grid.Row="0" Grid.Column="0" BorderThickness="2" BorderBrush="#FFFFE4E1" Click="PlayButton_Click" Background="{x:Null}" >
             <Image Source="/Images/play-buttton.png" Height="15" Width="16"  Grid.Row="1" ></Image>
         </Button>
 
-        <Button BorderBrush="#FFFFE4E1"  BorderThickness="2" Margin="87,24,322,245" Click="PauseButton_Click" Background="{x:Null}" >
+        <Button BorderBrush="#FFFFE4E1" Grid.Row="0" Grid.Column="0"  BorderThickness="2" Margin="94,36,68,53" Click="PauseButton_Click" Background="{x:Null}" >
             <Image Source="/Images/bouton-pause.png" Height="15" Width="21"></Image>
         </Button>
-        <Button BorderBrush="#FFFFE4E1"  BorderThickness="2" Margin="147,24,261,245" Click="StopButton_Click" Background="{x:Null}" >
+        <Button BorderBrush="#FFFFE4E1" Grid.Row="0" Grid.Column="0" BorderThickness="2" Margin="147,36,15,53" Click="StopButton_Click" Background="{x:Null}" >
             <Image Source="/Images/arret.png" Height="22" Width="21"></Image>
         </Button>
-        <MediaElement HorizontalAlignment="Left" Height="100" Margin="122,261,0,0" VerticalAlignment="Top" Width="100" Grid.RowSpan="2"/>
+        <MediaElement HorizontalAlignment="Left"  Height="100" Margin="122,261,0,0" VerticalAlignment="Top" Width="100" Grid.RowSpan="2"/>
 
 
 

@@ -27,9 +27,9 @@ namespace PL
 
 
 
-        public DateTime  StartDateProject
+        public DateTime?  StartDateProject
         {
-            get { return s_bl.Schedule.getStartDateproject; }
+            get { return s_bl.Schedule.getStartDateProject(); }
             set { SetValue(StartDateProjectProperty, value); }
         }
 

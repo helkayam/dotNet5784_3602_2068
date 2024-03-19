@@ -81,54 +81,24 @@ namespace PL
 
                 if (s_bl.User.ReadUser(MyUser.UserName, true).Id == MyUser.Id) ;
                 {
-                    int randCode = 0;
-                    Random rand = new Random();
-                    randCode = rand.Next(1000, 10000);
-                    // פרטי ההתחברות לשרת הדואר האלקטרוני
-                    string smtpServer = "smtp.gmail.com";
-                    int port = 587;
-                    string email = "henelkayam99@gmail.com";
-                    string password = "helkayam214243602";
-
-                    // פרטי האימייל שתשלחי
-                    string recipientEmail = MyUser.Email;
-                    string subject = "Verification Code";
-                    string Prebody = @"Your verification code is:";
-                    string body = Prebody + randCode.ToString() + "\n *The code is valid for 30 seconds";
-                    // יצירת האימייל
-                    MailMessage mail = new MailMessage(email, recipientEmail, subject, body);
-
-                    // הגדרת פרטי התחברות לשרת הדואר האלקטרוני
-                    SmtpClient client = new SmtpClient(smtpServer);
-                    client.Port = port;
-                    client.Credentials = new NetworkCredential(email, password);
-                    client.EnableSsl = true;
-
+                    int code = s_bl.User.SendEmail(MyUser.Email);
+                    new Two_Step_Verification(code, MyUser);
                     // שליחת האימייל
-                    try
-                    {
-                        client.Send(mail);
-                        new Two_Step_Verification(randCode, MyUser);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("There was an error sending the email " + ex.Message);
-                        new SignIn().ShowDialog();
-                    }
+
+                    new Two_Step_Verification(code, MyUser);
                 }
-
-
-
             }
+
             catch (BO.BlDoesNotExistException ex)
             {
                 MessageBox.Show($"No worker was found with the same ID:{MyUser.Id} as the user with this username;{MyUser.UserName}");
             }
-
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("There was an error sending the email " + ex.Message);
+                new SignIn().ShowDialog();
             }
+           
 
         }
     }
