@@ -276,7 +276,7 @@ public void AddWorker(BO.Worker newWorker)
             boworker.Cost = doworker.Cost;
             boworker.active= doworker.active;
        
-            TaskInWorker Task  = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == doworker.Id)
+            TaskInWorker Task  = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == doworker.Id &&MyTask.CompleteDate==null)
                                       select new TaskInWorker
                                       {
                                           Id = TaskOfWorker.Id,

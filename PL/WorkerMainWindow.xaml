@@ -6,12 +6,19 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Icon="\Images\IsraelFlag.jpg" 
-
+          Background="#7D87B0"
         Title="WorkerMainWindow" Height="450" Width="800"
          DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <Grid>
-        <Label Content="{Binding Hello}" Margin="198,83,198,281" FontSize="20" FontFamily="Arial Black"></Label>
-        <Button Content="Chose a Task"   FontSize="20" FontFamily="Arial Black" Margin="127,171,452,185" Click="ButtonChoseTask_Click" Background="WhiteSmoke" ></Button>
-        <Button Content="Your Task" FontSize="20" FontFamily="Arial Black" Margin="458,171,121,185" Click="ButtonYourTask_Click"  Background="WhiteSmoke" ></Button>
+        <Button Content="Chose a Task" Visibility="{Binding IsThirdStage , Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey}}"   FontSize="15" FontFamily="Arial Black" Margin="322,378,351,10" Click="ButtonChoseTask_Click" Background="{x:Null}" BorderBrush="White" BorderThickness="1.5" Foreground="White" ></Button>
+
+        <Label Content="{Binding Hello, Mode=OneWay}" Margin="227,27,169,337" Foreground="Black" FontSize="20" FontFamily="Arial Black"></Label>
+        <ListView d:ItemsSource="{Binding MyTask, Mode=OneWayToSource}" Margin="26,137,312,137" MouseDoubleClick="Update_click" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>

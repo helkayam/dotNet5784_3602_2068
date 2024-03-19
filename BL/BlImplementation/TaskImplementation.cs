@@ -44,7 +44,7 @@ internal class TaskImplementation : BlApi.ITask
                                select tasks).ToList();
 
 
-            if (withoutDate.Count ==0)
+            if (withoutDate.Count == 0)
                 return BO.ProjectStatus.ExecutionStage;
 
         }
@@ -92,12 +92,12 @@ internal class TaskImplementation : BlApi.ITask
         DoTask.RequiredEffortTime = newTask.RequiredEffortTime;
 
         DoTask.Eraseable = newTask.Eraseable;
-      
 
-      
-            if (DoTask.Alias.Length > 0 )
-            {
-               int IdOfNewTask= _dal.Task.Create(DoTask);
+
+
+        if (DoTask.Alias.Length > 0)
+        {
+            int IdOfNewTask = _dal.Task.Create(DoTask);
             if (newTask.Dependencies != null)
             {
                 var item = from BoDep in newTask.Dependencies
@@ -120,12 +120,12 @@ internal class TaskImplementation : BlApi.ITask
                     }
                 }
             }
-            }
-            else
-                throw new BO.BlInvalidGivenValueException($"One of the data of Task with ID={DoTask.Id} is incorrect");
-
         }
-     
+        else
+            throw new BO.BlInvalidGivenValueException($"One of the data of Task with ID={DoTask.Id} is incorrect");
+
+    }
+
 
 
 
@@ -163,15 +163,16 @@ internal class TaskImplementation : BlApi.ITask
     /// <returns> estimated time to completion </returns>
     public DateTime? GetForecastDate(DO.Task DoTask)
     {
-        
+       if(DoTask.StartDate == null)
+            return DoTask.ScheduledDate + DoTask.RequiredEffortTime;
         if (DoTask.StartDate < DoTask.ScheduledDate)
             return DoTask.ScheduledDate + DoTask.RequiredEffortTime;
         return DoTask.StartDate + DoTask.RequiredEffortTime;
-         
-    
-    }    
 
-    public bool FindIdContains(DO.Task t,string id)
+
+    }
+
+    public bool FindIdContains(DO.Task t, string id)
     {
         int TaskId = t.Id;
         string IdStr = $"{TaskId}";
@@ -180,12 +181,12 @@ internal class TaskImplementation : BlApi.ITask
         return false;
 
 
-        
+
     }
     public IEnumerable<BO.TaskInList> ReadAllSearch(string search)
     {
-        string searchLower=search.ToLower();
-        IEnumerable<DO.Task?> result = _dal.Task.ReadAll(ts => (ts.Alias.ToLower ()).Contains(searchLower) || FindIdContains(ts, search) == true ||(ts.Description.ToLower()).Contains(searchLower));
+        string searchLower = search.ToLower();
+        IEnumerable<DO.Task?> result = _dal.Task.ReadAll(ts => (ts.Alias.ToLower()).Contains(searchLower) || FindIdContains(ts, search) == true || (ts.Description.ToLower()).Contains(searchLower));
         return result.Select(dotask => new BO.TaskInList()
         {
             Alias = dotask.Alias,
@@ -215,7 +216,7 @@ internal class TaskImplementation : BlApi.ITask
        {
            BO.Filter.ByComplexity => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => bc.Complexity == (DO.WorkerExperience)filtervalue) : _dal.Task.ReadAll(),
            BO.Filter.Status => ((BO.Status)filtervalue != null) ? _dal.Task.ReadAll(s => getStatus(s) == (BO.Status)filtervalue) : _dal.Task.ReadAll(),
-           BO.Filter.PossibleTaskForWorker => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => (bc.Complexity<= (DO.WorkerExperience)filtervalue && bc.ScheduledDate!= null && checkDependentTaskDone(bc) == true)) : _dal.Task.ReadAll(),
+           BO.Filter.PossibleTaskForWorker => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => (bc.Complexity <= (DO.WorkerExperience)filtervalue && bc.ScheduledDate != null && checkDependentTaskDone(bc) == true)) : _dal.Task.ReadAll(),
            BO.Filter.None => _dal.Task.ReadAll(),
 
        };
@@ -239,7 +240,7 @@ internal class TaskImplementation : BlApi.ITask
     /// <param name="Id"> id of task to read </param>
     /// <returns> BO entity of a task </returns>
     /// <exception cref="BO.BlDoesNotExistException"> An exception that is thrown if the task you want to read does not exist </exception>
-    public BO.Task? ReadTask(int Id, bool throwexception = false )
+    public BO.Task? ReadTask(int Id, bool throwexception = false)
     {
 
         BO.Task BoTask = new BO.Task();
@@ -247,11 +248,13 @@ internal class TaskImplementation : BlApi.ITask
         {
             DO.Task DoTask = _dal.Task.Read(Id);
 
-            if(DoTask == null);
-            { if (throwexception == true)
+            if (DoTask == null)
+            {
+                if (throwexception == true)
                     _dal.Task.Read(Id, true);
                 else
-                    return null;                    }
+                    return null;
+            }
 
             BoTask.Id = DoTask.Id;
             BoTask.Description = DoTask.Description;
@@ -285,7 +288,7 @@ internal class TaskImplementation : BlApi.ITask
                           Status = getStatus(_dal.Task.Read(item.DependsOnTask))
                       };
 
-            
+
 
             BoTask.Dependencies = new List<TaskInList>();
             foreach (var item in dep)
@@ -312,7 +315,7 @@ internal class TaskImplementation : BlApi.ITask
         }
         catch (DO.DalDoesNotExistException ex)
         {
-            throw new BO.BlDoesNotExistException($"Task with ID={Id} does Not exist",ex);
+            throw new BO.BlDoesNotExistException($"Task with ID={Id} does Not exist", ex);
         }
 
 
@@ -354,13 +357,13 @@ internal class TaskImplementation : BlApi.ITask
             }
             catch (DO.DalNotErasableException ex)
             {
-                throw new BO.BlNotErasableException($"Task with ID={Id} does Not Erasable",ex);
+                throw new BO.BlNotErasableException($"Task with ID={Id} does Not Erasable", ex);
 
             }
 
             catch (DO.DalDoesNotExistException ex)
             {
-                throw new BO.BlDoesNotExistException($"Task with ID={Id} does Not exist",ex);
+                throw new BO.BlDoesNotExistException($"Task with ID={Id} does Not exist", ex);
             }
         }
     }
@@ -390,9 +393,9 @@ internal class TaskImplementation : BlApi.ITask
     public void UpdateTask(BO.Task TaskToUpdate)
     {
 
-      
-       
-        if(GetStatusOfProject()!=BO.ProjectStatus.ScheduleDetermination)
+
+
+        if (GetStatusOfProject() != BO.ProjectStatus.ScheduleDetermination)
             try
             {
 
@@ -409,15 +412,15 @@ internal class TaskImplementation : BlApi.ITask
                         updatedTask = new DO.Task(TaskToUpdate.Alias, (DO.WorkerExperience)TaskToUpdate.Complexity, TaskToUpdate.Description, TaskToUpd.Id, TaskToUpd.ScheduledDate, TaskToUpdate.Deadline);
 
 
-                        if(TaskToUpdate.Worker.Id != null)
+                        if (TaskToUpdate.Worker.Id != null)
                         {
                             _dal.Worker.Read(TaskToUpdate.Worker.Id, true);
-                            if ( WorkerDoesntHaveTask(TaskToUpdate.Worker.Id) == false)
+                            if (WorkerDoesntHaveTask(TaskToUpdate.Worker.Id) == false)
                                 throw new BO.BlInvalidGivenValueException($"One of the data of Task with ID={TaskToUpdate.Id} is incorrect, the worker={TaskToUpdate.Worker.Id} is already on a task");
-                            updatedTask=updatedTask with { WorkerId = TaskToUpdate.Worker.Id };
+                            updatedTask = updatedTask with { WorkerId = TaskToUpdate.Worker.Id };
 
                         }
-                      
+
 
 
 
@@ -429,7 +432,6 @@ internal class TaskImplementation : BlApi.ITask
                         updatedTask.CreatedAtDate = TaskToUpd.CreatedAtDate;//1 3 
 
 
-                        updatedTask.CompleteDate = TaskToUpd.CompleteDate;//3
                         updatedTask.Deliverables = TaskToUpdate.Deliverables;//3
                         updatedTask.StartDate = TaskToUpd.StartDate;//3
 
@@ -456,7 +458,7 @@ internal class TaskImplementation : BlApi.ITask
                             DO.Task d = _dal.Task.Read(item.Id);
                             if (d != null)
                             {
-                                
+
                                 DO.Dependency newDep = new DO.Dependency(TaskToUpdate.Id, item.Id);
                                 foreach (var CurrentDependency in _dal.Dependency.ReadAll())
                                 {
@@ -489,14 +491,14 @@ internal class TaskImplementation : BlApi.ITask
 
             catch (DO.DalDoesNotExistException ex)
             {
-                throw new BO.BlDoesNotExistException($"Task with id={TaskToUpdate.Id} does not exist",ex);
+                throw new BO.BlDoesNotExistException($"Task with id={TaskToUpdate.Id} does not exist", ex);
             }
-        
+
     }
 
     public void AutomaticSchedule()
     {
-           
+
     }
 
     /// <summary>
@@ -584,6 +586,9 @@ internal class TaskImplementation : BlApi.ITask
 
 
     }
+
+
+
     /// <summary>
     /// this method gets Id of task and update the complete date to be now 
     /// </summary>
@@ -594,10 +599,10 @@ internal class TaskImplementation : BlApi.ITask
 
         try
         {
-          DO.Task t=_dal.Task.Read(Id);
+            DO.Task t = _dal.Task.Read(Id);
             if (t != null && t.StartDate == null)
                 throw new BO.BlInvalidGivenValueException($"False update of complete date: updating a complete date before starting the task");
-            DO.Task updDate = _dal.Task.Read(Id,true) with { CompleteDate = _bl.Clock };
+            DO.Task updDate = _dal.Task.Read(Id, true) with { CompleteDate = _bl.Clock };
             _dal.Task.Update(updDate);
         }
         catch (DO.DalDoesNotExistException ex)
@@ -608,6 +613,18 @@ internal class TaskImplementation : BlApi.ITask
 
 
     }
+
+    public void UpdateTimeInSchedule(BO.Task myTask)
+
+    {
+        DO.Task t = _dal.Task.Read(myTask.Id);
+        DO.Task updDate = _dal.Task.Read(myTask.Id, true) with { ScheduledDate = myTask.ScheduledDate, DeadLineDate = myTask.Deadline };
+        _dal.Task.Update(updDate);
+    }
+
+
+
+
     /// <summary>
     /// this method delete all the tasks and dependencies
     /// </summary>
@@ -622,20 +639,22 @@ internal class TaskImplementation : BlApi.ITask
         IEnumerable<DO.Task?> result = _dal.Task.ReadAll();
 
 
-        return result.Select(dotask => new BO.TaskSchedule()
-        {
-            Alias = dotask.Alias,
-            Id = dotask.Id,
-            IdWorker = (int)dotask.WorkerId!,
-            NameWorker = _dal.Worker.Read((int)dotask.WorkerId!)!.Name,
-            ScheduleEndDate = (DateTime)GetForecastDate(dotask),
-            ScheduleStartDate = (DateTime)dotask.ScheduledDate
-        }
-        ).OrderBy(t => _dal.Task.Read(t.Id).ScheduledDate);
+        return result
+            .Select(dotask => new BO.TaskSchedule()
+            {
+                Alias = dotask.Alias,
+                Id = dotask.Id,
+                IdWorker = dotask.WorkerId != null ? (int)dotask.WorkerId : 0,
+                NameWorker = dotask.WorkerId != null ? _dal.Worker.Read((int)dotask.WorkerId)?.Name : "",
+                ScheduleEndDate = (DateTime)GetForecastDate(dotask),
+                ScheduleStartDate = (DateTime)dotask.ScheduledDate
+            }).ToList();
+
     }
-
-
-
-
 }
+
+
+
+
+
 

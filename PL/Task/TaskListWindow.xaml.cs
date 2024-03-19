@@ -220,7 +220,7 @@ namespace PL.Task
 
         private void ChooceTaskToDelete_click(object sender, MouseButtonEventArgs e)
         {
-            IdSelectedToDelete = ((BO.Task)((ListView)sender).SelectedValue).Id;
+            IdSelectedToDelete = ((BO.TaskInList)((ListView)sender).SelectedValue).Id;
             DoYouWantToDelete = true;
 
         }

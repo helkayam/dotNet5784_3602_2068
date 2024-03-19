@@ -10,7 +10,7 @@
         <DataGrid Initialized="dataGridSched_Initialized" >
             <DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
-                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self},Path=Content, Converter={StaticResource ConverNumberToColorKey}}"/>
+                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self},Path=Content, Converter={StaticResource ConvertNumberToColorKey}}"/>
                 </Style>
             </DataGrid.CellStyle>
         </DataGrid>

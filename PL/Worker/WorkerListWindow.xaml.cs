@@ -67,7 +67,7 @@ namespace PL.Worker
         {
             OneClickForDelete = false;
             Bylevel = false;
-
+          
             InitializeComponent();
             WorkerList = s_bl?.Worker.ReadAllWorkers();
             

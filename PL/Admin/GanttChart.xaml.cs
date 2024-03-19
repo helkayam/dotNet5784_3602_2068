@@ -31,6 +31,7 @@ namespace PL.Admin
 
         private void dataGridSched_Initialized(object sender, EventArgs e)
         {
+
             DataGrid? dataGrid = sender as DataGrid; //the graphic container
 
             DataTable dataTable = new DataTable(); //the logic container

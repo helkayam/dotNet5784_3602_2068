@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Worker"
         mc:Ignorable="d"
-        Title="TaskOfWorker" Height="350" Width="550" Background="#064773"
+        Title="TaskOfWorker" Height="350" Width="550" Background="#B4D8E7"
         DataContext="{Binding RelativeSource={RelativeSource Mode= Self}}">
 
     <Grid>
@@ -21,7 +21,6 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Image Source="/Images/LogoHaatsmautParty.png" Margin="-116,3,61,51" Grid.RowSpan="2"></Image>
         <Label Content="Id:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="8,15,0,0" VerticalAlignment="Top"/>
         <Label Content="Alias:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left"  FontFamily="Arial Black" FontSize="12" Margin="5,4,0,0" VerticalAlignment="Top"/>
         <Label Content="Description:" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="0,4,0,0" VerticalAlignment="Top"/>
@@ -36,13 +35,13 @@
         <Label Content="Remarks:"  Grid.Row="4" Grid.Column="1"  HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="6,0,0,0" VerticalAlignment="Center"  />
 
         <Button Content="Start the&#xD;&#xA; Task"  HorizontalAlignment="Left" Margin="215,0,0,0" VerticalAlignment="Center" Width="50" Height="36" Click="StartTaskButton_Click" Grid.Column="1"/>
-        <Button Content="Finish the&#xD;&#xA; Task"  HorizontalAlignment="Left" Margin="217,8,0,0" VerticalAlignment="Top" Width="55" Height="38" Click="FinishTaskButton_Click" Grid.Row="2" Grid.Column="1"/>
+        <Button  Visibility="{Binding isStart, Mode=OneWayToSource, Converter={StaticResource BoolToVisibilityConverterKey}}" Content="Finish the&#xD;&#xA; Task"  HorizontalAlignment="Left" Margin="217,8,0,0" VerticalAlignment="Top" Width="55" Height="38" Click="FinishTaskButton_Click" Grid.Row="2" Grid.Column="1"/>
         <Button Content="Update the task" HorizontalAlignment="Left"  Margin="64,0,0,0" VerticalAlignment="Center" Height="35" FontSize="10" Width="101" Click="AddOrUpdate_Click" Grid.Row="5" Background="WhiteSmoke"  Grid.Column="1"/>
 
         <TextBox Text="{Binding MyTask.Id , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" 
           IsEnabled="False"  HorizontalAlignment="Left" Margin="52,16,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Height="26" Grid.Row="1"/>
-        <TextBox  Text="{Binding MyTask.Alias, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="70,3,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="172" Height="48" Grid.Row="2"/>
-        <TextBox Text="{Binding MyTask.Description , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="92,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="176" Height="49" Grid.Row="3"/>
+        <TextBox IsEnabled="False" Text="{Binding MyTask.Alias, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="70,3,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="172" Height="48" Grid.Row="2"/>
+        <TextBox IsEnabled="False" Text="{Binding MyTask.Description , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="92,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="176" Height="49" Grid.Row="3"/>
         <TextBox IsEnabled="False"  Text="{Binding MyTask.RequiredEffortTime , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="156,13,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="99" Height="32" Grid.Row="4"/>
         <DatePicker IsEnabled="False"  SelectedDate="{Binding MyTask.ScheduledDate , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Margin="124,0,0,0" VerticalAlignment="Center" Width="144" Grid.Row="5"/>
         <DatePicker IsEnabled="False"  SelectedDate="{Binding MyTask.StartDate , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" VerticalAlignment="Center" Width="127" Grid.Column="1" Margin="83,0,0,0"/>

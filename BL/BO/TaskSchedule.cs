@@ -13,7 +13,7 @@ namespace BO
 
         public string Alias { get; init; }
         public string NameWorker { get; set; }
-        public int  IdWorker { get; set; }
+        public int IdWorker { get; set; } 
 
         public DateTime ScheduleStartDate { get; set; }
 
