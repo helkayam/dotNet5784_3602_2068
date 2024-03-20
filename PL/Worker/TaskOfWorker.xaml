@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Worker"
         mc:Ignorable="d"
-        Title="TaskOfWorker" Height="350" Width="550" Background="#B4D8E7"
-        DataContext="{Binding RelativeSource={RelativeSource Mode= Self}}">
+        Title="TaskOfWorker" Height="350" Width="550"
+        DataContext="{Binding RelativeSource={RelativeSource Mode= Self}}"   >
 
     <Grid>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
@@ -21,6 +22,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Image Source="/Images/Backround-blurred.jpg" Margin="-220,-24,-62,-24"  Stretch="Fill " Grid.ColumnSpan="2" Grid.RowSpan="6"/>
+
         <Label Content="Id:" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="8,15,0,0" VerticalAlignment="Top"/>
         <Label Content="Alias:" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left"  FontFamily="Arial Black" FontSize="12" Margin="5,4,0,0" VerticalAlignment="Top"/>
         <Label Content="Description:" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="0,4,0,0" VerticalAlignment="Top"/>
@@ -34,8 +37,8 @@
         <Label Content="Deliverables:"  Grid.Row="3" Grid.Column="1"  HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="5,0,0,0" VerticalAlignment="Center" />
         <Label Content="Remarks:"  Grid.Row="4" Grid.Column="1"  HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="6,0,0,0" VerticalAlignment="Center"  />
 
-        <Button Content="Start the&#xD;&#xA; Task"  HorizontalAlignment="Left" Margin="215,0,0,0" VerticalAlignment="Center" Width="50" Height="36" Click="StartTaskButton_Click" Grid.Column="1"/>
-        <Button  Visibility="{Binding isStart, Mode=OneWayToSource, Converter={StaticResource BoolToVisibilityConverterKey}}" Content="Finish the&#xD;&#xA; Task"  HorizontalAlignment="Left" Margin="217,8,0,0" VerticalAlignment="Top" Width="55" Height="38" Click="FinishTaskButton_Click" Grid.Row="2" Grid.Column="1"/>
+        <Button Visibility="{Binding IsNotInWhile , Mode=OneWay ,Converter={StaticResource BoolToVisibilityConverterKey  }}" Content="Start the&#xD;&#xA; Task"  HorizontalAlignment="Left" Margin="215,0,0,0" VerticalAlignment="Center" Width="50" Height="36" Click="StartTaskButton_Click" Grid.Column="1"/>
+        <Button  Visibility="{Binding IsStart, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey}}" Content="Finish the&#xD;&#xA; Task"  HorizontalAlignment="Left" Margin="217,8,0,0" VerticalAlignment="Top" Width="55" Height="38" Click="FinishTaskButton_Click" Grid.Row="2" Grid.Column="1"/>
         <Button Content="Update the task" HorizontalAlignment="Left"  Margin="64,0,0,0" VerticalAlignment="Center" Height="35" FontSize="10" Width="101" Click="AddOrUpdate_Click" Grid.Row="5" Background="WhiteSmoke"  Grid.Column="1"/>
 
         <TextBox Text="{Binding MyTask.Id , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" 
@@ -49,6 +52,7 @@
         <DatePicker IsEnabled="False"  SelectedDate="{Binding MyTask.CompleteDate , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="112,15,0,0" VerticalAlignment="Top" Width="108" Grid.Row="2" Grid.Column="1"/>
         <TextBox Text="{Binding MyTask.Deliverables , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Margin="100,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="153" Height="50" Grid.Row="3" Grid.Column="1"/>
         <TextBox Text="{Binding MyTask.Remarks , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="78,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="153" Height="52" Grid.Row="4" Grid.Column="1"/>
-
     </Grid>
+
+
 </Window>

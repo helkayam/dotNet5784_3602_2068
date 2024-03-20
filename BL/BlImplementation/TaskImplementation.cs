@@ -183,6 +183,16 @@ internal class TaskImplementation : BlApi.ITask
 
 
     }
+
+    public IEnumerable<BO.TaskInWorker> ReadAllWorkerTask(int Id)
+    {
+        IEnumerable<DO.Task?>result=_dal.Task.ReadAll(ts=>ts.WorkerId == Id&&ts.CompleteDate==null);
+        return result.Select(dotask => new TaskInWorker()
+        {
+            Id = dotask.Id,
+            Alias = dotask.Alias
+        });
+    }
     public IEnumerable<BO.TaskInList> ReadAllSearch(string search)
     {
         string searchLower = search.ToLower();
@@ -216,7 +226,7 @@ internal class TaskImplementation : BlApi.ITask
        {
            BO.Filter.ByComplexity => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => bc.Complexity == (DO.WorkerExperience)filtervalue) : _dal.Task.ReadAll(),
            BO.Filter.Status => ((BO.Status)filtervalue != null) ? _dal.Task.ReadAll(s => getStatus(s) == (BO.Status)filtervalue) : _dal.Task.ReadAll(),
-           BO.Filter.PossibleTaskForWorker => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => (bc.Complexity <= (DO.WorkerExperience)filtervalue && bc.ScheduledDate != null && checkDependentTaskDone(bc) == true)) : _dal.Task.ReadAll(),
+           BO.Filter.PossibleTaskForWorker => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => (bc.Complexity <= (DO.WorkerExperience)filtervalue && bc.ScheduledDate != null && checkDependentTaskDone(bc) == true)&&bc.CompleteDate==null&&bc.StartDate==null) : _dal.Task.ReadAll(),
            BO.Filter.None => _dal.Task.ReadAll(),
 
        };
@@ -372,7 +382,7 @@ internal class TaskImplementation : BlApi.ITask
     public bool WorkerDoesntHaveTask(int id)
     {
         var Tasks = (from currentTask in _dal.Task.ReadAll()
-                     where currentTask.WorkerId == id
+                     where currentTask.WorkerId == id&& currentTask.CompleteDate==null
                      select currentTask).ToList();
         if (Tasks.Count() != 0)
             return false;
@@ -407,12 +417,18 @@ internal class TaskImplementation : BlApi.ITask
 
                     if (GetStatusOfProject() == BO.ProjectStatus.ExecutionStage)
                     {
+                        DO.WorkerExperience  level;
+                        if (TaskToUpd.WorkerId != 0)
+                        {
+                            level = TaskToUpd.Complexity;
+                        }
+                        else
+                            level =(DO.WorkerExperience) TaskToUpdate.Complexity;
+
+                        updatedTask = new DO.Task(TaskToUpdate.Alias, level , TaskToUpdate.Description, TaskToUpd.Id, TaskToUpd.ScheduledDate, TaskToUpdate.Deadline);
 
 
-                        updatedTask = new DO.Task(TaskToUpdate.Alias, (DO.WorkerExperience)TaskToUpdate.Complexity, TaskToUpdate.Description, TaskToUpd.Id, TaskToUpd.ScheduledDate, TaskToUpdate.Deadline);
-
-
-                        if (TaskToUpdate.Worker.Id != null)
+                        if (TaskToUpdate.Worker.Id != null&&_dal.Task.Read(TaskToUpdate.Id).WorkerId==null)//if we want to add a worker to the task 
                         {
                             _dal.Worker.Read(TaskToUpdate.Worker.Id, true);
                             if (WorkerDoesntHaveTask(TaskToUpdate.Worker.Id) == false)
@@ -420,6 +436,9 @@ internal class TaskImplementation : BlApi.ITask
                             updatedTask = updatedTask with { WorkerId = TaskToUpdate.Worker.Id };
 
                         }
+                        else
+                            updatedTask = updatedTask with { WorkerId = TaskToUpdate.Worker.Id };
+
 
 
 
@@ -433,9 +452,9 @@ internal class TaskImplementation : BlApi.ITask
 
 
                         updatedTask.Deliverables = TaskToUpdate.Deliverables;//3
-                        updatedTask.StartDate = TaskToUpd.StartDate;//3
+                        updatedTask.StartDate = TaskToUpdate.StartDate;//3
 
-
+                        updatedTask.CompleteDate= TaskToUpdate.CompleteDate;
 
 
 
@@ -557,7 +576,17 @@ internal class TaskImplementation : BlApi.ITask
         }
 
     }
+    public bool AllTaskDependentDone(int Id)
+    {
 
+        BO.Task mytask = _bl.Task.ReadTask(Id);
+        foreach( var dependency in mytask.Dependencies)
+        {
+            if (_dal.Task.Read(dependency.Id).CompleteDate == null)
+                return false;
+        }
+        return true;
+    }
     /// <summary>
     /// this method gets an id of task and update the start date
     /// to be now.
@@ -569,9 +598,11 @@ internal class TaskImplementation : BlApi.ITask
     {
         try
         {
-
-            if (_bl.Clock < (_dal.Task.Read(Id).ScheduledDate))
-                throw new BO.BlInvalidGivenValueException("false start date update of task: date before scheduled date");
+            if(_dal.Task.Read(Id).WorkerId==null)
+                throw new BO.BlInvalidGivenValueException("false start date update of task: there is no worker that is on that task ");
+            else
+            if (AllTaskDependentDone(Id)==false)
+                throw new BO.BlInvalidGivenValueException("false start date update of task: the dependent task are not done ");
             else
             {
                 DO.Task updDate = _dal.Task.Read(Id) with { StartDate = _bl.Clock };

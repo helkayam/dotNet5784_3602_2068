@@ -107,6 +107,7 @@ public void AddWorker(BO.Worker newWorker)
         }
 
     }
+    
 
     /// <summary>
     /// A method that checks for a certain employee whether he has a task assigned to him
@@ -136,6 +137,7 @@ public void AddWorker(BO.Worker newWorker)
 
 
     }
+   
     public IEnumerable<BO.Worker> ReadAllSearch(string search)
     {
         string searchLower = search.ToLower();
@@ -157,6 +159,14 @@ public void AddWorker(BO.Worker newWorker)
         }) ;
 
     }
+
+    public IEnumerable<BO.WorkerInTask ?> ReadAllWorkersSuitabeToTask(int TaskId)
+    {
+        IEnumerable<DO.Worker?> result = _dal.Worker.ReadAll(ts => (ts.Level >= _dal.Task.Read(TaskId).Complexity && _bl.Worker.ReadWorker(ts.Id).Task == null));
+        return result.Select(doworker => new BO.WorkerInTask() { Id = doworker.Id, Name = doworker.Name });
+    }
+
+
     /// <summary>
     /// The method returns a collection of workers according to a certain filter:
     /// *All workers who have not been assigned a task
@@ -282,8 +292,8 @@ public void AddWorker(BO.Worker newWorker)
                                           Id = TaskOfWorker.Id,
                                           Alias = TaskOfWorker.Alias
                                       }).FirstOrDefault()!;
-          
-           
+
+            boworker.Task = Task;
         }
         catch(DO.DalDoesNotExistException ex)
         {
@@ -377,20 +387,27 @@ public void AddWorker(BO.Worker newWorker)
                 _dal.Worker.Update(doWorker);
                 if (GetStatusOfProject() == BO.ProjectStatus.ExecutionStage)
                 {
+                    int TaskToUp;
+                    if (workerToUpdate.Task != null)
+                    {
+                        TaskToUp = workerToUpdate.Task.Id;
+                        if (_dal.Task.Read(TaskToUp) == null)
+                            throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, Task with id={TaskToUp} of worker does not exsists");
+                        if (_dal.Task.Read(TaskToUp).Id != _bl.Task.ReadAllWorkerTask(workerToUpdate.Id).FirstOrDefault().Id)
 
-                    int TaskToUp = workerToUpdate.Task.Id;
-                    if (_dal.Task.Read(TaskToUp) == null)
-                        throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, Task with id={TaskToUp} of worker does not exsists");
-                    if((BO.WorkerExperience)_dal.Task.Read(TaskToUp).Complexity>workerToUpdate.Level)
-                        throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, Task with id={TaskToUp} is not appropriate for the worker level");
-                    if (WorkerDoesntHaveTask(doWorker.Id)==false)
-                        throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, this worker is already on a task");
-                    if (_dal.Task.Read(workerToUpdate.Task.Id).WorkerId!=null)
-                        throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, the task have already a worker that is working on it");
+                        {
+                            if ((BO.WorkerExperience)_dal.Task.Read(TaskToUp).Complexity > workerToUpdate.Level)
+                                throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, Task with id={TaskToUp} is not appropriate for the worker level");
+                            if (WorkerDoesntHaveTask(doWorker.Id) == false)
+                                throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, this worker is already on a task");
+                            if (_dal.Task.Read(workerToUpdate.Task.Id).WorkerId != null)
+                                throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, the task have already a worker that is working on it");
 
 
-                    DO.Task taskWithUpdateWorker = _dal.Task.Read(TaskToUp) with { WorkerId = workerToUpdate.Id };
-                    _dal.Task.Update(taskWithUpdateWorker);
+                            DO.Task taskWithUpdateWorker = _dal.Task.Read(TaskToUp) with { WorkerId = workerToUpdate.Id };
+                            _dal.Task.Update(taskWithUpdateWorker);
+                        }
+                    }
                 }
             }
             else

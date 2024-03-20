@@ -24,7 +24,32 @@ namespace PL.Worker
 
 
 
-        public bool isStart;
+
+
+        public bool IsStart
+        {
+            get { return (bool)GetValue(IsStartProperty); }
+            set { SetValue(IsStartProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsStart.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsStartProperty =
+            DependencyProperty.Register("IsStart", typeof(bool), typeof(TaskOfWorker), new PropertyMetadata());
+
+
+        public bool IsNotInWhile
+        {
+            get { return (bool)GetValue(IsNotInWhileProperty); }
+            set { SetValue(IsNotInWhileProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsStart.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsNotInWhileProperty =
+            DependencyProperty.Register("IsNotInWhile", typeof(bool), typeof(TaskOfWorker), new PropertyMetadata());
+
+
+
+
         public BO.Task MyTask
         {
             get { return (BO.Task)GetValue(MyTaskProperty); }
@@ -35,24 +60,32 @@ namespace PL.Worker
         public static readonly DependencyProperty MyTaskProperty =
             DependencyProperty.Register("MyTask", typeof(BO.Task), typeof(TaskWindow), new PropertyMetadata());
 
-
+        int IdOfTask;
         public TaskOfWorker(int Id)
         {
-            InitializeComponent();
 
+            IdOfTask = Id;
             try
             {
                 MyTask = s_bl.Task.ReadTask(Id, true);
                 if (MyTask.StartDate == null)
-                    isStart = false;
+                {
+                    IsStart = false;
+                    IsNotInWhile = true;
+                }
                 else
-                    isStart = true;
+                {
+                    IsStart = true;
+                    IsNotInWhile = false;
+                }
 
             }
             catch (BO.BlDoesNotExistException ex)
             {
                 MessageBox.Show(ex.Message);
             }
+            InitializeComponent();
+
 
         }
 
@@ -60,8 +93,11 @@ namespace PL.Worker
         {
             try
             {
-                isStart = true;
                 s_bl.Task.AddOrUpdateStartDate(MyTask.Id);
+                IsNotInWhile = false;
+                IsStart = true;
+
+                MyTask = s_bl.Task.ReadTask(MyTask.Id);
             }
             catch (BO.BlInvalidGivenValueException ex)
             {
@@ -81,6 +117,10 @@ namespace PL.Worker
             try
             {
                 s_bl.Task.AddCompleteDate(MyTask.Id);
+                IsStart = false;
+                IsNotInWhile = false;
+                MyTask = s_bl.Task.ReadTask(MyTask.Id);
+
             }
             catch (BO.BlInvalidGivenValueException ex)
             {
@@ -97,7 +137,7 @@ namespace PL.Worker
         {
             try
             {
-               
+               // MyTask = s_bl.Task.ReadTask(IdOfTask);
                     s_bl.Task.UpdateTask(MyTask);
                     MessageBox.Show($"Updating the Task with ID: {MyTask.Id} card was successful");
                 this.Close();

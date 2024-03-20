@@ -25,38 +25,18 @@ namespace PL
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
 
-        public bool IsFirstStage
+       
+        public bool IsThirdStageAndWithoutTask
         {
-            get { return (bool)GetValue(isFirstStageProperty); }
-            set { SetValue(isFirstStageProperty, value); }
+            get { return (bool)GetValue(IsThirdStageAndWithoutTaskProperty); }
+            set { SetValue(IsThirdStageAndWithoutTaskProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for isThirdStage  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty isFirstStageProperty =
-            DependencyProperty.Register("isFirstStage", typeof(bool), typeof(WorkerMainWindow), new PropertyMetadata(null));
+        public static readonly DependencyProperty IsThirdStageAndWithoutTaskProperty =
+            DependencyProperty.Register("IsThirdStageAndWithoutTask", typeof(bool), typeof(WorkerMainWindow), new PropertyMetadata());
 
-
-        public bool IsThirdStage
-        {
-            get { return (bool)GetValue(isThirdStageProperty); }
-            set { SetValue(isThirdStageProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for isThirdStage  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty isThirdStageProperty =
-            DependencyProperty.Register("isThirdStage", typeof(bool), typeof(WorkerMainWindow), new PropertyMetadata(null));
-
-        public bool IsSecondStage
-        {
-            get { return (bool)GetValue(isSecondStageProperty); }
-            set { SetValue(isSecondStageProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for isThirdStage  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty isSecondStageProperty =
-            DependencyProperty.Register("isSecondStage", typeof(bool), typeof(WorkerMainWindow), new PropertyMetadata(null));
-
-
+       
 
         public bool HaveTask
         {
@@ -82,15 +62,15 @@ namespace PL
 
 
 
-        public BO.TaskInWorker MyTask
+        public IEnumerable<BO.TaskInWorker> MyTask
         {
-            get { return (BO.TaskInWorker)GetValue(MyTaskProperty); }
+            get { return (IEnumerable<BO.TaskInWorker>)GetValue(MyTaskProperty); }
             set { SetValue(MyTaskProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyTask.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MyTaskProperty =
-            DependencyProperty.Register("MyTask", typeof(BO.TaskInWorker), typeof(WorkerMainWindow), new PropertyMetadata());
+            DependencyProperty.Register("MyTask", typeof(IEnumerable<BO.TaskInWorker >), typeof(WorkerMainWindow), new PropertyMetadata());
 
 
         public BO.Worker MyWorker
@@ -101,7 +81,7 @@ namespace PL
 
         // Using a DependencyProperty as the backing store for MyWorker.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MyWorkerProperty =
-            DependencyProperty.Register("MyWorker", typeof(BO.Worker), typeof(WorkerWindow), new PropertyMetadata());
+            DependencyProperty.Register("MyWorker", typeof(BO.Worker), typeof(WorkerMainWindow), new PropertyMetadata());
 
 
         public string Hello
@@ -117,53 +97,60 @@ namespace PL
 
         public WorkerMainWindow(int IdOfWorker)
         {
-            InitializeComponent();
+          
 
-            if (s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.PlanStage)
-            {
-                IsFirstStage = true;
-                IsThirdStage = false;
-                IsSecondStage = false;
-            }
-            else
-                if (s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.ScheduleDetermination)
-            {
-                IsFirstStage = false;
-                IsThirdStage = false;
-                IsSecondStage = true;
-            }
-            else
-            {
-                IsFirstStage = false;
-                IsThirdStage = true;
-                IsSecondStage = false;
-            }
+           
+               
+           
             Hello = "Hello " + s_bl.Worker.ReadWorker(IdOfWorker).Name;
             Id= IdOfWorker;
-            MyTask = s_bl.Worker.ReadWorker(Id).Task;
-            if (MyTask == null)
+            MyTask = s_bl.Task.ReadAllWorkerTask(Id);
+            if (MyTask.Count()==0)
                 HaveTask = false;
             else
                 HaveTask = true;
 
+            if (s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.ExecutionStage && HaveTask == false)
+                IsThirdStageAndWithoutTask = true;
+                InitializeComponent();
 
         }
 
         private void ButtonChoseTask_Click(object sender, RoutedEventArgs e)
         {
+
             new TasksForWorkerList(Id).ShowDialog();
-            HaveTask = true;
+        
+            MyTask = s_bl.Task.ReadAllWorkerTask(Id);
+            if (MyTask.Count() != 0)
+                HaveTask = true;
+            else HaveTask = false;
+            if (s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.ExecutionStage && HaveTask == false)
+                IsThirdStageAndWithoutTask = true;
+            else
+                IsThirdStageAndWithoutTask = false;
+            InitializeComponent();
         }
 
 
         private void Update_click(object sender, MouseButtonEventArgs e)
         {
-            new TaskOfWorker(MyTask.Id).ShowDialog();
-            MyTask = s_bl.Worker.ReadWorker(Id).Task;
+            BO.TaskInWorker tiw = MyTask.FirstOrDefault();
+            new TaskOfWorker(tiw.Id).ShowDialog();
+
+            MyTask = s_bl.Task.ReadAllWorkerTask(Id);
+            if (MyTask.Count() != 0)
+                HaveTask = true;
+            else HaveTask = false;
+            if (s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.ExecutionStage && HaveTask == false)
+                IsThirdStageAndWithoutTask = true;
+            else
+                IsThirdStageAndWithoutTask = false;
+            InitializeComponent();
 
 
         }
 
-       
+
     }
 }

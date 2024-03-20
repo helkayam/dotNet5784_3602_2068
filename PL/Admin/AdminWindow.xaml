@@ -6,11 +6,13 @@
         xmlns:local="clr-namespace:PL.Admin"
         mc:Ignorable="d"
         Icon="\Images\IsraelFlag.jpg" 
-        Title="AdminWindow" Height="400" Width="800" Background="#AAB2E6"   DataContext="{Binding RelativeSource={RelativeSource Self}}" >
+        Title="AdminWindow" Height="400" Width="800"    DataContext="{Binding RelativeSource={RelativeSource Self}}" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
+          <Image Source="/Images/Backround-blurred.jpg" Margin="-102,-559,-92,-526" />
+
         <Button Content="Workers" Margin="227,127,421,174" Click="ButtonWorker_Click" FontFamily="Arial Black" FontSize="15" BorderBrush="Black" BorderThickness="1.5" Background="{x:Null}" />
         <Button Content="Tasks" Background="{x:Null}" Margin="463,127,185,174" Click="ButtonTask_Click" FontFamily="Arial Black" FontSize="15" BorderBrush="Black" BorderThickness="1.5"/>
         <Button Content="INITDB" FontFamily="Arial Black" FontSize="13" Click="ButtonINIT_Click" Margin="603,277,76,63" Background="{x:Null}" BorderBrush="Black" BorderThickness="1.5"/>
@@ -19,7 +21,7 @@
         <Button Content="one Day" FontFamily="Arial Black"  HorizontalAlignment="Left" Margin="657,60,0,0" VerticalAlignment="Top" FontSize="8"  Click="AddOneDay_click" Width="54" Background="{x:Null}" BorderBrush="Black" BorderThickness="1.5" Height="19"/>
         <Button  Content="one Hour" FontFamily="Arial Black" HorizontalAlignment="Left" Margin="603,60,0,0" VerticalAlignment="Top" FontSize="8" Click="AddOneHour_click" Height="19" Width="54" Background="{x:Null}" BorderBrush="Black" BorderThickness="1.5"/>
         <Button  Content="one Week"  FontFamily="Arial Black" HorizontalAlignment="Left" Margin="711,60,0,0" VerticalAlignment="Top" FontSize="8" Click="AddWeek_click" Width="54" Height="19" Background="{x:Null}" BorderBrush="Black" BorderThickness="1.5"/>
-        <Label Grid.Row="0" Content="{Binding Clock}" FontSize="12" HorizontalAlignment="Left" Margin="603,14,0,0" VerticalAlignment="Top" Height="65" Width="162" Background="{x:Null}"  BorderBrush="Black" BorderThickness="1.5"/>
+        <Label Grid.Row="0" Content="{Binding Clock}" FontFamily="Arial Black" FontSize="12" HorizontalAlignment="Left" Margin="603,14,0,0" VerticalAlignment="Top" Height="65" Width="162" Background="{x:Null}"  BorderBrush="Black" BorderThickness="1.5"/>
         <Button Content="Init Clock"  FontFamily="Arial Black" HorizontalAlignment="Left" Margin="711,84,0,0" VerticalAlignment="Top" Height="17" Width="53" FontSize="7" Click="InitClock_click" RenderTransformOrigin="0.997,0.754" Background="{x:Null}" BorderBrush="Black" BorderThickness="1.5"/>
         <Button Content="Gantt Chart"  BorderBrush="Black" BorderThickness="1.5" FontFamily="Arial Black" FontSize="13" HorizontalAlignment="Left" Margin="259,277,0,0" VerticalAlignment="Top" Height="44" Width="120" Background="{x:Null}" Click="Gantt_Click"/>
         <Button Content="Schedule" FontFamily="Arial Black" FontSize="13" HorizontalAlignment="Left" Margin="103,277,0,0" VerticalAlignment="Top" Height="44" Width="120" Background="{x:Null}" Click="CreateSchedule_Click" BorderBrush="Black" BorderThickness="1.5"/>

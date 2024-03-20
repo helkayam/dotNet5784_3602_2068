@@ -157,10 +157,14 @@ namespace PL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if ((int)value == 0)
-                return Brushes.WhiteSmoke;
-            else
-                return Brushes.SteelBlue;
+            if (value != null && value is int intValue)
+            {
+                // Check the cell value and return the appropriate color
+                return intValue == 1 ? Brushes.LightBlue : Brushes.Transparent; // You can adjust the colors as needed
+            }
+
+            // Default color if value is null or not an integer
+            return Brushes.Transparent;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

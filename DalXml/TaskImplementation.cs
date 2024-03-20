@@ -162,6 +162,6 @@ internal class TaskImplementation:ITask
             tasks.Clear();
         XMLTools.SaveListToXMLSerializer<DO.Task>(tasks, s_tasks_xml);
 
-        XMLTools.InitializeId("data - config.xml", "NextTaskId");
+        XMLTools.InitializeId("data-config.xml", "NextTaskId");
     }
 }

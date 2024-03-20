@@ -48,8 +48,8 @@ namespace PL.Admin
         public AdminWindow()
         {
             InitializeComponent();
-          
 
+            Clock = s_bl.Clock;
             TaskList = s_bl.Task.ReadAllTasks();
             mediaPlayer.Open(new Uri(@"MediaFile\Israel National Anthem (Instrumental).mp3", UriKind.RelativeOrAbsolute));
         }

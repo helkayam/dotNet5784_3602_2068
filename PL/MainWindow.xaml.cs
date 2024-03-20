@@ -56,8 +56,7 @@ namespace PL
 
         public MainWindow()
         {
-            
-            InitializeComponent();
+            mediaPlayer.Open(new Uri(@"MediaFile\Israel National Anthem (Instrumental).mp3", UriKind.RelativeOrAbsolute)); InitializeComponent();
             s_bl.InitClock() ;
             Clock = s_bl.Clock;
             StartDateProject = s_bl.Schedule.getStartDateProject(); 

@@ -11,14 +11,19 @@
         DataContext="{Binding RelativeSource={RelativeSource Mode= Self}}">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="491*"/>
+            <RowDefinition Height="293*"/>
+        </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
+        <Image Source="/Images/Backround-blurred.jpg" Margin="-102,-559,-92,-526" Grid.ColumnSpan="3" Grid.RowSpan="2"/>
 
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0" Grid.RowSpan="2">
             <Label Content="Dependencies:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="18,110,0,0" VerticalAlignment="Top" Height="40" Width="108"/>
             <ListView ItemsSource="{Binding MyTask.Dependencies , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Margin="18,150,17,375" >
                 <ListView.View>
@@ -27,10 +32,10 @@
                     </GridView>
                 </ListView.View>
             </ListView>
-            <Button Content="Add Dependency"  HorizontalAlignment="Center" Margin="0,432,0,0" VerticalAlignment="Top" Height="38" Width="136" Click="AddDependency_Click"  />
+            <Button Content="Add Dependency" Visibility="{Binding IsFirstStage , Mode=OneWay ,Converter={StaticResource BoolToVisibilityConverterKey }}"  HorizontalAlignment="Center" Margin="0,432,0,0" VerticalAlignment="Top" Height="38" Width="136" Click="AddDependency_Click"  />
         </Grid>
 
-        <Grid Grid.Column="1">
+        <Grid Grid.ColumnSpan="3" Margin="333,0,333,0" Grid.RowSpan="2">
             <Grid.RowDefinitions >
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -62,13 +67,13 @@
             <ComboBox ItemsSource="{Binding Source={StaticResource TaskStatusKey}}"  
            SelectedValue="{Binding MyTask.Status , Mode=TwoWay}" HorizontalAlignment="Left" IsEnabled="False" Margin="94,24,0,0" VerticalAlignment="Top" Width="204" Height="34" Grid.Row="4"/>
             <CheckBox Content="Erasable" IsChecked="{Binding MyTask.Eraseable , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="123,28,0,0" VerticalAlignment="Top" Grid.Row="5"/>
-            <ComboBox ItemsSource="{Binding Source={StaticResource WorkerExperienceCollectionKey}}"
+            <ComboBox IsEnabled="{Binding WithoutWorker, Mode=OneWay, Converter={StaticResource BoolToEnableConverterKey }}" ItemsSource="{Binding Source={StaticResource WorkerExperienceCollectionKey}}"
     SelectedValue="{Binding MyTask.Complexity , Mode=TwoWay}"  SelectionChanged="ComboBox_LevelChangedTask" HorizontalAlignment="Left" Margin="109,15,0,0" VerticalAlignment="Top" Width="166" Height="32" Grid.Row="6"/>
             <TextBox Text="{Binding MyTask.RequiredEffortTime , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="184,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Height="32" Grid.Row="7"/>
 
         </Grid>
 
-        <Grid Grid.Column="2">
+        <Grid Grid.Column="2" Grid.RowSpan="2">
             <Grid.RowDefinitions >
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
@@ -90,8 +95,7 @@
 
             <Label Content="Deliverables:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="19,10,0,0" VerticalAlignment="Top" Grid.Row="5"/>
             <Label Content="Remarks:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="20,11,0,0" VerticalAlignment="Top" Grid.Row="6"/>
-            <Label Content="Worker ID:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="27,0,0,0" VerticalAlignment="Center" Grid.Row="7"/>
-            <Label Content="Worker Name:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="27,0,0,0" VerticalAlignment="Center" Grid.Row="8"/>
+            <Label Content="Worker " HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="27,0,0,0" VerticalAlignment="Center" Grid.Row="7"/>
 
 
 
@@ -99,16 +103,14 @@
             <DatePicker SelectedDate="{Binding MyTask.ForecastDate , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="False"  HorizontalAlignment="Left" Margin="132,0,0,0" VerticalAlignment="Center" Width="128" Grid.Row="2"/>
             <DatePicker SelectedDate="{Binding MyTask.Deadline , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="139,32,0,0" VerticalAlignment="Top" Width="129" Grid.Row="3"/>
             <DatePicker SelectedDate="{Binding MyTask.CompleteDate , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="False"  HorizontalAlignment="Left" Margin="118,37,0,0" VerticalAlignment="Top" Width="129" Grid.Row="4"/>
-            <DatePicker SelectedDate="{Binding MyTask.ScheduledDate , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="{Binding IsThirdStage, Mode=OneWay,Converter={StaticResource BoolToNotEnableConverterKey} }" HorizontalAlignment="Left" Margin="124,0,0,0" VerticalAlignment="Center" Width="144"/>
-
-
+            <DatePicker IsEnabled="False"  SelectedDate="{Binding MyTask.ScheduledDate , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Margin="124,0,0,0" VerticalAlignment="Center" Width="144"/>
+            <Label FontFamily="Arial Black" Content="Id of worker:" Margin="4,11,234,44" Grid.Row="8"/>
+            <TextBlock  Text="{Binding MyTask.Worker.Id,Mode=OneWay}" Margin="124,11,12,44" Grid.Row="8" />
             <TextBox Text="{Binding MyTask.Deliverables , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="{Binding IsThirdStage, Mode=OneWay, Converter={StaticResource BoolToEnableConverterKey }}" HorizontalAlignment="Left" Margin="118,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="206" Height="74" Grid.Row="5"/>
             <TextBox Text="{Binding MyTask.Remarks , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="92,7,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="222" Height="70" Grid.Row="6"/>
-            <TextBox Text="{Binding MyTask.Worker.Id , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="{Binding IsThirdStage, Mode=OneWay, Converter={StaticResource BoolToEnableConverterKey }}" HorizontalAlignment="Left" Margin="110,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Height="27" Grid.Row="7"/>
-            <TextBox Text="{Binding MyTask.Worker.Name , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Margin="134,0,0,0" TextWrapping="Wrap" IsEnabled="False"  VerticalAlignment="Center" Width="166" Height="25" Grid.Row="8"/>
-
-            <Button Content="Start the&#xD;&#xA; Task" Visibility="{Binding IsThirdStage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey }}" HorizontalAlignment="Left" Margin="238,21,0,0" VerticalAlignment="Top" Width="76" Height="38" Click="StartTaskButton_Click" Grid.Row="1"/>
-            <Button Content="Finish the&#xD;&#xA; Task" Visibility="{Binding IsThirdStage, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey }}" HorizontalAlignment="Left" Margin="252,29,0,0" VerticalAlignment="Top" Width="76" Height="38" Click="FinishTaskButton_Click" Grid.Row="4"/>
+            <ComboBox SelectedValue="{Binding MyTask.Worker}" ItemsSource="{Binding Path=WorkersPossible}" IsEnabled="{Binding WithoutWorkerAndThirdStage , Mode=OneWay, Converter={StaticResource BoolToEnableConverterKey }}" Margin="92,27,19,11" Grid.Row="7" SelectionChanged="ComboBox_WorkerChanged"/>
+            <Button Content="Start the&#xD;&#xA; Task" Visibility="{Binding WithWorkerAndThirdStage , Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey }}" HorizontalAlignment="Left" Margin="238,21,0,0" VerticalAlignment="Top" Width="76" Height="38" Click="StartTaskButton_Click" Grid.Row="1"/>
+            <Button Content="Finish the&#xD;&#xA; Task" Visibility="{Binding WithWorkerAndThirdStage , Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey }}" HorizontalAlignment="Left" Margin="252,29,0,0" VerticalAlignment="Top" Width="76" Height="38" Click="FinishTaskButton_Click" Grid.Row="4"/>
         </Grid>
 
 

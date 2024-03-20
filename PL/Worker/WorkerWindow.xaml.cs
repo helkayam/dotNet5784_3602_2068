@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BO;
+using PL.Task;
 
 namespace PL.Worker
 {
@@ -23,9 +24,37 @@ namespace PL.Worker
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
         public BO.WorkerExperience LevelOfWorker { get; set; } = BO.WorkerExperience.Beginner;
 
-       
-    
 
+        public bool HaveTask
+        {
+            get { return (bool)GetValue(HaveTaskProperty); }
+            set { SetValue(HaveTaskProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for HaveTask.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty HaveTaskProperty =
+            DependencyProperty.Register("HaveTask", typeof(bool), typeof(WorkerWindow), new PropertyMetadata());
+
+
+        public bool IsThirdStageAndWithoutTask
+        {
+            get { return (bool)GetValue(IsThirdStageAndWithoutTaskProperty); }
+            set { SetValue(IsThirdStageAndWithoutTaskProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsThirdStageAndWithoutTask.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsThirdStageAndWithoutTaskProperty =
+            DependencyProperty.Register("IsThirdStageAndWithoutTask", typeof(bool), typeof(WorkerWindow ), new PropertyMetadata());
+
+
+        public BO.TaskInWorker MyTask
+        {
+            get { return (BO.TaskInWorker)GetValue(MyTaskProperty); }
+            set { SetValue(MyTaskProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for MyWorker.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MyTaskProperty =
+            DependencyProperty.Register("MyTask", typeof(BO.TaskInWorker), typeof(WorkerWindow), new PropertyMetadata());
 
         public BO.Worker MyWorker
         {
@@ -41,20 +70,30 @@ namespace PL.Worker
     
         public WorkerWindow( int IdOfWorker = 0)
         {
+            IsThirdStageAndWithoutTask = false;
             try
             {
-                InitializeComponent();
                 if (IdOfWorker == 0)
                 {
                     MyWorker = new BO.Worker { };
                 }
                 else
-                    MyWorker = s_bl.Worker.ReadWorker(IdOfWorker,true);
+                {
+                    MyWorker = s_bl.Worker.ReadWorker(IdOfWorker, true);
+                    if (MyWorker.Task == null)
+                        HaveTask = false;
+                    else
+                        HaveTask = true;
+                    MyTask = MyWorker.Task;
+                    if (HaveTask == false && s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.ExecutionStage)
+                        IsThirdStageAndWithoutTask = true;
+                }
             }
             catch (BO.BlDoesNotExistException ex)
             {
                 MessageBox.Show(ex.Message);
             }
+            InitializeComponent();
 
 
         }
@@ -104,6 +143,17 @@ namespace PL.Worker
             MyWorker.Level = (BO.WorkerExperience)((ComboBox)sender).SelectedItem;
         }
 
-       
+        private void ButtonChoseTask_Click(object sender, RoutedEventArgs e)
+        {
+            new TasksForWorkerList(MyWorker.Id).ShowDialog();
+            MyTask = s_bl.Worker.ReadWorker(MyWorker.Id).Task;
+            MyWorker = s_bl.Worker.ReadWorker(MyWorker.Id);
+            if (MyTask == null)
+                HaveTask = false;
+            else
+                HaveTask = true;
+            if (s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.ExecutionStage && HaveTask == false)
+                IsThirdStageAndWithoutTask = true;
+        }
     }
 }

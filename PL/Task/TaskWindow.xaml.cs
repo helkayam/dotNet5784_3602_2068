@@ -30,9 +30,44 @@ namespace PL.Task
 
         public static BO.ProjectStatus StatusProject { get; set; } = s_bl.Task.GetStatusOfProject();
 
-       
 
-        
+        public IEnumerable<BO.WorkerInTask?> WorkersPossible;
+
+
+
+
+        public bool WithoutWorker
+        {
+            get { return (bool)GetValue(WithoutWorkerProperty); }
+            set { SetValue(WithoutWorkerProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty WithoutWorkerProperty =
+            DependencyProperty.Register("WithoutWorker", typeof(bool ), typeof(TaskWindow ), new PropertyMetadata());
+
+
+        public bool WithWorkerAndThirdStage
+        {
+            get { return (bool)GetValue(WithoutWorkerAndThirdStageProperty); }
+            set { SetValue(WithoutWorkerAndThirdStageProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for WithoutWorkerAndThirdStage.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty WithWorkerAndThirdStageProperty =
+            DependencyProperty.Register("WithWorkerAndThirdStage", typeof(bool), typeof(TaskWindow), new PropertyMetadata());
+
+        public bool WithoutWorkerAndThirdStage
+        {
+            get { return (bool)GetValue(WithoutWorkerAndThirdStageProperty); }
+            set { SetValue(WithoutWorkerAndThirdStageProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for WithoutWorkerAndThirdStage.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty WithoutWorkerAndThirdStageProperty =
+            DependencyProperty.Register("WithoutWorkerAndThirdStage", typeof(bool), typeof(TaskWindow), new PropertyMetadata());
+
+
 
         public bool IsFirstStage
         {
@@ -80,7 +115,6 @@ namespace PL.Task
 
         public TaskWindow(int IdOfTask = -1)
         {
-            InitializeComponent();
 
             try
             {
@@ -89,6 +123,8 @@ namespace PL.Task
                     IsFirstStage = true;
                     IsThirdStage = false;
                     IsSecondStage = false;
+                    WithWorkerAndThirdStage = false;
+                    WithoutWorkerAndThirdStage = false;
                 }
                 else
                  if(s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.ScheduleDetermination)
@@ -96,23 +132,46 @@ namespace PL.Task
                     IsFirstStage = false;
                     IsThirdStage = false;
                     IsSecondStage = true;
+                    WithWorkerAndThirdStage = false;
+                    WithoutWorkerAndThirdStage = false;
+
                 }
                 else
                 {
                     IsFirstStage = false;
                     IsThirdStage = true;
                     IsSecondStage = false;
+                    
                 }
 
                 if (IdOfTask == -1)
                     MyTask = new BO.Task();
                 else
+                {
                     MyTask = s_bl.Task.ReadTask(IdOfTask, true);
+                    if (MyTask.Worker != null && IsThirdStage)
+                    {
+                        WithWorkerAndThirdStage = true;
+                        WithoutWorkerAndThirdStage = false;
+                    }
+                    if (MyTask.Worker == null && IsThirdStage)
+                    {
+                        WithoutWorkerAndThirdStage = true;
+                        WithWorkerAndThirdStage = false;
+                    }
+                    if (MyTask.Worker == null)
+                        WithoutWorker = true;
+                    WorkersPossible = s_bl.Worker.ReadAllWorkersSuitabeToTask(MyTask.Id);
+
+
+                }
             }
             catch (BO.BlDoesNotExistException ex)
             {
                 MessageBox.Show(ex.Message);
             }
+            InitializeComponent();
+
         }
 
         private void ComboBox_LevelChangedTask(object sender, SelectionChangedEventArgs e)
@@ -199,6 +258,14 @@ namespace PL.Task
         private void AddDependency_Click(object sender, RoutedEventArgs e)
         {
             new ChoseDependency(MyTask).ShowDialog();
+        }
+
+        private void ComboBox_WorkerChanged(object sender, SelectionChangedEventArgs e)
+        {
+           
+            BO.WorkerInTask workerInTask = (BO.WorkerInTask)((ComboBox)sender).SelectedItem;
+            MyTask.Worker=workerInTask;
+
         }
     }
 }

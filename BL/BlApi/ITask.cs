@@ -17,6 +17,8 @@ public interface ITask
     public void UpdateTimeInSchedule(BO.Task myTask);
     public BO.Task? ReadTask(int Id,bool throwexception=false);
 
+    public IEnumerable<BO.TaskInWorker> ReadAllWorkerTask(int Id);
+
     public void AddOrUpdateStartDate(int Id);
     public void AddCompleteDate(int Id);
 

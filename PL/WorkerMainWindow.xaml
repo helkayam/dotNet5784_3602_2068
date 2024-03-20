@@ -6,19 +6,24 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Icon="\Images\IsraelFlag.jpg" 
-          Background="#7D87B0"
+         
         Title="WorkerMainWindow" Height="450" Width="800"
-         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
+         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}" >
     <Grid>
-        <Button Content="Chose a Task" Visibility="{Binding IsThirdStage , Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey}}"   FontSize="15" FontFamily="Arial Black" Margin="322,378,351,10" Click="ButtonChoseTask_Click" Background="{x:Null}" BorderBrush="White" BorderThickness="1.5" Foreground="White" ></Button>
+        <Image Source="/Images/Backround-blurred.jpg" Margin="-154,-97,-154,-61"/>
+        <Button Content="Chose a Task" Visibility="{Binding IsThirdStageAndWithoutTask , Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey}}"   FontSize="15" FontFamily="Arial Black" Margin="322,378,351,10" Click="ButtonChoseTask_Click" Background="{x:Null}" BorderBrush="Black"   BorderThickness="1.5" Foreground="Black"  ></Button>
 
-        <Label Content="{Binding Hello, Mode=OneWay}" Margin="227,27,169,337" Foreground="Black" FontSize="20" FontFamily="Arial Black"></Label>
-        <ListView d:ItemsSource="{Binding MyTask, Mode=OneWayToSource}" Margin="26,137,312,137" MouseDoubleClick="Update_click" >
+        <Label Content="{Binding Hello, Mode=OneWay}" Margin="220,29,176,335" Foreground="Black" FontSize="20" FontFamily="Arial Black"></Label>
+
+  
+        <ListView ItemsSource="{Binding Path=MyTask }" Margin="26,137,312,137" MouseDoubleClick="Update_click" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
+
+
     </Grid>
 </Window>

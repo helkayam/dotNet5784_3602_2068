@@ -5,14 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Admin"
         mc:Ignorable="d"
-        Title="GanttChart" Height="450" Width="800">
+        Title="GanttChart" Height="800" Width="900">
+    
     <Grid>
-        <DataGrid Initialized="dataGridSched_Initialized" >
-            <DataGrid.CellStyle>
+
+
+        <DataGrid Initialized="dataGridSched_Initialized" AutoGenerateColumns="True"  >
+            <!--<DataGrid.CellStyle>
                 <Style TargetType="DataGridCell">
-                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self},Path=Content, Converter={StaticResource ConvertNumberToColorKey}}"/>
+                    <Setter Property="Background" Value="Beige" />
                 </Style>
-            </DataGrid.CellStyle>
+            </DataGrid.CellStyle>-->
         </DataGrid>
         
     </Grid>

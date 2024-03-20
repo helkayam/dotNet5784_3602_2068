@@ -22,7 +22,13 @@ namespace PL.Task
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
 
-
+        public int chosenIdTask
+        {
+            get { return (int)GetValue(IdTaskProperty); }
+            set { SetValue(IdTaskProperty, value); }
+        }
+        public static readonly DependencyProperty IdTaskProperty =
+           DependencyProperty.Register("chosenIdTask", typeof(int), typeof(TasksForWorkerList), new PropertyMetadata(null));
 
         public int Id
         {
@@ -56,34 +62,40 @@ namespace PL.Task
         }
 
         private void Chose_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBoxResult messageBoxResult = MessageBox.Show($"Are you sure you want to be in charge of task with Id={((BO.TaskInList)((ListView)sender).SelectedItem).Id}?", "hello", MessageBoxButton.YesNo, MessageBoxImage.Question);
-            if (messageBoxResult == MessageBoxResult.Yes)
-
+        {if (chosenIdTask != null)
             {
-                try
+                MessageBoxResult messageBoxResult = MessageBox.Show($"Are you sure you want to be in charge of task with Id={chosenIdTask}?", "hello", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (messageBoxResult == MessageBoxResult.Yes)
+
                 {
-                    BO.Worker choseWorker = s_bl.Worker.ReadWorker(Id, true);
-                    BO.WorkerInTask workerTask = new BO.WorkerInTask { Name = choseWorker.Name, Id = choseWorker.Id };
-                    int IdOfTask = ((BO.TaskInList)((ListView)sender).SelectedItem).Id;
-                    BO.Task updTask = s_bl.Task.ReadTask(IdOfTask);
-                    updTask.Worker = workerTask;
-                    s_bl.Task.UpdateTask(updTask);
+                    try
+                    {
+                        BO.Worker choseWorker = s_bl.Worker.ReadWorker(Id, true);
+                        BO.WorkerInTask workerTask = new BO.WorkerInTask { Name = choseWorker.Name, Id = choseWorker.Id };
+
+                        BO.Task updTask = s_bl.Task.ReadTask(chosenIdTask);
+                        updTask.Worker = workerTask;
+                        s_bl.Task.UpdateTask(updTask);
+                    }
+                    catch (BO.BlDoesNotExistException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+                    catch (BO.BlInvalidGivenValueException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
-                catch (BO.BlDoesNotExistException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                catch (BO.BlInvalidGivenValueException ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
+
+                this.Close();
             }
 
-            this.Close();
 
         }
 
-       
+        private void Chose_Task_mouse(object sender, MouseButtonEventArgs e)
+        {
+            chosenIdTask = ((BO.TaskInList)((ListView)sender).SelectedValue).Id;
+        }
     }
 }

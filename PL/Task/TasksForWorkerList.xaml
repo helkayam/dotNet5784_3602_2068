@@ -8,6 +8,7 @@
         Title="TasksForWorkerList" Height="450" Width="800"         
         DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}">
     <Grid>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="40*"/>
             <RowDefinition Height="500*"/>
@@ -20,14 +21,17 @@
             </Grid.ColumnDefinitions>
         </Grid>
 
-        <ListView Grid.Row="1" ItemsSource="{Binding Path=TaskList}"   >
+        <ListView Grid.Row="1" ItemsSource="{Binding Path=TaskList}" MouseLeftButtonUp="Chose_Task_mouse"   >
+            <ListView.Background>
+                <ImageBrush ImageSource="\Images\Backround-blurred.jpg"></ImageBrush>
+            </ListView.Background>
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Content="Chose the Task" Visibility="{Binding DoYouWantThatTask,Mode=OneWay,Converter={StaticResource BoolToVisibilityConverterKey}}" HorizontalAlignment="Left" Margin="382,351,0,0" Grid.Row="1" VerticalAlignment="Top" Height="50" Width="100" Click="Chose_Click" Grid.RowSpan="2"/>
+        <Button Content="Chose the Task" Background="{x:Null}" FontFamily="Arial Black" BorderBrush="Black" BorderThickness="1.5"  HorizontalAlignment="Left" Margin="384,342,0,0" Grid.Row="1" VerticalAlignment="Top" Height="50" Width="116" Click="Chose_Click"/>
 
     </Grid>
 </Window>

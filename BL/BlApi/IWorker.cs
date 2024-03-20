@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BO;
 
 
 
@@ -20,6 +21,7 @@ public interface IWorker
 
     public void deleteAll();
 
+    public IEnumerable<WorkerInTask?> ReadAllWorkersSuitabeToTask(int TaskId);
     public IEnumerable<BO.Worker> ReadAllSearch(string search);
 
 
