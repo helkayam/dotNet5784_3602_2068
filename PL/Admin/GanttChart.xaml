@@ -5,18 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Admin"
         mc:Ignorable="d"
-        Title="GanttChart" Height="800" Width="900">
-    
+        Title="GanttChart" Height="800" Width="900" 
+        DataContext="{Binding RelativeSource={RelativeSource Mode=Self}}"
+        >
+    <!--<Window.Background>
+        <ImageBrush ImageSource="/Images/gantt.jpg"/>
+    </Window.Background>-->
     <Grid>
-
-
-        <DataGrid Initialized="dataGridSched_Initialized" AutoGenerateColumns="True"  >
-            <!--<DataGrid.CellStyle>
+        <DataGrid Initialized="dataGridSched_Initialized"   AutoGenerateColumns="True">
+            <DataGrid.Resources>
                 <Style TargetType="DataGridCell">
-                    <Setter Property="Background" Value="Beige" />
+                    <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text, Converter={StaticResource ConvertValueToColorKey}}"/>
+                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Self}, Path=Content.Text, Converter={StaticResource ConvertFonValueToColorKey}}"/>
                 </Style>
-            </DataGrid.CellStyle>-->
+
+            </DataGrid.Resources>
+            <!--<ImageBrush ImageSource="/Images/gantt.jpg"/>-->
         </DataGrid>
-        
     </Grid>
+
 </Window>

@@ -10,6 +10,8 @@ using System.Windows.Data;
 using System.Globalization;
 using System.Security;
 using System.Windows.Media;
+using System.Data;
+using System.Windows.Controls;
 
 namespace PL
 {
@@ -152,29 +154,125 @@ namespace PL
         }
     }
 
-
-    public class ConvertNumberToColor : IValueConverter
+    public class StringToDoubleConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null && value is int intValue)
-            {
-                // Check the cell value and return the appropriate color
-                return intValue == 1 ? Brushes.LightBlue : Brushes.Transparent; // You can adjust the colors as needed
-            }
-
-            // Default color if value is null or not an integer
-            return Brushes.Transparent;
+            return double.Parse(value.ToString());
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value == null) { return ""; }
+            return value.ToString();
         }
     }
 
 
+    public class ConvertValueToColor : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string stringValue)
+            {
+                if (int.TryParse(stringValue, out int intValue))
+                {
+                    if (intValue == 1)
+                    {
+                        return Brushes.Blue;
+                    }
+                    if (intValue == 0)
+                    {
+                        return Brushes.White;
+                    }
+                    else
+                        return null;
 
 
+                }
+            }
+            return Brushes.White;
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException(); 
+        }
+    }
+
+
+    public class ConvertFonValueToColor : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string stringValue)
+            {
+                if (int.TryParse(stringValue, out int intValue))
+                {
+                    if (intValue == 1)
+                    {
+                        return Brushes.Blue; 
+                    }
+                    if (intValue == 0)
+                    {
+                        return Brushes.White;
+                    }
+                    else
+                        return Brushes.Black;
+
+
+                }
+            }
+            return Brushes.Black;
+
+          
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException(); 
+        }
+    }
+
+    public class DataTableToDataGridConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (!(value is DataTable dataTable))
+            {
+                throw new ArgumentException("Value is not of type DataTable", nameof(value));
+            }
+
+            DataGrid dataGrid = new DataGrid();
+
+            // Add columns to DataGrid
+            foreach (DataColumn column in dataTable.Columns)
+            {
+                dataGrid.Columns.Add(new DataGridTextColumn() { Header = column.ColumnName, Binding = new System.Windows.Data.Binding(column.ColumnName) });
+            }
+
+            // Add rows to DataGrid
+            foreach (DataRow row in dataTable.Rows)
+            {
+                dataGrid.Items.Add(row);
+            }
+
+            return dataGrid;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotSupportedException();
+        }
+    }
 
 }
+
+
+
+
+
+
+
+

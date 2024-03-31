@@ -682,6 +682,18 @@ internal class TaskImplementation : BlApi.ITask
             }).ToList();
 
     }
+
+    public bool CanStartTheTask(int id)
+    {
+        var tasks=from dep in _bl.Task.ReadTask(id).Dependencies
+                  where _bl.Task.ReadTask(dep.Id).CompleteDate!=null
+                  select dep;
+        if (tasks.Count() == 0)
+            return true;
+        return false;
+        
+        
+    }
 }
 
 

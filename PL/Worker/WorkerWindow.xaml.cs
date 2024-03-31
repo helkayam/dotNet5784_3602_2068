@@ -155,5 +155,10 @@ namespace PL.Worker
             if (s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.ExecutionStage && HaveTask == false)
                 IsThirdStageAndWithoutTask = true;
         }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

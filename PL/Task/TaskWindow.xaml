@@ -75,15 +75,15 @@
 
         <Grid Grid.Column="2" Grid.RowSpan="2">
             <Grid.RowDefinitions >
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition Height="87.116"/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
 
             <Label Content="Schedule Date:" HorizontalAlignment="Left" Grid.Row="0" FontFamily="Arial Black" FontSize="12" Margin="10,0,0,0" VerticalAlignment="Center"/>
@@ -108,9 +108,10 @@
             <TextBlock  Text="{Binding MyTask.Worker.Id,Mode=OneWay}" Margin="124,11,12,44" Grid.Row="8" />
             <TextBox Text="{Binding MyTask.Deliverables , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="{Binding IsThirdStage, Mode=OneWay, Converter={StaticResource BoolToEnableConverterKey }}" HorizontalAlignment="Left" Margin="118,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="206" Height="74" Grid.Row="5"/>
             <TextBox Text="{Binding MyTask.Remarks , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="92,7,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="222" Height="70" Grid.Row="6"/>
-            <ComboBox SelectedValue="{Binding MyTask.Worker}" ItemsSource="{Binding Path=WorkersPossible}" IsEnabled="{Binding WithoutWorkerAndThirdStage , Mode=OneWay, Converter={StaticResource BoolToEnableConverterKey }}" Margin="92,27,19,11" Grid.Row="7" SelectionChanged="ComboBox_WorkerChanged"/>
+            <ComboBox SelectedValue="{Binding MyTask.Worker}" ItemsSource="{Binding Path=WorkersPossible}" IsEnabled="{Binding WithoutWorkerAndThirdStage , Mode=OneWay, Converter={StaticResource BoolToEnableConverterKey }}" Margin="-706,43,815,81" Grid.Row="7" SelectionChanged="ComboBox_WorkerChanged" Grid.RowSpan="2" RenderTransformOrigin="-0.631,-0.349"/>
             <Button Content="Start the&#xD;&#xA; Task" Visibility="{Binding WithWorkerAndThirdStage , Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey }}" HorizontalAlignment="Left" Margin="238,21,0,0" VerticalAlignment="Top" Width="76" Height="38" Click="StartTaskButton_Click" Grid.Row="1"/>
             <Button Content="Finish the&#xD;&#xA; Task" Visibility="{Binding WithWorkerAndThirdStage , Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey }}" HorizontalAlignment="Left" Margin="252,29,0,0" VerticalAlignment="Top" Width="76" Height="38" Click="FinishTaskButton_Click" Grid.Row="4"/>
+            <Button Content="Choose" FontSize="12" HorizontalAlignment="Center" Margin="0,31,0,0" Grid.Row="7" VerticalAlignment="Top" Height="33" Width="148" Click="OpenWorkerListWindow_click"/>
         </Grid>
 
 

@@ -35,6 +35,8 @@ public interface ITask
 
     public void deleteAll();
 
+    public bool CanStartTheTask(int id);
+
 
     //public ProjectStatus ProjectStatus();
 

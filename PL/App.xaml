@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:PL"
-             StartupUri="MainWindow.xaml" >
+             StartupUri="MainWindow.xaml">
     
 
     <Application.Resources>
@@ -18,10 +18,10 @@
         <local:BoolToEnableConverter x:Key="BoolToEnableConverterKey"/>
         <local:BoolToNotEnableConverter x:Key="BoolToNotEnableConverterKey"/>
         <local:ConvertIdTaskToContent x:Key="ConverIdTaskToContentKey"/>
-        <local:ConvertNumberToColor x:Key="ConvertNumberToColorKey"/>
         <local:StringToIntConverter x:Key="ConvertStringToIntKey"/>
-
-
+		<local:ConvertValueToColor x:Key="ConvertValueToColorKey"/>
+        <local:ConvertFonValueToColor x:Key="ConvertFonValueToColorKey"/>
+        <local:StringToDoubleConverter x:Key="StringToDoubleConverterKey"/>
 
 
     </Application.Resources>

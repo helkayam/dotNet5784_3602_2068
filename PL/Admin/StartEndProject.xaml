@@ -1,0 +1,21 @@
+﻿<Window x:Class="PL.Admin.StartEndProject"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.Admin"
+        mc:Ignorable="d"
+        Title="StartEndProject" Height="200" Width="300"
+        DataContext="{Binding RelativeSource={RelativeSource Self}}"
+        Icon="\Images\Backround-blurred.jpg">
+
+    <Grid>
+        <Image Source="\Images\Backround-blurred.jpg" Height="400" Width="800"/>
+        <Label Content="Srart Project Date" HorizontalAlignment="Left" Margin="34,36,0,0" VerticalAlignment="Top" Height="24"/>
+        <Label Content="End Project Date" HorizontalAlignment="Left" Margin="34,0,0,0" VerticalAlignment="Center" Height="24"/>
+        <DatePicker HorizontalAlignment="Left" Margin="150,36,0,0" VerticalAlignment="Top" SelectedDate="{Binding StartDate , Mode=OneWayToSource ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" />
+        <DatePicker HorizontalAlignment="Left" Margin="150,0,0,0" VerticalAlignment="Center" SelectedDate="{Binding EndDate , Mode=OneWayToSource ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" />
+        <Button Content="Init" HorizontalAlignment="Left" FontSize="12" Margin="240,148,0,0" VerticalAlignment="Top" Height="17" Width="38" Click="InitStartEndProject_click"/>
+
+    </Grid>
+</Window>

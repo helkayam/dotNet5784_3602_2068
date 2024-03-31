@@ -38,7 +38,7 @@ namespace BlImplementation
 
         public void UpdateEndDateProjectDate(DateTime endDateProject)
         {
-            if (endDateProject <= _bl.Clock)
+            if (endDateProject > _bl.Clock)
                 _dal.Schedule.UpdateEndDateProject(endDateProject);
             else
                 throw new BO.BlInvalidGivenValueException($"error:End date of project is before current date {_dal.Schedule.GetCurrentDate()}");

@@ -20,9 +20,56 @@ namespace BlTest
 
 
 
+        //this method ask from the use the id of the task he want to report that has started, and send a request to the bl layer 
+        /// <summary>
+        /// this method ask from the use the id of the task he want to report that has started, 
+        /// and send a request to the bl layer 
+        /// </summary>
+        private static void AddUpdDateStartDate()
+        {
+            try
+            {
+                Console.WriteLine("Enter Id of the Task you want to report that has started");
+                int IdOfTask;
+                string sIdTask = (Console.ReadLine());
+                bool res = int.TryParse(sIdTask, out IdOfTask);
+                if (res == false)
+                    throw new Exception("Cant convert ID Task of worker from string to int");
+
+                s_bl.Task.AddOrUpdateStartDate(IdOfTask);
+
+            }
+            catch (BO.BlDoesNotExistException ex)
+            {
+                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException.Message} ");
+            }
+            catch (BO.BlFalseUpdateDate ex)
+            {
+                Console.WriteLine($"BO.BlFalseUpdateDate: {ex.Message}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+
+        private static void UpdateCurrentDate()
+        {
+            Console.WriteLine("Enter current date");
+            DateTime starpro;
+            string prostart = Console.ReadLine();
+            bool res = DateTime.TryParse(prostart, out starpro);
+            if (res == false)
+                throw new Exception("Cant convert dead line date of task from string to DateTime");
+
+            s_bl.Schedule.UpdateCurrentDate(starpro);
+
+
+        }
         static void Main(string[] args)
         {
-            s_bl.Task.UpdateCurrentDate(DateTime.Now);
+            s_bl.Schedule.UpdateCurrentDate(DateTime.Now);
             if (s_bl.Task.GetStatusOfProject() == ProjectStatus.PlanStage)
             {
                 Console.Write("Would you like to create Initial data? (Y/N)");
@@ -919,7 +966,7 @@ namespace BlTest
                 if (res == false)
                     throw new Exception("Cant convert dead line date of task from string to DateTime");
                 else
-                    s_bl.Task.UpdateStartProjectDate(starpro);
+                    s_bl.Schedule.UpdateStartProjectDate(starpro);
             }
             catch (BO.BlInvalidGivenValueException ex)
             {
@@ -927,53 +974,6 @@ namespace BlTest
             }
         }
 
-        //this method ask from the use the id of the task he want to report that has started, and send a request to the bl layer 
-        /// <summary>
-        /// this method ask from the use the id of the task he want to report that has started, 
-        /// and send a request to the bl layer 
-        /// </summary>
-        private static void AddUpdDateStartDate()
-        {
-            try
-            {
-                Console.WriteLine("Enter Id of the Task you want to report that has started");
-                int IdOfTask;
-                string sIdTask = (Console.ReadLine());
-                bool res = int.TryParse(sIdTask, out IdOfTask);
-                if (res == false)
-                    throw new Exception("Cant convert ID Task of worker from string to int");
-
-                s_bl.Task.AddOrUpdateStartDate(IdOfTask);
-
-            }
-            catch (BO.BlDoesNotExistException ex)
-            {
-                Console.WriteLine($"BlDoesNotExistException: {ex.Message} \n Inner Exception: {ex.InnerException.Message} ");
-            }
-            catch (BO.BlFalseUpdateDate ex)
-            {
-                Console.WriteLine($"BO.BlFalseUpdateDate: {ex.Message}");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
-
-
-        private static void UpdateCurrentDate()
-        {
-            Console.WriteLine("Enter current date");
-            DateTime starpro;
-            string prostart = Console.ReadLine();
-            bool res = DateTime.TryParse(prostart, out starpro);
-            if (res == false)
-                throw new Exception("Cant convert dead line date of task from string to DateTime");
-
-            s_bl.Task.UpdateCurrentDate(starpro);
-
-
-        }
 
         /// <summary>
         /// this method gets from the user an id of a task and delete this task

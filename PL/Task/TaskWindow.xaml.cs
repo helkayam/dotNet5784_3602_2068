@@ -198,10 +198,7 @@ namespace PL.Task
         }
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+       
 
         private void FinishTaskButton_Click(object sender, RoutedEventArgs e)
         {
@@ -267,5 +264,13 @@ namespace PL.Task
             MyTask.Worker=workerInTask;
 
         }
+
+        private void OpenWorkerListWindow_click(object sender, RoutedEventArgs e)
+        {
+            new ChooseWorker(MyTask.Id).ShowDialog();
+            MyTask = s_bl.Task.ReadTask(MyTask.Id);
+        }
+
+        
     }
 }

@@ -30,14 +30,15 @@ namespace PL
 
         public DateTime?  StartDateProject
         {
-            get { return s_bl.Schedule.getStartDateProject(); }
+            get { return  s_bl.Schedule.getStartDateProject(); }
             set { SetValue(StartDateProjectProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for StartDateProject.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StartDateProjectProperty =
-            DependencyProperty.Register("StartDateProject", typeof(DateTime ), typeof(MainWindow ), new PropertyMetadata());
+            DependencyProperty.Register("StartDateProject", typeof(DateTime?), typeof(MainWindow ), new PropertyMetadata(null));
 
+      
 
         public DateTime Clock
         {

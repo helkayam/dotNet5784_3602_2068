@@ -1,4 +1,9 @@
-﻿using System;
+﻿using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows;
+
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -34,7 +39,7 @@ namespace PL.Worker
 
         // Using a DependencyProperty as the backing store for ContentSearch.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ContentSearchProperty =
-            DependencyProperty.Register("ContentSearch", typeof(string), typeof(WorkerListWindow ), new PropertyMetadata());
+            DependencyProperty.Register("ContentSearch", typeof(string), typeof(WorkerListWindow), new PropertyMetadata());
 
 
 
@@ -47,7 +52,7 @@ namespace PL.Worker
 
         // Using a DependencyProperty as the backing store for OneClickForDelete.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty OneClickForDeleteProperty =
-            DependencyProperty.Register("OneClickForDelete", typeof(bool), typeof(WorkerListWindow ), new PropertyMetadata());
+            DependencyProperty.Register("OneClickForDelete", typeof(bool), typeof(WorkerListWindow), new PropertyMetadata());
 
 
         public bool Bylevel
@@ -67,10 +72,10 @@ namespace PL.Worker
         {
             OneClickForDelete = false;
             Bylevel = false;
-          
+
             InitializeComponent();
             WorkerList = s_bl?.Worker.ReadAllWorkers();
-            
+
         }
 
 
@@ -100,7 +105,7 @@ namespace PL.Worker
 
         }
 
-       
+
 
         private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -113,7 +118,7 @@ namespace PL.Worker
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            WorkerList = s_bl.Worker.ReadAllWorkers(filterWorkers,(BO.WorkerExperience)((ComboBox)sender).SelectedItem);
+            WorkerList = s_bl.Worker.ReadAllWorkers(filterWorkers, (BO.WorkerExperience)((ComboBox)sender).SelectedItem);
         }
 
         private void Button_AddClick(object sender, RoutedEventArgs e)
@@ -127,13 +132,13 @@ namespace PL.Worker
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
-        }
+}
 
         private void ContentSearch_Changed(object sender, TextChangedEventArgs e)
         {
             if (sender.ToString() != null)
-            
-            WorkerList = s_bl.Worker.ReadAllSearch(((TextBox)sender).Text);
+
+                WorkerList = s_bl.Worker.ReadAllSearch(((TextBox)sender).Text);
             else
                 WorkerList = s_bl.Worker.ReadAllWorkers();
         }
@@ -146,17 +151,18 @@ namespace PL.Worker
         }
         private void Button_DeleteClick(object sender, RoutedEventArgs e)
         {
-            try {
+            try
+            {
                 MessageBoxResult messageBoxResult = MessageBox.Show($"Are you sure you want to delete worker with Id={IdOfWorker}?", "hello", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 switch (messageBoxResult)
                 {
-                    case MessageBoxResult.Yes: s_bl.Worker.RemoveWorker(IdOfWorker) ; break;
+                    case MessageBoxResult.Yes: s_bl.Worker.RemoveWorker(IdOfWorker); break;
                     case MessageBoxResult.No: break;
                 }
                 WorkerList = s_bl.Worker.ReadAllWorkers();
                 OneClickForDelete = false;
             }
-            catch(BO.BlNotActiveException ex)
+            catch (BO.BlNotActiveException ex)
             {
                 MessageBox.Show(ex.Message);
             }

@@ -402,7 +402,8 @@ public void AddWorker(BO.Worker newWorker)
                                 throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, this worker is already on a task");
                             if (_dal.Task.Read(workerToUpdate.Task.Id).WorkerId != null)
                                 throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, the task have already a worker that is working on it");
-
+                            if(_bl.Task.CanStartTheTask(TaskToUp)==false)
+                                throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, The task assigned to this worker cannot be executed before its dependencies are completed");
 
                             DO.Task taskWithUpdateWorker = _dal.Task.Read(TaskToUp) with { WorkerId = workerToUpdate.Id };
                             _dal.Task.Update(taskWithUpdateWorker);

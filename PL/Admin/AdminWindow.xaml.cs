@@ -56,12 +56,12 @@ namespace PL.Admin
 
         private void ButtonWorker_Click(object sender, RoutedEventArgs e)
         {
-            new WorkerListWindow().Show();
+            new WorkerListWindow().ShowDialog();
         }
 
         private void ButtonTask_Click(object sender, RoutedEventArgs e)
         {
-            new TaskListWindow().Show();
+            new TaskListWindow().ShowDialog();
         }
         private void ButtonINIT_Click(object sender, RoutedEventArgs e)
         {
@@ -116,6 +116,12 @@ namespace PL.Admin
         private void Gantt_Click(object sender, RoutedEventArgs e)
         {
             new GanttChart().ShowDialog();
+        }
+
+        private void InitStartOrEndProject_Click(object sender, RoutedEventArgs e)
+        {
+           new StartEndProject().ShowDialog();
+
         }
     }
 }

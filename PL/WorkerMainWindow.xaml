@@ -16,7 +16,7 @@
         <Label Content="{Binding Hello, Mode=OneWay}" Margin="220,29,176,335" Foreground="Black" FontSize="20" FontFamily="Arial Black"></Label>
 
   
-        <ListView ItemsSource="{Binding Path=MyTask }" Margin="26,137,312,137" MouseDoubleClick="Update_click" >
+        <ListView ItemsSource="{Binding MyTask}" Margin="26,137,312,137" MouseDoubleClick="Update_click" >
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
