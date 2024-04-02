@@ -19,4 +19,6 @@ public interface ISchedule
 
     public void CreateAutomaticSchedule(IEnumerable<BO.TaskInList> TaskList);
 
+    public bool StartAndEndUpdated();
+
 }

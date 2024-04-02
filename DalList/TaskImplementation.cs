@@ -136,6 +136,8 @@ internal class TaskImplementation : ITask
         }
 
         DataSource.Config.ResetNextTaskId();
+        DataSource.Config.ResetEndDate();
+        DataSource.Config.ResetStartDate();
 
     }
 }

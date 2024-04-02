@@ -23,7 +23,6 @@ namespace PL.Admin
     public partial class AdminWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-        private MediaPlayer mediaPlayer = new MediaPlayer();
         public DateTime Clock
         {
             get { return s_bl.Clock; }
@@ -51,7 +50,6 @@ namespace PL.Admin
 
             Clock = s_bl.Clock;
             TaskList = s_bl.Task.ReadAllTasks();
-            mediaPlayer.Open(new Uri(@"MediaFile\Israel National Anthem (Instrumental).mp3", UriKind.RelativeOrAbsolute));
         }
 
         private void ButtonWorker_Click(object sender, RoutedEventArgs e)
@@ -110,12 +108,28 @@ namespace PL.Admin
 
         private void CreateSchedule_Click(object sender, RoutedEventArgs e)
         {
-            s_bl.Schedule.CreateAutomaticSchedule(TaskList);
+            try
+            {
+                s_bl.Schedule.CreateAutomaticSchedule(TaskList);
+            }
+            catch(BO.BlInvalidGivenValueException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void Gantt_Click(object sender, RoutedEventArgs e)
         {
-            new GanttChart().ShowDialog();
+            try
+            {
+                s_bl.Schedule.StartAndEndUpdated();
+                new GanttChart().ShowDialog();
+            }
+            catch(BO.BlInvalidGivenValueException ex)
+            {
+                MessageBox.Show(ex.Message);    
+
+            }
         }
 
         private void InitStartOrEndProject_Click(object sender, RoutedEventArgs e)

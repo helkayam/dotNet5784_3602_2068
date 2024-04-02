@@ -427,18 +427,19 @@ internal class TaskImplementation : BlApi.ITask
 
                         updatedTask = new DO.Task(TaskToUpdate.Alias, level , TaskToUpdate.Description, TaskToUpd.Id, TaskToUpd.ScheduledDate, TaskToUpdate.Deadline);
 
-
-                        if (TaskToUpdate.Worker.Id != null&&_dal.Task.Read(TaskToUpdate.Id).WorkerId==null)//if we want to add a worker to the task 
+                        if (TaskToUpdate.Worker != null)
                         {
-                            _dal.Worker.Read(TaskToUpdate.Worker.Id, true);
-                            if (WorkerDoesntHaveTask(TaskToUpdate.Worker.Id) == false)
-                                throw new BO.BlInvalidGivenValueException($"One of the data of Task with ID={TaskToUpdate.Id} is incorrect, the worker={TaskToUpdate.Worker.Id} is already on a task");
-                            updatedTask = updatedTask with { WorkerId = TaskToUpdate.Worker.Id };
+                            if (TaskToUpdate.Worker.Id != null && _dal.Task.Read(TaskToUpdate.Id).WorkerId == null)//if we want to add a worker to the task 
+                            {
+                                _dal.Worker.Read(TaskToUpdate.Worker.Id, true);
+                                if (WorkerDoesntHaveTask(TaskToUpdate.Worker.Id) == false)
+                                    throw new BO.BlInvalidGivenValueException($"One of the data of Task with ID={TaskToUpdate.Id} is incorrect, the worker={TaskToUpdate.Worker.Id} is already on a task");
+                                updatedTask = updatedTask with { WorkerId = TaskToUpdate.Worker.Id };
 
+                            }
+                            else
+                                updatedTask = updatedTask with { WorkerId = TaskToUpdate.Worker.Id };
                         }
-                        else
-                            updatedTask = updatedTask with { WorkerId = TaskToUpdate.Worker.Id };
-
 
 
 

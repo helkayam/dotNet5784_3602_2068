@@ -55,7 +55,19 @@ static class XMLTools
         XMLTools.SaveListToXMLElement(root, data_config_xml);
     }
 
+    public static void InitializeStartProject(string data_config_xml, string elemName)
+    {
+        XElement root = XMLTools.LoadListFromXMLElement(data_config_xml);
+        root.Element(elemName)?.SetValue(((DateTime?)null).ToString());
+        XMLTools.SaveListToXMLElement(root, data_config_xml);
+    }
 
+    public static void InitializeEndProject(string data_config_xml, string elemName)
+    {
+        XElement root = XMLTools.LoadListFromXMLElement(data_config_xml);
+        root.Element(elemName)?.SetValue(((DateTime?)null).ToString());
+        XMLTools.SaveListToXMLElement(root, data_config_xml);
+    }
 
 
     /// <summary>

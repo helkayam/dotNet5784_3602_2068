@@ -41,7 +41,7 @@ public static class Initialization
             string _phonePrefix = phonePrefix[s_rand.Next(0, 6)];
 
             //get a random number for the phone number
-            string _number = (s_rand.Next(0, 9999999).ToString());
+            string _number = (s_rand.Next(1000000, 9999999).ToString());
 
             //the phone number will be the prefix+the number
             string _phoneNumber = _phonePrefix + _number;
@@ -179,6 +179,8 @@ public static class Initialization
 
     public static void reset()
     {
+
+        s_dal = DalApi.Factory.Get;
         s_dal.Dependency.DeleteAll();
         s_dal.Worker.DeleteAll();
         s_dal.Task.DeleteAll();

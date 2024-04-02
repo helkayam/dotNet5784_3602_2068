@@ -50,6 +50,7 @@ namespace PL.Worker
             catch(BO.BlDoesNotExistException ex) 
             {
                     MessageBox.Show(ex.Message);
+                this.Close();
             }
              
         }
