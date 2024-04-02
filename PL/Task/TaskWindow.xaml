@@ -8,7 +8,7 @@
                Icon="\Images\IsraelFlag.jpg" 
 
         Title="TaskWindow" Height="800" Width="1000"
-        DataContext="{Binding RelativeSource={RelativeSource Mode= Self}}">
+        DataContext="{Binding RelativeSource={RelativeSource  Self}}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -25,7 +25,7 @@
 
         <Grid Grid.Column="0" Grid.RowSpan="2">
             <Label Content="Dependencies:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="18,110,0,0" VerticalAlignment="Top" Height="40" Width="108"/>
-            <ListView ItemsSource="{Binding MyTask.Dependencies , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" Margin="18,150,17,375" >
+            <ListView ItemsSource="{Binding MyDependencies,Mode=TwoWay,NotifyOnValidationError=true,  ValidatesOnExceptions=true }" Margin="18,150,17,375" >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn/>
@@ -96,7 +96,7 @@
 
             <Label Content="Deliverables:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="19,10,0,0" VerticalAlignment="Top" Grid.Row="5"/>
             <Label Content="Remarks:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="20,11,0,0" VerticalAlignment="Top" Grid.Row="6"/>
-            <Label Content="Worker " HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="27,0,0,0" VerticalAlignment="Center" Grid.Row="7"/>
+            <Label Content="Worker " HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="6,35,0,0" VerticalAlignment="Top" Grid.Row="7"/>
 
 
 
@@ -106,12 +106,15 @@
             <DatePicker SelectedDate="{Binding MyTask.CompleteDate , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="False"  HorizontalAlignment="Left" Margin="118,37,0,0" VerticalAlignment="Top" Width="129" Grid.Row="4"/>
             <DatePicker IsEnabled="False"  SelectedDate="{Binding MyTask.ScheduledDate , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}"  HorizontalAlignment="Left" Margin="124,0,0,0" VerticalAlignment="Center" Width="144"/>
             <Label FontFamily="Arial Black" Content="Id of worker:" Margin="4,11,234,44" Grid.Row="8"/>
-            <TextBlock  Text="{Binding MyTask.Worker.Id,Mode=OneWay}" Margin="124,11,12,44" Grid.Row="8" />
+            <TextBlock  Text="{Binding MyTask.Worker.Id,Mode=OneWay}" Margin="102,14,55,51" Grid.Row="8" />
             <TextBox Text="{Binding MyTask.Deliverables , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="{Binding IsThirdStage, Mode=OneWay, Converter={StaticResource BoolToEnableConverterKey }}" HorizontalAlignment="Left" Margin="118,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="206" Height="74" Grid.Row="5"/>
             <TextBox Text="{Binding MyTask.Remarks , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="92,7,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="222" Height="70" Grid.Row="6"/>
             <Button Content="Start the&#xD;&#xA; Task" Visibility="{Binding WithWorkerAndThirdStage , Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey }}" HorizontalAlignment="Left" Margin="238,21,0,0" VerticalAlignment="Top" Width="76" Height="38" Click="StartTaskButton_Click" Grid.Row="1"/>
             <Button Content="Finish the&#xD;&#xA; Task" Visibility="{Binding WithWorkerAndThirdStage , Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey }}" HorizontalAlignment="Left" Margin="252,29,0,0" VerticalAlignment="Top" Width="76" Height="38" Click="FinishTaskButton_Click" Grid.Row="4"/>
-            <Button Content="Choose" Visibility="{Binding WithoutWorkerAndThirdStage , Mode=OneWay ,Converter={StaticResource BoolToVisibilityConverterKey}}" FontSize="12" HorizontalAlignment="Center" Margin="0,31,0,0" Grid.Row="7" VerticalAlignment="Top" Height="33" Width="148" Click="OpenWorkerListWindow_click"/>
+            <TextBlock  Text="{Binding MyTask.Worker.Name ,Mode=OneWay}" Margin="83,33,112,28" Grid.Row="7" />
+
+            <Button Content="Choose" Visibility="{Binding WithoutWorkerAndThirdStage , Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey}}"  FontSize="12" HorizontalAlignment="Left" Margin="240,33,0,0" Grid.Row="7" VerticalAlignment="Top" Height="33" Width="74" Click="OpenWorkerListWindow_click"/>
+
         </Grid>
 
 

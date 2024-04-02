@@ -516,8 +516,30 @@ internal class TaskImplementation : BlApi.ITask
 
     }
 
-    public void AutomaticSchedule()
+    public void AddDependency(BO.Task t, int IdDependsOn)
     {
+        if (GetStatusOfProject () == BO.ProjectStatus.PlanStage)
+        {
+            DO.Dependency dep = new Dependency { DependentTask = t.Id, DependsOnTask = IdDependsOn };
+            bool DepDoesntExist = true;
+            bool contradictionBetweenDependencies = false;
+            foreach (var CurrentDependency in _dal.Dependency.ReadAll())
+            {
+                if (CurrentDependency.DependentTask == dep.DependentTask && CurrentDependency.DependsOnTask == dep.DependsOnTask)
+                    DepDoesntExist = false;
+                if (CurrentDependency.DependentTask == dep.DependsOnTask && CurrentDependency.DependsOnTask == dep.DependentTask)
+                    contradictionBetweenDependencies = true;
+
+
+            }
+
+            if (DepDoesntExist == true && contradictionBetweenDependencies == false)
+                _dal.Dependency.Create(dep);
+            else
+                throw new BO.BlInvalidGivenValueException("Cant add the dependency- it already exist or there is a mistake");
+
+        }
+
 
     }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
@@ -125,6 +126,18 @@ namespace PL.Task
         public static readonly DependencyProperty MyTaskProperty =
             DependencyProperty.Register("MyTask", typeof(BO.Task), typeof(TaskWindow), new PropertyMetadata());
 
+     
+
+
+        public ObservableCollection<TaskInList > MyDependencies
+        {
+            get { return (ObservableCollection<TaskInList >)GetValue(MyDependenciesProperty); }
+            set { SetValue(MyDependenciesProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyDependencies.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MyDependenciesProperty =
+            DependencyProperty.Register("MyDependencies", typeof(ObservableCollection<TaskInList >), typeof(TaskWindow), new PropertyMetadata(null));
 
 
 
@@ -174,13 +187,21 @@ namespace PL.Task
 
                 if (IdOfTask == -1)
                 {
+                    MyDependencies = new ObservableCollection<TaskInList>();
+
                     MyTask = new BO.Task();
                     IsNewTask = true;
                     MyTask.Id = s_bl.Task.getNextId();
                 }
                 else
                 {
+
                     MyTask = s_bl.Task.ReadTask(IdOfTask, true);
+                    MyDependencies = new ObservableCollection<TaskInList> ();
+                    foreach(var dep in MyTask.Dependencies )
+                    {
+                        MyDependencies.Add(dep);
+                    }
                     if (MyTask.Worker != null && IsThirdStage)
                     {
                         WithWorkerAndThirdStage = true;
@@ -264,7 +285,7 @@ namespace PL.Task
         {
             try
             {
-                if (MyTask.Id == -1)
+                if (s_bl.Task.ReadTask(MyTask.Id)==null)
                 {
                     s_bl.Task.AddTask(MyTask);
                     MessageBox.Show($"Adding the Task with ID: {MyTask.Id} card was successful");
@@ -297,7 +318,15 @@ namespace PL.Task
 
         private void AddDependency_Click(object sender, RoutedEventArgs e)
         {
-            new ChoseDependency(MyTask).ShowDialog();
+           new ChoseDependency(MyTask).ShowDialog();
+
+            MyDependencies.Clear();
+            foreach (var dep in MyTask.Dependencies)
+            {
+                MyDependencies.Add(dep);
+            }
+            //Dependencies = MyTask.Dependencies;
+
             //MyTask = s_bl.Task.ReadTask(MyTask.Id);
 
         }
@@ -315,8 +344,9 @@ namespace PL.Task
             if (MyTask.Complexity != null)
             {
                 new ChooseWorker(MyTask.Id).ShowDialog();
-
-                //MyTask = s_bl.Task.ReadTask(MyTask.Id);
+                WithoutWorkerAndThirdStage = false;
+                WithWorkerAndThirdStage = true;
+                MyTask = s_bl.Task.ReadTask(MyTask.Id);
             }
             else
                 MessageBox.Show("first choose complexity first,please.");

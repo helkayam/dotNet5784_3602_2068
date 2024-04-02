@@ -39,6 +39,7 @@ public interface ITask
 
     public int getNextId();
 
+    public void AddDependency(BO.Task t, int IdDependsOn);
 
 
     //public ProjectStatus ProjectStatus();
