@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Worker"
         mc:Ignorable="d"
-        Title="WorkerWindow" Height="450" Width="400"
+        Title="WorkerWindow" Height="550" Width="450"
                Icon="\Images\IsraelFlag.jpg" 
 
         DataContext="{Binding  RelativeSource={RelativeSource Self}}">
@@ -22,7 +22,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Image Source="\Images\Backround-blurred.jpg" Margin="-60,-350,-260,-704" Grid.ColumnSpan="2"/>
+            <Image Source="\Images\Backround-blurred.jpg" Margin="-60,-278,-260,-776" Grid.ColumnSpan="2"/>
 
         </Grid>
 
@@ -30,14 +30,14 @@
         <Label Content="Name:" HorizontalAlignment="Left" Margin="73,68,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
         <Label Content="Level:" HorizontalAlignment="Left" Margin="73,113,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
         <Label Content="PhoneNumber:" HorizontalAlignment="Left" Margin="73,148,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="29" Width="108"/>
-        <Label Content="Cost:" HorizontalAlignment="Left" Margin="73,185,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
-        <Label Content="Task Id:" HorizontalAlignment="Left" Margin="73,228,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
+        <Label Content="Cost:" HorizontalAlignment="Left" Margin="73,190,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
+        <Label Content="Task Id:" HorizontalAlignment="Left" Margin="73,227,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
 
         <Label Content="Task Alias:" HorizontalAlignment="Left" Margin="73,280,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
 
         <Label Content="active:" HorizontalAlignment="Left" Margin="73,319,0,0" FontSize="12" FontFamily="Arial Black" Grid.Row="1" VerticalAlignment="Top" Height="25" Width="90"/>
 
-        <TextBox Text="{Binding  MyWorker.Id, Mode=OneWayToSource, Converter={StaticResource ConvertStringToIntKey}, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" 
+        <TextBox Text="{Binding  MyWorker.Id, Mode=TwoWay , Converter={StaticResource ConvertStringToIntKey}, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" 
                  IsEnabled="{Binding MyWorker.Id, Mode=OneTime, Converter={StaticResource ConverIdToBoolKey}}" 
             HorizontalAlignment="Left" Margin="200,28,0,0" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Top" Width="132" Height="25"/>
         <TextBox Text="{Binding MyWorker.Name, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
@@ -51,23 +51,23 @@
             HorizontalAlignment="Left" Margin="200,148,0,0" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Top" Width="132" Height="25"/>
         <TextBox 
             Text="{Binding MyWorker.Cost, Mode=TwoWay,Converter={StaticResource StringToDoubleConverterKey }, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
-            HorizontalAlignment="Left" Margin="200,0,0,0" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Center" Width="143" Height="26" TextChanged="TextBox_TextChanged"/>
+            HorizontalAlignment="Left" Margin="200,189,0,0" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Top" Width="143" Height="26" TextChanged="TextBox_TextChanged"/>
         <!--<TextBox 
             Text="{Binding Task.Id, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
             HorizontalAlignment="Left" Margin="200,240,0,0" Grid.Row="1" TextWrapping="Wrap"  VerticalAlignment="Top" Width="95" Height="25"/>-->
 
-        <Button Content="Browse&#xD;&#xA; Tasks" Visibility="{Binding IsThirdStageAndWithoutTask , Mode=OneWay ,Converter={StaticResource BoolToVisibilityConverterKey }}" Background="WhiteSmoke"  FontFamily="Arial Black" Click="ButtonChoseTask_Click" Margin="356,219,-52,149" Grid.Row="1"  ></Button>
+        <Button Content="Browse&#xD;&#xA; Tasks" Visibility="{Binding IsThirdStageAndWithoutTask , Mode=OneWay ,Converter={StaticResource BoolToVisibilityConverterKey }}" Background="WhiteSmoke"  FontFamily="Arial Black" Click="ButtonChoseTask_Click" Margin="348,221,22,218" Grid.Row="1"  ></Button>
         <CheckBox Content="Active" 
                   IsChecked="{Binding MyWorker.active, Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}"
-                  HorizontalAlignment="Left" Margin="200,324,0,0" Grid.Row="1" VerticalAlignment="Top" Width="95" Height="25"/>
+                  HorizontalAlignment="Left" Margin="200,332,0,0" Grid.Row="1" VerticalAlignment="Top" Width="95" Height="25"/>
 
-        <TextBlock  Background="WhiteSmoke"  Text="{Binding MyWorker.Task.Id }" Margin="200,223,78,145" Grid.Row="1"/>
-        <TextBlock Background="WhiteSmoke" Text="{Binding MyWorker.Task.Alias }" Margin="200,267,68,97" Grid.Row="1"/>
+        <TextBlock  Background="WhiteSmoke"  Text="{Binding MyWorker.Task.Id }" Margin="202,227,110,236" Grid.Row="1"/>
+        <TextBlock Background="WhiteSmoke" Text="{Binding MyWorker.Task.Alias }" Margin="203,280,110,173" Grid.Row="1"/>
         <Button 
              Grid.Row="1" 
              Content="{Binding MyWorker.Id, Mode=OneTime, Converter={StaticResource ConverIdWorkerToContentKey}}" 
-             HorizontalAlignment="Left" Background="WhiteSmoke"  Margin="244,364,0,0"  VerticalAlignment="Top" Padding="5" 
-             Click="AddOrUpdate_Click" RenderTransformOrigin="53.083,-1.767" Height="28" Width="88" FontSize="10"/>
+             HorizontalAlignment="Left" Background="WhiteSmoke"  Margin="127,362,0,0"  VerticalAlignment="Top" Padding="5" 
+             Click="AddOrUpdate_Click" RenderTransformOrigin="53.083,-1.767" Height="28" Width="113" FontSize="10"/>
 
 
 

@@ -41,12 +41,12 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P6D</RequiredEffortTime>
+    <RequiredEffortTime>P1D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
     <CreatedAtDate>2024-02-08T04:29:16</CreatedAtDate>
   </Task>
   <Task>
-    <Alias>Children's corner</Alias>
+    <Alias>Activities for adults</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Take care of 10 positions of experiential activities for children aged 5-12</Description>
     <Id>706</Id>
@@ -61,7 +61,7 @@
     <CreatedAtDate>2024-01-16T02:42:39</CreatedAtDate>
   </Task>
   <Task>
-    <Alias>Corner of knowledge and history</Alias>
+    <Alias>Snack stand</Alias>
     <Complexity>Beginner</Complexity>
     <Description>Creating a corner that provides information and explanations about the history of Independence Day</Description>
     <Id>715</Id>
@@ -76,7 +76,7 @@
     <CreatedAtDate>2024-02-29T12:56:12</CreatedAtDate>
   </Task>
   <Task>
-    <Alias>Determining the place of the event</Alias>
+    <Alias>food stands</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Choosing a place suitable for the number of participants and the type of activities</Description>
     <Id>730</Id>
@@ -101,7 +101,7 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P5D</RequiredEffortTime>
+    <RequiredEffortTime>P3D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
     <CreatedAtDate>2024-01-20T01:07:05</CreatedAtDate>
   </Task>
@@ -131,7 +131,7 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P3D</RequiredEffortTime>
+    <RequiredEffortTime>P6D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
     <CreatedAtDate>2024-01-21T14:18:51</CreatedAtDate>
   </Task>
@@ -206,7 +206,7 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>PT0S</RequiredEffortTime>
+    <RequiredEffortTime>P4D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
     <CreatedAtDate>2024-02-03T19:27:34</CreatedAtDate>
   </Task>
@@ -226,7 +226,7 @@
     <CreatedAtDate>2024-01-27T11:30:01</CreatedAtDate>
   </Task>
   <Task>
-    <Alias>Government agencies station</Alias>
+    <Alias>Public transport route</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Make sure there is an area of advice and solutions in government matters</Description>
     <Id>719</Id>
@@ -256,7 +256,7 @@
     <CreatedAtDate>2024-02-03T21:56:40</CreatedAtDate>
   </Task>
   <Task>
-    <Alias>Jewelry manufacturing station</Alias>
+    <Alias>Rental of equipment and accessories</Alias>
     <Complexity>Beginner</Complexity>
     <Description>Workshops to create unique jewelry</Description>
     <Id>728</Id>
@@ -311,7 +311,7 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P2D</RequiredEffortTime>
+    <RequiredEffortTime>PT0S</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
     <CreatedAtDate>2024-01-30T05:46:08</CreatedAtDate>
   </Task>
@@ -376,7 +376,7 @@
     <CreatedAtDate>2024-02-09T21:11:58</CreatedAtDate>
   </Task>
   <Task>
-    <Alias>Rental of equipment and accessories</Alias>
+    <Alias>Determining the place of the event</Alias>
     <Complexity>Intermediate</Complexity>
     <Description>Taking care of the props, equipment and infrastructure needed for the event</Description>
     <Id>722</Id>
@@ -476,7 +476,7 @@
     <IsMileStone>false</IsMileStone>
     <StartDate xsi:nil="true" />
     <Eraseable>true</Eraseable>
-    <RequiredEffortTime>P1D</RequiredEffortTime>
+    <RequiredEffortTime>P3D</RequiredEffortTime>
     <CompleteDate xsi:nil="true" />
     <CreatedAtDate>2024-02-13T14:57:00</CreatedAtDate>
   </Task>

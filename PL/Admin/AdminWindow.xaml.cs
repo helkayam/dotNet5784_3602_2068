@@ -24,7 +24,6 @@ namespace PL.Admin
     public partial class AdminWindow : Window
     {
         static readonly BlApi.IBl s_bl = BlApi.Factory.Get();
-        private MediaPlayer mediaPlayer = new MediaPlayer();
         public DateTime Clock
         {
             get { return s_bl.Clock; }

@@ -298,6 +298,8 @@ namespace PL.Task
         private void AddDependency_Click(object sender, RoutedEventArgs e)
         {
             new ChoseDependency(MyTask).ShowDialog();
+            //MyTask = s_bl.Task.ReadTask(MyTask.Id);
+
         }
 
         private void ComboBox_WorkerChanged(object sender, SelectionChangedEventArgs e)

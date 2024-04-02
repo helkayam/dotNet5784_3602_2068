@@ -48,6 +48,9 @@ namespace BlImplementation
         {
             try
             {
+                if (_dal.Schedule.GetStartDateProject() == null)
+                    return null;
+                else
                 return _dal.Schedule.GetStartDateProject();
             }
             catch(DO.DalDoesNotExistException ex) 
@@ -58,10 +61,22 @@ namespace BlImplementation
 
 
         }
+
+        public bool StartAndEndUpdated()
+        {
+            if (this.getEndDateProject() != null && this.getStartDateProject() != null&&_bl.Task.GetStatusOfProject()==BO.ProjectStatus.ExecutionStage)
+                return true;
+            else
+                throw new BO.BlInvalidGivenValueException("The Start Date or End Date of the project are not updated!");
+            return false;
+        }
         public DateTime? getEndDateProject()
         {
             try
             {
+                if (_dal.Schedule.getEndDateProject() == null)
+                    return null;
+                else
                 return (DateTime)_dal.Schedule.getEndDateProject();
             }
             catch (DO.DalDoesNotExistException ex)
@@ -82,6 +97,8 @@ namespace BlImplementation
 
         public void CreateAutomaticSchedule(IEnumerable<BO.TaskInList> TaskList)
         {
+            if (_bl.Schedule.getStartDateProject() == null || _bl.Schedule.getEndDateProject() == null)
+                throw new BO.BlInvalidGivenValueException("You must enter the start date and end date of project!");
             List<BO.TaskInList> tasks;
 
             IEnumerable<TaskInList> taskList = _bl.Task.ReadAllTasks();

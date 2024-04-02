@@ -43,6 +43,15 @@ namespace Dal
 
             internal static string password { get => "dotNet20683602"; }
 
+            public static void ResetStartDate()
+            {
+                startdateProject = null;
+            }
+
+            public static void ResetEndDate()
+            {
+                EndDateProject = null;
+            }
             public static void ResetNextDependencyId()
             {
                 NextDependencyId = 0;
