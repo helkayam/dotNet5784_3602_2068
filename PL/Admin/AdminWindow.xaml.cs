@@ -1,6 +1,7 @@
 ﻿using PL.Task;
 using PL.Worker;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -47,11 +48,11 @@ namespace PL.Admin
 
         public AdminWindow()
         {
-            InitializeComponent();
 
             Clock = s_bl.Clock;
             TaskList = s_bl.Task.ReadAllTasks();
             mediaPlayer.Open(new Uri(@"MediaFile\Israel National Anthem (Instrumental).mp3", UriKind.RelativeOrAbsolute));
+            InitializeComponent();
         }
 
         private void ButtonWorker_Click(object sender, RoutedEventArgs e)
@@ -79,7 +80,10 @@ namespace PL.Admin
             MessageBoxResult messageBoxResult = MessageBox.Show("do you want to reset data Base?", "hello", MessageBoxButton.YesNo, MessageBoxImage.Question);
             switch (messageBoxResult)
             {
-                case MessageBoxResult.Yes: s_bl.ResetDB(); break;
+                case MessageBoxResult.Yes:
+                    s_bl.Task.deleteAll();
+                    s_bl.Worker.deleteAll() ; 
+                    break;
                 case MessageBoxResult.No: break;
             }
         }
@@ -111,10 +115,16 @@ namespace PL.Admin
         private void CreateSchedule_Click(object sender, RoutedEventArgs e)
         {
             s_bl.Schedule.CreateAutomaticSchedule(TaskList);
+            
         }
 
         private void Gantt_Click(object sender, RoutedEventArgs e)
         {
+            if(s_bl.Schedule.getStartDateProject() == null || s_bl.Schedule.getEndDateProject() == null)
+            {
+                MessageBox.Show("Cant Create Gant Because StartDateProject or EndDateProject dose not Not updated");
+                return;
+            }
             new GanttChart().ShowDialog();
         }
 

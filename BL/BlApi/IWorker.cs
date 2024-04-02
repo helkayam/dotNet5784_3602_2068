@@ -17,7 +17,7 @@ public interface IWorker
 
     public void UpdateWorker(BO.Worker workerToUpdate);
 
-    public BO.Worker? ReadWorker(int Id,bool throwexception=false);
+    public BO.Worker? ReadWorker(int Id, bool throwexception = false);
 
     public void deleteAll();
 
@@ -26,6 +26,8 @@ public interface IWorker
 
 
     public IEnumerable<BO.Worker> ReadAllWorkers(BO.FilterWorker enumFilter = BO.FilterWorker.None, Object? filtervalue = null);
+
+    public WorkerInTask returnWorkerInList(int id);
 
 
 

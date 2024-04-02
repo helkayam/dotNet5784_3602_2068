@@ -33,11 +33,11 @@ namespace Dal
             internal static int NextDependencyId { get => nextDependencyId++; set => nextDependencyId = value; }
 
 
-           internal static  DateTime startdateProject;
+           internal static  DateTime? startdateProject;
 
             internal static DateTime CurrentDate;
 
-            internal static DateTime EndDateProject;
+            internal static DateTime? EndDateProject;
 
             internal static string email { get => "d9349019@gmail.com"; }
 

@@ -27,13 +27,8 @@ namespace PL.Admin
         {
 
             InitializeComponent();
-            
+
         }
-
-
-      
-
-
 
         private void dataGridSched_Initialized(object sender, EventArgs e)
         {
@@ -45,63 +40,66 @@ namespace PL.Admin
             //add COLUMNS to datagrid and datatable
             if (dataGrid != null)
             {
-               
-                  dataGrid.Columns.Add(new DataGridTextColumn() { Header = "Task Id", Binding = new Binding("[0]") });
-                    dataTable.Columns.Add("Task Id", typeof(int));
-                
 
-               dataGrid.Columns.Add(new DataGridTextColumn() { Header = "Task Alias", Binding = new Binding("[1]") });
-               dataTable.Columns.Add("Task Alias", typeof(string));
+                dataGrid.Columns.Add(new DataGridTextColumn() { Header = "Task Id", Binding = new Binding("[0]") });
+                //dataTable.Columns.Add("Task Id", typeof(int));
 
-               dataGrid.Columns.Add(new DataGridTextColumn() { Header = "Worker Id", Binding = new Binding("[2]") });
-               dataTable.Columns.Add("Worker Id", typeof(int));
+
+                dataGrid.Columns.Add(new DataGridTextColumn() { Header = "Task Alias", Binding = new Binding("[1]") });
+                //dataTable.Columns.Add("Task Alias", typeof(string));
+
+                dataGrid.Columns.Add(new DataGridTextColumn() { Header = "Worker Id", Binding = new Binding("[2]") });
+                //dataTable.Columns.Add("Worker Id", typeof(int));
 
                 dataGrid.Columns.Add(new DataGridTextColumn() { Header = "Worker Name", Binding = new Binding("[3]") });
-                dataTable.Columns.Add("Worker Name", typeof(string));
+                //dataTable.Columns.Add("Worker Name", typeof(string));
 
                 int col = 4;
-                for (DateTime day = (DateTime)s_bl.Schedule.getStartDateProject(); day <= (DateTime)s_bl.Schedule.getEndDateProject(); day = day.AddDays(1))
-                {
-                    string strDay = $"{day.Day}/{day.Month}/{day.Year}"; //"21/2/2024"
-                    dataGrid.Columns.Add(new DataGridTextColumn() { Header = strDay, Binding = new Binding($"[{col}]") });
-                   dataTable.Columns.Add(strDay, typeof(int));// typeof(System.Windows.Media.Color));
-                    col++;
-                }
-             
+                
+                    for (DateTime day = (DateTime)s_bl.Schedule.getStartDateProject(); day <= (DateTime)s_bl.Schedule.getEndDateProject(); day = day.AddDays(1))
+                    {
+                        string strDay = $"{day.Day}/{day.Month}/{day.Year}"; //"21/2/2024"
+                        dataGrid.Columns.Add(new DataGridTextColumn() { Header = strDay, Binding = new Binding($"[{col}]") });
+                        //dataTable.Columns.Add(strDay, typeof(int));// typeof(System.Windows.Media.Color));
+                        col++;
+                    }
                
             }
 
             //add ROWS to logic container (data table)
             IEnumerable<BO.TaskSchedule> orderedlistTasksScheduale = s_bl.Task.ReadAllSchedule();
+
             foreach (BO.TaskSchedule task in orderedlistTasksScheduale)
             {
-                //dataGrid.CellStyle
+                string[] row = new string[dataGrid.Columns.Count];
                 
-                DataRow row = dataTable.NewRow();
-                row[0] = task.Id;
+                //dataGrid.CellStyle
+                row[0] = task.Id.ToString();
                 row[1] = task.Alias;
-                row[2] = task.IdWorker;
+                row[2] = task.IdWorker.ToString();
                 row[3] = task.NameWorker;
                 
+                int i = 4;
                 for (DateTime day = (DateTime)s_bl.Schedule.getStartDateProject(); day <= (DateTime)s_bl.Schedule.getEndDateProject(); day = day.AddDays(1))
                 {
                     string strDay = $"{day.Day}/{day.Month}/{day.Year}"; //"21/2/2024"
 
                     if (day < task.ScheduleStartDate || day > task.ScheduleEndDate)
-                        row[dataTable.Columns[strDay]] = 0;
+                        row[i] = "0";
                     else
-                        row[dataTable.Columns[strDay]] = 1;
+                        row[i] = "1";
+                    i++;
                 }
-                dataTable.Rows.Add(row);
+                dataGrid.Items.Add(row);
             }
 
 
-            if (dataGrid != null)
-            {
-                dataGrid.ItemsSource = dataTable.DefaultView;
+            //if (dataGrid != null)
+            //{
+            //    dataGrid.ItemsSource = dataTable.DefaultView;
 
 
-            }
+            //}
 
         }
 

@@ -27,6 +27,7 @@ public interface IBl
     #region
 
     public DateTime Clock { get; }
+    public DateTime GetDate() { return Clock; }
 
     public void IncreasInHour();
 

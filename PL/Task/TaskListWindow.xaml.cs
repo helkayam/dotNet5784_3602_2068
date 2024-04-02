@@ -51,7 +51,7 @@ namespace PL.Task
 
         // Using a DependencyProperty as the backing store for isThirdStage  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty isFirstStageProperty =
-            DependencyProperty.Register("isFirstStage", typeof(bool), typeof(TaskListWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("isFirstStage", typeof(bool), typeof(TaskListWindow), new PropertyMetadata(s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.PlanStage ? true : false));
 
 
         public bool ByStatus
@@ -99,8 +99,9 @@ namespace PL.Task
             ByStatus = false;
             DoYouWantToDelete=false;
             ByPossibleTaskforWorker = false;
+            TaskList=s_bl.Task.ReadAllTasks();
+            IsFirstStage = s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.PlanStage ? true : false;
             InitializeComponent();
-            TaskList=s_bl.Task.ReadAllTasks(); 
         }
 
         private void TaskList_FilterChanged(object sender, SelectionChangedEventArgs e)

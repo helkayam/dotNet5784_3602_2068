@@ -28,10 +28,23 @@ namespace PL.Task
         public BO.WorkerExperience LevelOfTask { get; set; } = BO.WorkerExperience.Beginner;
         public BO.Status StatusOfTask { get; set; } = BO.Status.Unscheduled;
 
-        public static BO.ProjectStatus StatusProject { get; set; } = s_bl.Task.GetStatusOfProject();
 
 
-        public IEnumerable<BO.WorkerInTask?> WorkersPossible;
+
+        public BO.ProjectStatus StatusProject
+        {
+            get { return (BO.ProjectStatus)GetValue(StatusProjectProperty); }
+            set { SetValue(StatusProjectProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for StatusProject.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty StatusProjectProperty =
+            DependencyProperty.Register("StatusProject", typeof(BO.ProjectStatus), typeof(TaskWindow), new PropertyMetadata(s_bl.Task.GetStatusOfProject()));
+
+
+
+
+        public IEnumerable<BO.WorkerInTask?> WorkersPossible { get; set; }
 
 
 
@@ -77,7 +90,7 @@ namespace PL.Task
 
         // Using a DependencyProperty as the backing store for isThirdStage  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty isFirstStageProperty =
-            DependencyProperty.Register("isFirstStage", typeof(bool), typeof(TaskWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("isFirstStage", typeof(bool), typeof(TaskWindow), new PropertyMetadata(s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.PlanStage ? true : false));
 
 
         public bool IsThirdStage
@@ -88,7 +101,7 @@ namespace PL.Task
 
         // Using a DependencyProperty as the backing store for isThirdStage  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty isThirdStageProperty =
-            DependencyProperty.Register("isThirdStage", typeof(bool), typeof(TaskWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("isThirdStage", typeof(bool), typeof(TaskWindow), new PropertyMetadata(s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.ExecutionStage ? true : false));
 
         public bool IsSecondStage
         {
@@ -98,7 +111,7 @@ namespace PL.Task
 
         // Using a DependencyProperty as the backing store for isThirdStage  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty isSecondStageProperty =
-            DependencyProperty.Register("isSecondStage", typeof(bool), typeof(TaskWindow), new PropertyMetadata(null));
+            DependencyProperty.Register("isSecondStage", typeof(bool), typeof(TaskWindow), new PropertyMetadata(s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.ScheduleDetermination ? true : false));
 
 
 
@@ -111,6 +124,21 @@ namespace PL.Task
         // Using a DependencyProperty as the backing store for MyWorker.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MyTaskProperty =
             DependencyProperty.Register("MyTask", typeof(BO.Task), typeof(TaskWindow), new PropertyMetadata());
+
+
+
+
+        public bool IsNewTask
+        {
+            get { return (bool)GetValue(newTaskProperty); }
+            set { SetValue(newTaskProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsNewTask.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty newTaskProperty =
+            DependencyProperty.Register("IsNewTask", typeof(bool), typeof(TaskWindow), new PropertyMetadata(false));
+
+
 
 
         public TaskWindow(int IdOfTask = -1)
@@ -145,7 +173,11 @@ namespace PL.Task
                 }
 
                 if (IdOfTask == -1)
+                {
                     MyTask = new BO.Task();
+                    IsNewTask = true;
+                    MyTask.Id = s_bl.Task.getNextId();
+                }
                 else
                 {
                     MyTask = s_bl.Task.ReadTask(IdOfTask, true);
@@ -176,7 +208,18 @@ namespace PL.Task
 
         private void ComboBox_LevelChangedTask(object sender, SelectionChangedEventArgs e)
         {
-            MyTask.Complexity = (BO.WorkerExperience)((ComboBox)sender).SelectedItem;
+            string selected = ((ComboBox)sender).SelectionBoxItem.ToString();
+            switch (selected) {
+                case "Intermediate":
+                    MyTask.Complexity = (BO.WorkerExperience)2;
+                    break;
+                case "Expert":
+                    MyTask.Complexity = (BO.WorkerExperience)3;
+                    break;
+                default:
+                    MyTask.Complexity = (BO.WorkerExperience)1;
+                    break;
+            }
         }
 
 
@@ -267,10 +310,19 @@ namespace PL.Task
 
         private void OpenWorkerListWindow_click(object sender, RoutedEventArgs e)
         {
-            new ChooseWorker(MyTask.Id).ShowDialog();
-            MyTask = s_bl.Task.ReadTask(MyTask.Id);
+            if (MyTask.Complexity != null)
+            {
+                new ChooseWorker(MyTask.Id).ShowDialog();
+
+                //MyTask = s_bl.Task.ReadTask(MyTask.Id);
+            }
+            else
+                MessageBox.Show("first choose complexity first,please.");
         }
 
-        
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
     }
 }

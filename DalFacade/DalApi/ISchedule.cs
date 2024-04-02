@@ -20,5 +20,9 @@ public interface ISchedule
 
     public void UpdateCurrentDate(DateTime dt);
 
+    public void ResetEndStartDateProject();
+
+
+
 
 }

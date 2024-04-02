@@ -44,6 +44,17 @@ public class ScheduleImplementation : ISchedule
     {
         DataSource.Config.EndDateProject = dt;
     }
+
+    public void ResetEndStartDateProject()
+    {
+        DataSource.Config.startdateProject=null;
+        DataSource.Config.startdateProject =null;
+    }
+
+   
+
+
+
 }
 
 

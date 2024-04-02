@@ -28,7 +28,7 @@
                       SelectionChanged="ComboBoxLevelTask_SelectionChanged" />
             <ComboBox SelectedValue="{Binding Path=filter, Mode=TwoWay}" ItemsSource="{Binding Source={StaticResource FilterTaskKey}}" Grid.Column="1"  Margin="55,0,225,0" Width="120" SelectionChanged="TaskList_FilterChanged"/>
             <TextBox Margin="200,5,10,4" Grid.Column="1"   Visibility="{Binding ByPossibleTaskforWorker,Mode=OneWay, Converter={StaticResource  BoolToVisibilityConverterKey}}"  KeyDown="TextBoxIdWorkerFilter_KeyDown" />
-            <TextBox Text="{Binding ContentSearch,Mode=OneWay }"  TextChanged="ContentSearch_Changed" HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"  />
+            <TextBox  TextChanged="ContentSearch_Changed" HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="120"  />
 
             <ComboBox Grid.Column="1"  Margin="229,5,67,5" Visibility="{Binding ByStatus ,Mode=OneWay, Converter={StaticResource  BoolToVisibilityConverterKey}}" 
        ItemsSource="{Binding Source={StaticResource TaskStatusKey }}"   

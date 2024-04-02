@@ -1,5 +1,4 @@
 ﻿
-
 namespace Dal;
 using DalApi;
 using DO;
@@ -12,7 +11,7 @@ using System.Xml.Linq;
 /// <summary>
 /// Create a class that will implement the ICrud methods that can be performed on Task entity by contacting a data collection of the XML file type
 /// </summary>
-internal class TaskImplementation:ITask
+internal class TaskImplementation : ITask
 {
     /// <summary>
     /// This is a private read-only field of string type that will be initialized with the name of the xml file that constitutes the database of the task entity.
@@ -25,11 +24,14 @@ internal class TaskImplementation:ITask
     /// </summary>
     /// <param name="item">Task object to add to the list</param>
     /// <returns>The method returns the ID of the object it added</returns>
+    /// 
+    readonly string data_config = "data-config";
+
     public int Create(DO.Task item)
     {
         List<DO.Task> tasks = XMLTools.LoadListFromXMLSerializer<DO.Task>(s_tasks_xml);
         int ID;
-        ID =Config.NextTaskId;
+        ID = Config.NextTaskId;
         DO.Task t = item with { Id = ID };
         tasks.Add(t);
         XMLTools.SaveListToXMLSerializer<DO.Task>(tasks, s_tasks_xml);
@@ -47,7 +49,7 @@ internal class TaskImplementation:ITask
     public void Delete(int id)
     {
         List<DO.Task> tasks = XMLTools.LoadListFromXMLSerializer<DO.Task>(s_tasks_xml);
-        DO.Task? taskToRemove = tasks.Find(x => x.Id == id); 
+        DO.Task? taskToRemove = tasks.Find(x => x.Id == id);
         if (taskToRemove == null)
         {
             throw new DalDoesNotExistException($"Task with id={id} does not exist");
@@ -70,18 +72,18 @@ internal class TaskImplementation:ITask
     /// <param name="throwAnException">This is a feature that allows me to choose whenever there is a case that I can't find the object if I want to throw an exception that informs me of this or return NULL</param>
     /// <returns>The method returns the dependency type object if it found signals otherwise it will return NULL</returns>
     /// <exception cref="DalDoesNotExistException">This is an exception that informs that the object being searched for does not exist</exception>
-    public DO.Task? Read(int id, bool throwAnException )
+    public DO.Task? Read(int id, bool throwAnException)
     {
         List<DO.Task> tasks = XMLTools.LoadListFromXMLSerializer<DO.Task>(s_tasks_xml);
         XMLTools.SaveListToXMLSerializer<DO.Task>(tasks, s_tasks_xml);
-        if (tasks.Any(wker => wker.Id == id)==false)
+        if (tasks.Any(wker => wker.Id == id) == false)
             if (throwAnException)
                 throw new DalDoesNotExistException($"Task with id={id} does not exist");
-             else   
+            else
                 return null;
 
 
-        DO.Task saveItem =tasks.Find(saveItem => saveItem.Id == id)!;
+        DO.Task saveItem = tasks.Find(saveItem => saveItem.Id == id)!;
         return saveItem;
 
     }
@@ -117,11 +119,11 @@ internal class TaskImplementation:ITask
         if (filter != null)
         {
             return (from item in tasks
-                   where filter(item)
-                   select item).ToList();
+                    where filter(item)
+                    select item).ToList();
         }
         return (from task in tasks
-               select task).ToList();
+                select task).ToList();
 
     }
     /// <summary>
@@ -147,8 +149,8 @@ internal class TaskImplementation:ITask
 
     }
 
-   
-    
+
+
 
     /// <summary>
     /// 1.With the help of the XmlSerializer class, the list of objects is loaded from an XML file into a logical list of the List type.
@@ -158,10 +160,16 @@ internal class TaskImplementation:ITask
     public void DeleteAll()
     {
         List<DO.Task> tasks = XMLTools.LoadListFromXMLSerializer<DO.Task>(s_tasks_xml);
-      
-            tasks.Clear();
+        tasks.Clear();
         XMLTools.SaveListToXMLSerializer<DO.Task>(tasks, s_tasks_xml);
-
+        ScheduleImplementation helper = new();
+        helper.ResetEndStartDateProject();
         XMLTools.InitializeId("data-config.xml", "NextTaskId");
+    }
+
+    public int getNextId()
+    {
+        XElement root = XMLTools.LoadListFromXMLElement(data_config);
+        return int.Parse(root.Element("NextTaskId")?.Value);
     }
 }

@@ -25,7 +25,7 @@ public class ScheduleImplementation:ISchedule
         XElement root = XMLTools.LoadListFromXMLElement(data_config);
         string? dt = root.Element("StartDateProject").Value;
 
-        XMLTools.SaveListToXMLElement(root, data_config);
+       // XMLTools.SaveListToXMLElement(root, data_config);
         if (dt != "")
             return DateTime.Parse(dt);
         else
@@ -71,5 +71,16 @@ public class ScheduleImplementation:ISchedule
         else
             return null;
     }
+
+    public void ResetEndStartDateProject()
+    {
+        XElement root = XMLTools.LoadListFromXMLElement(data_config);
+        root.Element("StartDateProject")?.SetValue((""));
+        root.Element("EndDateProject")?.SetValue((""));
+        XMLTools.SaveListToXMLElement(root, data_config);
+
+    }
+
+    
 
 }

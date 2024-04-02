@@ -37,6 +37,9 @@ public interface ITask
 
     public bool CanStartTheTask(int id);
 
+    public int getNextId();
+
+
 
     //public ProjectStatus ProjectStatus();
 

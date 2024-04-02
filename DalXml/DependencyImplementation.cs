@@ -153,6 +153,8 @@ internal class DependencyImplementation:IDependency
         dependencies.Clear();
         XMLTools.SaveListToXMLSerializer<Dependency>(dependencies, s_dependencies_xml);
         XMLTools.InitializeId("data-config.xml", "NextDependencyId");
+        ScheduleImplementation helper = new();
+        helper.ResetEndStartDateProject();
 
     }
 }

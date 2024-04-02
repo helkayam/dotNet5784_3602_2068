@@ -57,17 +57,17 @@
             <Label Content="Required Effort Time:"  HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="19,0,0,0" VerticalAlignment="Center" Grid.Row="7"/>
             <Label Content="Description:" HorizontalAlignment="Left" FontFamily="Arial Black" FontSize="12" Margin="19,10,0,0" VerticalAlignment="Top" Grid.Row="2"/>
 
-            <Button Content="{Binding MyTask.Id, Mode=TwoWay ,Converter={StaticResource ConverIdTaskToContentKey} }" HorizontalAlignment="Left"  Margin="92,10,0,0" VerticalAlignment="Top" Height="59" FontSize="10" Width="122" Click="AddOrUpdate_Click" Grid.Row="8"/>
+            <Button Content="{Binding IsNewTask, Mode=OneWay ,Converter={StaticResource ConverIdTaskToContentKey} }" HorizontalAlignment="Left"  Margin="92,10,0,0" VerticalAlignment="Top" Height="59" FontSize="10" Width="122" Click="AddOrUpdate_Click" Grid.Row="8"/>
 
             <TextBox Text="{Binding MyTask.Id , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" 
-                     IsEnabled="False"  HorizontalAlignment="Left" Margin="94,42,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Height="26"/>
+                     IsEnabled="False"  HorizontalAlignment="Left" Margin="94,42,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Height="26" TextChanged="TextBox_TextChanged"/>
             <TextBox  Text="{Binding MyTask.Alias, Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="105,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="159" Height="57" Grid.Row="1"/>
             <TextBox Text="{Binding MyTask.Description , Mode=TwoWay, NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="110,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="213" Height="77" Grid.Row="2"/>
             <DatePicker   SelectedDate="{Binding MyTask.CreatedAtDate , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="False"  HorizontalAlignment="Left" Margin="152,0,0,0" VerticalAlignment="Center" Height="26" Width="132" Grid.Row="3"/>
             <ComboBox ItemsSource="{Binding Source={StaticResource TaskStatusKey}}"  
            SelectedValue="{Binding MyTask.Status , Mode=TwoWay}" HorizontalAlignment="Left" IsEnabled="False" Margin="94,24,0,0" VerticalAlignment="Top" Width="204" Height="34" Grid.Row="4"/>
             <CheckBox Content="Erasable" IsChecked="{Binding MyTask.Eraseable , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="123,28,0,0" VerticalAlignment="Top" Grid.Row="5"/>
-            <ComboBox IsEnabled="{Binding WithoutWorker, Mode=OneWay, Converter={StaticResource BoolToEnableConverterKey }}" ItemsSource="{Binding Source={StaticResource WorkerExperienceCollectionKey}}"
+            <ComboBox IsEnabled="{Binding IsNewTask, Mode=OneWay, Converter={StaticResource BoolToEnableConverterKey }}" ItemsSource="{Binding Source={StaticResource WorkerExperienceCollectionKey}}"
     SelectedValue="{Binding MyTask.Complexity , Mode=TwoWay}"  SelectionChanged="ComboBox_LevelChangedTask" HorizontalAlignment="Left" Margin="109,15,0,0" VerticalAlignment="Top" Width="166" Height="32" Grid.Row="6"/>
             <TextBox Text="{Binding MyTask.RequiredEffortTime , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="184,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Height="32" Grid.Row="7"/>
 

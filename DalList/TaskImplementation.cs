@@ -136,6 +136,15 @@ internal class TaskImplementation : ITask
         }
 
         DataSource.Config.ResetNextTaskId();
+        ScheduleImplementation helper = new();
+        helper.ResetEndStartDateProject();
 
+    }
+
+    public int getNextId()
+    {
+       IEnumerable<Task> help= ReadAll();
+        Task lastTask = help.Last();
+        return lastTask.Id+1;
     }
 }

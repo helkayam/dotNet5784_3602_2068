@@ -661,8 +661,8 @@ internal class TaskImplementation : BlApi.ITask
     /// </summary>
     public void deleteAll()
     {
-        _dal.Task.DeleteAll();
         _dal.Dependency.DeleteAll();
+        _dal.Task.DeleteAll();
     }
 
     public IEnumerable<BO.TaskSchedule> ReadAllSchedule()
@@ -693,6 +693,11 @@ internal class TaskImplementation : BlApi.ITask
         return false;
         
         
+    }
+
+    public int getNextId()
+    {
+       return  _dal.Task.getNextId();
     }
 }
 

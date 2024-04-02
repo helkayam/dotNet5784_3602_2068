@@ -48,7 +48,7 @@ namespace PL
 
         // Using a DependencyProperty as the backing store for Clock.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ClockProperty =
-            DependencyProperty.Register("Clock", typeof(DateTime), typeof(MainWindow), new PropertyMetadata());
+            DependencyProperty.Register("Clock", typeof(DateTime), typeof(MainWindow), new PropertyMetadata(s_bl.Clock));
 
 
 
@@ -58,7 +58,7 @@ namespace PL
         public MainWindow()
         {
             mediaPlayer.Open(new Uri(@"MediaFile\Israel National Anthem (Instrumental).mp3", UriKind.RelativeOrAbsolute)); InitializeComponent();
-            s_bl.InitClock() ;
+            //s_bl.InitClock() ;
             Clock = s_bl.Clock;
             StartDateProject = s_bl.Schedule.getStartDateProject(); 
 
@@ -110,7 +110,8 @@ namespace PL
         private void AdminEntrance_Click(object sender, RoutedEventArgs e)
         {
             new AdminWindow().ShowDialog();
-
+           
+            Clock = s_bl.GetDate();
         }
 
         private void PlayButton_Click(object sender, RoutedEventArgs e)

@@ -32,7 +32,7 @@ namespace PL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (int)value == -1 ? "Add" : "Update";
+            return (bool)value ? "Add" : "Update";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

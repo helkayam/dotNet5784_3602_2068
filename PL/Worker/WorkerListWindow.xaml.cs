@@ -30,7 +30,6 @@ namespace PL.Worker
 
         public int IdOfWorker;
 
-
         public string ContentSearch
         {
             get { return (string)GetValue(ContentSearchProperty); }
@@ -132,7 +131,7 @@ namespace PL.Worker
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
-}
+        }
 
         private void ContentSearch_Changed(object sender, TextChangedEventArgs e)
         {

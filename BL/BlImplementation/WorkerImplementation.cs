@@ -40,42 +40,42 @@ internal class WorkerImplementation : BlApi.IWorker
 
 
     public ProjectStatus GetStatusOfProject()
-{
-    if (_dal.Schedule.GetStartDateProject() == null)
-        return BO.ProjectStatus.PlanStage;
-    else
-
-    if (_dal.Schedule.GetStartDateProject() != null)
     {
-        var withoutDate = (from tasks in _dal.Task.ReadAll()
-                           where (tasks.ScheduledDate == null)
-                           select tasks).ToList();
-        if (withoutDate.Count == 0)
-            return BO.ProjectStatus.ExecutionStage;
+        if (_dal.Schedule.GetStartDateProject() == null)
+            return BO.ProjectStatus.PlanStage;
+        else
 
+        if (_dal.Schedule.GetStartDateProject() != null)
+        {
+            var withoutDate = (from tasks in _dal.Task.ReadAll()
+                               where (tasks.ScheduledDate == null)
+                               select tasks).ToList();
+            if (withoutDate.Count == 0)
+                return BO.ProjectStatus.ExecutionStage;
+
+
+        }
+
+        return BO.ProjectStatus.ScheduleDetermination;
 
     }
-
-    return BO.ProjectStatus.ScheduleDetermination;
-
-}
-/// <summary>
-/// A method for creating a new task, the method will allow you to add a task if the project status is the planning stage or the execution stage, 
-/// and if all the received data is correct.
-/// If all the following conditions are met, the method will send to the DAL layer a request to add a task with
-/// a parameter of a DO entity of a task it created based on a BO entity received as a parameter
-/// </summary>
-/// <param name="newWorker"> BO entity of task to add</param>
-/// <exception cref="BO.BlInvalidGivenValueException"> An exception that is thrown if one of the entity's data is incorrect </exception>
-/// <exception cref="BO.BlAlreadyExistsException"> An exception that is thrown if an attempt is made to add a task that already exists</exception>
-public void AddWorker(BO.Worker newWorker)
+    /// <summary>
+    /// A method for creating a new task, the method will allow you to add a task if the project status is the planning stage or the execution stage, 
+    /// and if all the received data is correct.
+    /// If all the following conditions are met, the method will send to the DAL layer a request to add a task with
+    /// a parameter of a DO entity of a task it created based on a BO entity received as a parameter
+    /// </summary>
+    /// <param name="newWorker"> BO entity of task to add</param>
+    /// <exception cref="BO.BlInvalidGivenValueException"> An exception that is thrown if one of the entity's data is incorrect </exception>
+    /// <exception cref="BO.BlAlreadyExistsException"> An exception that is thrown if an attempt is made to add a task that already exists</exception>
+    public void AddWorker(BO.Worker newWorker)
     {
 
         if (GetStatusOfProject() != BO.ProjectStatus.ScheduleDetermination)
         {
             DO.Worker doWorker = new DO.Worker(newWorker.Id, (DO.WorkerExperience)newWorker.Level, newWorker.Name, newWorker.PhoneNumber, newWorker.Cost);
             if ((int)newWorker.Level == 2)
-                doWorker.Eraseable =false;
+                doWorker.Eraseable = false;
             else
                 doWorker.Eraseable = true;
 
@@ -107,20 +107,20 @@ public void AddWorker(BO.Worker newWorker)
         }
 
     }
-    
+
 
     /// <summary>
     /// A method that checks for a certain employee whether he has a task assigned to him
     /// </summary>
     /// <param name="id"> id of worker that we check it for him </param>
     /// <returns>True- if the employee has not been assigned a task
-   /// False- if the employee has been assigned a task</returns>
+    /// False- if the employee has been assigned a task</returns>
     public bool WorkerDoesntHaveTask(int id)
     {
         var Tasks = (from currentTask in _dal.Task.ReadAll()
                      where currentTask.WorkerId == id
                      select currentTask).ToList();
-        if (Tasks.Count()!=0)
+        if (Tasks.Count() != 0)
             return false;
         else
             return true;
@@ -137,18 +137,18 @@ public void AddWorker(BO.Worker newWorker)
 
 
     }
-   
+
     public IEnumerable<BO.Worker> ReadAllSearch(string search)
     {
         string searchLower = search.ToLower();
-        IEnumerable<DO.Worker?> result = _dal.Worker.ReadAll(ts => (ts.Name.ToLower()).Contains(searchLower) || FindIdContains(ts, search) == true );
+        IEnumerable<DO.Worker?> result = _dal.Worker.ReadAll(ts => (ts.Name.ToLower()).Contains(searchLower) || FindIdContains(ts, search) == true);
         return result.Select(doworker => new BO.Worker()
         {
-            Id=doworker.Id,
-            Name=doworker.Name,
-             Cost =doworker.Cost,
-             active= doworker.active,
-             Level=(BO.WorkerExperience)doworker.Level,
+            Id = doworker.Id,
+            Name = doworker.Name,
+            Cost = doworker.Cost,
+            active = doworker.active,
+            Level = (BO.WorkerExperience)doworker.Level,
             Task = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == doworker.Id)
                     select new TaskInWorker
                     {
@@ -156,11 +156,11 @@ public void AddWorker(BO.Worker newWorker)
                         Alias = TaskOfWorker.Alias
                     }).FirstOrDefault()!,
             PhoneNumber = doworker.PhoneNumber
-        }) ;
+        });
 
     }
 
-    public IEnumerable<BO.WorkerInTask ?> ReadAllWorkersSuitabeToTask(int TaskId)
+    public IEnumerable<BO.WorkerInTask?> ReadAllWorkersSuitabeToTask(int TaskId)
     {
         IEnumerable<DO.Worker?> result = _dal.Worker.ReadAll(ts => (ts.Level >= _dal.Task.Read(TaskId).Complexity && _bl.Worker.ReadWorker(ts.Id).Task == null));
         return result.Select(doworker => new BO.WorkerInTask() { Id = doworker.Id, Name = doworker.Name });
@@ -191,7 +191,7 @@ public void AddWorker(BO.Worker newWorker)
                            from b in k.workerslvl
                            select (_dal.Worker.Read(b))).ToList();
 
-            workersInList = (from DO.Worker DoWorker in readByLevel 
+            workersInList = (from DO.Worker DoWorker in readByLevel
                              select new BO.Worker
                              {
                                  Id = DoWorker.Id,
@@ -201,7 +201,7 @@ public void AddWorker(BO.Worker newWorker)
                                  Cost = DoWorker.Cost,
 
 
-                                 Task = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorker.Id&&MyTask.CompleteDate==null)
+                                 Task = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorker.Id && MyTask.CompleteDate == null)
                                          select new TaskInWorker
                                          {
                                              Id = TaskOfWorker.Id,
@@ -219,42 +219,42 @@ public void AddWorker(BO.Worker newWorker)
                 enumFilter = FilterWorker.None;
 
 
-     IEnumerable<DO.Worker?> result =
-       enumFilter switch
-       {
-           BO.FilterWorker.WithoutTask => (_dal.Worker.ReadAll(MyWorker => (WorkerDoesntHaveTask(MyWorker.Id) == true))),
-           BO.FilterWorker.Active => _dal.Worker.ReadAll(d => d.active == true),
-           BO.FilterWorker.Erasable => _dal.Worker.ReadAll(d => d.Eraseable == true),
-           BO.FilterWorker.None => _dal.Worker.ReadAll()
+            IEnumerable<DO.Worker?> result =
+              enumFilter switch
+              {
+                  BO.FilterWorker.WithoutTask => (_dal.Worker.ReadAll(MyWorker => (WorkerDoesntHaveTask(MyWorker.Id) == true))),
+                  BO.FilterWorker.Active => _dal.Worker.ReadAll(d => d.active == true),
+                  BO.FilterWorker.Erasable => _dal.Worker.ReadAll(d => d.Eraseable == true),
+                  BO.FilterWorker.None => _dal.Worker.ReadAll()
 
 
-       };
+              };
 
 
 
 
-                   workersInList = (from DO.Worker DoWorker in result
-                                  select new BO.Worker
-                                  {
-                                      Id = DoWorker.Id,
-                                      Name = DoWorker.Name,
-                                      Level = (BO.WorkerExperience)DoWorker.Level,
-                                      PhoneNumber = DoWorker.PhoneNumber,
-                                      Cost = DoWorker.Cost,
+            workersInList = (from DO.Worker DoWorker in result
+                             select new BO.Worker
+                             {
+                                 Id = DoWorker.Id,
+                                 Name = DoWorker.Name,
+                                 Level = (BO.WorkerExperience)DoWorker.Level,
+                                 PhoneNumber = DoWorker.PhoneNumber,
+                                 Cost = DoWorker.Cost,
 
 
-                                      Task = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorker.Id)
-                                              select new TaskInWorker
-                                              {
-                                                  Id = TaskOfWorker.Id,
-                                                  Alias = TaskOfWorker.Alias
-                                              }).FirstOrDefault()!,
-                                      active = DoWorker.active
+                                 Task = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorker.Id)
+                                         select new TaskInWorker
+                                         {
+                                             Id = TaskOfWorker.Id,
+                                             Alias = TaskOfWorker.Alias
+                                         }).FirstOrDefault()!,
+                                 active = DoWorker.active
 
-                                  }).ToList();
+                             }).ToList();
             return workersInList;
         }
-        
+
     }
     /// <summary>
     /// The method receives an ID of a worker and returns a BO entity of a worker after creating this entity according to certain calculations and requests from the DAL layer
@@ -271,31 +271,32 @@ public void AddWorker(BO.Worker newWorker)
             DO.Worker doworker = _dal.Worker.Read(Id);
 
             if (doworker == null)
-            { if (throwexception == true)
+            {
+                if (throwexception == true)
                     _dal.Worker.Read(Id, true);
                 else
                     return null;
-             }
+            }
 
 
-          
 
-             boworker = new BO.Worker { Id = Id, Name = doworker.Name };
+
+            boworker = new BO.Worker { Id = Id, Name = doworker.Name };
             boworker.Level = (BO.WorkerExperience)doworker.Level;
             boworker.PhoneNumber = doworker.PhoneNumber;
             boworker.Cost = doworker.Cost;
-            boworker.active= doworker.active;
-       
-            TaskInWorker Task  = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == doworker.Id &&MyTask.CompleteDate==null)
-                                      select new TaskInWorker
-                                      {
-                                          Id = TaskOfWorker.Id,
-                                          Alias = TaskOfWorker.Alias
-                                      }).FirstOrDefault()!;
+            boworker.active = doworker.active;
+
+            TaskInWorker Task = (from TaskOfWorker in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == doworker.Id && MyTask.CompleteDate == null)
+                                 select new TaskInWorker
+                                 {
+                                     Id = TaskOfWorker.Id,
+                                     Alias = TaskOfWorker.Alias
+                                 }).FirstOrDefault()!;
 
             boworker.Task = Task;
         }
-        catch(DO.DalDoesNotExistException ex)
+        catch (DO.DalDoesNotExistException ex)
         {
             throw new BO.BlDoesNotExistException($"Worker with ID={Id} does Not exist", ex);
         }
@@ -323,16 +324,16 @@ public void AddWorker(BO.Worker newWorker)
                 if (DoWorkerToRemove.active == false)
                     throw new BO.BlNotActiveException($"Worker with ID={Id} does Not Active");
 
-               var taskOfWorker = (from task in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorkerToRemove!.Id)
-                                   where (task.CompleteDate!=null||task.StartDate!=null)
-                                        select task).ToList();
+                var taskOfWorker = (from task in _dal.Task.ReadAll(MyTask => MyTask.WorkerId == DoWorkerToRemove!.Id)
+                                    where (task.CompleteDate != null || task.StartDate != null)
+                                    select task).ToList();
                 if (taskOfWorker.Count() == 0)//if the worker started a task and finished it or didnt start yet the task
                     _dal.Worker.Delete(Id);
 
-                else 
+                else
                     throw new BO.BlNotErasableException($"Worker with ID={Id} does Not Erasable because he completed a Task or he is working on a task");
 
-                
+
 
 
 
@@ -365,7 +366,7 @@ public void AddWorker(BO.Worker newWorker)
 
         DO.Worker doWorker = new DO.Worker(workerToUpdate.Id, (DO.WorkerExperience)workerToUpdate.Level, workerToUpdate.Name,
             workerToUpdate.PhoneNumber, workerToUpdate.Cost);
-       
+
         if ((int)workerToUpdate.Level == 2)
             doWorker.Eraseable = false;
         else
@@ -379,9 +380,9 @@ public void AddWorker(BO.Worker newWorker)
         string prefixOfPhoneNumber = doWorker.PhoneNumber[0].ToString() + doWorker.PhoneNumber[1].ToString() + doWorker.PhoneNumber[2].ToString();
         try
         {
-            
+
             if (doWorker.Id > 0 && (doWorker.Id.ToString().Length == 9) && doWorker.Name.Length > 0 &&
-                doWorker.Cost > 0 && doWorker.PhoneNumber.Length == 10 && phonePrefix.Contains(prefixOfPhoneNumber)&&(_dal.Worker.Read(doWorker.Id).Level<=doWorker.Level))
+                doWorker.Cost > 0 && doWorker.PhoneNumber.Length == 10 && phonePrefix.Contains(prefixOfPhoneNumber) && (_dal.Worker.Read(doWorker.Id).Level <= doWorker.Level))
             {
 
                 _dal.Worker.Update(doWorker);
@@ -402,7 +403,7 @@ public void AddWorker(BO.Worker newWorker)
                                 throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, this worker is already on a task");
                             if (_dal.Task.Read(workerToUpdate.Task.Id).WorkerId != null)
                                 throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, the task have already a worker that is working on it");
-                            if(_bl.Task.CanStartTheTask(TaskToUp)==false)
+                            if (_bl.Task.CanStartTheTask(TaskToUp) == false)
                                 throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, The task assigned to this worker cannot be executed before its dependencies are completed");
 
                             DO.Task taskWithUpdateWorker = _dal.Task.Read(TaskToUp) with { WorkerId = workerToUpdate.Id };
@@ -433,9 +434,29 @@ public void AddWorker(BO.Worker newWorker)
     /// </summary>
     public void deleteAll()
     {
-        if(GetStatusOfProject() != BO.ProjectStatus.ScheduleDetermination)
+        if (GetStatusOfProject() != BO.ProjectStatus.ScheduleDetermination)
             _dal.Worker.DeleteAll();
     }
+
+    public WorkerInTask returnWorkerInList(int id)
+    {
+        WorkerInTask newW = new();
+
+        try
+        {
+            BO.Worker workerFromDal = _bl.Worker.ReadWorker(id);
+            newW.Name = workerFromDal.Name;
+            newW.Id = workerFromDal.Id;
+        }
+        catch (DO.DalDoesNotExistException ex)
+
+        {
+            throw new BO.BlDoesNotExistException($"Worker with ID={id} does Not exist", ex);
+        }
+        return newW;
+
+    }
+
 }
 
 

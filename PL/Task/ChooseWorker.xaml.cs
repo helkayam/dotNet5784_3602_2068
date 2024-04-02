@@ -1,4 +1,5 @@
-﻿using PL.Worker;
+﻿using BO;
+using PL.Worker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +20,6 @@ namespace PL.Task
     /// Interaction logic for ChooseWorker.xaml
     /// </summary>
     /// 
-
-
-   
-
-
-
-
-
     public partial class ChooseWorker : Window
     {
 
@@ -53,12 +46,19 @@ namespace PL.Task
 
         private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            int id = ((BO.Worker)((ListView)sender).SelectedItem).Id;
-
-            BO.Task? taskToUpdate=s_bl.Task.ReadTask(TaskId);
-            taskToUpdate.Worker.Id=id;
-            s_bl.Task.UpdateTask(taskToUpdate);
-            this.Close();
+            try
+            {
+                int id = ((BO.Worker)((ListView)sender).SelectedItem).Id;
+                BO.Task? taskToUpdate = s_bl.Task.ReadTask(TaskId);
+                taskToUpdate.Worker = s_bl.Worker.returnWorkerInList(id);
+                s_bl.Task.UpdateTask(taskToUpdate);
+                this.Close();
+            }
+            catch (BO.BlDoesNotExistException ex) 
+            
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }
