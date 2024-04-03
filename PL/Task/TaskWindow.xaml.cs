@@ -63,8 +63,8 @@ namespace PL.Task
 
         public bool WithWorkerAndThirdStage
         {
-            get { return (bool)GetValue(WithoutWorkerAndThirdStageProperty); }
-            set { SetValue(WithoutWorkerAndThirdStageProperty, value); }
+            get { return (bool)GetValue(WithWorkerAndThirdStageProperty); }
+            set { SetValue(WithWorkerAndThirdStageProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for WithoutWorkerAndThirdStage.  This enables animation, styling, binding, etc...
@@ -186,7 +186,7 @@ namespace PL.Task
                     IsFirstStage = false;
                     IsThirdStage = true;
                     IsSecondStage = false;
-                    
+
                 }
 
                 if (IdOfTask == -1)
@@ -348,12 +348,16 @@ namespace PL.Task
             if (MyTask.Complexity != null)
             {
                 new ChooseWorker(MyTask.Id).ShowDialog();
-                WithoutWorkerAndThirdStage = false;
-                WithWorkerAndThirdStage = true;
-                MyTask = s_bl.Task.ReadTask(MyTask.Id);
+                if (s_bl.Task.ReadTask(MyTask.Id).Worker != null)
+                {
+                    WithoutWorkerAndThirdStage = false;
+                    WithWorkerAndThirdStage = true;
+                    MyTask = s_bl.Task.ReadTask(MyTask.Id);
+
+                }
             }
             else
-                MessageBox.Show("first choose complexity first,please.");
+                MessageBox.Show("choose complexity first,please.");
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)

@@ -57,10 +57,16 @@ namespace PL.Task
                 this.Close();
             }
             catch (BO.BlDoesNotExistException ex) 
-            
             {
                 MessageBox.Show(ex.Message);
             }
+            catch(BO.BlInvalidGivenValueException ex) 
+            {
+                MessageBox.Show(ex.Message);
+
+            }
+            this.Close();
+
         }
     }
 }

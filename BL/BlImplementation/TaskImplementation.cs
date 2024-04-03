@@ -427,13 +427,15 @@ internal class TaskImplementation : BlApi.ITask
 
                         updatedTask = new DO.Task(TaskToUpdate.Alias, level , TaskToUpdate.Description, TaskToUpd.Id, TaskToUpd.ScheduledDate, TaskToUpdate.Deadline);
 
-                        if (TaskToUpdate.Worker != null && checkDependentTaskDone(updatedTask))
+                        if (TaskToUpdate.Worker != null)
                         {
                             if (TaskToUpdate.Worker.Id != null && _dal.Task.Read(TaskToUpdate.Id).WorkerId ==null)//if we want to add a worker to the task 
                             {
                                 _dal.Worker.Read(TaskToUpdate.Worker.Id, true);
                                 if (WorkerDoesntHaveTask(TaskToUpdate.Worker.Id) == false)
                                     throw new BO.BlInvalidGivenValueException($"One of the data of Task with ID={TaskToUpdate.Id} is incorrect, the worker={TaskToUpdate.Worker.Id} is already on a task");
+                                if ((int)_dal.Worker.Read(TaskToUpdate.Worker.Id).Level<(int)TaskToUpdate.Complexity)
+                                    throw new BO.BlInvalidGivenValueException($"One of the data of Task with ID={TaskToUpdate.Id} is incorrect, the worker={TaskToUpdate.Worker.Id} Cannot perform this task due to his level");
                                 updatedTask = updatedTask with { WorkerId = TaskToUpdate.Worker.Id };
 
                             }
