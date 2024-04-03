@@ -164,7 +164,7 @@ internal class TaskImplementation : ITask
         XMLTools.SaveListToXMLSerializer<DO.Task>(tasks, s_tasks_xml);
         ScheduleImplementation helper = new();
         helper.ResetEndStartDateProject();
-        XMLTools.InitializeId("data-config.xml", "NextTaskId");
+        XMLTools.InitializeId("data-config", "NextTaskId");
     }
 
     public int getNextId()

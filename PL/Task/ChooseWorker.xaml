@@ -18,6 +18,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Image Source="\Images\Backround-blurred.jpg"  Width="1000" Height="4000" Margin="-100,-1657,-100,-2311" Grid.ColumnSpan="2"   />
+
             <!--Lebel select-->
             <Label Content="Chose the worker for the task:" FontFamily="Arial Black" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"  Grid.Column="0">
             </Label>
@@ -27,6 +29,9 @@
 
         </Grid>
         <ListView Grid.Row="1"  ItemsSource="{Binding Path=WorkerList}"   MouseDoubleClick="ListView_MouseDoubleClick">
+            <ListView.Background>
+                <ImageBrush ImageSource="\Images\Backround-blurred.jpg" ></ImageBrush>
+            </ListView.Background>
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>

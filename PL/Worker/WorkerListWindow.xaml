@@ -27,6 +27,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Image Source="\Images\Backround-blurred.jpg"  Width="1000" Height="4000" Margin="-27,-1651,-173,-2302" Grid.ColumnSpan="2"   />
 
 
             <!--Lebel select-->
@@ -43,7 +44,10 @@
 
         </Grid>
 
-        <ListView Grid.Row="1"  ItemsSource="{Binding Path=WorkerList, Mode=OneWay}"  MouseLeftButtonUp="Mouse_click_delete" MouseDoubleClick="ListView_MouseDoubleClick" Margin="0,24,0,0" Grid.RowSpan="2">
+        <ListView   Grid.Row="1"  ItemsSource="{Binding Path=WorkerList, Mode=OneWay}"  MouseLeftButtonUp="Mouse_click_delete" MouseDoubleClick="ListView_MouseDoubleClick" Margin="0,24,0,0" Grid.RowSpan="2">
+            <ListView.Background>
+                <ImageBrush ImageSource="\Images\Backround-blurred.jpg" ></ImageBrush>
+            </ListView.Background>
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
@@ -51,6 +55,7 @@
             </ListView.View>
 
         </ListView>
+
         <Button Content="Add" Grid.Row="2" HorizontalAlignment="Left" Height="50" Width="100" Click="Button_AddClick" Margin="300,513,0,15"/>
         <Button Content="Delete" Visibility="{Binding OneClickForDelete, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverterKey } }" Grid.Row="2" HorizontalAlignment="Left" Height="50" Width="100" Click="Button_DeleteClick" Margin="451,513,0,15"/>
 

@@ -62,6 +62,7 @@ namespace BlImplementation
 
         }
 
+
         public bool StartAndEndUpdated()
         {
             if (this.getEndDateProject() != null && this.getStartDateProject() != null&&_bl.Task.GetStatusOfProject()==BO.ProjectStatus.ExecutionStage)

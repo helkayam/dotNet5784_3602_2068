@@ -226,7 +226,7 @@ internal class TaskImplementation : BlApi.ITask
        {
            BO.Filter.ByComplexity => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => bc.Complexity == (DO.WorkerExperience)filtervalue) : _dal.Task.ReadAll(),
            BO.Filter.Status => ((BO.Status)filtervalue != null) ? _dal.Task.ReadAll(s => getStatus(s) == (BO.Status)filtervalue) : _dal.Task.ReadAll(),
-           BO.Filter.PossibleTaskForWorker => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => (bc.Complexity <= (DO.WorkerExperience)filtervalue && bc.ScheduledDate != null && checkDependentTaskDone(bc) == true)&&bc.CompleteDate==null&&bc.StartDate==null) : _dal.Task.ReadAll(),
+           BO.Filter.PossibleTaskForWorker => ((DO.WorkerExperience)filtervalue != null) ? _dal.Task.ReadAll(bc => (bc.Complexity <= (DO.WorkerExperience)filtervalue  && bc.ScheduledDate != null &&bc.WorkerId ==null&& checkDependentTaskDone(bc) == true)&&bc.CompleteDate==null&&bc.StartDate==null) : _dal.Task.ReadAll(),
            BO.Filter.None => _dal.Task.ReadAll(),
 
        };
@@ -427,9 +427,9 @@ internal class TaskImplementation : BlApi.ITask
 
                         updatedTask = new DO.Task(TaskToUpdate.Alias, level , TaskToUpdate.Description, TaskToUpd.Id, TaskToUpd.ScheduledDate, TaskToUpdate.Deadline);
 
-                        if (TaskToUpdate.Worker != null)
+                        if (TaskToUpdate.Worker != null && checkDependentTaskDone(updatedTask))
                         {
-                            if (TaskToUpdate.Worker.Id != null && _dal.Task.Read(TaskToUpdate.Id).WorkerId == null)//if we want to add a worker to the task 
+                            if (TaskToUpdate.Worker.Id != null && _dal.Task.Read(TaskToUpdate.Id).WorkerId ==null)//if we want to add a worker to the task 
                             {
                                 _dal.Worker.Read(TaskToUpdate.Worker.Id, true);
                                 if (WorkerDoesntHaveTask(TaskToUpdate.Worker.Id) == false)
@@ -438,10 +438,9 @@ internal class TaskImplementation : BlApi.ITask
 
                             }
                             else
-                                updatedTask = updatedTask with { WorkerId = TaskToUpdate.Worker.Id };
+                                updatedTask = updatedTask with { WorkerId = _dal.Task.Read(TaskToUpdate.Id).WorkerId };
                         }
-
-
+                       
 
 
 
@@ -516,8 +515,30 @@ internal class TaskImplementation : BlApi.ITask
 
     }
 
-    public void AutomaticSchedule()
+    public void AddDependency(BO.Task t, int IdDependsOn)
     {
+        if (GetStatusOfProject () == BO.ProjectStatus.PlanStage)
+        {
+            DO.Dependency dep = new Dependency { DependentTask = t.Id, DependsOnTask = IdDependsOn };
+            bool DepDoesntExist = true;
+            bool contradictionBetweenDependencies = false;
+            foreach (var CurrentDependency in _dal.Dependency.ReadAll())
+            {
+                if (CurrentDependency.DependentTask == dep.DependentTask && CurrentDependency.DependsOnTask == dep.DependsOnTask)
+                    DepDoesntExist = false;
+                if (CurrentDependency.DependentTask == dep.DependsOnTask && CurrentDependency.DependsOnTask == dep.DependentTask)
+                    contradictionBetweenDependencies = true;
+
+
+            }
+
+            if (DepDoesntExist == true && contradictionBetweenDependencies == false)
+                _dal.Dependency.Create(dep);
+            else
+                throw new BO.BlInvalidGivenValueException("Cant add the dependency- it already exist or there is a mistake");
+
+        }
+
 
     }
 

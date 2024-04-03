@@ -39,8 +39,9 @@ public interface ITask
 
     public int getNextId();
 
+    public void AddDependency(BO.Task t, int IdDependsOn);
 
-
+    public bool checkDependentTaskDone(DO.Task newTask);
     //public ProjectStatus ProjectStatus();
 
     //public bool AllTaskWithDate();

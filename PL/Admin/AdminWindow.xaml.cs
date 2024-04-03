@@ -50,7 +50,6 @@ namespace PL.Admin
 
             Clock = s_bl.Clock;
             TaskList = s_bl.Task.ReadAllTasks();
-           // mediaPlayer.Open(new Uri(@"MediaFile\Israel National Anthem (Instrumental).mp3", UriKind.RelativeOrAbsolute));
             InitializeComponent();
         }
 
@@ -113,18 +112,31 @@ namespace PL.Admin
 
         private void CreateSchedule_Click(object sender, RoutedEventArgs e)
         {
-            s_bl.Schedule.CreateAutomaticSchedule(TaskList);
-            
+
+            try
+            {
+                s_bl.Schedule.CreateAutomaticSchedule(TaskList);
+                MessageBox.Show("The schedule was succesfully performed");
+            }
+            catch (BO.BlInvalidGivenValueException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         private void Gantt_Click(object sender, RoutedEventArgs e)
         {
-            if(s_bl.Schedule.getStartDateProject() == null || s_bl.Schedule.getEndDateProject() == null)
+            try
             {
-                MessageBox.Show("Cant Create Gant Because StartDateProject or EndDateProject dose not Not updated");
-                return;
+                s_bl.Schedule.StartAndEndUpdated();
+                new GanttChart().ShowDialog();
             }
-            new GanttChart().ShowDialog();
+            catch (BO.BlInvalidGivenValueException ex)
+            {
+                MessageBox.Show(ex.Message);
+
+            }
         }
 
         private void InitStartOrEndProject_Click(object sender, RoutedEventArgs e)

@@ -30,7 +30,7 @@ namespace PL.Task
             DependencyProperty.Register("TaskList", typeof(IEnumerable<BO.TaskInList>), typeof(ChoseDependency ), new PropertyMetadata(null));
 
         BO.Task myTask=new BO.Task();
-        public ChoseDependency(BO.Task task)
+        public ChoseDependency( BO.Task task)
         {
             InitializeComponent();
             TaskList = s_bl.Task.ReadAllTasks();
@@ -40,6 +40,8 @@ namespace PL.Task
 
         private void ListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            if (myTask.Dependencies == null)
+                myTask.Dependencies = new List<BO.TaskInList>();
             myTask.Dependencies.Add(((BO.TaskInList)((ListView)sender).SelectedItem));
             this.Close();
         }

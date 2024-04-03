@@ -50,6 +50,8 @@ namespace PL.Task
             {
                 int id = ((BO.Worker)((ListView)sender).SelectedItem).Id;
                 BO.Task? taskToUpdate = s_bl.Task.ReadTask(TaskId);
+                taskToUpdate.Worker = new BO.WorkerInTask();
+
                 taskToUpdate.Worker = s_bl.Worker.returnWorkerInList(id);
                 s_bl.Task.UpdateTask(taskToUpdate);
                 this.Close();
