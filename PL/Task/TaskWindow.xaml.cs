@@ -91,7 +91,7 @@ namespace PL.Task
 
         // Using a DependencyProperty as the backing store for isThirdStage  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty isFirstStageProperty =
-            DependencyProperty.Register("isFirstStage", typeof(bool), typeof(TaskWindow), new PropertyMetadata(s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.PlanStage ? true : false));
+            DependencyProperty.Register("IsFirstStage", typeof(bool), typeof(TaskWindow), new PropertyMetadata(s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.PlanStage ? true : false));
 
 
         public bool IsThirdStage
@@ -102,7 +102,11 @@ namespace PL.Task
 
         // Using a DependencyProperty as the backing store for isThirdStage  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty isThirdStageProperty =
-            DependencyProperty.Register("isThirdStage", typeof(bool), typeof(TaskWindow), new PropertyMetadata(s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.ExecutionStage ? true : false));
+         DependencyProperty.Register("IsThirdStage", typeof(bool), typeof(TaskWindow), new PropertyMetadata(s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.ExecutionStage ? true : false));
+
+
+
+
 
         public bool IsSecondStage
         {
@@ -112,7 +116,7 @@ namespace PL.Task
 
         // Using a DependencyProperty as the backing store for isThirdStage  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty isSecondStageProperty =
-            DependencyProperty.Register("isSecondStage", typeof(bool), typeof(TaskWindow), new PropertyMetadata(s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.ScheduleDetermination ? true : false));
+            DependencyProperty.Register("IsSecondStage", typeof(bool), typeof(TaskWindow), new PropertyMetadata(s_bl.Task.GetStatusOfProject() == BO.ProjectStatus.ScheduleDetermination ? true : false));
 
 
 

@@ -70,7 +70,7 @@
             <CheckBox Content="Erasable" IsChecked="{Binding MyTask.Eraseable , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="123,28,0,0" VerticalAlignment="Top" Grid.Row="5"/>
             <ComboBox IsEnabled="{Binding IsNewTask, Mode=OneWay, Converter={StaticResource BoolToEnableConverterKey }}" ItemsSource="{Binding Source={StaticResource WorkerExperienceCollectionKey}}"
     SelectedValue="{Binding MyTask.Complexity , Mode=TwoWay}"  SelectionChanged="ComboBox_LevelChangedTask" HorizontalAlignment="Left" Margin="109,15,0,0" VerticalAlignment="Top" Width="166" Height="32" Grid.Row="6"/>
-            <TextBox Text="{Binding MyTask.RequiredEffortTime , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" HorizontalAlignment="Left" Margin="184,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Height="32" Grid.Row="7"/>
+            <TextBox Text="{Binding MyTask.RequiredEffortTime , Mode=TwoWay ,NotifyOnValidationError=true,  ValidatesOnExceptions=true}" IsEnabled="{Binding IsThirdStage , Mode=OneWay,Converter={StaticResource BoolToEnableConverterKey } }" HorizontalAlignment="Left" Margin="184,0,0,0" TextWrapping="Wrap" VerticalAlignment="Center" Width="128" Height="32" Grid.Row="7"/>
 
         </Grid>
 

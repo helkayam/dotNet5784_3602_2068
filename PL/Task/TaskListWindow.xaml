@@ -21,6 +21,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <Image Source="\Images\Backround-blurred.jpg"  Width="1000" Height="4000" Margin="-48,-1663,-152,-2309" Grid.ColumnSpan="2"   />
+
             <Label Grid.Column="0" Content="Chose the filter you want to perform:" HorizontalAlignment="Left" Margin="141,0,0,0"  FontFamily="Arial Black" FontSize="15" VerticalAlignment="Top" Height="32" Width="361" Grid.ColumnSpan="2"/>
 
             <ComboBox Grid.Column="1"  Margin="229,5,67,5" Visibility="{Binding Bylevel,Mode=OneWay, Converter={StaticResource  BoolToVisibilityConverterKey}}" 
@@ -33,8 +35,12 @@
             <ComboBox Grid.Column="1"  Margin="229,5,67,5" Visibility="{Binding ByStatus ,Mode=OneWay, Converter={StaticResource  BoolToVisibilityConverterKey}}" 
        ItemsSource="{Binding Source={StaticResource TaskStatusKey }}"   
              SelectionChanged="ComboBoxStatusTask_SelectionChanged" />
+            
         </Grid>
         <ListView Grid.Row="1" ItemsSource="{Binding Path=TaskList}" MouseDoubleClick="ListView_MouseDoubleClick" MouseLeftButtonUp="ChooceTaskToDelete_click" SelectionChanged="ListView_SelectionChanged" >
+            <ListView.Background>
+                <ImageBrush ImageSource="\Images\Backround-blurred.jpg" ></ImageBrush>
+            </ListView.Background>
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>

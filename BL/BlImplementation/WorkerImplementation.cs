@@ -89,8 +89,14 @@ internal class WorkerImplementation : BlApi.IWorker
                 {
 
                     _dal.Worker.Create(doWorker);
+                    
                     if (GetStatusOfProject() == BO.ProjectStatus.ExecutionStage)
                     {
+                        DO.Task task = _dal.Task.Read(newWorker.Task.Id);
+                        if (_bl.Task.checkDependentTaskDone(task) == false)
+                            throw new BO.BlForbiddenActionException("Can't assign this task- dependent task are not done");
+                        if (task.WorkerId != 0)
+                            throw new BO.BlInvalidGivenValueException("another worker is already working on that task");
                         DO.Task taskWithUpdateWorker = _dal.Task.Read(newWorker.Task.Id) with { WorkerId = newWorker.Id };
                         _dal.Task.Update(taskWithUpdateWorker);
                     }
@@ -391,17 +397,27 @@ internal class WorkerImplementation : BlApi.IWorker
                     int TaskToUp;
                     if (workerToUpdate.Task != null)
                     {
+                        //DO.Task task = _dal.Task.Read(newWorker.Task.Id);
+                        //if (_bl.Task.checkDependentTaskDone(task) == false)
+                        //    throw new BO.BlForbiddenActionException("Can't assign this task- dependent task are not done");
+                        //if (task.WorkerId != 0)
+                        //    throw new BO.BlInvalidGivenValueException("another worker is already working on that task");
+                        //DO.Task taskWithUpdateWorker = _dal.Task.Read(newWorker.Task.Id) with { WorkerId = newWorker.Id };
+                        //_dal.Task.Update(taskWithUpdateWorker);
+
+
+
                         TaskToUp = workerToUpdate.Task.Id;
                         if (_dal.Task.Read(TaskToUp) == null)
                             throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, Task with id={TaskToUp} of worker does not exsists");
                         if (_dal.Task.Read(TaskToUp).Id != _bl.Task.ReadAllWorkerTask(workerToUpdate.Id).FirstOrDefault().Id)
-
                         {
+                           
                             if ((BO.WorkerExperience)_dal.Task.Read(TaskToUp).Complexity > workerToUpdate.Level)
                                 throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, Task with id={TaskToUp} is not appropriate for the worker level");
                             if (WorkerDoesntHaveTask(doWorker.Id) == false)
                                 throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, this worker is already on a task");
-                            if (_dal.Task.Read(workerToUpdate.Task.Id).WorkerId != null)
+                            if (_dal.Task.Read(workerToUpdate.Task.Id).WorkerId != 0)
                                 throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, the task have already a worker that is working on it");
                             if (_bl.Task.CanStartTheTask(TaskToUp) == false)
                                 throw new BO.BlInvalidGivenValueException($"One of the data of Worker with ID={doWorker.Id} is incorrect, The task assigned to this worker cannot be executed before its dependencies are completed");

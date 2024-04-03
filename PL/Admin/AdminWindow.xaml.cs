@@ -116,6 +116,7 @@ namespace PL.Admin
             try
             {
                 s_bl.Schedule.CreateAutomaticSchedule(TaskList);
+                MessageBox.Show("The schedule was succesfully performed");
             }
             catch (BO.BlInvalidGivenValueException ex)
             {
