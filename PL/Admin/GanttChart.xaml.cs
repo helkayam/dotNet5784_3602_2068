@@ -42,17 +42,13 @@ namespace PL.Admin
             {
 
                 dataGrid.Columns.Add(new DataGridTextColumn() { Header = "Task Id", Binding = new Binding("[0]") });
-                //dataTable.Columns.Add("Task Id", typeof(int));
 
 
                 dataGrid.Columns.Add(new DataGridTextColumn() { Header = "Task Alias", Binding = new Binding("[1]") });
-                //dataTable.Columns.Add("Task Alias", typeof(string));
 
                 dataGrid.Columns.Add(new DataGridTextColumn() { Header = "Worker Id", Binding = new Binding("[2]") });
-                //dataTable.Columns.Add("Worker Id", typeof(int));
 
                 dataGrid.Columns.Add(new DataGridTextColumn() { Header = "Worker Name", Binding = new Binding("[3]") });
-                //dataTable.Columns.Add("Worker Name", typeof(string));
 
                 int col = 4;
                 

@@ -50,7 +50,7 @@ namespace PL.Admin
 
             Clock = s_bl.Clock;
             TaskList = s_bl.Task.ReadAllTasks();
-            mediaPlayer.Open(new Uri(@"MediaFile\Israel National Anthem (Instrumental).mp3", UriKind.RelativeOrAbsolute));
+           // mediaPlayer.Open(new Uri(@"MediaFile\Israel National Anthem (Instrumental).mp3", UriKind.RelativeOrAbsolute));
             InitializeComponent();
         }
 

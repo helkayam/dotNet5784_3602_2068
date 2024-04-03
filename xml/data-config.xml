@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <config>
-  <NextTaskId>736</NextTaskId>
-  <NextDependencyId>1035</NextDependencyId>
-  <StartDateProject></StartDateProject>
-  <EndDateProject></EndDateProject>
-  <CurrentDate>2024-06-11T05:39:42.5760967+03:00</CurrentDate>
+  <NextTaskId>768</NextTaskId>
+  <NextDependencyId>1080</NextDependencyId>
+  <StartDateProject>2024-04-18T00:00:00</StartDateProject>
+  <EndDateProject>2024-07-03T00:00:00</EndDateProject>
+  <CurrentDate>2024-04-02T11:09:39.5471769+03:00</CurrentDate>
 </config>
