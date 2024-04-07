@@ -12,6 +12,13 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Image Source="\Images\Backround-blurred.jpg" Height="1100" Width="800" />
+        <Polygon Fill="{x:Null}" Stroke="Blue" StrokeThickness="2" Margin="87,79,-87,-74">
+            <Polygon.Points>
+                <Point X="0" Y="50"/>
+                <Point X="50" Y="0"/>
+                <Point X="100" Y="50"/>
+            </Polygon.Points>
+        </Polygon>
 
         <Button Content="Workers" Margin="227,127,421,174" Click="ButtonWorker_Click" FontFamily="Arial Black" FontSize="15" BorderBrush="Black" BorderThickness="1.5" Background="{x:Null}" />
         <Button Content="Tasks" Background="{x:Null}" Margin="463,127,185,174" Click="ButtonTask_Click" FontFamily="Arial Black" FontSize="15" BorderBrush="Black" BorderThickness="1.5"/>
@@ -27,6 +34,21 @@
         <Button Content="Schedule" FontFamily="Arial Black" FontSize="13" HorizontalAlignment="Left" Margin="10,277,0,0" VerticalAlignment="Top" Height="44" Width="120" Background="{x:Null}" Click="CreateSchedule_Click" BorderBrush="Black" BorderThickness="1.5"/>
         <Button Content="Start\End &#xD;&#xA;Project" HorizontalAlignment="Left" Margin="171,277,0,0" VerticalAlignment="Top" Height="44" Width="120"
                 FontFamily="Arial Black" FontSize="13" Background="{x:Null}" Click="InitStartOrEndProject_Click" BorderBrush="Black" BorderThickness="1.5"/>
+        <Polygon Fill="{x:Null}" Stroke="blue" StrokeThickness="2" Margin="-611,-240,611,240" RenderTransformOrigin="0.5,0.5">
+            <Polygon.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="180.532"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Polygon.RenderTransform>
+            <Polygon.Points>
+                <Point X="0" Y="50"/>
+                <Point X="50" Y="0"/>
+                <Point X="100" Y="50"/>
+            </Polygon.Points>
+        </Polygon>
 
     </Grid>
 </Window>

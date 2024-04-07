@@ -45,7 +45,6 @@ internal class UserImplementation:IUser
     public DO.User? Read(string userName, bool throwAnException=false)
     {
         List<DO.User> users = XMLTools.LoadListFromXMLSerializer<DO.User>(s_users_xml);
-        XMLTools.SaveListToXMLSerializer<DO.User>(users, s_users_xml );
         if (users.Any(usr => usr.UserName  == userName ) == false)
             if (throwAnException)
                 throw new DalDoesNotExistException($"User with UserName={userName} does not exist");
@@ -62,7 +61,6 @@ internal class UserImplementation:IUser
     public IEnumerable<DO.User> ReadAll()
     {
         List<DO.User> users = XMLTools.LoadListFromXMLSerializer<DO.User>(s_users_xml );
-        XMLTools.SaveListToXMLSerializer<DO.User>(users, s_users_xml);
         return from user in users
                select user;
     }

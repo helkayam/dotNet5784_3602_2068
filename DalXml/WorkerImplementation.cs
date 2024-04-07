@@ -124,7 +124,6 @@ internal class WorkerImplementation:IWorker
         worker=workers!.Elements().FirstOrDefault(w=> (int)(w.Element("Id")!) == id);
      
 
-        XMLTools.SaveListToXMLElement(workers, s_workers_xml);
         if (worker == null)
             if (throwAnException)
                 throw new DalDoesNotExistException($"Worker with id={id} does not exist");
@@ -148,7 +147,6 @@ internal class WorkerImplementation:IWorker
         var respondToFilter = from item in workers.Elements()   
                              where filter(getWorker(item))
                               select getWorker(item);
-        XMLTools.SaveListToXMLElement(workers, s_workers_xml);
         return respondToFilter.FirstOrDefault();
     }
 
@@ -164,7 +162,6 @@ internal class WorkerImplementation:IWorker
     {
         XElement workers = XMLTools.LoadListFromXMLElement(s_workers_xml);
 
-        XMLTools.SaveListToXMLElement(workers, s_workers_xml);
         if (filter != null)
         {
             return from item in workers.Elements()   

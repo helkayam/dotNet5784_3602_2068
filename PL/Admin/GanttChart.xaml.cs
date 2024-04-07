@@ -81,9 +81,9 @@ namespace PL.Admin
                     string strDay = $"{day.Day}/{day.Month}/{day.Year}"; //"21/2/2024"
 
                     if (day < task.ScheduleStartDate || day > task.ScheduleEndDate)
-                        row[i] = "0";
+                        row[i] = "-2";
                     else
-                        row[i] = "1";
+                        row[i] = "-1";
                     i++;
                 }
                 dataGrid.Items.Add(row);

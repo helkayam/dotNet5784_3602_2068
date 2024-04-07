@@ -427,7 +427,7 @@ internal class TaskImplementation : BlApi.ITask
 
                         updatedTask = new DO.Task(TaskToUpdate.Alias, level , TaskToUpdate.Description, TaskToUpd.Id, TaskToUpd.ScheduledDate, TaskToUpdate.Deadline);
 
-                        if (TaskToUpdate.Worker != null)
+                        if (TaskToUpdate.Worker != null && checkDependentTaskDone(updatedTask))
                         {
                             if (TaskToUpdate.Worker.Id != null && _dal.Task.Read(TaskToUpdate.Id).WorkerId ==null)//if we want to add a worker to the task 
                             {

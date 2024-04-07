@@ -34,14 +34,38 @@
         <Button Content="Worker" Grid.Row="1" Grid.Column="1"  BorderBrush="#FFFFE4E1" Foreground="#FFFFE4E1" FontFamily="Arial Black" FontSize="14"  FontStyle="Normal"  BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center" Height="54" Width="104"  Click="SignIn_Click" Background="{x:Null}" />
         <Button Content="Manager" Grid.Row="1" Grid.Column="0" BorderBrush="#FFFFE4E1" Foreground="#FFFFE4E1" FontFamily="Arial Black" FontSize="14"  FontStyle="Normal"  BorderThickness="2"  HorizontalAlignment="Left" Margin="110,0,0,0" VerticalAlignment="Center" Height="54" Width="112" Click="AdminEntrance_Click"  Background="{x:Null}" Grid.ColumnSpan="2"/>
 
-        <Button Margin="42,38,120,52" Height="40" Width="40" Grid.Row="0" Grid.Column="0" BorderThickness="2" BorderBrush="#FFFFE4E1" Click="PlayButton_Click" Background="{x:Null}" >
+        <Button Margin="42,38,120,52" Height="40" Width="40" Grid.Row="0" Grid.Column="0" BorderThickness="2" BorderBrush="#FFFFE4E1" Click="PlayButton_Click" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" >
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="29.745"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="-11.429"/>
+                </TransformGroup>
+            </Button.RenderTransform>
             <Image Source="/Images/play-buttton.png" Height="15" Width="16"  Grid.Row="1" ></Image>
         </Button>
 
-        <Button BorderBrush="#FFFFE4E1" Grid.Row="0" Width="40"  Height="40" Grid.Column="0"  BorderThickness="2" Margin="94,36,68,53" Click="PauseButton_Click"   Background="{x:Null}" >
+        <Button BorderBrush="#FFFFE4E1" Grid.Row="0" Width="40"  Height="40" Grid.Column="0"  BorderThickness="2" Margin="94,36,66,52" Click="PauseButton_Click"   Background="{x:Null}" RenderTransformOrigin="0.5,0.5" >
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="29.745"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="-11.429"/>
+                </TransformGroup>
+            </Button.RenderTransform>
             <Image Source="/Images/bouton-pause.png" Height="15" Width="21"></Image>
         </Button>
-        <Button BorderBrush="#FFFFE4E1" Grid.Row="0" Width="40" Height="40" Grid.Column="0" BorderThickness="2" Margin="147,36,15,53" Click="StopButton_Click" Background="{x:Null}" >
+        <Button BorderBrush="#FFFFE4E1" Grid.Row="0" Width="40" Height="40" Grid.Column="0" BorderThickness="2" Margin="147,36,15,53" Click="StopButton_Click" Background="{x:Null}" RenderTransformOrigin="0.5,0.5" >
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="27.216"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="-10.286"/>
+                </TransformGroup>
+            </Button.RenderTransform>
             <Image Source="/Images/arret.png" Height="22" Width="21"></Image>
         </Button>
 

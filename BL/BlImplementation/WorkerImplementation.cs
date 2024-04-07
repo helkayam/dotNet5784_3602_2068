@@ -90,7 +90,7 @@ internal class WorkerImplementation : BlApi.IWorker
 
                     _dal.Worker.Create(doWorker);
                     
-                    if (GetStatusOfProject() == BO.ProjectStatus.ExecutionStage)
+                    if (GetStatusOfProject() == BO.ProjectStatus.ExecutionStage&&newWorker.Task!=null)
                     {
                         DO.Task task = _dal.Task.Read(newWorker.Task.Id);
                         if (_bl.Task.checkDependentTaskDone(task) == false)

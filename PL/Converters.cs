@@ -178,11 +178,11 @@ namespace PL
             {
                 if (int.TryParse(stringValue, out int intValue))
                 {
-                    if (intValue == 1)
+                    if (intValue == -1)
                     {
                         return Brushes.Blue;
                     }
-                    if (intValue == 0)
+                    if (intValue == -2)
                     {
                         return Brushes.White;
                     }
@@ -211,11 +211,11 @@ namespace PL
             {
                 if (int.TryParse(stringValue, out int intValue))
                 {
-                    if (intValue == 1)
+                    if (intValue == -1)
                     {
                         return Brushes.Blue; 
                     }
-                    if (intValue == 0)
+                    if (intValue == -2)
                     {
                         return Brushes.White;
                     }
@@ -236,37 +236,7 @@ namespace PL
         }
     }
 
-    public class DataTableToDataGridConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (!(value is DataTable dataTable))
-            {
-                throw new ArgumentException("Value is not of type DataTable", nameof(value));
-            }
-
-            DataGrid dataGrid = new DataGrid();
-
-            // Add columns to DataGrid
-            foreach (DataColumn column in dataTable.Columns)
-            {
-                dataGrid.Columns.Add(new DataGridTextColumn() { Header = column.ColumnName, Binding = new System.Windows.Data.Binding(column.ColumnName) });
-            }
-
-            // Add rows to DataGrid
-            foreach (DataRow row in dataTable.Rows)
-            {
-                dataGrid.Items.Add(row);
-            }
-
-            return dataGrid;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotSupportedException();
-        }
-    }
+   
 
 }
 

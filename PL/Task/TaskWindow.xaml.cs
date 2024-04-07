@@ -206,12 +206,12 @@ namespace PL.Task
                     {
                         MyDependencies.Add(dep);
                     }
-                    if (MyTask.Worker != null && IsThirdStage)
+                    if (MyTask.Worker != null && IsThirdStage&&MyTask.Status != BO.Status.Done)
                     {
                         WithWorkerAndThirdStage = true;
                         WithoutWorkerAndThirdStage = false;
                     }
-                    if (MyTask.Worker == null && IsThirdStage)
+                    if (MyTask.Worker == null && IsThirdStage&&MyTask.Status!=BO.Status.Done)
                     {
                         WithoutWorkerAndThirdStage = true;
                         WithWorkerAndThirdStage = false;
@@ -254,6 +254,7 @@ namespace PL.Task
             try
             {
                 s_bl.Task.AddOrUpdateStartDate(MyTask.Id);
+                WithoutWorkerAndThirdStage = false;
             }
             catch (BO.BlInvalidGivenValueException ex)
             {
@@ -273,6 +274,7 @@ namespace PL.Task
             try
             {
                 s_bl.Task.AddCompleteDate(MyTask.Id);
+                WithoutWorkerAndThirdStage = false;
             }
             catch (BO.BlInvalidGivenValueException ex)
             {

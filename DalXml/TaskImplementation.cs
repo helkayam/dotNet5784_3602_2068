@@ -75,7 +75,6 @@ internal class TaskImplementation : ITask
     public DO.Task? Read(int id, bool throwAnException)
     {
         List<DO.Task> tasks = XMLTools.LoadListFromXMLSerializer<DO.Task>(s_tasks_xml);
-        XMLTools.SaveListToXMLSerializer<DO.Task>(tasks, s_tasks_xml);
         if (tasks.Any(wker => wker.Id == id) == false)
             if (throwAnException)
                 throw new DalDoesNotExistException($"Task with id={id} does not exist");
@@ -100,7 +99,6 @@ internal class TaskImplementation : ITask
         var respondToFilter = from item in tasks
                               where filter(item)
                               select item;
-        XMLTools.SaveListToXMLSerializer<DO.Task>(tasks, s_tasks_xml);
         return respondToFilter.FirstOrDefault();
     }
 
@@ -115,7 +113,6 @@ internal class TaskImplementation : ITask
     public IEnumerable<DO.Task> ReadAll(Func<DO.Task, bool>? filter = null)
     {
         List<DO.Task> tasks = XMLTools.LoadListFromXMLSerializer<DO.Task>(s_tasks_xml);
-        XMLTools.SaveListToXMLSerializer<DO.Task>(tasks, s_tasks_xml);
         if (filter != null)
         {
             return (from item in tasks

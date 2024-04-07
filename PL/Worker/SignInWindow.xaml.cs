@@ -47,12 +47,12 @@ namespace PL.Worker
                 new WorkerMainWindow(ID).ShowDialog();
                 this.Close();
             }
-            catch(BO.BlDoesNotExistException ex) 
+            catch (BO.BlDoesNotExistException ex)
             {
-                    MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.Message);
                 this.Close();
             }
-             
+
         }
     }
 }

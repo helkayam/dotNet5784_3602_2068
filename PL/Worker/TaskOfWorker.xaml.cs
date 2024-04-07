@@ -58,7 +58,7 @@ namespace PL.Worker
 
         // Using a DependencyProperty as the backing store for MyWorker.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MyTaskProperty =
-            DependencyProperty.Register("MyTask", typeof(BO.Task), typeof(TaskWindow), new PropertyMetadata());
+            DependencyProperty.Register("MyTask", typeof(BO.Task), typeof(TaskOfWorker), new PropertyMetadata());
 
         int IdOfTask;
         public TaskOfWorker(int Id)

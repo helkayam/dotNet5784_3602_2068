@@ -30,7 +30,7 @@ internal class UserImplementation : IUser
         DataSource.Users.RemoveAll(user => user.UserName == userName);
     }
 
-    
+
 
     public void DeleteAll()
     {
